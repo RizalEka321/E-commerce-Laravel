@@ -16,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [DashboardController::class, "index"])->name('dashboard');
-Route::get('/katalog', [KatalogController::class, "index"])->name('katalog');
-Route::get('/user-manajemen', [UserController::class, "index"])->name('user-manajemen');
+Route::get('/admin', [DashboardController::class, "index"])->name('admin.dashboard');
+Route::get('/admin/katalog', [KatalogController::class, "index"])->name('admin.katalog');
+Route::get('/admin/user-manajemen', [UserController::class, "index"])->name('admin.user-manajemen');
