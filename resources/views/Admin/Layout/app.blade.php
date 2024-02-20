@@ -6,21 +6,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>BSM | @yield('title')</title>
-    <link rel="icon" type="image/png" href="{{ asset('assets/img/icon_panjang.png') }}" alt=""
-        sizes="16x16" />
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css?ts=' . time()) }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/loading.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/dist/trix.css') }}">
+    <title>Lokal-Industri | @yield('title')</title>
+    {{-- <link rel="icon" type="image/png" href="{{ asset('assets/admin/img/icon_panjang.png') }}" alt=""
+        sizes="16x16" /> --}}
+    <link rel="stylesheet" href="{{ asset('assets/admin/css/style.css?ts=' . time()) }}">
+    <link rel="stylesheet" href="{{ asset('assets/admin/css/loading.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/admin/dist/trix.css') }}">
     {{-- Bootsrap 5 --}}
-    <link href="{{ asset('assets/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/admin/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     {{-- Data Tables --}}
-    <link rel="stylesheet" href="{{ url('plugins/datatables-bs4/css/dataTables.bootstrap5.min.css') }}">
-    <link rel="stylesheet" href="{{ url('plugins/datatables-responsive/css/responsive.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ url('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ url('assets/admin/plugins/datatables-responsive/css/responsive.bootstrap5.min.css') }}">
     {{-- Font Awesome --}}
-    <link rel="stylesheet" href="{{ url('plugins/fontawesome/css/all.css') }}">
+    <link rel="stylesheet" href="{{ url('assets/admin/plugins/fontawesome/css/all.css') }}">
     {{-- Font Awesome --}}
-    <link rel="stylesheet" href="{{ url('plugins/sweetalert/sweetalert2.min.css') }}">
+    <link rel="stylesheet" href="{{ url('assets/admin/plugins/sweetalert/sweetalert2.min.css') }}">
 
 </head>
 
@@ -42,20 +43,20 @@
         {{-- End Content --}}
     </section>
     {{-- Admin Main JS --}}
-    <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/main.js') }}"></script>
     {{-- Bootstrap 5 --}}
-    <script src="{{ asset('assets/dist/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/dist/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/dist/js/bootstrap.min.js') }}"></script>
     {{-- Sweetalert --}}
-    <script src="{{ asset('plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
     {{-- Data Tables --}}
-    <script src="{{ url('plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ url('plugins/datatables-bs4/js/dataTables.bootstrap5.min.js') }}"></script>
-    <script src="{{ url('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ url('plugins/datatables-responsive/js/responsive.bootstrap5.min.js') }}"></script>
+    <script src="{{ url('assets/admin/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url('assets/admin/plugins/datatables-bs4/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ url('assets/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ url('assets/admin/plugins/datatables-responsive/js/responsive.bootstrap5.min.js') }}"></script>
     @yield('script')
     {{-- Trix JS --}}
-    <script src="{{ asset('assets/dist/trix.umd.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/dist/trix.umd.min.js') }}"></script>
     <style>
         trix-toolbar [data-trix-button-group="file-tools"] {
             display: none;

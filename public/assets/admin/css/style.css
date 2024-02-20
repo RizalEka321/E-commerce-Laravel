@@ -2,7 +2,7 @@
 
 :root {
     --dark-blue: #11101D;
-    --white-blue: #009160;
+    --black: #000000;
     --white: #fff;
     --gray: #8390a2;
 }
@@ -17,7 +17,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #009160;
+    background: #000000;
 }
 
 * {
@@ -33,7 +33,7 @@
     top: 0;
     width: 250px;
     height: 100%;
-    background: linear-gradient(to bottom right, #009160, #01d28e);
+    background: linear-gradient(to bottom right, #000000, #000000da);
     transition: all 0.5s ease;
     z-index: 99;
 }
@@ -99,7 +99,7 @@
     left: 0;
     bottom: -8px;
     padding: 20px 20px;
-    background: var(--white-blue);
+    background: var(--black);
     transition: all 0.5s ease;
 }
 
@@ -123,12 +123,12 @@
 
 .sidebar li a.active .links_name,
 .sidebar li a.active i {
-    color: #009160;
+    color: #000000;
 }
 
 .sidebar li a:hover .links_name,
 .sidebar li a:hover i {
-    color: #009160;
+    color: #000000;
 }
 
 .sidebar li.login a:hover {
@@ -192,7 +192,7 @@
     align-items: center;
     font-size: 2em;
     cursor: pointer;
-    color: #009160;
+    color: #000000;
 }
 
 /* .home_section .topbar .search_wrapper {
@@ -221,7 +221,7 @@
 }
 
 .home_section .user_wrapper {
-    color: #009160;
+    color: #000000;
 }
 
 .home_section .user_wrapper img {
@@ -266,7 +266,7 @@
     position: relative;
     font-size: 2.5rem;
     font-weight: 500;
-    color: #009160;
+    color: #000000;
 }
 
 .card-boxes .box .box_topic {
@@ -279,7 +279,7 @@
 .card-boxes .box i {
     position: relative;
     font-size: 3.5em;
-    color: #009160;
+    color: #000000;
 }
 
 .hidden {

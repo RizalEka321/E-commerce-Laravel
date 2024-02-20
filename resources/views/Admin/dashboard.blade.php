@@ -5,19 +5,28 @@
         <a class="kotak" href="#">
             <div class="box">
                 <div class="right_side">
-                    {{-- <div class="numbers">{{ $mobil }}</div> --}}
-                    <div class="box_topic">Kendaraan</div>
+                    <div class="numbers">{{ $katalog }}</div>
+                    <div class="box_topic">Katalog</div>
                 </div>
-                <i class="fa-solid fa-car"></i>
+                <i class="fa-solid fa-shirt"></i>
             </div>
         </a>
         <a class="kotak" href="#">
             <div class="box">
                 <div class="right_side">
-                    {{-- <div class="numbers">{{ $user }}</div> --}}
-                    <div class="box_topic">User</div>
+                    <div class="numbers">{{ $pesanan }}</div>
+                    <div class="box_topic">Pesanan</div>
                 </div>
-                <i class="fa-solid fa-users"></i>
+                <i class="fa-solid fa-truck-fast"></i>
+            </div>
+        </a>
+        <a class="kotak" href="#">
+            <div class="box">
+                <div class="right_side">
+                    <div class="numbers">{{ $proyek }}</div>
+                    <div class="box_topic">Proyek</div>
+                </div>
+                <i class="fa-solid fa-cube"></i>
             </div>
         </a>
         {{-- <div class="box">

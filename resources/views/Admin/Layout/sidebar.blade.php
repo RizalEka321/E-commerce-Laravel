@@ -2,7 +2,7 @@
     <div class="logo_details">
         <i class='bx bx-code-alt'></i>
         <div class="logo_name">
-            Konveksi
+            LOKAL-INDUSTRI
         </div>
     </div>
     <ul>
@@ -15,15 +15,31 @@
             </a>
         <li>
             <a href="{{ route('admin.katalog') }}" class="nav-link {{ set_active('admin.katalog') }}">
-                <i class="fa-solid fa-gauge"></i>
+                <i class="fa-solid fa-shirt"></i>
                 <span class="links_name">
                     Katalog
                 </span>
             </a>
         </li>
         <li>
+            <a href="{{ route('admin.pesanan') }}" class="nav-link {{ set_active('admin.pesanan') }}">
+                <i class="fa-solid fa-truck-fast"></i>
+                <span class="links_name">
+                    Pesanan
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('admin.proyek') }}" class="nav-link {{ set_active('admin.proyek') }}">
+                <i class="fa-solid fa-cube"></i>
+                <span class="links_name">
+                    Proyek
+                </span>
+            </a>
+        </li>
+        <li>
             <a href="{{ route('admin.user-manajemen') }}" class="nav-link {{ set_active('admin.user-manajemen') }}">
-                <i class="fa-solid fa-gauge"></i>
+                <i class="fa-solid fa-users"></i>
                 <span class="links_name">
                     User Manajemen
                 </span>

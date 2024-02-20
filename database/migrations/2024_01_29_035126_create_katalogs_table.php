@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('id_katalogs');
             $table->string('slug', 30)->unique();
             $table->string('judul', 30);
+            $table->string('foto', 30);
             $table->text('deskripsi');
             $table->integer('stok');
             $table->bigInteger('harga');

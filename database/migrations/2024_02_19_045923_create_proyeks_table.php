@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('deskripsi_proyek');
             $table->integer('quantity');
             $table->bigInteger('harga_satuan');
-            $table->bigInteger('dp_proyek');
+            $table->bigInteger('dp_proyek')->nullable();
             $table->bigInteger('total');
             $table->enum('status_pengerjaan', ['diproses', 'selesai']);
             $table->enum('status_pembayaran', ['belum', 'dp', 'lunas']);

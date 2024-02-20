@@ -1,24 +1,25 @@
 @extends('admin.layout.app')
-@section('title', 'Katalog')
+@section('title', 'Pesanan')
 @section('content')
-    {{-- Data Tabel Katalog --}}
+    {{-- Data Tabel Pesanan --}}
     <div id="datane" class="details">
         <div class="content">
             <div class="container">
                 <div class="card_header pt-1">
-                    <h4 class="judul"><i class="fa-solid fa-shirt"></i> DATA KATALOG</h4>
+                    <h4 class="judul"><i class="fa-solid fa-truck-fast"></i> DATA PESANAN</h4>
                     <hr>
                 </div>
-                <a type="button" class="btn-tambah mb-2" id="btn-add"><i class="fa-solid fa-square-plus"></i>&nbsp;&nbsp;
-                    TAMBAH DATA KATALOG</a>
-                <table id="tabel_katalog" class="table table-bordered" style="width:100%">
+                <table id="tabel_pesanan" class="table table-bordered" style="width:100%">
                     <thead>
                         <tr>
-                            <th width="15%">Aksi</th>
-                            <th width="5%">No</th>
-                            <th width="32%">Nama</th>
-                            <th width="25%">Stok</th>
-                            <th width="25%">Harga</th>
+                            <th>Aksi</th>
+                            <th>No</th>
+                            <th>Katalog</th>
+                            <th>QTY</th>
+                            <th>Total</th>
+                            <th>Pengiriman</th>
+                            <th>Pembayaran</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,10 +33,10 @@
         <div class="content">
             <div class="card border-0">
                 <div class="card_header mx-3 pt-1">
-                    <h4 class="judul"><i class="fa-solid fa-shirt"></i> TAMBAH DATA KATALOG</h4>
+                    <h4 class="judul"><i class="fa-solid fa-truck-fast"></i> TAMBAH DATA PESANAN</h4>
                     <hr>
                 </div>
-                <form id="form_tambah" action="{{ url('/admin/katalog/create') }}" method="POST"
+                <form id="form_tambah" action="{{ url('/admin/pesanan/create') }}" method="POST"
                     enctype="multipart/form-data" class="was-validated" role="form">
                     <div class="card-body">
                         <div class="row gx-5 mb-3">
@@ -108,14 +109,14 @@
             $('#tambah_data').removeClass('hidden');
             $('#datane').addClass('hidden');
             $('.judul').html(
-                '<h4 class="judul"><TAMBA<i class="fa-solid fa-shirt"></i>TAMBAH DATA KATALOG</h4>');
+                '<h4 class="judul"><iTAMB<i class="fa-solid fa-truck-fast"></i>TAMBAH DATA PESANAN</h4>');
 
         });
         $('#btn-close').click(function() {
             $('#datane').removeClass('hidden');
             $('#tambah_data').addClass('hidden');
             $('.judul').html(
-                '<h4 class="judul"><i class="fa-solid fa-shirt"></i> DATA KATALOG</h4>');
+                '<h4 class="judul"><i class="fa-solid fa-truck-fast"></i> DATA PESANAN</h4>');
             reset_form();
         });
 
@@ -127,23 +128,23 @@
         });
 
         function reload_table() {
-            $('#tabel_katalog').DataTable().ajax.reload();
+            $('#tabel_pesanan').DataTable().ajax.reload();
         }
 
         function reset_form() {
-            $('#form-add').attr('action', "{{ url('/admin/katalog/create') }}");
+            $('#form-add').attr('action', "{{ url('/admin/pesanan/create') }}");
             $('#form_tambah')[0].reset();
         }
 
         // Fungsi index
         $(function() {
-            var table = $('#tabel_katalog').DataTable({
+            var table = $('#tabel_pesanan').DataTable({
                 processing: true,
                 serverSide: true,
                 paging: true,
                 orderClasses: false,
                 info: false,
-                ajax: "{{ url('/admin/katalog/list') }}",
+                ajax: "{{ url('/admin/pesanan/list') }}",
                 columns: [{
                         data: 'action',
                         name: 'action',
@@ -155,19 +156,34 @@
                         name: 'DT_RowIndex'
                     },
                     {
-                        data: 'judul',
-                        name: 'judul'
-                    },
-                    {
-                        data: 'stok',
-                        name: 'stok',
-                    },
-                    {
-                        data: 'harga',
-                        name: 'harga',
+                        data: 'katalogs_id',
+                        name: 'katalogs_id',
                         render: function(data, type, full, meta) {
-                            return 'Rp ' + new Intl.NumberFormat('id-ID').format(full.harga);
+                            return full.katalog.judul;
                         }
+                    },
+                    {
+                        data: 'quantity',
+                        name: 'quantity',
+                    },
+                    {
+                        data: 'total',
+                        name: 'total',
+                        render: function(data, type, full, meta) {
+                            return 'Rp ' + new Intl.NumberFormat('id-ID').format(full.total);
+                        }
+                    },
+                    {
+                        data: 'metode_pengiriman',
+                        name: 'metode_pengiriman',
+                    },
+                    {
+                        data: 'metode_pembayaran',
+                        name: 'metode_pembayaran',
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
                     }
                 ]
             });
@@ -221,9 +237,9 @@
         // Fungsi Edit dan Update
         function edit_data(id) {
             $('#form_tambah')[0].reset();
-            $('#form_tambah').attr('action', '/admin/katalog/update?q=' + id);
+            $('#form_tambah').attr('action', '/admin/pesanan/update?q=' + id);
             $.ajax({
-                url: "{{ url('/admin/katalog/edit') }}",
+                url: "{{ url('/admin/pesanan/edit') }}",
                 type: "POST",
                 data: {
                     q: id
@@ -246,7 +262,8 @@
                         $('#tambah_data').removeClass('hidden');
                         $('#datane').addClass('hidden');
                         $('.judul').html(
-                            '<h4 class="judul"><i class="fa-solid fa-shirt"></i> EDIT DATA KATALOG</h4>');
+                            '<h4 class="judul"><i class="fa-solid fa-truck-fast"></i> EDIT DATA PESANAN</h4>'
+                        );
                         $('#btn-simpan').html(
                             '<i class="nav-icon fas fa-save"></i>&nbsp;&nbsp; SIMPAN');
                     } else {
@@ -263,7 +280,7 @@
         // Fungsi Hapus
         function delete_data(id) {
             Swal.fire({
-                title: 'Hapus Katalog',
+                title: 'Hapus Pesanan',
                 text: "Apakah anda yakin!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -273,7 +290,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ url('/admin/katalog/delete') }}",
+                        url: "{{ url('/admin/pesanan/delete') }}",
                         type: "POST",
                         data: {
                             q: id
@@ -289,5 +306,31 @@
                 }
             })
         };
+
+        // Fungsi Update Status
+        $(document).on('change', '.status-dropdown', function() {
+            var status = $(this).val();
+            var id = $(this).data('id');
+            $.ajax({
+                url: '/admin/pesanan/update-status',
+                method: 'POST',
+                data: {
+                    status: status,
+                    id: id
+                },
+                success: function(response) {
+                    console.log('Status berhasil diubah');
+                    Swal.fire(
+                        'Sukses',
+                        'Status berhasil diubah',
+                        'success'
+                    );
+                    reload_table();
+                },
+                error: function(xhr, status, error) {
+                    console.log('Terjadi kesalahan: ' + error);
+                }
+            });
+        });
     </script>
 @endsection

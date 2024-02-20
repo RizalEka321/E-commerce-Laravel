@@ -21,6 +21,8 @@ return new class extends Migration
             $table->enum('metode_pembayaran', ['cash', 'transfer']);
             $table->enum('status', ['menunggu pembayaran', 'diproses', 'selesai']);
             $table->timestamps();
+            $table->foreign('katalogs_id')->references('id_katalogs')->on('katalogs');
+            $table->foreign('users_id')->references('id')->on('users');
         });
     }
 
