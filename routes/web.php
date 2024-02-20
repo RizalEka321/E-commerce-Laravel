@@ -20,7 +20,7 @@ use App\Http\Controllers\Pembeli\PageController;
 |
 */
 
-Route::get('/login', [AuthController::class, "index"])->name('login');
+Route::get('/login', [AuthController::class, "login"])->name('login');
 Route::get('/register', [AuthController::class, "register"])->name('register');
 
 

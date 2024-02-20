@@ -1,7 +1,7 @@
 /**
- * Paket Usaha Slider
+ * Katalog Slider
  */
-$(".paket-slider").owlCarousel({
+$(".katalog-slider").owlCarousel({
     loop: true,
     nav: false,
     dots: true,

@@ -1,0 +1,427 @@
+/*===============================================================
+Auth styles
+=================================================================*/
+/* Login styles */
+.login svg {
+    height: 150px;
+    margin: 30px;
+}
+
+.login svg text {
+    font-size: 280px;
+}
+
+.login .card {
+    color: var(--pink);
+    border: 2px solid var(--pink);
+    border-radius: 20px;
+}
+
+.login .bg-title {
+    color: white;
+    background: linear-gradient(to bottom left, #CE3ABD, #B500A0);
+    border-radius: 17px 0 0 17px;
+}
+
+.login h2 {
+    font-weight: 700;
+}
+
+.login .form-label {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.login .form-control {
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: var(--pink);
+}
+
+.login .form-control:focus,
+.form-control.active {
+    border-color: var(--pink);
+    box-shadow: 0 0 0 0.2rem rgba(206, 58, 189, 0.5);
+}
+
+.login .form-control::placeholder {
+    color: var(--light-bg);
+    font-style: italic;
+}
+
+.login .btn-login {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 18px;
+    display: inline-block;
+    padding: 5px 45px;
+    border-radius: 10px;
+    border: 2px solid var(--pink);
+    text-decoration: none;
+    -webkit-transition: all 0.5s ease-in-out;
+    color: white;
+    background: linear-gradient(to bottom left, #CE3ABD, #B500A0);
+}
+
+.login .btn-login:hover {
+    -webkit-transform: scale(1.1);
+    color: var(--pink);
+    border-color: var(--pink);
+    background: white;
+}
+
+.login p {
+    font-size: 16px;
+}
+
+.login .btn-daftar {
+    font-weight: 700;
+    display: inline-block;
+    text-decoration: none;
+    -webkit-transition: all 0.5s ease-in-out;
+    color: var(--pink);
+}
+
+.login .btn-daftar:hover {
+    -webkit-transform: scale(1.1);
+    color: #B500A0;
+}
+
+@media (max-width: 768px) {
+    .login .bg-title {
+        color: white;
+        background: linear-gradient(to bottom left, #CE3ABD, #B500A0);
+        border-radius: 17px 17px 0 0;
+    }
+
+    .login svg {
+        height: 100px;
+        margin: 45px;
+    }
+}
+
+@media (max-width: 576px) {
+    .login .bg-title {
+        color: white;
+        background: linear-gradient(to bottom left, #CE3ABD, #B500A0);
+        border-radius: 17px 17px 0 0;
+    }
+
+    .login svg {
+        height: 75px;
+        margin: 35px;
+    }
+}
+
+/* Register Role styles */
+.role svg {
+    height: 150px;
+    margin: 30px;
+}
+
+.role svg text {
+    font-size: 280px;
+}
+
+.role .card {
+    color: var(--pink);
+    border: 2px solid var(--pink);
+    border-radius: 20px;
+}
+
+.role .bg-title {
+    color: white;
+    background: linear-gradient(to bottom left, #CE3ABD, #B500A0);
+    border-radius: 17px 0 0 17px;
+}
+
+.role h2 {
+    font-weight: 700;
+}
+
+.role .rad-label {
+    display: flex;
+    align-items: center;
+    border-radius: 100px;
+    padding: 14px 16px;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.role .rad-label:hover,
+.rad-label:focus-within {
+    background: hsla(0, 0%, 80%, .14);
+}
+
+.role .rad-input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    z-index: -1;
+}
+
+.role .rad-design {
+    width: 20px;
+    height: 20px;
+    border-radius: 100px;
+    background: linear-gradient(to bottom left, #CE3ABD, #B500A0);
+    position: relative;
+}
+
+.role .rad-design::before {
+    content: '';
+    display: inline-block;
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
+    background: var(--light-bg);
+    transform: scale(1.1);
+    transition: .3s;
+}
+
+.role .rad-input:checked+.rad-design::before {
+    transform: scale(0);
+}
+
+.role .rad-text {
+    color: hsl(0, 0%, 60%);
+    margin-left: 14px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: .3s;
+}
+
+.role .rad-input:checked~.rad-text {
+    color: #CE3ABD;
+}
+
+.role .btn-role {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 18px;
+    display: inline-block;
+    padding: 5px 30px;
+    border-radius: 10px;
+    border: 2px solid var(--pink);
+    text-decoration: none;
+    -webkit-transition: all 0.5s ease-in-out;
+    color: white;
+    background: linear-gradient(to bottom left, #CE3ABD, #B500A0);
+}
+
+.role .btn-role:hover {
+    -webkit-transform: scale(1.1);
+    color: var(--pink);
+    border-color: var(--pink);
+    background: white;
+}
+
+.role p {
+    font-size: 16px;
+}
+
+.role .btn-login {
+    font-weight: 700;
+    display: inline-block;
+    text-decoration: none;
+    -webkit-transition: all 0.5s ease-in-out;
+    color: var(--pink);
+}
+
+.role .btn-login:hover {
+    -webkit-transform: scale(1.1);
+    color: #B500A0;
+}
+
+@media (max-width: 768px) {
+    .role .bg-title {
+        color: white;
+        background: linear-gradient(to bottom left, #CE3ABD, #B500A0);
+        border-radius: 17px 17px 0 0;
+    }
+
+    .role svg {
+        height: 100px;
+        margin: 45px;
+    }
+}
+
+@media (max-width: 576px) {
+    .role .bg-title {
+        color: white;
+        background: linear-gradient(to bottom left, #CE3ABD, #B500A0);
+        border-radius: 17px 17px 0 0;
+    }
+
+    .role svg {
+        height: 75px;
+        margin: 35px;
+    }
+}
+
+/* Register styles */
+.register svg {
+    height: 150px;
+    margin: 30px;
+}
+
+.register svg text {
+    font-size: 280px;
+}
+
+.register .card {
+    color: var(--pink);
+    border: 2px solid var(--pink);
+    border-radius: 20px;
+}
+
+.register .bg-title {
+    color: white;
+    background: linear-gradient(to bottom left, #CE3ABD, #B500A0);
+    border-radius: 17px 0 0 17px;
+}
+
+.register h2 {
+    font-weight: 700;
+}
+
+.register .form-label {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.register .form-control {
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: var(--pink);
+}
+
+.register .form-control:focus,
+.form-control.active {
+    border-color: var(--pink);
+    box-shadow: 0 0 0 0.2rem rgba(206, 58, 189, 0.5);
+}
+
+.register .form-control::placeholder {
+    color: var(--light-bg);
+    font-style: italic;
+}
+
+.register .btn-back {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    font-weight: 600;
+    font-size: 18px;
+    display: inline-block;
+    padding: 5px 45px;
+    border-radius: 10px;
+    border: 2px solid var(--pink);
+    text-decoration: none;
+    -webkit-transition: all 0.5s ease-in-out;
+    color: white;
+    background: linear-gradient(to bottom left, #CE3ABD, #B500A0);
+}
+
+.register .btn-back:hover {
+    -webkit-transform: scale(1.1);
+    color: var(--pink);
+    border-color: var(--pink);
+    background: white;
+}
+
+.register .btn-register {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 18px;
+    display: inline-block;
+    padding: 5px 45px;
+    border-radius: 10px;
+    border: 2px solid var(--pink);
+    text-decoration: none;
+    -webkit-transition: all 0.5s ease-in-out;
+    color: white;
+    background: linear-gradient(to bottom left, #CE3ABD, #B500A0);
+}
+
+.register .btn-register:hover {
+    -webkit-transform: scale(1.1);
+    color: var(--pink);
+    border-color: var(--pink);
+    background: white;
+}
+
+.register p {
+    font-size: 16px;
+}
+
+.register .btn-login {
+    font-weight: 700;
+    display: inline-block;
+    text-decoration: none;
+    -webkit-transition: all 0.5s ease-in-out;
+    color: var(--pink);
+}
+
+.register .btn-login:hover {
+    -webkit-transform: scale(1.1);
+    color: #B500A0;
+}
+
+@media (max-width: 768px) {
+    .register .bg-title {
+        color: white;
+        background: linear-gradient(to bottom left, #CE3ABD, #B500A0);
+        border-radius: 17px 17px 0 0;
+    }
+
+    .register svg {
+        height: 100px;
+        margin: 45px;
+    }
+}
+
+@media (max-width: 576px) {
+    .register .bg-title {
+        color: white;
+        background: linear-gradient(to bottom left, #CE3ABD, #B500A0);
+        border-radius: 17px 17px 0 0;
+    }
+
+    .register svg {
+        height: 75px;
+        margin: 35px;
+    }
+}
+
+.autocomplete-items {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1;
+}
+
+.autocomplete-items div {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.autocomplete-items div:last-child {
+    border-bottom: none;
+}
+
+.autocomplete-items div:hover {
+    background-color: #e9e9e9;
+}
