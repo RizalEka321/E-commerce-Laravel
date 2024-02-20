@@ -1,0 +1,128 @@
+/*===============================================================
+Detail Produk page styles
+=================================================================*/
+.detail-produk {
+    color: black;
+}
+
+.detail-produk .hr-detail {
+    border-width: 2px;
+    color: #CE3ABD;
+}
+
+.detail-produk .row {
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.detail-produk .card {
+    color: var(--pink);
+    padding: 25px;
+    border-radius: 10px;
+    border: 0;
+}
+
+.detail-produk .card img {
+    border-radius: 10px;
+    width: 500px;
+    height: 100%;
+    object-fit: cover;
+}
+
+.detail-produk .title {
+    color: black;
+    font-weight: 700;
+}
+
+.detail-produk .price {
+    color: var(--pink);
+    font-style: bold;
+    border-radius: 20px;
+    background-color: #f5f5f5;
+}
+
+.detail-produk .rating {
+    color: var(--pink);
+}
+
+.detail-produk .card-body h3 {
+    color: black;
+    font-weight: 700;
+}
+
+.detail-produk .card-body h4 {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.detail-produk .btn-cart {
+    font-weight: 600;
+    font-size: 16px;
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 10px;
+    border: 1px solid var(--pink);
+    text-decoration: none;
+    -webkit-transition: all 0.5s ease-in-out;
+    color: white;
+    background: linear-gradient(to bottom left, #CE3ABD, #B500A0);
+}
+
+.detail-produk .btn-cart:hover {
+    -webkit-transform: scale(1.1);
+    border-color: var(--pink);
+    color: var(--pink);
+    background: white;
+}
+
+.detail-produk .btn-resell {
+    font-weight: 600;
+    font-size: 16px;
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 5px;
+    border: 1px solid var(--pink);
+    text-decoration: none;
+    -webkit-transition: all 0.5s ease-in-out;
+    color: white;
+    background: linear-gradient(to bottom left, #CE3ABD, #B500A0);
+}
+
+.detail-produk .btn-resell:hover {
+    border-color: var(--pink);
+    color: var(--pink);
+    background: white;
+}
+
+.detail-produk .description {
+    border: 0;
+    border-radius: 10px;
+    color: black;
+    background-color: white;
+}
+
+.detail-produk .description h4 {
+    color: #B500A0;
+    font-weight: 700;
+}
+
+.detail-produk .description p {
+    margin-bottom: 0;
+    letter-spacing: 0.5px;
+}
+
+.detail-produk .review {
+    border: 0;
+    border-radius: 10px;
+    color: black;
+    background-color: white;
+}
+
+.detail-produk .review h4 {
+    color: #B500A0;
+    font-weight: 700;
+}
+
+.detail-produk .review p {
+    letter-spacing: 0.5px;
+}

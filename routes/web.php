@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\KatalogController;
 use App\Http\Controllers\Admin\PesananController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProyekController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Pembeli\PageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +19,10 @@ use App\Http\Controllers\Admin\ProyekController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/login', [AuthController::class, "index"])->name('login');
+Route::get('/register', [AuthController::class, "register"])->name('register');
+
 
 // Dashboard
 Route::get('/admin', [DashboardController::class, "index"])->name('admin.dashboard');
@@ -43,3 +49,6 @@ Route::post('/admin/proyek/update', [ProyekController::class, "update"])->name('
 Route::post('/admin/proyek/delete', [ProyekController::class, "destroy"])->name('admin.proyek.delete');
 // Admin User Manajemen
 Route::get('/admin/user-manajemen', [UserController::class, "index"])->name('admin.user-manajemen');
+
+// Pembeli
+Route::get('/pembeli', [PageController::class, "page_home"])->name('pembeli.dashboard');

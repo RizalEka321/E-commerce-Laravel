@@ -1,0 +1,77 @@
+.pesanan .hr-pesanan {
+    border-width: 2px;
+    color: #CE3ABD;
+}
+
+.pesanan .nav-item .nav-link {
+    color: #CE3ABD;
+}
+
+.pesanan .nav-item .nav-link:hover {
+    background-color: #CE3ABD;
+    color: #fff;
+}
+
+.pesanan .tab-content {
+    background-color: white;
+    border-radius: 5px;
+}
+.pesanan .tab-content .price {
+    color: #CE3ABD;
+}
+
+.pesanan .tab-content .row i {
+    color: #CE3ABD;
+    font-size: 80px;
+}
+
+.pesanan .tab-content .row h4 {
+    color: #CE3ABD;
+}
+
+.pesanan .btn-resell {
+    font-weight: 600;
+    font-size: 16px;
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 2px;
+    border: 1px solid var(--pink);
+    text-decoration: none;
+    -webkit-transition: all 0.5s ease-in-out;
+    color: white;
+    background: linear-gradient(to bottom left, #CE3ABD, #B500A0);
+}
+
+.pesanan .btn-resell:hover {
+    border-color: var(--pink);
+    color: var(--pink);
+    background: white;
+}
+
+.pesanan .btn-nilai {
+    font-weight: 600;
+    font-size: 16px;
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 2px;
+    border: 1px solid var(--pink);
+    text-decoration: none;
+    -webkit-transition: all 0.5s ease-in-out;
+    color: var(--pink);
+    background: white;
+}
+
+.pesanan .btn-nilai:hover {
+    border-color: var(--pink);
+    color: white;
+    background: var(--pink);
+}
+
+#total {
+    color: #fff;
+    background-color: #CE3ABD;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+}

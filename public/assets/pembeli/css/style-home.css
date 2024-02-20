@@ -1,0 +1,188 @@
+/*===============================================================
+Home page styles
+=================================================================*/
+.carousel-caption {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.carousel-caption h1 {
+    margin: 0;
+    font-size: 48px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 3px 3px 3px black;
+}
+
+.carousel-caption h2 {
+    color: white;
+    margin: 10px 0 0 0;
+    font-size: 20px;
+    text-shadow: 3px 3px 3px black;
+}
+
+.carousel-caption .btn-beli {
+    font-weight: bold;
+    font-size: 16px;
+    display: inline-block;
+    padding: 10px 40px;
+    margin-top: 30px;
+    border-radius: 10px;
+    border: 2px solid var(--dark);
+    text-decoration: none;
+    -webkit-transition: all 0.5s ease-in-out;
+    color: white;
+    background: linear-gradient(to bottom left, #000000, #000000);
+}
+
+.carousel-caption .btn-beli:hover {
+    -webkit-transform: scale(1.1);
+    border-color: white;
+}
+
+.carousel-item {
+    position: relative;
+}
+
+.carousel-item:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.carousel-item img {
+    height: 75vh;
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .carousel-caption h1 {
+        font-size: 40px;
+    }
+
+    .carousel-caption h2 {
+        font-size: 18px;
+    }
+
+    .carousel-caption .btn-beli {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .carousel-caption h1 {
+        font-size: 30px;
+    }
+
+    .carousel-caption h2 {
+        font-size: 16px;
+    }
+
+    .carousel-caption .btn-beli {
+        font-size: 14px;
+    }
+}
+
+/* Home Katalog styles */
+.katalog {
+    color: var(--dark);
+}
+
+.katalog span {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.katalog .hr-katalog {
+    border-width: 2px;
+}
+
+.katalog .info-area .kategori {
+    color: #B500A0;
+    background-color: #ce3abd5e;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.katalog .info-area .jenis {
+    color: #B500A0;
+    font-size: 18px;
+}
+
+.katalog .info-area h4 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.katalog .info-area h6 {
+    font-size: 15px;
+}
+
+.katalog .single-box {
+    box-shadow: 0px 0px 4px #c7c7c7;
+    color: black;
+    margin: 5px 2px;
+    border-radius: 5px;
+    /* border: 2px solid var(--pink); */
+    background-color: white;
+}
+
+.katalog .single-box img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 5px 5px 0 0;
+}
+
+.katalog .btn-beli {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    font-size: 16px;
+    display: inline-block;
+    padding: 5px 25px;
+    border-radius: 10px;
+    border: 2px solid var(--dark);
+    text-decoration: none;
+    -webkit-transition: all 0.5s ease-in-out;
+    color: white;
+    background: linear-gradient(to bottom left, #000000, #000000);
+}
+
+.katalog .btn-beli:hover {
+    -webkit-transform: scale(1.1);
+    color: var(--dark);
+    border-color: var(--dark);
+    background: white;
+}
+
+/* Owl Carousel dots styles */
+.katalog .owl-dots {
+    text-align: center;
+    margin-top: 5px;
+}
+
+.katalog .owl-dots button.owl-dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 2px solid var(--dark);
+    display: inline-block;
+    background: white;
+    margin: 0 3px;
+}
+
+.katalog .owl-dots button.owl-dot.active {
+    background-color: var(--dark);
+}
+
+.katalog .owl-dots button.owl-dot:focus {
+    outline: none;
+}

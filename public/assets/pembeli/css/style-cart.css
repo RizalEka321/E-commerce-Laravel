@@ -1,0 +1,96 @@
+/*===============================================================
+Cart styles
+=================================================================*/
+.cart .card {
+    border: 0;
+}
+
+.cart .qty button {
+    -webkit-transition: all 0.5s ease-in-out;
+}
+
+.cart .qty button:hover {
+    background-color: rgb(210, 210, 210);
+}
+
+.icon-sm {
+    width: 2rem;
+    height: 2rem;
+}
+
+.cart .btn-hapus {
+    font-size: 14px;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: 0;
+    -webkit-transition: all 0.25s ease-in-out;
+    color: red;
+    background-color: white;
+}
+
+.cart .btn-hapus:hover {
+    background-color: red;
+    color: white;
+}
+
+.text-purple {
+    color: #CE3ABD;
+}
+
+#detail-item:hover {
+    cursor: pointer;
+    background-color: rgb(243, 243, 243);
+    transition: 0.3s ease-in-out;
+    border-radius: 5px;
+}
+
+.detail-item {
+    background-color: rgb(243, 243, 243);
+    transition: 0.3s ease-in-out;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.cart .btn-checkout {
+    background-color: var(--pink);
+    color: white;
+    font-size: 18px;
+    border: 2px solid var(--pink);
+    padding: 5px;
+    border-radius: 5px;
+    width: 100%;
+    -webkit-transition: all 0.25s ease-in-out;
+}
+
+.cart .btn-checkout:hover {
+    background-color: white;
+    color: var(--pink);
+}
+
+.cart .btn-paypal {
+    background-color: gold;
+    color: white;
+    font-size: 18px;
+    border: 2px solid gold;
+    padding: 5px;
+    border-radius: 5px;
+    width: 100%;
+    -webkit-transition: all 0.25s ease-in-out;
+}
+
+.cart .btn-paypal:hover {
+    background-color: white;
+    color: var(--pink);
+}
+
+.cart .cart-kosong {
+    color: var(--pink);
+    text-align: center;
+}
+
+.cart .cart-kosong i {
+    font-size: 150px;
+    margin-top: 100px;
+    margin-bottom: 10px;
+}
