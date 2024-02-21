@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_lengkap');
             $table->string('username')->unique();
-            $table->enum('role', ['Admin', 'Super Admin', 'Pembeli']);
-            $table->string('nama');
+            $table->enum('role', ['Owner', 'Pegawai', 'Pembeli']);
             $table->string('email')->unique();
             $table->string('alamat');
             $table->string('no_hp');

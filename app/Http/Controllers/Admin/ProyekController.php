@@ -25,17 +25,27 @@ class ProyekController extends Controller
                         </div>';
                 return $actionBtn;
             })
-            ->addColumn('status', function ($row) {
-                $statusOptions = ['diproses', 'selesai'];
-                $dropdown = '<select class="form-control status-dropdown" data-id="' . $row->id_proyeks . '">';
-                foreach ($statusOptions as $option) {
-                    $selected = ($row->status == $option) ? 'selected' : '';
+            ->addColumn('pengerjaan', function ($row) {
+                $pengerjaanOptions = ['diproses', 'selesai'];
+                $dropdown = '<select class="form-control pengerjaan-dropdown" data-id="' . $row->id_proyeks . '">';
+                foreach ($pengerjaanOptions as $option) {
+                    $selected = ($row->status_pengerjaan == $option) ? 'selected' : '';
                     $dropdown .= '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
                 }
                 $dropdown .= '</select>';
                 return $dropdown;
             })
-            ->rawColumns(['action', 'status'])
+            ->addColumn('pembayaran', function ($row) {
+                $pembayaranOptions = ['belum', 'dp', 'lunas'];
+                $dropdown = '<select class="form-control pembayaran-dropdown" data-id="' . $row->id_proyeks . '">';
+                foreach ($pembayaranOptions as $option) {
+                    $selected = ($row->status_pembayaran == $option) ? 'selected' : '';
+                    $dropdown .= '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
+                }
+                $dropdown .= '</select>';
+                return $dropdown;
+            })
+            ->rawColumns(['action', 'pengerjaan', 'pembayaran'])
             ->make(true);
     }
 
@@ -165,26 +175,26 @@ class ProyekController extends Controller
         }
     }
 
-    public function update_status(Request $request)
+    public function update_pengerjaan(Request $request)
     {
 
         $id = $request->id;
-        $status = $request->status;
+        $status_pengerjaan = $request->status_pengerjaan;
 
         $data = Proyek::findOrFail($id);
-        $data->status = $status;
+        $data->status_pengerjaan = $status_pengerjaan;
         $data->save();
 
         return response()->json(['success' => true]);
     }
 
-    public function update_status_pembayaran(Request $request)
+    public function update_pembayaran(Request $request)
     {
         $id = $request->id;
-        $status = $request->status;
+        $status_pembayaran = $request->status_pembayaran;
 
         $data = Proyek::findOrFail($id);
-        $data->status = $status;
+        $data->status_pembayaran = $status_pembayaran;
         $data->save();
 
         return response()->json(['success' => true]);

@@ -23,11 +23,11 @@
                             <h2>Log In</h2>
                         </div>
                         <div class="row">
-                            <form control="" class="form-group" method="POST" action="#">
+                            <form control="" class="form-group" method="POST" action="{{ route('dologin') }}">
                                 @csrf
                                 <div class="row">
-                                    <input type="email" class="form__input" id="email" name="email"
-                                        placeholder="Enter your email" required autofocus="email">
+                                    <input type="text" class="form__input" id="username" name="username"
+                                        placeholder="Enter your username" required autofocus="username">
                                 </div>
                                 <div class="row">
                                     <!-- <span class="fa fa-lock"></span> -->

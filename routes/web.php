@@ -21,7 +21,9 @@ use App\Http\Controllers\Pembeli\PageController;
 */
 
 Route::get('/login', [AuthController::class, "login"])->name('login');
+Route::post('/dologin', [AuthController::class, "dologin"])->name('dologin');
 Route::get('/register', [AuthController::class, "register"])->name('register');
+Route::get('/logout', [AuthController::class, "logout"])->name('logout');
 
 
 // Dashboard
@@ -47,8 +49,15 @@ Route::post('/admin/proyek/create', [ProyekController::class, "store"])->name('a
 Route::post('/admin/proyek/edit', [ProyekController::class, "edit"])->name('admin.proyek.edit');
 Route::post('/admin/proyek/update', [ProyekController::class, "update"])->name('admin.proyek.update');
 Route::post('/admin/proyek/delete', [ProyekController::class, "destroy"])->name('admin.proyek.delete');
+Route::post('/admin/proyek/update-pengerjaan', [ProyekController::class, "update_pengerjaan"])->name('admin.proyek.update-pengerjaan');
+Route::post('/admin/proyek/update-pembayaran', [ProyekController::class, "update_pembayaran"])->name('admin.proyek.update-pembayaran');
 // Admin User Manajemen
 Route::get('/admin/user-manajemen', [UserController::class, "index"])->name('admin.user-manajemen');
+Route::get('/admin/user-manajemen/list', [UserController::class, "get_user"])->name('admin.get-user');
+Route::post('/admin/user-manajemen/create', [UserController::class, "store"])->name('admin.user-manajemen.create');
+Route::post('/admin/user-manajemen/edit', [UserController::class, "edit"])->name('admin.user-manajemen.edit');
+Route::post('/admin/user-manajemen/update', [UserController::class, "update"])->name('admin.user-manajemen.update');
+Route::post('/admin/user-manajemen/delete', [UserController::class, "destroy"])->name('admin.user-manajemen.delete');
 
 // Pembeli
-Route::get('/pembeli', [PageController::class, "page_home"])->name('pembeli.dashboard');
+Route::get('/', [PageController::class, "page_home"])->name('pembeli.dashboard');

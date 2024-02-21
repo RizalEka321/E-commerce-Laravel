@@ -46,7 +46,7 @@
             </a>
         </li>
         <li class="login">
-            <a href="#">
+            <a href="{{ route('logout') }}">
                 <span class="links_name login_out">
                     Logout
                 </span>

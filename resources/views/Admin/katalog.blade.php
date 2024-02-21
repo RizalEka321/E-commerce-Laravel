@@ -108,7 +108,7 @@
             $('#tambah_data').removeClass('hidden');
             $('#datane').addClass('hidden');
             $('.judul').html(
-                '<h4 class="judul"><TAMBA<i class="fa-solid fa-shirt"></i>TAMBAH DATA KATALOG</h4>');
+                '<h4 class="judul"><i class="fa-solid fa-shirt"></i>TAMBAH DATA KATALOG</h4>');
 
         });
         $('#btn-close').click(function() {

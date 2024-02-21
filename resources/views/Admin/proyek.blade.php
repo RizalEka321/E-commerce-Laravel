@@ -225,12 +225,12 @@
                         }
                     },
                     {
-                        data: 'status_pembayaran',
-                        name: 'status_pembayaran',
+                        data: 'pembayaran',
+                        name: 'pembayaran',
                     },
                     {
-                        data: 'status',
-                        name: 'status'
+                        data: 'pengerjaan',
+                        name: 'pengerjaan',
                     }
                 ]
             });
@@ -358,21 +358,46 @@
             })
         };
 
-        $(document).on('change', '.status-dropdown', function() {
+        // Ubah Status Pengerjaan
+        $(document).on('change', '.pengerjaan-dropdown', function() {
             var status = $(this).val();
             var id = $(this).data('id');
             $.ajax({
-                url: '/admin/proyek/update-status',
+                url: '/admin/proyek/update-pengerjaan',
                 method: 'POST',
                 data: {
-                    status: status,
+                    status_pengerjaan: status,
                     id: id
                 },
                 success: function(response) {
-                    console.log('Status berhasil diubah');
                     Swal.fire(
                         'Sukses',
-                        'Status berhasil diubah',
+                        'Status pengerjaan berhasil diubah',
+                        'success'
+                    );
+                    reload_table();
+                },
+                error: function(xhr, status, error) {
+                    console.log('Terjadi kesalahan: ' + error);
+                }
+            });
+        });
+
+        // Ubah Status Pembayaran
+        $(document).on('change', '.pembayaran-dropdown', function() {
+            var status = $(this).val();
+            var id = $(this).data('id');
+            $.ajax({
+                url: '/admin/proyek/update-pembayaran',
+                method: 'POST',
+                data: {
+                    status_pembayaran: status,
+                    id: id
+                },
+                success: function(response) {
+                    Swal.fire(
+                        'Sukses',
+                        'Status pembayaran berhasil diubah',
                         'success'
                     );
                     reload_table();
