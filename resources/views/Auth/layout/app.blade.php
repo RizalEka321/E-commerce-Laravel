@@ -27,7 +27,7 @@
 
 <body>
     {{-- Topbar --}}
-    @include('Auth.layout.topbar')
+    {{-- @include('Auth.layout.topbar') --}}
     {{-- End Topbar --}}
 
     {{-- Main Content --}}
@@ -35,7 +35,7 @@
     {{-- End Main Content --}}
 
     {{-- Footer --}}
-    @include('Auth.layout.footer')
+    {{-- @include('Auth.layout.footer') --}}
     {{-- End Footer --}}
 
     {{-- JS Files --}}
