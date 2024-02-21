@@ -23,6 +23,9 @@
     <link href="{{ asset('assets/auth/css/style.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/auth/css/style-auth.css') }}" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('assets/admin/css/loading.css') }}">
+    <script src="{{ asset('assets/admin/js/loading.js') }}"></script>
+
 </head>
 
 <body>
@@ -31,6 +34,10 @@
     {{-- End Topbar --}}
 
     {{-- Main Content --}}
+    {{-- Loader --}}
+    <div id="loading-container">
+        <div id="loading" class="loading"></div>
+    </div>
     @yield('content')
     {{-- End Main Content --}}
 
@@ -48,6 +55,16 @@
     {{-- JS File --}}
     <script src="{{ asset('assets/auth/js/main.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/auth/js/alamat-autocomplete.js') }}"></script>
+    <script>
+        function loading() {
+            const loadingContainer = document.getElementById("loading-container");
+            const loading = document.getElementById('loading');
+
+            loadingContainer.style.display = "none";
+            loadingContainer.classList.add("hidden");
+        }
+        window.addEventListener('load', loading);
+    </script>
 </body>
 
 </html>

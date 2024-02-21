@@ -31,6 +31,8 @@
     <link href="{{ asset('assets/pembeli/scss/rating.css') }}" rel="stylesheet" />
     <script src="{{ asset('assets/pembeli/js/admin/preview_img.js') }}"></script>
     <link href="{{ asset('assets/pembeli/css/admin/button-berkas.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/admin/css/loading.css') }}">
+    <script src="{{ asset('assets/admin/js/loading.js') }}"></script>
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
 </head>
@@ -39,6 +41,11 @@
     {{-- Topbar --}}
     @include('Pembeli.layout.topbar')
     {{-- End Topbar --}}
+
+    {{-- Loader --}}
+    <div id="loading-container">
+        <div id="loading" class="loading"></div>
+    </div>
 
     {{-- Navbar --}}
     @include('Pembeli.layout.navbar')
@@ -80,6 +87,16 @@
                 form.submit();
             });
         });
+    </script>
+    <script>
+        function loading() {
+            const loadingContainer = document.getElementById("loading-container");
+            const loading = document.getElementById('loading');
+
+            loadingContainer.style.display = "none";
+            loadingContainer.classList.add("hidden");
+        }
+        window.addEventListener('load', loading);
     </script>
 </body>
 
