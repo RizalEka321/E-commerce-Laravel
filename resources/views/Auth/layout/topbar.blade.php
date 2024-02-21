@@ -7,8 +7,8 @@
                 <defs>
                     <linearGradient id="pink-logo" gradientUnits="userSpaceOnUse" x1="5.17" y1="250"
                         x2="250.07" y2="3.28">
-                        <stop offset="0" style="stop-opacity:1; stop-color:#B500A0" />
-                        <stop offset="1" style="stop-opacity:1; stop-color:#CE3ABD" />
+                        <stop offset="0" style="stop-opacity:1; stop-color:#000" />
+                        <stop offset="1" style="stop-opacity:1; stop-color:#000" />
                     </linearGradient>
                 </defs>
                 <g id="Layer_x0020_1">
