@@ -46,6 +46,28 @@
     </div>
     {{-- ./Banner --}}
 
+    {{-- Profile Perusahaan --}}
+    <section class="profile-perusahaan">
+        <div class="container">
+            <div class="text-center">
+                <hr class="hr-katalog opacity-100" data-aos="flip-right" data-aos-delay="100">
+                <span data-aos="zoom-in">Profile Perusahaan</span>
+                <hr class="hr-katalog opacity-100" data-aos="flip-right" data-aos-delay="100">
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Profil Perusahaan</h2>
+                    <p>Deskripsi singkat tentang perusahaan Anda di sini...</p>
+                </div>
+                <div class="col-md-6">
+                    <img src="{{ asset('path/to/your_image.jpg') }}" class="img-fluid" alt="Company Image">
+                </div>
+            </div>
+        </div>
+    </section>
+    {{-- ./Profile Perusahaan --}}
+
+
     {{-- Katalog --}}
     <section class="katalog">
         <div class="container py-3 mt-3">
@@ -77,4 +99,43 @@
     <section>
         <h1>TES</h1>
     </section>
+
+    {{-- FAQ --}}
+    <section class="faq">
+        <div class="container">
+            <h2>Pertanyaan Umum (FAQ)</h2>
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Pertanyaan 1?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            Jawaban untuk pertanyaan 1 di sini...
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Pertanyaan 2?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            Jawaban untuk pertanyaan 2 di sini...
+                        </div>
+                    </div>
+                </div>
+                <!-- More FAQ items go here -->
+            </div>
+        </div>
+    </section>
+    {{-- ./FAQ --}}
 @endsection

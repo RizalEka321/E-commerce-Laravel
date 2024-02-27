@@ -39,7 +39,7 @@
 
 <body>
     {{-- Topbar --}}
-    @include('Pembeli.layout.topbar')
+    {{-- @include('Pembeli.layout.topbar') --}}
     {{-- End Topbar --}}
 
     {{-- Loader --}}

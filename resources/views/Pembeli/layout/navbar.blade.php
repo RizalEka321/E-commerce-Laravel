@@ -1,16 +1,30 @@
-<nav class="navbar navbar-expand-lg navbar-light">
+<style>
+    .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        background-color: #fff;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-light" data-aos="fade-down">
     <div class="container">
+        <a href="{{ route('pembeli.dashboard') }}" class="navbar-brand">
+            <img src="/images/logo.svg" alt="Logo" />
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fas fa-bars py-1"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
+            {{-- <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('pembeli.dashboard') }}"><i class="fa-solid fa-house "></i>
                         Home</a>
                 </li>
-            </ul>
+            </ul> --}}
             <ul class="navbar-nav ms-auto nav-center">
                 {{-- @auth
                     @if (Auth::user()->role == 'reseller')
@@ -75,10 +89,14 @@
                 @endauth --}}
                 @guest
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('pembeli.dashboard') }}"><i class="fa-solid fa-house "></i>
+                            Home</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('login') }}">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">Register</a>
+                        <a class="btn btn-success nav-link px-4" href="{{ route('register') }}">Register</a>
                     </li>
                 @endguest
             </ul>
