@@ -14,10 +14,6 @@ class Pesanan extends Model
         'status'
     ];
 
-    public function katalog()
-    {
-        return $this->belongsTo(Katalog::class, 'katalogs_id');
-    }
     public function user()
     {
         return $this->belongsTo(User::class, 'users_id');

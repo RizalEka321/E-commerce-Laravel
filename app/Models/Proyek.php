@@ -15,13 +15,14 @@ class Proyek extends Model
         'instansi',
         'no_hp',
         'alamat',
+        'item',
         'foto_logo',
         'foto_desain',
         'deskripsi_proyek',
-        'quantity',
+        'jumlah',
         'harga_satuan',
-        'dp_proyek',
-        'total',
+        'nominal_dp',
+        'deadline',
         'status_pengerjaan',
         'status_pembayaran'
     ];

@@ -50,8 +50,8 @@ class KatalogController extends Controller
             return response()->json(['errors' => $validator->errors()]);
         } else {
             $foto = $request->foto;
-            $file_name = time() . '.' . $foto->extension();
-            $path = 'katalog/' . Str::title($request->merk);
+            $file_name = $request->judul . '.' . $foto->extension();
+            $path = 'data/katalog/' . Str::title($request->judul);
             $foto->move(public_path($path), $file_name);
 
             Katalog::create([

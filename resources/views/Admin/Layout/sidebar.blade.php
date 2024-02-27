@@ -38,10 +38,26 @@
             </a>
         </li>
         <li>
+            <a href="#" class="nav-link" id="kontak">
+                <i class="fa-solid fa-address-book"></i>
+                <span class="links_name">
+                    Kontak Perusahaan
+                </span>
+            </a>
+        </li>
+        <li>
             <a href="{{ route('admin.user-manajemen') }}" class="nav-link {{ set_active('admin.user-manajemen') }}">
                 <i class="fa-solid fa-users"></i>
                 <span class="links_name">
                     User Manajemen
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('admin.log') }}" class="nav-link {{ set_active('admin.log') }}" id="log">
+                <i class="fa-solid fa-user-gear"></i>
+                <span class="links_name">
+                    Log Aktivitas
                 </span>
             </a>
         </li>

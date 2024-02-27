@@ -17,13 +17,14 @@ return new class extends Migration
             $table->string('instansi');
             $table->string('no_hp');
             $table->string('alamat');
+            $table->string('item');
             $table->string('foto_logo');
             $table->string('foto_desain');
             $table->string('deskripsi_proyek');
-            $table->integer('quantity');
+            $table->integer('jumlah');
             $table->bigInteger('harga_satuan');
-            $table->bigInteger('dp_proyek')->nullable();
-            $table->bigInteger('total');
+            $table->bigInteger('nominal_dp')->nullable();
+            $table->date('deadline');
             $table->enum('status_pengerjaan', ['diproses', 'selesai']);
             $table->enum('status_pembayaran', ['belum', 'dp', 'lunas']);
             $table->timestamps();

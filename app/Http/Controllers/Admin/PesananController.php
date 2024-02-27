@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Pesanan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Detail_Pesanan;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -15,28 +16,17 @@ class PesananController extends Controller
     {
         return view('Admin.pesanan');
     }
-    public function get_pesanan(Request $request)
+    public function get_pesanan()
     {
-        $data = Pesanan::select('id_pesanans', 'katalogs_id', 'users_id', 'quantity', 'total', 'metode_pengiriman', 'metode_pembayaran', 'status')->with('katalog', 'user')->get();
+        $data = Pesanan::select('id_pesanans', 'users_id', 'metode_pengiriman', 'metode_pembayaran', 'status')->with('user')->get();
         return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
-                $actionBtn = '<div class="btn-group"><a href="javascript:void(0)" type="button" id="btn-edit" class="btn-edit" onClick="edit_data(' . "'" . $row->id_pesanans . "'" . ')" data-bs-toggle="modal" data-bs-target="#form_modal"><i class="fa-solid fa-pen-to-square"></i></a><a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' . "'" . $row->id_pesanans . "'" . ')"><i class="fa-solid fa-trash-can"></i></a>
+                $actionBtn = '<div class="btn-group"><a href="javascript:void(0)" type="button" id="btn-edit" class="btn-edit" onClick="edit_data(' . "'" . $row->id_pesanans . "'" . ')"><i class="fa-solid fa-pen-to-square"></i></a><a href="javascript:void(0)" type="button" id="btn-ubah" class="btn-ubah" onClick="detail_data(' . "'" . $row->id_pesanans . "'" . ')"><i class="fa-solid fa-eye"></i></a> <a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' . "'" . $row->id_pesanans . "'" . ')"><i class="fa-solid fa-trash-can"></i></a>
                         </div>';
                 return $actionBtn;
             })
-            ->addColumn('status', function ($row) {
-                $statusOptions = ['menunggu pembayaran', 'diproses', 'selesai', 'dibatalkan'];
-                $dropdown = '<select class="form-control status-dropdown" data-id="' . $row->id_pesanans . '">';
-                foreach ($statusOptions as $option) {
-                    $selected = ($row->status == $option) ? 'selected' : '';
-                    $dropdown .= '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
-                }
-                $dropdown .= '</select>';
-                return $dropdown;
-            })
-
-            ->rawColumns(['action', 'status'])
+            ->rawColumns(['action'])
             ->make(true);
     }
 
@@ -46,6 +36,14 @@ class PesananController extends Controller
         $pesanan = Pesanan::find($id);
 
         echo json_encode(['status' => TRUE, 'isi' => $pesanan]);
+    }
+
+    public function detail(Request $request)
+    {
+        $id = $request->input('q');
+        $detail = Detail_Pesanan::where('pesanans_id', $id)->with('katalog')->get();
+
+        return response()->json($detail);
     }
 
     public function update(Request $request)

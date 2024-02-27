@@ -13,15 +13,11 @@ return new class extends Migration
     {
         Schema::create('pesanans', function (Blueprint $table) {
             $table->id('id_pesanans');
-            $table->foreignId('katalogs_id');
             $table->foreignId('users_id');
-            $table->integer('quantity');
-            $table->bigInteger('total');
             $table->enum('metode_pengiriman', ['pickup', 'delivery']);
             $table->enum('metode_pembayaran', ['cash', 'transfer']);
             $table->enum('status', ['menunggu pembayaran', 'diproses', 'selesai']);
             $table->timestamps();
-            $table->foreign('katalogs_id')->references('id_katalogs')->on('katalogs');
             $table->foreign('users_id')->references('id')->on('users');
         });
     }

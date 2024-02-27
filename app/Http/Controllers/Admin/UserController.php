@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -33,15 +34,25 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255|unique:' . User::class,
+            'nama_lengkap' => 'required|string',
+            'username' => 'required|string|max:255|unique:' . User::class,
+            'role' => 'required',
             'email' => 'required|string|email|unique:' . User::class . '|max:100',
+            'alamat' => 'required',
+            'no_hp' => 'required',
+            'foto'     => 'image|mimes:jpeg,png,jpg|max:2048',
             'password' => 'required|min:8|unique:' . User::class,
         ], [
-            'name.required' => 'Username wajib diisi.',
-            'name.unique' => 'Username ini sudah digunakan.',
+            'nama_lengkap.required' => 'Nama Panjang wajib diisi.',
+            'username.required' => 'Username wajib diisi.',
+            'username.unique' => 'Username ini sudah digunakan.',
+            'role.required' => 'Role Panjang wajib diisi.',
             'email.required' => 'Plat Nomor wajib diisi.',
             'email.unique' => 'Plat Nomor ini sudah digunakan.',
             'email.email' => 'Email tidak valid.',
+            'alamat.required' => 'Alamat wajib diisi.',
+            'no_hp.required' => 'No HP wajib diisi.',
+            'foto.required' => 'Foto wajib diisi.',
             'password.required' => 'Password wajib diisi.',
             'password.unique' => 'Password sudah digunakan.',
         ]);
@@ -49,10 +60,21 @@ class UserController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
         } else {
+
+            $foto = $request->foto;
+            $file_name = $request->username . '.' . $foto->extension();
+            $path = 'data/user/' . Str::title($request->username);
+            $foto->move(public_path($path), $file_name);
+
             User::create([
-                'name' => $request->name,
+                'nama_lengkap' => $request->nama_lengkap,
+                'username' => $request->username,
+                'role' => $request->role,
                 'email' => $request->email,
-                'password' => Hash::make($request->password)
+                'alamat' => $request->alamat,
+                'no_hp' => $request->no_hp,
+                'password' => Hash::make($request->password),
+                'foto' => "$path/$file_name"
             ]);
             echo json_encode(['status' => TRUE]);
         }
@@ -69,15 +91,26 @@ class UserController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'nama_lengkap' => 'required|string',
+            'username' => 'required|string|max:255',
+            'role' => 'required',
             'email' => 'required|string|email',
+            'alamat' => 'required',
+            'no_hp' => 'required',
+            'foto'     => 'image|mimes:jpeg,png,jpg|max:2048',
             'password' => 'nullable|min:8',
         ], [
-            'name.required' => 'Username wajib diisi.',
-            'name.unique' => 'Username ini sudah digunakan.',
+            'nama_lengkap.required' => 'Nama Panjang wajib diisi.',
+            'username.required' => 'Username wajib diisi.',
+            'username.unique' => 'Username ini sudah digunakan.',
+            'role.required' => 'Role Panjang wajib diisi.',
             'email.required' => 'Plat Nomor wajib diisi.',
             'email.unique' => 'Plat Nomor ini sudah digunakan.',
             'email.email' => 'Email tidak valid.',
+            'alamat.required' => 'Alamat wajib diisi.',
+            'no_hp.required' => 'No HP wajib diisi.',
+            'foto.required' => 'Foto wajib diisi.',
+            'password.required' => 'Password wajib diisi.',
             'password.unique' => 'Password sudah digunakan.',
         ]);
 
@@ -87,8 +120,12 @@ class UserController extends Controller
             $id = $request->query('q');
             $user = User::find($id);
 
-            $user->name = $request->name;
+            $user->nama_lengkap = $request->nama_lengkap;
+            $user->username = $request->username;
+            $user->role = $request->role;
             $user->email = $request->email;
+            $user->alamat = $request->alamat;
+            $user->no_hp = $request->no_hp;
             $user->password = $request->password;
 
             $user->save();

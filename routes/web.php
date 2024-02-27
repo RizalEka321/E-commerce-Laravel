@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\KatalogController;
 use App\Http\Controllers\Admin\PesananController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Admin\ProyekController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Pembeli\PageController;
@@ -25,7 +26,7 @@ Route::post('/dologin', [AuthController::class, "dologin"])->name('dologin');
 Route::get('/register', [AuthController::class, "register"])->name('register');
 Route::get('/logout', [AuthController::class, "logout"])->name('logout');
 
-Route::middleware(['auth:web'])->group(function () {
+Route::middleware(['auth:web', 'owner'])->group(function () {
     // Dashboard
     Route::get('/admin', [DashboardController::class, "index"])->name('admin.dashboard');
     // Admin Katalog
@@ -42,6 +43,8 @@ Route::middleware(['auth:web'])->group(function () {
     Route::post('/admin/pesanan/update', [PesananController::class, "update"])->name('admin.pesanan.update');
     Route::post('/admin/pesanan/delete', [PesananController::class, "destroy"])->name('admin.pesanan.delete');
     Route::post('/admin/pesanan/update-status', [PesananController::class, "update_status"])->name('admin.pesanan.update-status');
+    // Admin Detail Pesanan
+    Route::get('/admin/pesanan/detail', [PesananController::class, "detail"])->name('admin.pesanan.detail');
     // Admin Proyek
     Route::get('/admin/proyek', [ProyekController::class, "index"])->name('admin.proyek');
     Route::get('/admin/proyek/list', [ProyekController::class, "get_proyek"])->name('admin.get-proyek');
@@ -58,6 +61,14 @@ Route::middleware(['auth:web'])->group(function () {
     Route::post('/admin/user-manajemen/edit', [UserController::class, "edit"])->name('admin.user-manajemen.edit');
     Route::post('/admin/user-manajemen/update', [UserController::class, "update"])->name('admin.user-manajemen.update');
     Route::post('/admin/user-manajemen/delete', [UserController::class, "destroy"])->name('admin.user-manajemen.delete');
+    // Log Aktivitas
+    Route::get('/admin/log', [LogController::class, "index"])->name('admin.log');
+    Route::get('/admin/log/list', [LogController::class, "get_log"])->name('admin.get-log');
+});
+
+Route::middleware(['auth:web', 'pegawai'])->group(function () {
+});
+Route::middleware(['auth:web', 'pembeli'])->group(function () {
 });
 
 // Pembeli

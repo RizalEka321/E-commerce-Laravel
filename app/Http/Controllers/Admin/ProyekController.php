@@ -15,9 +15,9 @@ class ProyekController extends Controller
     {
         return view('Admin.proyek');
     }
-    public function get_proyek(Request $request)
+    public function get_proyek()
     {
-        $data = Proyek::select('id_proyeks', 'instansi', 'quantity', 'total', 'status_pembayaran', 'status_pengerjaan')->get();
+        $data = Proyek::select('id_proyeks', 'instansi', 'jumlah', 'harga_satuan', 'nominal_dp', 'status_pembayaran', 'status_pengerjaan')->get();
         return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
@@ -25,19 +25,34 @@ class ProyekController extends Controller
                         </div>';
                 return $actionBtn;
             })
-            ->addColumn('pengerjaan', function ($row) {
-                $pengerjaanOptions = ['diproses', 'selesai'];
-                $dropdown = '<select class="form-control pengerjaan-dropdown" data-id="' . $row->id_proyeks . '">';
-                foreach ($pengerjaanOptions as $option) {
-                    $selected = ($row->status_pengerjaan == $option) ? 'selected' : '';
-                    $dropdown .= '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
+            ->addColumn('total', function ($row) {
+                if ($row->nominal_dp == null) {
+                    $total = $row->jumlah * $row->harga_satuan;
+                } else {
+                    $total = ($row->jumlah * $row->harga_satuan) - $row->nominal_dp;
                 }
-                $dropdown .= '</select>';
-                return $dropdown;
+                return $total;
             })
             ->addColumn('pembayaran', function ($row) {
                 $pembayaranOptions = ['belum', 'dp', 'lunas'];
-                $dropdown = '<select class="form-control pembayaran-dropdown" data-id="' . $row->id_proyeks . '">';
+                $dropdown = '<select class="form-control pembayaran-dropdown" data-id="' . $row->id_proyeks . '"';
+
+                switch ($row->status_pembayaran) {
+                    case 'belum':
+                        $dropdown .= ' style="background-color: #C51605; color: white;"';
+                        break;
+                    case 'dp':
+                        $dropdown .= ' style="background-color: #0D1282; color: white;"';
+                        break;
+                    case 'lunas':
+                        $dropdown .= ' style="background-color: #009100; color: white;"';
+                        break;
+                    default:
+                        break;
+                }
+
+                $dropdown .= '>';
+
                 foreach ($pembayaranOptions as $option) {
                     $selected = ($row->status_pembayaran == $option) ? 'selected' : '';
                     $dropdown .= '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
@@ -45,7 +60,33 @@ class ProyekController extends Controller
                 $dropdown .= '</select>';
                 return $dropdown;
             })
-            ->rawColumns(['action', 'pengerjaan', 'pembayaran'])
+
+            ->addColumn('pengerjaan', function ($row) {
+                $pengerjaanOptions = ['diproses', 'selesai'];
+                $dropdown = '<select class="form-control pengerjaan-dropdown" data-id="' . $row->id_proyeks . '"';
+
+                switch ($row->status_pengerjaan) {
+                    case 'diproses':
+                        $dropdown .= ' style="background-color: #0D1282; color: white;"';
+                        break;
+                    case 'selesai':
+                        $dropdown .= ' style="background-color: #009100; color: white;"';
+                        break;
+                    default:
+                        break;
+                }
+
+                $dropdown .= '>';
+
+                foreach ($pengerjaanOptions as $option) {
+                    $selected = ($row->status_pengerjaan == $option) ? 'selected' : '';
+                    $dropdown .= '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
+                }
+                $dropdown .= '</select>';
+                return $dropdown;
+            })
+
+            ->rawColumns(['action', 'total', 'pengerjaan', 'pembayaran'])
             ->make(true);
     }
 
@@ -56,12 +97,14 @@ class ProyekController extends Controller
             'instansi' => 'required|string',
             'no_hp' => 'required|string',
             'alamat' => 'required|string',
+            'item' => 'required|string',
             'foto_logo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto_desain' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'deskripsi_proyek' => 'required|string',
-            'quantity' => 'required|numeric',
+            'jumlah' => 'required|numeric',
             'harga_satuan' => 'required|numeric',
-            'dp_proyek' => 'numeric|nullable',
+            'nominal_dp' => 'numeric|nullable',
+            'deadline' => 'required',
         ], [
             'nama_pemesan.required' => 'Nama wajib diisi.',
             'instansi.required' => 'Instansi wajib diisi.',
@@ -70,8 +113,9 @@ class ProyekController extends Controller
             'foto_logo.required' => 'Foto Logo wajib diisi.',
             'foto_desain.required' => 'Foto Desain wajib diisi.',
             'deskripsi_proyek.required' => 'Deskripsi wajib diisi.',
-            'quantity.required' => 'Jumlah wajib diisi.',
+            'jumlah.required' => 'Jumlah wajib diisi.',
             'harga_satuan.required' => 'Harga Satuan wajib diisi.',
+            'deadline.required' => 'Deadline Proyek wajib diisi.',
         ]);
 
         if ($validator->fails()) {
@@ -82,20 +126,20 @@ class ProyekController extends Controller
                 'instansi' => Str::title($request->instansi),
                 'no_hp' => $request->no_hp,
                 'alamat' => $request->alamat,
+                'item' => $request->item,
                 'foto_logo' => $request->file('foto_logo')->store('logo'),
                 'foto_desain' => $request->file('foto_desain')->store('desain'),
                 'deskripsi_proyek' => $request->deskripsi_proyek,
-                'quantity' => $request->quantity,
+                'jumlah' => $request->jumlah,
                 'harga_satuan' => $request->harga_satuan,
+                'deadline' => $request->deadline,
                 'status_pengerjaan' => 'diproses',
             ];
 
-            $proyekData['total'] = $request->harga_satuan * $request->quantity;
-
-            if ($request->dp_proyek == null) {
+            if ($request->nominal_dp == null) {
                 $proyekData['status_pembayaran'] = 'belum';
             } else {
-                $proyekData['dp_proyek'] = $request->dp_proyek;
+                $proyekData['nominal_dp'] = $request->nominal_dp;
                 $proyekData['status_pembayaran'] = 'dp';
             }
 
@@ -121,12 +165,14 @@ class ProyekController extends Controller
             'instansi' => 'required|string',
             'no_hp' => 'required|string',
             'alamat' => 'required|string',
+            'item' => 'required|string',
             'foto_logo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto_desain' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'deskripsi_proyek' => 'required|string',
-            'quantity' => 'required|numeric',
+            'jumlah' => 'required|numeric',
             'harga_satuan' => 'required|numeric',
-            'dp_proyek' => 'numeric|nullable',
+            'nominal_dp' => 'numeric|nullable',
+            'deadline' => 'required',
         ], [
             'nama_pemesan.required' => 'Nama wajib diisi.',
             'instansi.required' => 'Instansi wajib diisi.',
@@ -135,8 +181,9 @@ class ProyekController extends Controller
             'foto_logo.required' => 'Foto Logo wajib diisi.',
             'foto_desain.required' => 'Foto Desain wajib diisi.',
             'deskripsi_proyek.required' => 'Deskripsi wajib diisi.',
-            'quantity.required' => 'Jumlah wajib diisi.',
+            'jumlah.required' => 'Jumlah wajib diisi.',
             'harga_satuan.required' => 'Harga Satuan wajib diisi.',
+            'deadline.required' => 'Deadline Proyek wajib diisi.',
         ]);
 
         if ($validator->fails()) {
@@ -149,11 +196,13 @@ class ProyekController extends Controller
             $ptoyek->instansi = Str::title($request->instansi);
             $ptoyek->no_hp = $request->no_hp;
             $ptoyek->alamat = $request->alamat;
+            $ptoyek->item = $request->item;
             $ptoyek->foto_logo = $request->foto_logo;
             $ptoyek->foto_desain = $request->foto_desain;
             $ptoyek->deskripsi_proyek = $request->deskripsi_proyek;
-            $ptoyek->quantity = $request->quantity;
+            $ptoyek->jumlah = $request->jumlah;
             $ptoyek->harga_satuan = $request->harga_satuan;
+            $ptoyek->deadline = $request->deadline;
 
             if ($request->hasFile('foto')) {
                 if ($ptoyek->foto) {

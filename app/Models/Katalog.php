@@ -19,8 +19,8 @@ class Katalog extends Model
         'foto'
     ];
 
-    public function pesanan()
+    public function detail_pesanan()
     {
-        return $this->hasMany(Pesanan::class);
+        return $this->hasMany(Detail_Pesanan::class);
     }
 }

@@ -31,6 +31,8 @@ class AuthController extends Controller
 
             $role = Auth::user()->role;
 
+            aktivitas('Melakukan Login');
+
             if ($role === 'Owner') {
                 return redirect()->intended('/admin');
             } elseif ($role === 'Pembeli') {

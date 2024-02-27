@@ -13,7 +13,7 @@
                 <table id="tabel_user" class="table table-bordered user" style="width:100%">
                     <thead>
                         <tr>
-                            <th width="10%">Aksi</th>
+                            <th width="5%">Aksi</th>
                             <th width="5%">No</th>
                             <th>Username</th>
                             <th>Email</th>
@@ -145,58 +145,6 @@
             </div>
         </div>
     </div>
-    <!-- Modal -->
-    <div class="modal fade" id="form_modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="ModalLabel"><i class="fa-solid fa-users"></i> TAMBAH AKUN</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="form_tambah" action="{{ url('/admin/user-manajemen/create') }}" method="POST"
-                        class="was-validated" role="form">
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <div class="form-group">
-                                    <label for="name">Username :</label>
-                                    <input id="name" type="text" name="name" value="{{ old('name') }}"
-                                        class="form-control" placeholder="Username" required autofocus>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i></div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-
-                            </div>
-                            <div class="mb-3">
-
-                            </div>
-                            {{-- <div class="mb-3">
-                                <div class="form-group">
-                                    <label for="password_confirmation">Confirm Password :</label>
-                                    <input id="password_confirmation" type="password" name="password_confirmation"
-                                        class="form-control @error('password_confirmation') is-invalid @enderror"
-                                        placeholder="Confirm Password" required autocomplete="new-password">
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i> </div>
-                                </div>
-                            </div> --}}
-                        </div>
-                        <!-- /.card-body -->
-                        <div class="modal-footer">
-                            <div class="btn-group">
-                                <button type="button" id="btn-close" class="btn-hapus" data-bs-dismiss="modal"><i
-                                        class="nav-icon fas fa-arrow-left"></i>&nbsp;&nbsp; KEMBALI</button>
-                                <button type="submit" id="btn-simpan" class="btn-tambah"><i
-                                        class="nav-icon fas fa-save"></i>&nbsp;&nbsp; TAMBAH</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 @section('script')
     <script type="text/javascript">
@@ -244,11 +192,13 @@
                         data: 'action',
                         name: 'action',
                         orderable: true,
-                        searchable: true
+                        searchable: true,
+                        className: 'text-center'
                     },
                     {
                         data: 'DT_RowIndex',
-                        name: 'DT_RowIndex'
+                        name: 'DT_RowIndex',
+                        className: 'text-center'
                     },
                     {
                         data: 'username',
@@ -328,12 +278,21 @@
 
                     if (data.status) {
                         var isi = data.isi;
-                        $('#name').val(isi.name);
+                        $('#nama_lengkap').val(isi.nama_lengkap);
+                        $('#username').val(isi.username);
+                        $('#role').val(isi.role);
                         $('#email').val(isi.email);
+                        $('#no_hp').val(isi.no_hp);
+                        $('#alamat').val(isi.alamat);
                         $('#password').val(isi.password);
+                        if (isi.foto) {
+                            $('#foto').text(isi.foto);
+                        }
 
-                        $('.modal-title').html(
-                            '<h4 class="judul"><i class="fa-solid fa-car"></i> EDIT DATA USER</h4>');
+                        $('#tambah_data').removeClass('hidden');
+                        $('#datane').addClass('hidden');
+                        $('.judul').html(
+                            '<h4 class="judul"><i class="fa-solid fa-users"></i> EDIT DATA USER</h4>');
                         $('#btn-simpan').html(
                             '<i class="nav-icon fas fa-save"></i>&nbsp;&nbsp; SIMPAN');
                     } else {

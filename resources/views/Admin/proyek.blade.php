@@ -14,13 +14,13 @@
                 <table id="tabel_proyek" class="table table-bordered" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Aksi</th>
-                            <th>No</th>
+                            <th width="5%">Aksi</th>
+                            <th width="5%">No</th>
                             <th>Instansi</th>
-                            <th>QTY</th>
+                            <th width="5%">Jumlah</th>
                             <th>Total</th>
-                            <th>Pembayaran</th>
-                            <th>Status</th>
+                            <th width="15%">Pembayaran</th>
+                            <th width="15%">Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -81,7 +81,27 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="input_foto" class="row gx-5 mb-3 hidden">
+                        <div class="row gx-5 mb-3 hidden">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="item">Item :</label>
+                                    <input id="item" type="text" name="item" value="{{ old('item') }}"
+                                        class="form-control" placeholder="Masukkan item yang dipesan" required autofocus>
+                                    <div class="valid-feedback"><i>*valid</i> </div>
+                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="deadline">Deadline Proyek :</label>
+                                    <input id="deadline" type="date" name="deadline" value="{{ old('deadline') }}"
+                                        class="form-control" placeholder="Masukkan Deadline Proyek" required autofocus>
+                                    <div class="valid-feedback"><i>*valid</i> </div>
+                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row gx-5 mb-3 hidden">
                             <div class="col">
                                 <div class="form-group">
                                     <label for="foto_logo">Gambar Logo :</label>
@@ -94,8 +114,8 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="foto_desain">Gambar Desain :</label>
-                                    <input id="foto_desain" type="file" name="foto_desain" class="form-control" required
-                                        autofocus>
+                                    <input id="foto_desain" type="file" name="foto_desain" class="form-control"
+                                        required autofocus>
                                     <div class="valid-feedback"><i>*valid</i> </div>
                                     <div class="invalid-feedback"><i>*required</i> </div>
                                 </div>
@@ -115,9 +135,10 @@
                         <div class="row gx-5 mb-3">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="quantity">Jumlah :</label>
-                                    <input id="quantity" type="number" name="quantity" value="{{ old('quantity') }}"
-                                        class="form-control" max="9999" placeholder="jumlah" required autofocus>
+                                    <label for="jumlah">Jumlah :</label>
+                                    <input id="jumlah" type="number" name="jumlah" value="{{ old('jumlah') }}"
+                                        class="form-control" max="9999" placeholder="Masukkan jumlah" required
+                                        autofocus>
                                     <span class="error-message text-danger" id="error-tahun"></span>
                                 </div>
                             </div>
@@ -134,8 +155,8 @@
                         </div>
                         <div id="input_dp" class="mb-5">
                             <div class="form-group">
-                                <label for="dp_proyek">DP Proyek(opsional) :</label>
-                                <input id="dp_proyek" type="text" name="dp_proyek" value="{{ old('dp_proyek') }}"
+                                <label for="nominal_dp">DP Proyek(opsional) :</label>
+                                <input id="nominal_dp" type="text" name="nominal_dp" value="{{ old('nominal_dp') }}"
                                     class="form-control" placeholder="Masukkan DP Proyek">
                             </div>
                         </div>
@@ -203,19 +224,22 @@
                         data: 'action',
                         name: 'action',
                         orderable: true,
-                        searchable: true
+                        searchable: true,
+                        className: 'text-center'
                     },
                     {
                         data: 'DT_RowIndex',
-                        name: 'DT_RowIndex'
+                        name: 'DT_RowIndex',
+                        className: 'text-center'
                     },
                     {
                         data: 'instansi',
                         name: 'instansi',
                     },
                     {
-                        data: 'quantity',
-                        name: 'quantity',
+                        data: 'jumlah',
+                        name: 'jumlah',
+                        className: 'text-center'
                     },
                     {
                         data: 'total',
@@ -301,15 +325,22 @@
                         $('#instansi').val(isi.instansi);
                         $('#no_hp').val(isi.no_hp);
                         $('#alamat').val(isi.alamat);
-                        $('#instansi').val(isi.instansi);
-                        $('#quantity').val(isi.quantity);
+                        $('#item').val(isi.item);
+                        $('#deadline').val(isi.deadline);
+                        $('#jumlah').val(isi.jumlah);
                         $('#harga_satuan').val(isi.harga_satuan);
-                        // $('#foto').val(isi.foto);
+                        if (isi.foto_logo) {
+                            $('#foto_logo').text(isi.foto_logo);
+                        }
+
+                        // Set label file untuk foto desain jika ada
+                        if (isi.foto_desain) {
+                            $('#foto_desain').text(isi.foto_desain);
+                        }
+
                         var editor = document.getElementById('trix_deskripsi');
                         editor.editor.loadHTML(isi.deskripsi_proyek);
 
-
-                        $('#input_foto').addClass('hidden');
                         $('#input_dp').addClass('hidden');
                         $('#tambah_data').removeClass('hidden');
                         $('#datane').addClass('hidden');
