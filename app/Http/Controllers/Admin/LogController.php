@@ -15,7 +15,7 @@ class LogController extends Controller
 
     public function get_log()
     {
-        $data = Log::select('id_logs', 'aktivitas', 'user', 'created_at')->get();
+        $data = Log::select('id_log', 'aktivitas', 'users_id', 'created_at')->with('user')->get();
         return Datatables::of($data)
             ->addIndexColumn()
             ->make(true);

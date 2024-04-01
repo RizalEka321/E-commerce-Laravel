@@ -91,41 +91,41 @@ Home page styles
 }
 
 /* Home Katalog styles */
-.katalog {
+.produk {
     color: var(--dark);
 }
 
-.katalog span {
+.produk span {
     font-size: 30px;
     font-weight: 600;
 }
 
-.katalog .hr-katalog {
+.produk .hr-produk {
     border-width: 2px;
 }
 
-.katalog .info-area .kategori {
+.produk .info-area .kategori {
     color: #B500A0;
     background-color: #ce3abd5e;
     text-align: center;
     border-radius: 10px;
 }
 
-.katalog .info-area .jenis {
+.produk .info-area .jenis {
     color: #B500A0;
     font-size: 18px;
 }
 
-.katalog .info-area h4 {
+.produk .info-area h4 {
     font-size: 20px;
     font-weight: 600;
 }
 
-.katalog .info-area h6 {
+.produk .info-area h6 {
     font-size: 15px;
 }
 
-.katalog .single-box {
+.produk .single-box {
     box-shadow: 0px 0px 4px #c7c7c7;
     color: black;
     margin: 5px 2px;
@@ -134,14 +134,14 @@ Home page styles
     background-color: white;
 }
 
-.katalog .single-box img {
+.produk .single-box img {
     width: 100%;
     height: 250px;
     object-fit: cover;
     border-radius: 5px 5px 0 0;
 }
 
-.katalog .btn-beli {
+.produk .btn-beli {
     margin-top: 10px;
     margin-bottom: 20px;
     font-weight: 500;
@@ -156,7 +156,7 @@ Home page styles
     background: linear-gradient(to bottom left, #000000, #000000);
 }
 
-.katalog .btn-beli:hover {
+.produk .btn-beli:hover {
     -webkit-transform: scale(1.1);
     color: var(--dark);
     border-color: var(--dark);
@@ -164,12 +164,12 @@ Home page styles
 }
 
 /* Owl Carousel dots styles */
-.katalog .owl-dots {
+.produk .owl-dots {
     text-align: center;
     margin-top: 5px;
 }
 
-.katalog .owl-dots button.owl-dot {
+.produk .owl-dots button.owl-dot {
     width: 15px;
     height: 15px;
     border-radius: 50%;
@@ -179,10 +179,10 @@ Home page styles
     margin: 0 3px;
 }
 
-.katalog .owl-dots button.owl-dot.active {
+.produk .owl-dots button.owl-dot.active {
     background-color: var(--dark);
 }
 
-.katalog .owl-dots button.owl-dot:focus {
+.produk .owl-dots button.owl-dot:focus {
     outline: none;
 }

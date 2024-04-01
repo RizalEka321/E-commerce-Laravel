@@ -15,6 +15,6 @@ function aktivitas($aksi)
 {
     $log = new Log();
     $log->aktivitas = $aksi;
-    $log->user = Auth::user()->username;
+    $log->users_id = Auth::user()->id;
     $log->save();
 }

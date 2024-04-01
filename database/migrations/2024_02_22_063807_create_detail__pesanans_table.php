@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('detail_pesanans', function (Blueprint $table) {
-            $table->id('id_details');
-            $table->foreignId('katalogs_id');
-            $table->foreignId('pesanans_id');
+        Schema::create('detail_pesanan', function (Blueprint $table) {
+            $table->id('id_detail');
+            $table->foreignId('produk_id');
+            $table->foreignId('pesanan_id');
             $table->integer('jumlah');
-            $table->foreign('katalogs_id')->references('id_katalogs')->on('katalogs');
-            $table->foreign('pesanans_id')->references('id_pesanans')->on('pesanans');
+            $table->foreign('produk_id')->references('id_produk')->on('produk');
+            $table->foreign('pesanan_id')->references('id_pesanan')->on('pesanan');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('detail__pesanans');
+        Schema::dropIfExists('detail__pesanan');
     }
 };

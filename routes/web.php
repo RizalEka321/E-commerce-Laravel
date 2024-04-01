@@ -1,14 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\KatalogController;
+use App\Http\Controllers\Admin\KontakController;
+use App\Http\Controllers\Admin\ProdukController;
+use App\Http\Controllers\Admin\ProyekController;
+use App\Http\Controllers\Pembeli\PageController;
+use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\PesananController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\LogController;
-use App\Http\Controllers\Admin\ProyekController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Pembeli\PageController;
+use App\Http\Controllers\Admin\DetailPesananController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,12 +33,13 @@ Route::middleware(['auth:web', 'owner'])->group(function () {
     // Dashboard
     Route::get('/admin', [DashboardController::class, "index"])->name('admin.dashboard');
     // Admin Katalog
-    Route::get('/admin/katalog', [KatalogController::class, "index"])->name('admin.katalog');
-    Route::get('/admin/katalog/list', [KatalogController::class, "get_katalog"])->name('admin.get-katalog');
-    Route::post('/admin/katalog/create', [KatalogController::class, "store"])->name('admin.katalog.create');
-    Route::post('/admin/katalog/edit', [KatalogController::class, "edit"])->name('admin.katalog.edit');
-    Route::post('/admin/katalog/update', [KatalogController::class, "update"])->name('admin.katalog.update');
-    Route::post('/admin/katalog/delete', [KatalogController::class, "destroy"])->name('admin.katalog.delete');
+    Route::get('/tes', [ProdukController::class, "index1"])->name('admin.tes');
+    Route::get('/admin/produk', [ProdukController::class, "index"])->name('admin.produk');
+    Route::get('/admin/produk/list', [ProdukController::class, "get_produk"])->name('admin.get-produk');
+    Route::post('/admin/produk/create', [ProdukController::class, "store"])->name('admin.produk.create');
+    Route::post('/admin/produk/edit', [ProdukController::class, "edit"])->name('admin.produk.edit');
+    Route::post('/admin/produk/update', [ProdukController::class, "update"])->name('admin.produk.update');
+    Route::post('/admin/produk/delete', [ProdukController::class, "destroy"])->name('admin.produk.delete');
     // Admin Pesanan
     Route::get('/admin/pesanan', [PesananController::class, "index"])->name('admin.pesanan');
     Route::get('/admin/pesanan/list', [PesananController::class, "get_pesanan"])->name('admin.get-pesanan');
@@ -44,7 +48,8 @@ Route::middleware(['auth:web', 'owner'])->group(function () {
     Route::post('/admin/pesanan/delete', [PesananController::class, "destroy"])->name('admin.pesanan.delete');
     Route::post('/admin/pesanan/update-status', [PesananController::class, "update_status"])->name('admin.pesanan.update-status');
     // Admin Detail Pesanan
-    Route::get('/admin/pesanan/detail', [PesananController::class, "detail"])->name('admin.pesanan.detail');
+    Route::get('/admin/pesanan/detail/{id}', [DetailPesananController::class, "detail"])->name('admin.pesanan.detail');
+    Route::get('/admin/pesanan/detail/list/{id}', [DetailPesananController::class, "get_detailpesanan"])->name('admin.get-detailpesanan');
     // Admin Proyek
     Route::get('/admin/proyek', [ProyekController::class, "index"])->name('admin.proyek');
     Route::get('/admin/proyek/list', [ProyekController::class, "get_proyek"])->name('admin.get-proyek');
@@ -54,6 +59,12 @@ Route::middleware(['auth:web', 'owner'])->group(function () {
     Route::post('/admin/proyek/delete', [ProyekController::class, "destroy"])->name('admin.proyek.delete');
     Route::post('/admin/proyek/update-pengerjaan', [ProyekController::class, "update_pengerjaan"])->name('admin.proyek.update-pengerjaan');
     Route::post('/admin/proyek/update-pembayaran', [ProyekController::class, "update_pembayaran"])->name('admin.proyek.update-pembayaran');
+    // Laporan Pendapatan
+    Route::get('/admin/laporan', [LaporanController::class, "index"])->name('admin.laporan');
+    Route::post('/admin/laporan/cetak', [LaporanController::class, "cetak"])->name('admin.laporan.cetak');
+    // Kontak
+    Route::get('/admin/kontak', [KontakController::class, "index"])->name('admin.kontak');
+    Route::post('/admin/kontak/update', [KontakController::class, "update"])->name('admin.kontak.update');
     // Admin User Manajemen
     Route::get('/admin/user-manajemen', [UserController::class, "index"])->name('admin.user-manajemen');
     Route::get('/admin/user-manajemen/list', [UserController::class, "get_user"])->name('admin.get-user');
@@ -66,10 +77,15 @@ Route::middleware(['auth:web', 'owner'])->group(function () {
     Route::get('/admin/log/list', [LogController::class, "get_log"])->name('admin.get-log');
 });
 
-Route::middleware(['auth:web', 'pegawai'])->group(function () {
-});
-Route::middleware(['auth:web', 'pembeli'])->group(function () {
-});
+// Route::middleware(['auth:web', 'pegawai'])->group(function () {
+// });
+// Route::middleware(['auth:web', 'pembeli'])->group(function () {
+// });
 
 // Pembeli
 Route::get('/', [PageController::class, "page_home"])->name('pembeli.dashboard');
+Route::get('/produk/{slug}', [PageController::class, "page_detail_produk"])->name('pembeli.detail_produk');
+Route::get('/keranjang', [PageController::class, "page_keranjang"])->name('pembeli.keranjang');
+Route::patch('/keranjang/update', [PageController::class, "update_keranjang"])->name('keranjang.update');
+Route::delete('/keranjang/remove', [PageController::class, "remove_keranjang"])->name('keranjang.remove');
+Route::get('/keranjang/total', [PageController::class, "total_keranjang"])->name('keranjang.total');

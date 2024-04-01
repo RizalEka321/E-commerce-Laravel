@@ -18,15 +18,46 @@ class PesananController extends Controller
     }
     public function get_pesanan()
     {
-        $data = Pesanan::select('id_pesanans', 'users_id', 'metode_pengiriman', 'metode_pembayaran', 'status')->with('user')->get();
+        $data = Pesanan::select('id_pesanan', 'users_id', 'metode_pengiriman', 'metode_pembayaran', 'status')->with('user')->get();
         return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
-                $actionBtn = '<div class="btn-group"><a href="javascript:void(0)" type="button" id="btn-edit" class="btn-edit" onClick="edit_data(' . "'" . $row->id_pesanans . "'" . ')"><i class="fa-solid fa-pen-to-square"></i></a><a href="javascript:void(0)" type="button" id="btn-ubah" class="btn-ubah" onClick="detail_data(' . "'" . $row->id_pesanans . "'" . ')"><i class="fa-solid fa-eye"></i></a> <a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' . "'" . $row->id_pesanans . "'" . ')"><i class="fa-solid fa-trash-can"></i></a>
-                        </div>';
+                $actionBtn = '<div class="btn-group">' .
+                    '<a href="javascript:void(0)" type="button" id="btn-edit" class="btn-edit" onClick="edit_data(' . "'" . $row->id_pesanan . "'" . ')"><i class="fa-solid fa-pen-to-square"></i></a>' .
+                    '<a href="' . route('admin.pesanan.detail', $row->id_pesanan) . '" type="button" id="btn-ubah" class="btn-ubah"><i class="fa-solid fa-eye"></i></a>' .
+                    '<a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' . "'" . $row->id_pesanan . "'" . ')"><i class="fa-solid fa-trash-can"></i></a>' .
+                    '</div>';
                 return $actionBtn;
             })
-            ->rawColumns(['action'])
+            ->addColumn('status_pengerjaan', function ($row) {
+                $statusOptions = ['Menunggu Pembayaran', 'Diproses', 'Selesai'];
+                $dropdown = '<select class="form-control status-dropdown" data-id="' . $row->id_pesanan . '"';
+
+                switch ($row->status) {
+                    case 'Menunggu Pembayaran':
+                        $dropdown .= ' style="background-color: #C51605; color: white;"';
+                        break;
+                    case 'Diproses':
+                        $dropdown .= ' style="background-color: #0D1282; color: white;"';
+                        break;
+                    case 'Selesai':
+                        $dropdown .= ' style="background-color: #009100; color: white;"';
+                        break;
+                    default:
+                        break;
+                }
+
+                $dropdown .= '>';
+
+                foreach ($statusOptions as $option) {
+                    $selected = ($row->status == $option) ? 'selected' : '';
+                    $dropdown .= '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
+                }
+                $dropdown .= '</select>';
+                return $dropdown;
+            })
+
+            ->rawColumns(['action', 'status_pengerjaan'])
             ->make(true);
     }
 
@@ -36,14 +67,6 @@ class PesananController extends Controller
         $pesanan = Pesanan::find($id);
 
         echo json_encode(['status' => TRUE, 'isi' => $pesanan]);
-    }
-
-    public function detail(Request $request)
-    {
-        $id = $request->input('q');
-        $detail = Detail_Pesanan::where('pesanans_id', $id)->with('katalog')->get();
-
-        return response()->json($detail);
     }
 
     public function update(Request $request)

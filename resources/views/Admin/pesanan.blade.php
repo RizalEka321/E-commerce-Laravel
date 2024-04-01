@@ -26,66 +26,7 @@
             </div>
         </div>
     </div>
-    {{-- Detail --}}
-    <div id="detail_pesanan" class="details">
-        <div class="content">
-            <div class="container">
-                <div class="card_header pt-1">
-                    <h4 class="judul"><i class="fa-solid fa-truck-fast"></i>DETAIL PESANAN</h4>
-                    <hr>
-                </div>
-                <div class="row">
-                    <div class="col-5">
-                        <table border="2">
-                            <tbody>
-                                <tr>
-                                    <td width="27%">ID Pesanan</td>
-                                    <td width="2%">:</td>
-                                    <td>Bang Johnes</td>
-                                </tr>
-                                <tr>
-                                    <td>Nama</td>
-                                    <td>:</td>
-                                    <td>Blogger</td>
-                                </tr>
-                                <tr>
-                                    <td>No HP</td>
-                                    <td>:</td>
-                                    <td>Blogger</td>
-                                </tr>
-                                <tr>
-                                    <td>Pengiriman</td>
-                                    <td>:</td>
-                                    <td>Blogger</td>
-                                </tr>
-                                <tr>
-                                    <td>Pembayaran</td>
-                                    <td>:</td>
-                                    <td>Blogger</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col-7">
-                        <table id="tabel_detail" class="table table-bordered" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th width="10%">Aksi</th>
-                                    <th width="5%">No</th>
-                                    <th>Katalog</th>
-                                    <th>jumlah</th>
-                                    <th>total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {{-- Form Edit Data --}}
+    {{-- Form Data --}}
     <div id="tambah_data" class="details hidden">
         <div class="content">
             <div class="card border-0">
@@ -155,36 +96,6 @@
                         </div>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-    {{-- Modal Detail --}}
-    <div class="modal fade" id="modal_detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Pesanan</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <table id="tabel_detail" class="table table-bordered" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Aksi</th>
-                                <th>No</th>
-                                <th>Katalog</th>
-                                <th>Pengiriman</th>
-                                <th>Pembayaran</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                </div>
             </div>
         </div>
     </div>
@@ -258,8 +169,8 @@
                         name: 'metode_pembayaran',
                     },
                     {
-                        data: 'status',
-                        name: 'status',
+                        data: 'status_pengerjaan',
+                        name: 'status_pengerjaan',
                     }
                 ]
             });
@@ -408,36 +319,5 @@
                 }
             });
         });
-
-        // Detail Pesanan
-        function detail_data(id) {
-            $.ajax({
-                url: "{{ url('/admin/pesanan/detail') }}",
-                method: 'GET',
-                data: {
-                    q: id
-                },
-                success: function(response) {
-                    var rows = '';
-                    $.each(response, function(index, item) {
-                        rows += '<tr>';
-                        rows +=
-                            '<td><div class="btn-group"><a href="javascript:void(0)" type="button" id="btn-edit" class="btn-edit" onClick="edit_data(' +
-                            item.id_details +
-                            ')"><i class="fa-solid fa-pen-to-square"></i></a><a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' +
-                            item.id_details +
-                            ')"><i class="fa-solid fa-trash-can"></i></a></div></td>';
-                        rows += '<td class="text-center">' + (index + 1) + '</td>';
-                        rows += '<td>' + item.katalog.judul + '</td>';
-                        rows += '<td>' + item.jumlah + '</td>';
-                        rows += '</tr>';
-                    });
-                    $('#tabel_detail tbody').append(rows);
-                },
-                error: function(xhr, status, error) {
-                    // Handle errors here
-                }
-            });
-        }
     </script>
 @endsection

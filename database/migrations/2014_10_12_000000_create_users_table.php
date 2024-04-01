@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('nama_lengkap');
             $table->string('username')->unique();
-            $table->enum('role', ['Owner', 'Pegawai', 'Pembeli']);
             $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
             $table->string('alamat');
             $table->string('no_hp');
             $table->string('foto');
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->enum('role', ['Owner', 'Pegawai', 'Pembeli']);
             $table->rememberToken();
             $table->timestamps();
         });

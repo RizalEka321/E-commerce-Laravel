@@ -12,7 +12,8 @@
 <nav class="navbar navbar-expand-lg navbar-light" data-aos="fade-down">
     <div class="container">
         <a href="{{ route('pembeli.dashboard') }}" class="navbar-brand">
-            <img src="/images/logo.svg" alt="Logo" />
+            {{-- <img src="/images/logo.svg" alt="Logo" /> --}}
+            LOKAL-INDUSTRI
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,6 +92,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('pembeli.dashboard') }}"><i class="fa-solid fa-house "></i>
                             Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('pembeli.keranjang') }}"><i class="fas fa-shopping-cart"></i>
+                            Keranjang</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('login') }}">Login</a>

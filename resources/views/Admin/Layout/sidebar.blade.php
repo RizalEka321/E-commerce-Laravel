@@ -14,15 +14,16 @@
                 </span>
             </a>
         <li>
-            <a href="{{ route('admin.katalog') }}" class="nav-link {{ set_active('admin.katalog') }}">
+            <a href="{{ route('admin.produk') }}" class="nav-link {{ set_active('admin.produk') }}">
                 <i class="fa-solid fa-shirt"></i>
                 <span class="links_name">
-                    Katalog
+                    Produk
                 </span>
             </a>
         </li>
         <li>
-            <a href="{{ route('admin.pesanan') }}" class="nav-link {{ set_active('admin.pesanan') }}">
+            <a href="{{ route('admin.pesanan') }}"
+                class="nav-link {{ set_active(['admin.pesanan', 'admin.pesanan.detail']) }}">
                 <i class="fa-solid fa-truck-fast"></i>
                 <span class="links_name">
                     Pesanan
@@ -38,7 +39,15 @@
             </a>
         </li>
         <li>
-            <a href="#" class="nav-link" id="kontak">
+            <a href="{{ route('admin.laporan') }}" class="nav-link {{ set_active('admin.laporan') }}">
+                <i class="fa-solid fa-book"></i>
+                <span class="links_name">
+                    Laporan
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('admin.kontak') }}" class="nav-link {{ set_active('admin.kontak') }}">
                 <i class="fa-solid fa-address-book"></i>
                 <span class="links_name">
                     Kontak Perusahaan

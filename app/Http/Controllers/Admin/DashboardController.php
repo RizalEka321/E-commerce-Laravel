@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Produk;
+use App\Models\Proyek;
+use App\Models\Pesanan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Katalog;
-use App\Models\Pesanan;
-use App\Models\Proyek;
 
 class DashboardController extends Controller
 {
@@ -15,10 +15,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $katalog = Katalog::count();
+        $produk = Produk::count();
         $pesanan = Pesanan::count();
         $proyek = Proyek::count();
-        return view('Admin.dashboard', compact('katalog', 'pesanan', 'proyek'));
+        return view('Admin.dashboard', compact('produk', 'pesanan', 'proyek'));
     }
 
     /**

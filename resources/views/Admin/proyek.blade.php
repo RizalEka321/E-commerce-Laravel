@@ -38,26 +38,23 @@
                     <hr>
                 </div>
                 <form id="form_tambah" action="{{ url('/admin/proyek/create') }}" method="POST"
-                    enctype="multipart/form-data" class="was-validated" role="form">
+                    enctype="multipart/form-data" role="form">
                     <div class="card-body">
                         <div class="row gx-5 mb-3">
                             <div class="col">
                                 <div class="form-group">
                                     <label for="nama_pemesan">Nama Pemesan :</label>
                                     <input id="nama_pemesan" type="text" name="nama_pemesan"
-                                        value="{{ old('nama_pemesan') }}" class="form-control" placeholder="Masukkan Nama"
-                                        required autofocus>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                        value="{{ old('nama_pemesan') }}" class="form-control" placeholder="Masukkan Nama">
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="instansi">Perusahan/instansi :</label>
                                     <input id="instansi" type="text" name="instansi" value="{{ old('instansi') }}"
-                                        class="form-control" placeholder="Masukkan Nama Instansi" required autofocus>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                        class="form-control" placeholder="Masukkan Nama Instansi">
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                         </div>
@@ -66,18 +63,16 @@
                                 <div class="form-group">
                                     <label for="no_hp">No Handphone(HP) :</label>
                                     <input id="no_hp" type="text" name="no_hp" value="{{ old('no_hp') }}"
-                                        class="form-control" placeholder="Masukkan No HP" required autofocus>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                        class="form-control" placeholder="Masukkan No HP">
+                                    <span class="form-text text-danger error-message"></span>
+
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="alamat">Alamat :</label>
-                                    <textarea id="alamat" name="alamat" class="form-control" placeholder="Masukkan Alamat" id="alamat" required
-                                        autofocus>{{ old('alamat') }}</textarea>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                    <textarea id="alamat" name="alamat" class="form-control" placeholder="Masukkan Alamat" id="alamat">{{ old('alamat') }}</textarea>
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                         </div>
@@ -86,18 +81,16 @@
                                 <div class="form-group">
                                     <label for="item">Item :</label>
                                     <input id="item" type="text" name="item" value="{{ old('item') }}"
-                                        class="form-control" placeholder="Masukkan item yang dipesan" required autofocus>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                        class="form-control" placeholder="Masukkan item yang dipesan">
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="deadline">Deadline Proyek :</label>
                                     <input id="deadline" type="date" name="deadline" value="{{ old('deadline') }}"
-                                        class="form-control" placeholder="Masukkan Deadline Proyek" required autofocus>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                        class="form-control" placeholder="Masukkan Deadline Proyek">
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                         </div>
@@ -105,31 +98,26 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="foto_logo">Gambar Logo :</label>
-                                    <input id="foto_logo" type="file" name="foto_logo" class="form-control" required
-                                        autofocus>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                    <input id="foto_logo" type="file" name="foto_logo" class="form-control" autofocus>
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="foto_desain">Gambar Desain :</label>
-                                    <input id="foto_desain" type="file" name="foto_desain" class="form-control"
-                                        required autofocus>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                    <input id="foto_desain" type="file" name="foto_desain" class="form-control">
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
                             <div class="form-group">
                                 <label for="deskripsi_proyek">Deskripsi :</label>
-                                <input id="deskripsi_proyek" type="hidden" name="deskripsi_proyek"
+                                <input id="input_deskripsi_proyek" type="hidden" name="deskripsi_proyek"
                                     value="{{ old('deskripsi_proyek') }}">
-                                <trix-editor input="deskripsi_proyek" id="trix_deskripsi" class="form-control"
-                                    placeholder="Deskripsi" required autofocus></trix-editor>
-                                <div class="valid-feedback"><i>*valid</i> </div>
-                                <div class="invalid-feedback"><i>*required</i> </div>
+                                <trix-editor input="input_deskripsi_proyek" id="deskripsi_proyek" class="form-control"
+                                    placeholder="Deskripsi"></trix-editor>
+                                <span class="form-text text-danger error-message"></span>
                             </div>
                         </div>
                         <div class="row gx-5 mb-3">
@@ -137,9 +125,8 @@
                                 <div class="form-group">
                                     <label for="jumlah">Jumlah :</label>
                                     <input id="jumlah" type="number" name="jumlah" value="{{ old('jumlah') }}"
-                                        class="form-control" max="9999" placeholder="Masukkan jumlah" required
-                                        autofocus>
-                                    <span class="error-message text-danger" id="error-tahun"></span>
+                                        class="form-control" max="9999" placeholder="Masukkan jumlah">
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                             <div class="col">
@@ -147,9 +134,8 @@
                                     <label for="harga_satuan">Harga Satuan :</label>
                                     <input id="harga_satuan" type="text" name="harga_satuan"
                                         value="{{ old('harga_satuan') }}" class="form-control"
-                                        placeholder="Masukkan Harga Satuan" required autofocus>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                        placeholder="Masukkan Harga Satuan">
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                         </div>
@@ -158,6 +144,7 @@
                                 <label for="nominal_dp">DP Proyek(opsional) :</label>
                                 <input id="nominal_dp" type="text" name="nominal_dp" value="{{ old('nominal_dp') }}"
                                     class="form-control" placeholder="Masukkan DP Proyek">
+                                <span class="form-text text-danger error-message"></span>
                             </div>
                         </div>
                         <!-- /.card-body -->
@@ -279,9 +266,10 @@
                     success: function(data) {
                         $('.error-message').empty();
                         if (data.errors) {
-                            // $.each(data.errors, function(key, value) {
-                            //     Swal.fire('Upss..!', value, 'error');
-                            // });
+                            $.each(data.errors, function(key, value) {
+                                // Show error message below each input
+                                $('#' + key).next('.error-message').text('*' + value);
+                            });
                             Swal.fire("Error", "Datanya ada yang kurang", "error");
                         } else {
                             reset_form();
@@ -316,11 +304,10 @@
                     q: id
                 },
                 dataType: "JSON",
-                success: function(data) {
-                    console.log(data);
-
-                    if (data.status) {
-                        var isi = data.isi;
+                success: function(response) {
+                    console.log(response);
+                    if (response.status) {
+                        var isi = response.proyek;
                         $('#nama_pemesan').val(isi.nama_pemesan);
                         $('#instansi').val(isi.instansi);
                         $('#no_hp').val(isi.no_hp);
@@ -338,7 +325,7 @@
                             $('#foto_desain').text(isi.foto_desain);
                         }
 
-                        var editor = document.getElementById('trix_deskripsi');
+                        var editor = document.getElementById('deskripsi_proyek');
                         editor.editor.loadHTML(isi.deskripsi_proyek);
 
                         $('#input_dp').addClass('hidden');

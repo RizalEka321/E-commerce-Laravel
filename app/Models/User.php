@@ -50,6 +50,14 @@ class User extends Authenticatable
 
     public function pesanan()
     {
-        return $this->hasMany(Pesanan::class, 'katalogs_id');
+        return $this->hasMany(Pesanan::class);
+    }
+    public function keranjang()
+    {
+        return $this->hasMany(Pesanan::class);
+    }
+    public function log()
+    {
+        return $this->hasMany(Pesanan::class);
     }
 }

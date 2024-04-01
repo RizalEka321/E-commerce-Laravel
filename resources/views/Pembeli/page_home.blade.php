@@ -47,38 +47,48 @@
     {{-- ./Banner --}}
 
     {{-- Profile Perusahaan --}}
-    <section class="profile-perusahaan">
+    <section class="produk">
         <div class="container">
             <div class="text-center">
-                <hr class="hr-katalog opacity-100" data-aos="flip-right" data-aos-delay="100">
+                <hr class="hr-produk opacity-100" data-aos="flip-right" data-aos-delay="100">
                 <span data-aos="zoom-in">Profile Perusahaan</span>
-                <hr class="hr-katalog opacity-100" data-aos="flip-right" data-aos-delay="100">
+                <hr class="hr-produk opacity-100" data-aos="flip-right" data-aos-delay="100">
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <h2>Profil Perusahaan</h2>
-                    <p>Deskripsi singkat tentang perusahaan Anda di sini...</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem eum porro ea illo repellat quis
+                        consequatur sint deserunt sed atque, molestias veritatis tempore? Maiores labore ipsam, odio eaque
+                        totam explicabo tempore? Doloremque sunt perferendis dolore odit dolorem reprehenderit provident
+                        eaque. Quod veniam ex esse vitae, provident deserunt illo rem? Quae quos laboriosam eum! Blanditiis
+                        quod, aspernatur totam quas, dolore dignissimos officiis minus quaerat magni quo, corporis numquam a
+                        repellat consequuntur quis doloremque vitae eveniet recusandae. Cupiditate commodi ea sequi,
+                        provident nobis omnis cumque quidem quis eius mollitia suscipit soluta, at iure unde, recusandae
+                        libero fugit animi sit placeat molestiae repudiandae saepe nam consectetur praesentium? Perspiciatis
+                        ducimus eum ex temporibus cupiditate qui omnis veritatis veniam, vitae, doloremque fuga laborum odio
+                        quaerat obcaecati eos voluptatibus, inventore nisi pariatur corrupti earum maxime dolor error. Quasi
+                        nesciunt quo, totam ipsum repudiandae aspernatur ipsa.</p>
                 </div>
                 <div class="col-md-6">
-                    <img src="{{ asset('path/to/your_image.jpg') }}" class="img-fluid" alt="Company Image">
+                    <img src="{{ asset('assets/Pembeli/img/default/produk.png') }}" class="img-fluid" width="100%"
+                        alt="Company Image">
                 </div>
             </div>
         </div>
     </section>
-    {{-- ./Profile Perusahaan --}}
+    {{-- Profile Perusahaan --}}
 
-
-    {{-- Katalog --}}
-    <section class="katalog">
+    {{-- Produk --}}
+    <section class="produk">
         <div class="container py-3 mt-3">
             <div class="text-center">
-                <hr class="hr-katalog opacity-100" data-aos="flip-right" data-aos-delay="100">
-                <span data-aos="zoom-in">Katalog</span>
-                <hr class="hr-katalog opacity-100" data-aos="flip-right" data-aos-delay="100">
+                <hr class="hr-produk opacity-100" data-aos="flip-right" data-aos-delay="100">
+                <span data-aos="zoom-in">Produk</span>
+                <hr class="hr-produk opacity-100" data-aos="flip-right" data-aos-delay="100">
             </div>
             <div class="col-lg-12 my-5" data-aos="zoom-in">
-                <div class="katalog-slider owl-carousel">
-                    @foreach ($katalog as $k)
+                <div class="produk-slider owl-carousel">
+                    @foreach ($produk as $k)
                         <div class="single-box text-center">
                             <div class="img-area">
                                 <img alt="" class="img-fluid move-animation" src="{{ asset($k->foto) }}" />
@@ -87,7 +97,7 @@
                                 {{-- <p class="kategori mt-1 mx-3">{{ $k->judul }}</p> --}}
                                 <h4 id="title_card">{{ Str::limit($k->judul, 20) }}</h4>
                                 <h6 class="price">Rp {{ number_format($k->harga, 0, '.', '.') }}</h6>
-                                <a href="#" class="btn-beli">Beli</a>
+                                <a href="{{ route('pembeli.detail_produk', $k->slug) }}" class="btn-beli">Beli</a>
                             </div>
                         </div>
                     @endforeach
@@ -95,14 +105,16 @@
             </div>
         </div>
     </section>
-    {{-- ./Paket Usaha --}}
-    <section>
-        <h1>TES</h1>
-    </section>
+    {{-- Produk --}}
 
     {{-- FAQ --}}
-    <section class="faq">
-        <div class="container">
+    <section class="produk">
+        <div class="container py-3 mt-3">
+            <div class="text-center">
+                <hr class="hr-produk opacity-100" data-aos="flip-right" data-aos-delay="100">
+                <span data-aos="zoom-in">Kontak</span>
+                <hr class="hr-produk opacity-100" data-aos="flip-right" data-aos-delay="100">
+            </div>
             <h2>Pertanyaan Umum (FAQ)</h2>
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
@@ -137,5 +149,5 @@
             </div>
         </div>
     </section>
-    {{-- ./FAQ --}}
+    {{-- FAQ --}}
 @endsection

@@ -8,10 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Log extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'id_logs';
+    protected $table = 'log';
+    protected $primaryKey = 'id_log';
     protected $fillable = [
         'id_logs',
         'aktivitas',
-        'user',
+        'users_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'users_id');
+    }
 }

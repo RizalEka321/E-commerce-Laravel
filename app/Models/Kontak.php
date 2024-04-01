@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Kontak extends Model
 {
     use HasFactory;
+    protected $table = 'kontak';
+    protected $primaryKey = 'id_kontak';
+    protected $fillable = [
+        'id_kontak',
+        'instagram',
+        'whastapp',
+        'email',
+        'facebook',
+    ];
 }

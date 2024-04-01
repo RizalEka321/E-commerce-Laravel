@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pesanans', function (Blueprint $table) {
-            $table->id('id_pesanans');
+        Schema::create('pesanan', function (Blueprint $table) {
+            $table->id('id_pesanan');
             $table->foreignId('users_id');
-            $table->enum('metode_pengiriman', ['pickup', 'delivery']);
-            $table->enum('metode_pembayaran', ['cash', 'transfer']);
-            $table->enum('status', ['menunggu pembayaran', 'diproses', 'selesai']);
+            $table->enum('metode_pengiriman', ['Pickup', 'Delivery']);
+            $table->enum('metode_pembayaran', ['Cash', 'Transfer']);
+            $table->enum('status', ['Menunggu Pembayaran', 'Diproses', 'Selesai', 'Dibatalkan']);
             $table->timestamps();
             $table->foreign('users_id')->references('id')->on('users');
         });
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pesanans');
+        Schema::dropIfExists('pesanan');
     }
 };

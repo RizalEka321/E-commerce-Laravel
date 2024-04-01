@@ -17,11 +17,11 @@ class ProyekController extends Controller
     }
     public function get_proyek()
     {
-        $data = Proyek::select('id_proyeks', 'instansi', 'jumlah', 'harga_satuan', 'nominal_dp', 'status_pembayaran', 'status_pengerjaan')->get();
+        $data = Proyek::select('id_proyek', 'instansi', 'jumlah', 'harga_satuan', 'nominal_dp', 'status_pembayaran', 'status_pengerjaan')->get();
         return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
-                $actionBtn = '<div class="btn-group"><a href="javascript:void(0)" type="button" id="btn-edit" class="btn-edit" onClick="edit_data(' . "'" . $row->id_proyeks . "'" . ')" data-bs-toggle="modal" data-bs-target="#form_modal"><i class="fa-solid fa-pen-to-square"></i></a><a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' . "'" . $row->id_proyeks . "'" . ')"><i class="fa-solid fa-trash-can"></i></a>
+                $actionBtn = '<div class="btn-group"><a href="javascript:void(0)" type="button" id="btn-edit" class="btn-edit" onClick="edit_data(' . "'" . $row->id_proyek . "'" . ')"><i class="fa-solid fa-pen-to-square"></i></a><a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' . "'" . $row->id_proyek . "'" . ')"><i class="fa-solid fa-trash-can"></i></a>
                         </div>';
                 return $actionBtn;
             })
@@ -34,17 +34,17 @@ class ProyekController extends Controller
                 return $total;
             })
             ->addColumn('pembayaran', function ($row) {
-                $pembayaranOptions = ['belum', 'dp', 'lunas'];
-                $dropdown = '<select class="form-control pembayaran-dropdown" data-id="' . $row->id_proyeks . '"';
+                $pembayaranOptions = ['Belum', 'DP', 'Lunas'];
+                $dropdown = '<select class="form-control pembayaran-dropdown" data-id="' . $row->id_proyek . '"';
 
                 switch ($row->status_pembayaran) {
-                    case 'belum':
+                    case 'Belum':
                         $dropdown .= ' style="background-color: #C51605; color: white;"';
                         break;
-                    case 'dp':
+                    case 'DP':
                         $dropdown .= ' style="background-color: #0D1282; color: white;"';
                         break;
-                    case 'lunas':
+                    case 'Lunas':
                         $dropdown .= ' style="background-color: #009100; color: white;"';
                         break;
                     default:
@@ -62,15 +62,18 @@ class ProyekController extends Controller
             })
 
             ->addColumn('pengerjaan', function ($row) {
-                $pengerjaanOptions = ['diproses', 'selesai'];
-                $dropdown = '<select class="form-control pengerjaan-dropdown" data-id="' . $row->id_proyeks . '"';
+                $pengerjaanOptions = ['Diproses', 'Selesai', 'Dibatalkan'];
+                $dropdown = '<select class="form-control pengerjaan-dropdown" data-id="' . $row->id_proyek . '"';
 
                 switch ($row->status_pengerjaan) {
-                    case 'diproses':
+                    case 'Diproses':
                         $dropdown .= ' style="background-color: #0D1282; color: white;"';
                         break;
-                    case 'selesai':
+                    case 'Selesai':
                         $dropdown .= ' style="background-color: #009100; color: white;"';
+                        break;
+                    case 'Dibatalkan':
+                        $dropdown .= ' style="background-color: #C51605; color: white;"';
                         break;
                     default:
                         break;
@@ -107,28 +110,59 @@ class ProyekController extends Controller
             'deadline' => 'required',
         ], [
             'nama_pemesan.required' => 'Nama wajib diisi.',
+            'nama_pemesan.string' => 'Nama harus berupa teks.',
+            'nama_pemesan.min' => 'Nama minimal harus memiliki :min karakter.',
+            'nama_pemesan.max' => 'Nama maksimal harus memiliki :max karakter.',
             'instansi.required' => 'Instansi wajib diisi.',
+            'instansi.string' => 'Instansi harus berupa teks.',
             'no_hp.required' => 'No HP wajib diisi.',
+            'no_hp.string' => 'No HP harus berupa teks.',
             'alamat.required' => 'Alamat wajib diisi.',
+            'alamat.string' => 'Alamat harus berupa teks.',
+            'item.required' => 'Item wajib diisi.',
+            'item.string' => 'Item harus berupa teks.',
             'foto_logo.required' => 'Foto Logo wajib diisi.',
+            'foto_logo.image' => 'Foto Logo harus berupa file gambar.',
+            'foto_logo.mimes' => 'Foto Logo harus dalam format jpeg, png, atau jpg.',
+            'foto_logo.max' => 'Foto Logo tidak boleh lebih dari 2048 KB.',
             'foto_desain.required' => 'Foto Desain wajib diisi.',
+            'foto_desain.image' => 'Foto Desain harus berupa file gambar.',
+            'foto_desain.mimes' => 'Foto Desain harus dalam format jpeg, png, atau jpg.',
+            'foto_desain.max' => 'Foto Desain tidak boleh lebih dari 2048 KB.',
             'deskripsi_proyek.required' => 'Deskripsi wajib diisi.',
+            'deskripsi_proyek.string' => 'Deskripsi harus berupa teks.',
             'jumlah.required' => 'Jumlah wajib diisi.',
+            'jumlah.numeric' => 'Jumlah harus berupa angka.',
             'harga_satuan.required' => 'Harga Satuan wajib diisi.',
+            'harga_satuan.numeric' => 'Harga Satuan harus berupa angka.',
+            'nominal_dp.numeric' => 'Nominal DP harus berupa angka.',
             'deadline.required' => 'Deadline Proyek wajib diisi.',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
         } else {
+            // Folder
+            $path = 'data/Proyek/' . Str::title($request->nama_pemesan);
+
+            // Foto Logo
+            $foto_logo = $request->foto_logo;
+            $file_logo = 'logo' . '.' . $foto_logo->extension();
+            $foto_logo->move(public_path($path), $file_logo);
+
+            // Foto Desain
+            $foto_desain = $request->foto_desain;
+            $file_desain =  'desain' . '.' . $foto_desain->extension();
+            $foto_desain->move(public_path($path), $file_desain);
+
             $proyekData = [
                 'nama_pemesan' => Str::title($request->nama_pemesan),
                 'instansi' => Str::title($request->instansi),
                 'no_hp' => $request->no_hp,
                 'alamat' => $request->alamat,
                 'item' => $request->item,
-                'foto_logo' => $request->file('foto_logo')->store('logo'),
-                'foto_desain' => $request->file('foto_desain')->store('desain'),
+                'foto_logo' => "$path/$file_logo",
+                'foto_desain' => "$path/$file_desain",
                 'deskripsi_proyek' => $request->deskripsi_proyek,
                 'jumlah' => $request->jumlah,
                 'harga_satuan' => $request->harga_satuan,
@@ -153,9 +187,9 @@ class ProyekController extends Controller
     public function edit(Request $request)
     {
         $id = $request->input('q');
-        $ptoyek = Proyek::find($id);
+        $proyek = Proyek::find($id);
 
-        echo json_encode(['status' => TRUE, 'isi' => $ptoyek]);
+        return response()->json(['status' => true, 'proyek' => $proyek]);
     }
 
     public function update(Request $request)
@@ -166,8 +200,8 @@ class ProyekController extends Controller
             'no_hp' => 'required|string',
             'alamat' => 'required|string',
             'item' => 'required|string',
-            'foto_logo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'foto_desain' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_logo' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'foto_desain' => 'image|mimes:jpeg,png,jpg|max:2048',
             'deskripsi_proyek' => 'required|string',
             'jumlah' => 'required|numeric',
             'harga_satuan' => 'required|numeric',
@@ -175,14 +209,30 @@ class ProyekController extends Controller
             'deadline' => 'required',
         ], [
             'nama_pemesan.required' => 'Nama wajib diisi.',
+            'nama_pemesan.string' => 'Nama harus berupa teks.',
+            'nama_pemesan.min' => 'Nama minimal harus memiliki :min karakter.',
+            'nama_pemesan.max' => 'Nama maksimal harus memiliki :max karakter.',
             'instansi.required' => 'Instansi wajib diisi.',
+            'instansi.string' => 'Instansi harus berupa teks.',
             'no_hp.required' => 'No HP wajib diisi.',
+            'no_hp.string' => 'No HP harus berupa teks.',
             'alamat.required' => 'Alamat wajib diisi.',
-            'foto_logo.required' => 'Foto Logo wajib diisi.',
-            'foto_desain.required' => 'Foto Desain wajib diisi.',
+            'alamat.string' => 'Alamat harus berupa teks.',
+            'item.required' => 'Item wajib diisi.',
+            'item.string' => 'Item harus berupa teks.',
+            'foto_logo.image' => 'Foto Logo harus berupa file gambar.',
+            'foto_logo.mimes' => 'Foto Logo harus dalam format jpeg, png, atau jpg.',
+            'foto_logo.max' => 'Foto Logo tidak boleh lebih dari 2048 KB.',
+            'foto_desain.image' => 'Foto Desain harus berupa file gambar.',
+            'foto_desain.mimes' => 'Foto Desain harus dalam format jpeg, png, atau jpg.',
+            'foto_desain.max' => 'Foto Desain tidak boleh lebih dari 2048 KB.',
             'deskripsi_proyek.required' => 'Deskripsi wajib diisi.',
+            'deskripsi_proyek.string' => 'Deskripsi harus berupa teks.',
             'jumlah.required' => 'Jumlah wajib diisi.',
+            'jumlah.numeric' => 'Jumlah harus berupa angka.',
             'harga_satuan.required' => 'Harga Satuan wajib diisi.',
+            'harga_satuan.numeric' => 'Harga Satuan harus berupa angka.',
+            'nominal_dp.numeric' => 'Nominal DP harus berupa angka.',
             'deadline.required' => 'Deadline Proyek wajib diisi.',
         ]);
 
@@ -190,37 +240,53 @@ class ProyekController extends Controller
             return response()->json(['errors' => $validator->errors()]);
         } else {
             $id = $request->query('q');
-            $ptoyek = Proyek::find($id);
+            $proyek = Proyek::find($id);
 
-            $ptoyek->nama_pemesan = Str::title($request->nama_pemesan);
-            $ptoyek->instansi = Str::title($request->instansi);
-            $ptoyek->no_hp = $request->no_hp;
-            $ptoyek->alamat = $request->alamat;
-            $ptoyek->item = $request->item;
-            $ptoyek->foto_logo = $request->foto_logo;
-            $ptoyek->foto_desain = $request->foto_desain;
-            $ptoyek->deskripsi_proyek = $request->deskripsi_proyek;
-            $ptoyek->jumlah = $request->jumlah;
-            $ptoyek->harga_satuan = $request->harga_satuan;
-            $ptoyek->deadline = $request->deadline;
+            $proyek->nama_pemesan = Str::title($request->nama_pemesan);
+            $proyek->instansi = Str::title($request->instansi);
+            $proyek->no_hp = $request->no_hp;
+            $proyek->alamat = $request->alamat;
+            $proyek->item = $request->item;
+            $proyek->deskripsi_proyek = $request->deskripsi_proyek;
+            $proyek->jumlah = $request->jumlah;
+            $proyek->harga_satuan = $request->harga_satuan;
+            $proyek->deadline = $request->deadline;
 
-            if ($request->hasFile('foto')) {
-                if ($ptoyek->foto) {
-                    if (file_exists(public_path($ptoyek->foto))) {
-                        unlink(public_path($ptoyek->foto));
+            // Folder
+            $path = 'data/Proyek/' . Str::title($request->nama_pemesan);
+
+            // Foto Logo
+            if ($request->hasFile('foto_logo')) {
+                if ($proyek->foto_logo) {
+                    if (file_exists(public_path($proyek->foto_logo))) {
+                        unlink(public_path($proyek->foto_logo));
                     }
                 }
 
-                $foto = $request->file('foto');
-                $file_name = time() . '.' . $foto->extension();
-                $path = 'ptoyek/' . Str::title($request->merk);
-                $foto->move(public_path($path), $file_name);
+                $foto_logo = $request->file('foto_logo');
+                $file_logo = 'logo' . '.' . $foto_logo->extension();
+                $foto_logo->move(public_path($path), $file_logo);
+                $proyek->foto_logo = "$path/$file_logo";
             }
 
-            $ptoyek->save();
+            // Foto Desain
+            if ($request->hasFile('foto_desain')) {
+                if ($proyek->foto_desain) {
+                    if (file_exists(public_path($proyek->foto_desain))) {
+                        unlink(public_path($proyek->foto_desain));
+                    }
+                }
+
+                $foto_desain = $request->file('foto_desain');
+                $file_desain = 'logo' . '.' . $foto_desain->extension();
+                $foto_desain->move(public_path($path), $file_desain);
+                $proyek->foto_desain = "$path/$file_desain";
+            }
+
+            $proyek->save();
 
 
-            echo json_encode(['status' => TRUE]);
+            return response()->json(['status' => true]);
         }
     }
 
@@ -252,8 +318,8 @@ class ProyekController extends Controller
     public function destroy(Request $request)
     {
         $id = $request->input('q');
-        $ptoyek = Proyek::find($id);
-        $ptoyek->delete();
+        $proyek = Proyek::find($id);
+        $proyek->delete();
 
         echo json_encode(['status' => TRUE]);
     }

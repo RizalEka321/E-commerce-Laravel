@@ -8,16 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Detail_Pesanan extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'id_details';
-    protected $table = 'detail_pesanans';
+    protected $table = 'detail_pesanan';
+    protected $primaryKey = 'id_detail';
 
-    public function katalog()
+    public function produk()
     {
-        return $this->belongsTo(Katalog::class, 'katalogs_id');
+        return $this->belongsTo(produk::class, 'produk_id');
     }
 
     public function pesanan()
     {
-        return $this->belongsTo(Katalog::class, 'pesanans_id');
+        return $this->belongsTo(Pesanan::class, 'pesanan_id');
     }
 }

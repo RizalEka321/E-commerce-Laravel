@@ -5,8 +5,8 @@
         <a class="kotak" href="#">
             <div class="box">
                 <div class="right_side">
-                    <div class="numbers">{{ $katalog }}</div>
-                    <div class="box_topic">Katalog</div>
+                    <div class="numbers">{{ $produk }}</div>
+                    <div class="box_topic">Produk</div>
                 </div>
                 <i class="fa-solid fa-shirt"></i>
             </div>

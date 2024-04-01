@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('proyeks', function (Blueprint $table) {
-            $table->id('id_proyeks');
+        Schema::create('proyek', function (Blueprint $table) {
+            $table->id('id_proyek');
             $table->string('nama_pemesan');
             $table->string('instansi');
             $table->string('no_hp');
@@ -25,8 +25,8 @@ return new class extends Migration
             $table->bigInteger('harga_satuan');
             $table->bigInteger('nominal_dp')->nullable();
             $table->date('deadline');
-            $table->enum('status_pengerjaan', ['diproses', 'selesai']);
-            $table->enum('status_pembayaran', ['belum', 'dp', 'lunas']);
+            $table->enum('status_pengerjaan', ['Diproses', 'Selesai', 'Dibatalkan']);
+            $table->enum('status_pembayaran', ['Belum', 'DP', 'Lunas']);
             $table->timestamps();
         });
     }
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('proyeks');
+        Schema::dropIfExists('proyek');
     }
 };

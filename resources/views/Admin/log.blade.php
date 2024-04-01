@@ -58,6 +58,9 @@
                     {
                         data: 'user',
                         name: 'user',
+                        render: function(data, type, full, meta) {
+                            return full.user.username;
+                        }
                     },
                     {
                         data: 'created_at',
