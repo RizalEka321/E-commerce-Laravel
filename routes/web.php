@@ -11,7 +11,10 @@ use App\Http\Controllers\Pembeli\PageController;
 use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\PesananController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Pembeli\ProfileController;
+use App\Http\Controllers\Pembeli\KeranjangController;
 use App\Http\Controllers\Admin\DetailPesananController;
+use App\Http\Controllers\Pembeli\PesananSayaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,12 +27,14 @@ use App\Http\Controllers\Admin\DetailPesananController;
 |
 */
 
+// Auth
 Route::get('/login', [AuthController::class, "login"])->name('login');
 Route::post('/dologin', [AuthController::class, "dologin"])->name('dologin');
 Route::get('/register', [AuthController::class, "register"])->name('register');
 Route::get('/logout', [AuthController::class, "logout"])->name('logout');
 
-Route::middleware(['auth:web', 'owner'])->group(function () {
+// Pemilik
+Route::middleware(['auth:web', 'pemilik'])->group(function () {
     // Dashboard
     Route::get('/admin', [DashboardController::class, "index"])->name('admin.dashboard');
     // Admin Katalog
@@ -77,15 +82,25 @@ Route::middleware(['auth:web', 'owner'])->group(function () {
     Route::get('/admin/log/list', [LogController::class, "get_log"])->name('admin.get-log');
 });
 
+// Pegawai
 // Route::middleware(['auth:web', 'pegawai'])->group(function () {
 // });
-// Route::middleware(['auth:web', 'pembeli'])->group(function () {
-// });
+
 
 // Pembeli
-Route::get('/', [PageController::class, "page_home"])->name('pembeli.dashboard');
-Route::get('/produk/{slug}', [PageController::class, "page_detail_produk"])->name('pembeli.detail_produk');
-Route::get('/keranjang', [PageController::class, "page_keranjang"])->name('pembeli.keranjang');
-Route::patch('/keranjang/update', [PageController::class, "update_keranjang"])->name('keranjang.update');
-Route::delete('/keranjang/remove', [PageController::class, "remove_keranjang"])->name('keranjang.remove');
-Route::get('/keranjang/total', [PageController::class, "total_keranjang"])->name('keranjang.total');
+Route::middleware(['auth:web', 'pembeli'])->group(function () {
+    // Profile
+    Route::get('/profile', [ProfileController::class, "page_profile"])->name('profile');
+    // Pesanan Saya
+    Route::get('/pesanan-saya', [PesananSayaController::class, "page_pesanan_saya"])->name('pesanan_saya');
+    // Keranjang
+    Route::get('/keranjang', [KeranjangController::class, "page_keranjang"])->name('keranjang');
+    Route::get('/keranjang/list', [KeranjangController::class, "get_keranjang"])->name('keranjang.list');
+    Route::post('/keranjang/update', [KeranjangController::class, "update_keranjang"])->name('keranjang.update');
+    Route::post('/keranjang/delete', [KeranjangController::class, "delete_keranjang"])->name('keranjang.delete');
+    Route::post('/keranjang/create', [KeranjangController::class, "add_keranjang"])->name('keranjang.add');
+});
+
+// Guest
+Route::get('/', [PageController::class, "page_home"])->name('home');
+Route::get('/produk/{slug}', [PageController::class, "page_detail_produk"])->name('detail_produk');

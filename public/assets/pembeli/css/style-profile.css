@@ -2,7 +2,8 @@
 Profile styles
 =================================================================*/
 .profile {
-    color: var(--pink);
+    margin-top: 80px;
+    color: var(--red);
 }
 
 .profile .hr-profile {
@@ -17,7 +18,7 @@ Profile styles
 }
 
 .profile .card .card-body p {
-    color: var(--pink);
+    color: var(--red);
     text-align: left;
 }
 
@@ -41,7 +42,7 @@ Profile styles
 }
 
 .profile .price {
-    color: var(--pink);
+    color: var(--red);
 }
 
 .profile .btn-profile {
@@ -52,7 +53,7 @@ Profile styles
     display: inline-block;
     padding: 5px 25px;
     border-radius: 5px;
-    border: 2px solid var(--pink);
+    border: 2px solid var(--red);
     text-decoration: none;
     -webkit-transition: all 0.5s ease-in-out;
     color: white;
@@ -60,7 +61,7 @@ Profile styles
 }
 
 .profile .btn-profile:hover {
-    color: var(--pink);
-    border-color: var(--pink);
+    color: var(--red);
+    border-color: var(--red);
     background: white;
 }

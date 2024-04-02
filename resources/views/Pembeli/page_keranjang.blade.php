@@ -2,52 +2,30 @@
 @section('title', 'Keranjang')
 @section('content')
     {{-- Keranjang --}}
-    <section class="detail-produk">
+    <section class="keranjang">
         <div class="container">
-            <hr class="my-2 hr-detail opacity-100" data-aos="flip-right" data-aos-delay="100">
-            <table id="cart" class="table table-hover table-condensed mt-5">
+            <hr class="my-2 hr-keranjang opacity-100" data-aos="flip-right" data-aos-delay="100">
+            <table id="tabel_keranjang" class="table table-hover table-condensed">
                 <thead>
                     <tr>
-                        <th style="width:50%">Produk</th>
-                        <th style="width:10%">Harga</th>
-                        <th style="width:8%">Jumlah</th>
-                        <th style="width:22%" class="text-center">Subtotal</th>
-                        <th style="width:10%"></th>
+                        <th width="50%">Produk</th>
+                        <th width="10%">Harga</th>
+                        <th width="8%">Kuantitas</th>
+                        <th width="22%">Total Harga</th>
+                        <th width="10%">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($keranjang as $k)
-                        <tr data-id="{{ $k->id }}">
-                            <td data-th="Product">
-                                <div class="row">
-                                    <div class="col-sm-3 hidden-xs"><img src="{{ asset($k->produk->foto) }}" width="100"
-                                            height="100" class="img-responsive" /></div>
-                                    <div class="col-sm-9">
-                                        <h4 class="nomargin">{{ $k->produk->judul }}</h4>
-                                    </div>
-                                </div>
-                            </td>
-                            <td data-th="Price">Rp. {{ $k->produk->harga }}</td>
-                            <td data-th="Quantity">
-                                <input type="number" value="{{ $k->jumlah }}"
-                                    class="form-control quantity update-cart" />
-                            </td>
-                            <td data-th="Subtotal" class="text-center">Rp. {{ $k->jumlah * $k->produk->harga }}</td>
-                            <td class="actions" data-th="">
-                                <button class="btn btn-danger btn-sm remove-from-cart">hapus</button>
-                            </td>
-                        </tr>
-                    @endforeach
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="5" class="text-right">
-                            <h3><strong>Total Rp. <span id="total"></span></strong></h3>
+                        <td colspan="5" class="text-end">
+                            <h3><strong>Total <span id="total_keranjang"></span></strong></h3>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="5" class="text-right">
-                            <button class="btn btn-success">Checkout</button>
+                        <td colspan="5" class="text-end">
+                            <button class="btn-keranjang px-5">Checkout</button>
                         </td>
                     </tr>
                 </tfoot>
@@ -55,38 +33,119 @@
         </div>
     </section>
     {{-- Keranjang --}}
+    <section class="home" id="produk">
+        <div class="container py-3 mt-3">
+            <div>
+                <h5>Produk Lainnya</h5>
+                <hr class="hr-home opacity-100" data-aos="flip-right" data-aos-delay="100">
+            </div>
+            <div class="col-lg-12 my-5">
+                <div class="home-slider owl-carousel">
+                    @foreach ($produk as $k)
+                        <div class="single-box text-center">
+                            <div class="img-area">
+                                <img alt="produk" class="img-fluid move-animation" src="{{ asset($k->foto) }}" />
+                            </div>
+                            <div class="info-area">
+                                {{-- <p class="kategori mt-1 mx-3">{{ $k->judul }}</p> --}}
+                                <h4 id="title_card">{{ Str::limit($k->judul, 20) }}</h4>
+                                <h6 class="price">Rp {{ number_format($k->harga, 0, '.', '.') }}</h6>
+                                <a href="{{ route('detail_produk', $k->slug) }}" class="btn-beli">Beli</a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </section>
 @endsection
 @section('script')
     <script type="text/javascript">
-        $(document).ready(function() {
-            function updateTotal() {
-                $.ajax({
-                    url: '{{ route('keranjang.total') }}',
-                    method: "GET",
-                    success: function(response) {
-                        $('#total').text(response.total);
-                    }
-                });
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
+        });
 
-            $(".update-cart").change(function() {
-                var id = $(this).closest('tr').data('id');
-                var quantity = $(this).val();
-                $.ajax({
-                    url: '{{ route('keranjang.update') }}',
-                    method: "patch",
-                    data: {
-                        id: id,
-                        quantity: quantity
+        function reload_table() {
+            $('#tabel_keranjang').DataTable().ajax.reload();
+        }
+
+        $(function() {
+            var table = $('#tabel_keranjang').DataTable({
+                processing: true,
+                serverSide: true,
+                searching: false,
+                paging: false,
+                orderClasses: false,
+                info: false,
+                ajax: "{{ url('/keranjang/list') }}",
+                columns: [{
+                        data: 'produk',
+                        name: 'produk',
                     },
-                    success: function(response) {
-                        updateTotal();
-                    }
-                });
+                    {
+                        data: 'harga',
+                        name: 'harga',
+                    },
+                    {
+                        data: 'jumlah',
+                        name: 'jumlah'
+                    },
+                    {
+                        data: 'total_harga',
+                        name: 'total_harga'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action'
+                    },
+                ],
+                footerCallback: function(row, data, start, end, display) {
+                    var api = this.api(),
+                        data;
+
+                    // Total semua harga dalam tabel
+                    var totalHarga = api.column(3, {
+                        page: 'current'
+                    }).data().reduce(function(a, b) {
+                        // Menghilangkan simbol rupiah ('Rp') dan tanda pemisah ribuan (titik)
+                        var price = parseInt(b.replace('Rp ', '').replace(/\./g, ''));
+                        return a + price;
+                    }, 0);
+
+                    // Mengubah total harga menjadi format mata uang Rupiah
+                    var formattedTotalHarga = new Intl.NumberFormat('id-ID', {
+                        style: 'currency',
+                        currency: 'IDR'
+                    }).format(totalHarga);
+
+                    // Menampilkan total harga dalam elemen dengan id 'total_keranjang'
+                    $('#total_keranjang').text(formattedTotalHarga);
+                }
             });
         });
 
+        $(document).on('change', '.update-keranjang', function() {
+            var jumlah = $(this).val();
+            var id_keranjang = $(this).data('id'); // Mengambil ID dari data-id atribut
 
+            $.ajax({
+                url: '/keranjang/update',
+                type: 'POST',
+                data: {
+                    id_keranjang: id_keranjang,
+                    jumlah: jumlah
+                },
+                success: function(response) {
+                    reload_table();
+                    console.log(response);
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
 
         function delete_data(id) {
             Swal.fire({

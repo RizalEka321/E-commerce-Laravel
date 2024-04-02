@@ -1,32 +1,35 @@
+.pesanan {
+    margin-top: 80px;
+    color: var(--red);
+}
 .pesanan .hr-pesanan {
     border-width: 2px;
-    color: #CE3ABD;
+    color: var(--red);
 }
 
 .pesanan .nav-item .nav-link {
-    color: #CE3ABD;
+    color: var(--red);
 }
 
 .pesanan .nav-item .nav-link:hover {
-    background-color: #CE3ABD;
+    background-color: var(--red);
     color: #fff;
 }
 
 .pesanan .tab-content {
-    background-color: white;
     border-radius: 5px;
 }
 .pesanan .tab-content .price {
-    color: #CE3ABD;
+    color: var(--red);
 }
 
 .pesanan .tab-content .row i {
-    color: #CE3ABD;
+    color: var(--red);
     font-size: 80px;
 }
 
 .pesanan .tab-content .row h4 {
-    color: #CE3ABD;
+    color: var(--red);
 }
 
 .pesanan .btn-resell {
@@ -39,7 +42,7 @@
     text-decoration: none;
     -webkit-transition: all 0.5s ease-in-out;
     color: white;
-    background: linear-gradient(to bottom left, #CE3ABD, #B500A0);
+    background: linear-gradient(to bottom left, var(--red), #B500A0);
 }
 
 .pesanan .btn-resell:hover {
@@ -69,7 +72,7 @@
 
 #total {
     color: #fff;
-    background-color: #CE3ABD;
+    background-color: var(--red);
     padding-top: 15px;
     padding-bottom: 15px;
     padding-left: 10px;

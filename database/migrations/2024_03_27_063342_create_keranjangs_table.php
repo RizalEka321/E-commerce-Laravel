@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('keranjang', function (Blueprint $table) {
             $table->id('id_keranjang');
             $table->foreignId('produk_id');
-            // $table->foreignId('users_id');
+            $table->foreignId('users_id');
             $table->integer('jumlah');
-            // $table->foreign('users_id')->references('id')->on('users');
+            $table->string('ukuran');
+            $table->foreign('users_id')->references('id')->on('users');
             $table->foreign('produk_id')->references('id_produk')->on('produk');
             $table->timestamps();
         });

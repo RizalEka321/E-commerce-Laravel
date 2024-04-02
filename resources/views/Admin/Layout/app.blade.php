@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="{{ url('assets/plugins/datatables-responsive/css/responsive.bootstrap5.min.css') }}">
     {{-- Font Awesome --}}
     <link rel="stylesheet" href="{{ url('assets/plugins/fontawesome/css/all.css') }}">
-    {{-- Font Awesome --}}
+    {{-- SweetAlert --}}
     <link rel="stylesheet" href="{{ url('assets/plugins/sweetalert/sweetalert2.min.css') }}">
 
 </head>

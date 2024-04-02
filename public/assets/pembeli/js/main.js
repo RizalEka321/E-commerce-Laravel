@@ -1,7 +1,7 @@
 /**
  * Katalog Slider
  */
-$(".produk-slider").owlCarousel({
+$(".home-slider").owlCarousel({
     loop: true,
     nav: false,
     dots: true,

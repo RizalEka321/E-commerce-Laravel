@@ -17,7 +17,8 @@ class Pesanan extends Model
         'no_hp',
         'metode_pengiriman',
         'metode_pembayaran',
-        'status'
+        'status',
+        'total'
     ];
 
     public function user()

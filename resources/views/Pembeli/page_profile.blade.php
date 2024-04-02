@@ -1,4 +1,4 @@
-@extends('layouts_reseller.app')
+@extends('Pembeli.layout.app')
 @section('title', 'Profile')
 @section('content')
     {{-- Paket Usaha --}}
@@ -6,7 +6,7 @@
         <div class="container">
             <hr class="my-2 hr-profile opacity-100" data-aos="flip-right" data-aos-delay="100">
             <div class="row">
-                <form action="{{ route('update.profile.reseller') }}" method="POST" enctype="multipart/form-data">
+                <form action="#" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     <div class="container pt-4">

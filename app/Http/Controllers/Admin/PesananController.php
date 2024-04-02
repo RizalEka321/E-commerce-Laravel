@@ -18,7 +18,7 @@ class PesananController extends Controller
     }
     public function get_pesanan()
     {
-        $data = Pesanan::select('id_pesanan', 'users_id', 'metode_pengiriman', 'metode_pembayaran', 'status')->with('user')->get();
+        $data = Pesanan::select('id_pesanan', 'users_id', 'metode_pengiriman', 'metode_pembayaran', 'status', 'total')->with('user')->get();
         return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {

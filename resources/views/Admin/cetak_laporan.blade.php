@@ -80,7 +80,7 @@
                             @endforeach
                         </ul>
                     </td>
-                    <td>Rp {{ number_format($pe->total_harga, 0, ',', '.') }}</td>
+                    <td>Rp {{ number_format($pe->total, 0, ',', '.') }}</td>
                 </tr>
             @endforeach
         </tbody>

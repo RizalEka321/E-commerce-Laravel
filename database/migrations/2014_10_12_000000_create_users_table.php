@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('alamat');
             $table->string('no_hp');
             $table->string('foto');
-            $table->enum('role', ['Owner', 'Pegawai', 'Pembeli']);
+            $table->enum('role', ['Pemilik', 'Pegawai', 'Pembeli']);
             $table->rememberToken();
             $table->timestamps();
         });

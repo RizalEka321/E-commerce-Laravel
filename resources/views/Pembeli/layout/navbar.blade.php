@@ -1,17 +1,6 @@
-<style>
-    .navbar {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 1000;
-        background-color: #fff;
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    }
-</style>
-
-<nav class="navbar navbar-expand-lg navbar-light" data-aos="fade-down">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" data-aos="fade-down">
     <div class="container">
-        <a href="{{ route('pembeli.dashboard') }}" class="navbar-brand">
+        <a href="{{ route('home') }}" class="navbar-brand">
             {{-- <img src="/images/logo.svg" alt="Logo" /> --}}
             LOKAL-INDUSTRI
         </a>
@@ -20,29 +9,38 @@
             <i class="fas fa-bars py-1"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            {{-- <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('pembeli.dashboard') }}"><i class="fa-solid fa-house "></i>
-                        Home</a>
-                </li>
-            </ul> --}}
             <ul class="navbar-nav ms-auto nav-center">
-                {{-- @auth
-                    @if (Auth::user()->role == 'reseller')
+                @auth
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('home') }}">
+                            Home</a>
+                    </li>
+                    @if (Request::is('/'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="#profil">
+                                Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#produk">
+                                Produk
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#kontak">
+                                Kontak
+                            </a>
+                        </li>
+                    @endif
+                    @if (Auth::user()->role == 'Pembeli')
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('keranjang') }}">Keranjang <i
                                     class="fas fa-shopping-cart"></i>
                             </a>
                         </li>
-                        @livewire('notif')
-                    @elseif (Auth::user()->role == 'admin')
+                    @elseif (Auth::user()->role == 'Pemilik')
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('dashboard.admin') }}"><i class="fa fa-wrench"></i> Admin
-                                CMS</a>
-                        @elseif (Auth::user()->role == 'pengusaha')
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('dashboard.pengusaha') }}"><i class="fa fa-wrench"></i>
-                                Pengusaha
+                            <a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fa fa-wrench"></i> Admin
                                 CMS</a>
                         </li>
                     @endif
@@ -52,13 +50,12 @@
                             @if (auth()->user()->avatar == null)
                                 {{ auth()->user()->username }} <i class="fa-regular fa-circle-user fa-flip fa-lg"></i>
                             @else
-                                {{ auth()->user()->username }} <img
-                                    src="{{ asset('assets/users/' . Auth::user()->role . '/' . Auth::user()->id . '/avatar/' . Auth::user()->avatar) }}"
-                                    id="preview" class="rounded img-fluid" style="width: 20px; height: 20px;" />
+                                {{ auth()->user()->username }} <img src="#" id="preview" class="rounded img-fluid"
+                                    style="width: 20px; height: 20px;" />
                             @endif
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            @if (auth()->user()->role == 'pengusaha')
+                            @if (auth()->user()->role == 'Pemilik')
                                 <li><a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Log Out') }}</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST"
@@ -66,7 +63,7 @@
                                         @csrf
                                     </form>
                                 </li>
-                            @elseif (auth()->user()->role == 'admin')
+                            @elseif (auth()->user()->role == 'Pegawai')
                                 <li><a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Log Out') }}</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST"
@@ -74,29 +71,36 @@
                                         @csrf
                                     </form>
                                 </li>
-                            @elseif(auth()->user()->role == 'reseller')
-                                <li><a class="dropdown-item" href="{{ route('profile.reseller') }}">Profile</a></li>
-                                <li><a class="dropdown-item" href="{{ route('pesanan.saya') }}">Pesanan Saya</a></li>
-                                <li><a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Log Out') }}</a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                        style="display: none;">
-                                        @csrf
-                                    </form>
-                                </li>
+                            @elseif(auth()->user()->role == 'Pembeli')
+                                <li><a class="dropdown-item" href="{{ route('profile') }}">Profile</a></li>
+                                <li><a class="dropdown-item" href="{{ route('pesanan_saya') }}">Pesanan Saya</a></li>
+                                <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
                             @endif
                         </ul>
                     </li>
-                @endauth --}}
+                @endauth
                 @guest
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('pembeli.dashboard') }}"><i class="fa-solid fa-house "></i>
+                        <a class="nav-link" href="{{ route('home') }}">
                             Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('pembeli.keranjang') }}"><i class="fas fa-shopping-cart"></i>
-                            Keranjang</a>
-                    </li>
+                    @if (Request::is('/'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="#profil">
+                                Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#produk">
+                                Produk
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#kontak">
+                                Kontak
+                            </a>
+                        </li>
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('login') }}">Login</a>
                     </li>

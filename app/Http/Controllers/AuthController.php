@@ -33,10 +33,10 @@ class AuthController extends Controller
 
             aktivitas('Melakukan Login');
 
-            if ($role === 'Owner') {
+            if ($role === 'Pemilik') {
                 return redirect()->intended('/admin');
             } elseif ($role === 'Pembeli') {
-                return redirect()->intended('/admin');
+                return redirect()->intended('/');
             } else {
                 return redirect()->intended('/');
             }

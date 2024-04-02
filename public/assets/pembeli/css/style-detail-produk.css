@@ -2,12 +2,13 @@
 Detail Produk page styles
 =================================================================*/
 .detail-produk {
-    color: black;
+    margin-top: 80px;
+    color: var(--black);
 }
 
 .detail-produk .hr-detail {
     border-width: 2px;
-    color: #CE3ABD;
+    color: var(--red);
 }
 
 .detail-produk .row {
@@ -16,7 +17,7 @@ Detail Produk page styles
 }
 
 .detail-produk .card {
-    color: var(--pink);
+    color: var(--red);
     padding: 25px;
     border-radius: 10px;
     border: 0;
@@ -30,14 +31,13 @@ Detail Produk page styles
 }
 
 .detail-produk .title {
-    color: black;
+    color: var(--black);
     font-weight: 700;
 }
 
 .detail-produk .price {
-    color: var(--pink);
+    color: var(--red);
     font-style: bold;
-    border-radius: 20px;
     background-color: #f5f5f5;
 }
 
@@ -46,7 +46,7 @@ Detail Produk page styles
 }
 
 .detail-produk .card-body h3 {
-    color: black;
+    color: var(--black);
     font-weight: 700;
 }
 
@@ -55,74 +55,55 @@ Detail Produk page styles
     margin-bottom: 25px;
 }
 
-.detail-produk .btn-cart {
+.detail-produk .btn-keranjang {
     font-weight: 600;
     font-size: 16px;
     display: inline-block;
     padding: 5px 15px;
-    border-radius: 10px;
-    border: 1px solid var(--pink);
+    border: 1px solid var(--red);
     text-decoration: none;
     -webkit-transition: all 0.5s ease-in-out;
-    color: white;
-    background: linear-gradient(to bottom left, #CE3ABD, #B500A0);
+    color: var(--red);
+    background: linear-gradient(to bottom left, var(--white), var(--white));
 }
 
-.detail-produk .btn-cart:hover {
-    -webkit-transform: scale(1.1);
-    border-color: var(--pink);
-    color: var(--pink);
-    background: white;
+.detail-produk .btn-keranjang:hover {
+    border-color: var(--red);
+    color: var(--white);
+    background: var(--red);
 }
 
-.detail-produk .btn-resell {
+.detail-produk .btn-beli {
     font-weight: 600;
     font-size: 16px;
     display: inline-block;
     padding: 5px 15px;
-    border-radius: 5px;
-    border: 1px solid var(--pink);
+    border: 1px solid var(--red);
     text-decoration: none;
     -webkit-transition: all 0.5s ease-in-out;
-    color: white;
-    background: linear-gradient(to bottom left, #CE3ABD, #B500A0);
+    color: var(--white);
+    background: linear-gradient(to bottom left, var(--red), var(--red));
 }
 
-.detail-produk .btn-resell:hover {
-    border-color: var(--pink);
-    color: var(--pink);
-    background: white;
+.detail-produk .btn-beli:hover {
+    border-color: var(--red);
+    color: var(--red);
+    background: var(--white);
 }
 
 .detail-produk .description {
     border: 0;
     border-radius: 10px;
-    color: black;
-    background-color: white;
+    color: var(--var(--black));
+    background-color: var(--white);
 }
 
 .detail-produk .description h4 {
-    color: #B500A0;
+    color: var(--black);
     font-weight: 700;
 }
 
 .detail-produk .description p {
     margin-bottom: 0;
-    letter-spacing: 0.5px;
-}
-
-.detail-produk .review {
-    border: 0;
-    border-radius: 10px;
-    color: black;
-    background-color: white;
-}
-
-.detail-produk .review h4 {
-    color: #B500A0;
-    font-weight: 700;
-}
-
-.detail-produk .review p {
     letter-spacing: 0.5px;
 }
