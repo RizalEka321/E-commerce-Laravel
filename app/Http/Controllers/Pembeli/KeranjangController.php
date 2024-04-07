@@ -63,6 +63,7 @@ class KeranjangController extends Controller
     public function get_keranjang()
     {
         $data = Keranjang::where('users_id', Auth::user()->id)->with('produk')->get();
+
         return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('produk', function ($row) {
@@ -82,7 +83,12 @@ class KeranjangController extends Controller
                 return $harga;
             })
             ->addColumn('jumlah', function ($row) {
-                $jumlah = '<input type="number" value="' . $row->jumlah . '" class="form-control update-keranjang" data-id="' . $row->id_keranjang . '" name="jumlah" />';
+                $jumlah = '
+                <div class="qty-container">
+                    <button class="qty-btn-minus btn-light" type="button"><i class="fa fa-minus"></i></button>
+                    <input type="text" name="jumlah" value="' . $row->jumlah . '" class="update-keranjang input-qty" data-id="' . $row->id_keranjang . '" name="jumlah" />
+                    <button class="qty-btn-plus btn-light" type="button"><i class="fa fa-plus"></i></button>
+                </div>';
                 return $jumlah;
             })
             ->addColumn('total_harga', function ($row) {
@@ -96,7 +102,6 @@ class KeranjangController extends Controller
             ->rawColumns(['produk', 'harga', 'jumlah', 'total_harga', 'action'])
             ->make(true);
     }
-
 
     public function update_keranjang(Request $request)
     {
@@ -127,6 +132,17 @@ class KeranjangController extends Controller
         $id = $request->input('q');
         $keranjang = Keranjang::find($id);
         $keranjang->delete();
+
+        return response()->json(['status' => true]);
+    }
+
+    public function delete_all_keranjang(Request $request)
+    {
+        $id = $request->input('q');
+        $keranjang = Keranjang::where('users_id', $id)->get();
+        foreach ($keranjang as $item) {
+            $item->delete();
+        }
 
         return response()->json(['status' => true]);
     }

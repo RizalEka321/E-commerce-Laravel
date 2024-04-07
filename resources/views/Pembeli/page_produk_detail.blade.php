@@ -25,6 +25,50 @@
             color: var(--red);
             border: 1px solid var(--red)
         }
+
+        /*--------------------------*/
+        .qty-container {
+            display: flex;
+            align-items: left;
+            justify-content: flex-start;
+        }
+
+        .qty-container .input-qty {
+            text-align: center;
+            padding: 6px 10px;
+            border: 1px solid #d4d4d4;
+            max-width: 80px;
+        }
+
+        .qty-container .qty-btn-minus,
+        .qty-container .qty-btn-plus {
+            border: 1px solid #d4d4d4;
+            padding: 10px 13px;
+            font-size: 10px;
+            height: 38px;
+            width: 38px;
+            transition: 0.3s;
+        }
+
+        .qty-container .qty-btn-plus {
+            margin-left: -1px;
+        }
+
+        .qty-container .qty-btn-minus {
+            margin-right: -1px;
+        }
+
+        .qty-btn-minus:hover {
+            transition: transform .2s;
+            color: var(--white);
+            background: var(--red);
+        }
+
+        .qty-btn-plus:hover {
+            transition: transform .2s;
+            color: var(--white);
+            background: var(--red);
+        }
     </style>
     {{-- Detail Produk --}}
     <section class="detail-produk">
@@ -56,9 +100,16 @@
                             </div>
                             <div class="mb-3">
                                 <label for="ukuran">Kuantitas</label>
-                                <input type="number" name="jumlah">
+                                <div class="qty-container">
+                                    <button class="qty-btn-minus btn-light" type="button"><i
+                                            class="fa fa-minus"></i></button>
+                                    <input type="text" name="jumlah" value="0" class="input-qty" />
+                                    <button class="qty-btn-plus btn-light" type="button"><i
+                                            class="fa fa-plus"></i></button>
+                                </div>
                             </div>
-                            <button type="submit" class="btn-keranjang"><i class="fa-solid fa-cart-shopping"></i> Masukkan
+                            <button type="submit" class="btn-keranjang"><i class="fa-solid fa-cart-shopping"></i>
+                                Masukkan
                                 Keranjang</button>
                             <a href="#" class="btn-beli">Beli Sekarang</a>
                         </form>
@@ -117,6 +168,21 @@
             $('.error-message').empty();
         }
 
+        $(document).ready(function() {
+            $(document).on('click', '.qty-btn-plus', function() {
+                var $n = $(this).parent(".qty-container").find(".input-qty");
+                $n.val(Number($n.val()) + 1);
+            });
+
+            $(document).on('click', '.qty-btn-minus', function() {
+                var $n = $(this).parent(".qty-container").find(".input-qty");
+                var amount = Number($n.val());
+                if (amount > 0) {
+                    $n.val(amount - 1);
+                }
+            });
+        });
+
         $(function() {
             $('#form_tambah').submit(function(event) {
                 event.preventDefault();
@@ -140,12 +206,11 @@
                                 // Show error message below each input
                                 $('#' + key).next('.error-message').text('*' + value);
                             });
-                            Swal.fire("Error", "Datanya ada yang kurang", "error");
                         } else {
                             reset_form();
                             Swal.fire(
                                 'Sukses',
-                                'Data berhasil disimpan',
+                                'Produk Berhasil Dimasukkan Keranjang',
                                 'success'
                             );
                             reload_table();

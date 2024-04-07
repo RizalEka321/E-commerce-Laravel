@@ -42,19 +42,22 @@ class UserController extends Controller
             'no_hp' => 'required',
             'foto'     => 'image|mimes:jpeg,png,jpg|max:2048',
             'password' => 'required|min:8|unique:' . User::class,
+            'password_confirmation' => 'required|same:password', // Konfirmasi password harus sama dengan password
         ], [
             'nama_lengkap.required' => 'Nama Panjang wajib diisi.',
             'username.required' => 'Username wajib diisi.',
             'username.unique' => 'Username ini sudah digunakan.',
-            'role.required' => 'Role Panjang wajib diisi.',
-            'email.required' => 'Plat Nomor wajib diisi.',
-            'email.unique' => 'Plat Nomor ini sudah digunakan.',
+            'role.required' => 'Role wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.unique' => 'Email ini sudah digunakan.',
             'email.email' => 'Email tidak valid.',
             'alamat.required' => 'Alamat wajib diisi.',
             'no_hp.required' => 'No HP wajib diisi.',
             'foto.required' => 'Foto wajib diisi.',
             'password.required' => 'Password wajib diisi.',
             'password.unique' => 'Password sudah digunakan.',
+            'password_confirmation.required' => 'Konfirmasi Password wajib diisi.',
+            'password_confirmation.same' => 'Konfirmasi Password tidak sesuai dengan Password.',
         ]);
 
         if ($validator->fails()) {

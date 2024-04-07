@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
                 'email' => 'Rizal@gmail.com',
                 'alamat' => 'Gurit RT001 RW001, Desa Pengatigan, Kecamatan Rogojampi',
                 'no_hp' => '085936155999',
-                'foto' => 'fotonya',
+                'foto' => null,
                 'password' => bcrypt('pembeli'),
             ],
         ];

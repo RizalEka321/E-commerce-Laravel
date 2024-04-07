@@ -1,11 +1,55 @@
 @extends('Pembeli.layout.app')
 @section('title', 'Keranjang')
 @section('content')
+    <style>
+        .qty-container {
+            display: flex;
+            align-items: left;
+            justify-content: flex-start;
+        }
+
+        .qty-container .input-qty {
+            text-align: center;
+            padding: 6px 10px;
+            border: 1px solid #d4d4d4;
+            max-width: 80px;
+        }
+
+        .qty-container .qty-btn-minus,
+        .qty-container .qty-btn-plus {
+            border: 1px solid #d4d4d4;
+            padding: 10px 13px;
+            font-size: 10px;
+            height: 38px;
+            width: 38px;
+            transition: 0.3s;
+        }
+
+        .qty-container .qty-btn-plus {
+            margin-left: -1px;
+        }
+
+        .qty-container .qty-btn-minus {
+            margin-right: -1px;
+        }
+
+        .qty-btn-minus:hover {
+            transition: transform .2s;
+            color: var(--white);
+            background: var(--red);
+        }
+
+        .qty-btn-plus:hover {
+            transition: transform .2s;
+            color: var(--white);
+            background: var(--red);
+        }
+    </style>
     {{-- Keranjang --}}
     <section class="keranjang">
         <div class="container">
             <hr class="my-2 hr-keranjang opacity-100" data-aos="flip-right" data-aos-delay="100">
-            <table id="tabel_keranjang" class="table table-hover table-condensed">
+            <table id="tabel_keranjang" class="table table-condensed">
                 <thead>
                     <tr>
                         <th width="50%">Produk</th>
@@ -24,6 +68,10 @@
                         </td>
                     </tr>
                     <tr>
+                        <td class="text-start">
+                            <a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus"
+                                onClick="delete_all_data({{ Auth::user()->id }})">Hapus Semua</a>
+                        </td>
                         <td colspan="5" class="text-end">
                             <button class="btn-keranjang px-5">Checkout</button>
                         </td>
@@ -126,25 +174,46 @@
             });
         });
 
-        $(document).on('change', '.update-keranjang', function() {
-            var jumlah = $(this).val();
-            var id_keranjang = $(this).data('id'); // Mengambil ID dari data-id atribut
+        $(document).ready(function() {
+            // Event listener untuk tombol plus
+            $(document).on('click', '.qty-btn-plus', function() {
+                var $qtyInput = $(this).parent(".qty-container").find(".input-qty");
+                var currentQty = parseInt($qtyInput.val());
+                $qtyInput.val(currentQty + 1);
+                updateKeranjang($qtyInput);
+            });
 
-            $.ajax({
-                url: '/keranjang/update',
-                type: 'POST',
-                data: {
-                    id_keranjang: id_keranjang,
-                    jumlah: jumlah
-                },
-                success: function(response) {
-                    reload_table();
-                    console.log(response);
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText);
+            // Event listener untuk tombol minus
+            $(document).on('click', '.qty-btn-minus', function() {
+                var $qtyInput = $(this).parent(".qty-container").find(".input-qty");
+                var currentQty = parseInt($qtyInput.val());
+                if (currentQty > 0) {
+                    $qtyInput.val(currentQty - 1);
+                    updateKeranjang($qtyInput);
                 }
             });
+
+            // Fungsi untuk mengirim data perubahan jumlah ke server
+            function updateKeranjang($qtyInput) {
+                var jumlah = $qtyInput.val();
+                var id_keranjang = $qtyInput.data('id');
+
+                $.ajax({
+                    url: '/keranjang/update',
+                    type: 'POST',
+                    data: {
+                        id_keranjang: id_keranjang,
+                        jumlah: jumlah
+                    },
+                    success: function(response) {
+                        reload_table();
+                        console.log(response);
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            }
         });
 
         function delete_data(id) {
@@ -160,6 +229,35 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         url: "{{ url('/keranjang/delete') }}",
+                        type: "POST",
+                        data: {
+                            q: id
+                        },
+                        dataType: "JSON",
+                    });
+                    Swal.fire(
+                        'Hapus!',
+                        'Produk berhasil Dihapus',
+                        'success'
+                    )
+                    reload_table();
+                }
+            })
+        };
+
+        function delete_all_data(id) {
+            Swal.fire({
+                title: 'Hapus Semua Produk',
+                text: "Apakah anda yakin!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ url('/keranjang/delete-all') }}",
                         type: "POST",
                         data: {
                             q: id

@@ -1,6 +1,9 @@
 @extends('Pembeli.layout.app')
 @section('title', 'Homepage')
 @section('content')
+    <a href="#" class="act-btn">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
     {{-- Banner --}}
     <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
@@ -56,24 +59,36 @@
                 <span>Profile Perusahaan</span>
                 <hr class="hr-home opacity-100" data-aos="flip-right" data-aos-delay="100">
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <h2>Profil Perusahaan</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem eum porro ea illo repellat quis
-                        consequatur sint deserunt sed atque, molestias veritatis tempore? Maiores labore ipsam, odio eaque
-                        totam explicabo tempore? Doloremque sunt perferendis dolore odit dolorem reprehenderit provident
-                        eaque. Quod veniam ex esse vitae, provident deserunt illo rem? Quae quos laboriosam eum! Blanditiis
-                        quod, aspernatur totam quas, dolore dignissimos officiis minus quaerat magni quo, corporis numquam a
-                        repellat consequuntur quis doloremque vitae eveniet recusandae. Cupiditate commodi ea sequi,
-                        provident nobis omnis cumque quidem quis eius mollitia suscipit soluta, at iure unde, recusandae
-                        libero fugit animi sit placeat molestiae repudiandae saepe nam consectetur praesentium? Perspiciatis
-                        ducimus eum ex temporibus cupiditate qui omnis veritatis veniam, vitae, doloremque fuga laborum odio
-                        quaerat obcaecati eos voluptatibus, inventore nisi pariatur corrupti earum maxime dolor error. Quasi
-                        nesciunt quo, totam ipsum repudiandae aspernatur ipsa.</p>
-                </div>
-                <div class="col-md-6">
-                    <img src="{{ asset('assets/Pembeli/img/logo1.png') }}" class="img-fluid" width="100%"
-                        alt="Company Image">
+            <div class="col-lg-20">
+                <div class="row">
+                    <div class="col-md-5 col-lg-5 order-md-2">
+                        <div class="card border-0 bg-white rounded">
+                            <div class="card-body">
+                                <img src="{{ asset('assets/Pembeli/img/logo1.png') }}" class="img-fluid" width="100%"
+                                    alt="Company Image">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7 col-lg-7 order-md-1">
+                        <div class="card border-0 bg-white rounded">
+                            <div class="card-body">
+                                <h2>Profil Perusahaan</h2>
+                                <p>CV. Lokal Industri adalah sebuah perusahaan yang bergerak dalam bidang jasa pembuatan
+                                    baju konveksi yang berlokasi di Desa Jajag, Kecamatan Gambiran. memiliki potensi yang
+                                    menjanjikan dalam industri pembuatan baju. Mereka secara teratur menerima pesanan dari
+                                    pelanggan lokal maupun sekitarnya, dengan jumlah orderan yang bervariasi tergantung pada
+                                    faktor-faktor seperti musim dan permintaan pasar. Jenis pesanan yang diterima pun
+                                    beragam, mulai dari baju seragam sekolah, baju kerja, hingga baju promosi perusahaan.
+                                    Setiap bulannya, CV tersebut biasanya mendapatkan 2-3 proyek pembuatan pakaian dengan
+                                    masing-masing proyek mencapai lebih dari 100 pcs produksi. Namun demikian, di CV
+                                    tersebut saat ini masih menggunakan cara manual dalam proses pencatatan pesanan masuk
+                                    dengan menggunakan buku. Selain itu, proses pemasaran masih mengandalkan platform
+                                    WhatsApp. Terlebih lagi, pemilik perusahaan harus menghitung jumlah omset dari proyek
+                                    yang sudah selesai secara manual menggunakan buku, yang dapat mengakibatkan resiko
+                                    kehilangan data dan memakan waktu yang lama.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

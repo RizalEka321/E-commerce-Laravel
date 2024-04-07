@@ -35,7 +35,7 @@
                     <hr>
                 </div>
                 <form id="form_tambah" action="{{ url('/admin/user-manajemen/create') }}" method="POST"
-                    enctype="multipart/form-data" class="was-validated" role="form">
+                    enctype="multipart/form-data" role="form">
                     <div class="card-body">
                         <div class="row gx-5 mb-3">
                             <div class="col">
@@ -43,18 +43,16 @@
                                     <label for="nama_lengkap">Nama Panjang :</label>
                                     <input id="nama_lengkap" type="text" name="nama_lengkap"
                                         value="{{ old('nama_lengkap') }}" class="form-control"
-                                        placeholder="Masukkan Nama Panjang" required autofocus>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                        placeholder="Masukkan Nama Panjang"autofocus>
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="username">Username :</label>
                                     <input id="username" type="text" name="username" value="{{ old('username') }}"
-                                        class="form-control" placeholder="Masukkan Username" required autofocus>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                        class="form-control" placeholder="Masukkan Username">
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                         </div>
@@ -63,73 +61,62 @@
                                 <div class="form-group">
                                     <label for="email">Email :</label>
                                     <input id="email" type="email" name="email" value="{{ old('email') }}"
-                                        class="form-control" placeholder="Masukkan Email" required autofocus>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                        class="form-control" placeholder="Masukkan Email">
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="no_hp">No Handphone(HP) :</label>
                                     <input id="no_hp" type="text" name="no_hp" value="{{ old('no_hp') }}"
-                                        class="form-control" placeholder="Masukkan No HP" required autofocus>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                        class="form-control" placeholder="Masukkan No HP">
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                         </div>
                         <div id="input_foto" class="row gx-5 mb-3 hidden">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="foto">Gambar:</label>
-                                    <input id="foto" type="file" name="foto" class="form-control" required
-                                        autofocus>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                    <label for="foto">Foto:</label>
+                                    <input id="foto" type="file" name="foto" class="form-control">
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="role">Jenis :</label>
-                                    <select id="role" name="role" class="form-control" required autofocus>
+                                    <label for="role">Role :</label>
+                                    <select id="role" name="role" class="form-control">
                                         <option value="">-- Pilih Role --</option>
-                                        <option value="Owner">Owner</option>
+                                        <option value="Pemilik">Pemilik</option>
                                         <option value="Pegawai">Pegawai</option>
                                         <option value="Pembeli">Pembeli</option>
                                     </select>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
                             <div class="form-group">
                                 <label for="alamat">Alamat :</label>
-                                <textarea id="alamat" name="alamat" class="form-control" placeholder="Masukkan Alamat" id="alamat" required
-                                    autofocus>{{ old('alamat') }}</textarea>
-                                <div class="valid-feedback"><i>*valid</i> </div>
-                                <div class="invalid-feedback"><i>*required</i> </div>
+                                <textarea id="alamat" name="alamat" class="form-control" placeholder="Masukkan Alamat" id="alamat">{{ old('alamat') }}</textarea>
+                                <span class="form-text text-danger error-message"></span>
                             </div>
                         </div>
                         <div class="row gx-5 mb-3">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="password">Password Baru:</label>
+                                    <label for="password">Password:</label>
                                     <input type="password" class="form-control" id="password" name="password"
-                                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*wajib menggunakan kombinasi angka dan huruf
-                                            yang mengandung huruf kapital minimal 8 karakter</i> </div>
+                                        placeholder="Password">
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="harga_satuan">Harga Satuan :</label>
-                                    <input id="harga_satuan" type="text" name="harga_satuan"
-                                        value="{{ old('harga_satuan') }}" class="form-control"
-                                        placeholder="Masukkan Harga Satuan" required autofocus>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                    <label for="harga_satuan">Konfirmasi Password :</label>
+                                    <input type="password" class="form-control" id="password_confirmation"
+                                        name="password_confirmation" placeholder="Konfirmasi Password">
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                         </div>
@@ -148,13 +135,7 @@
 @endsection
 @section('script')
     <script type="text/javascript">
-        // Global Setup
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
+        // Button
         $('#btn-add').click(function() {
             $('#tambah_data').removeClass('hidden');
             $('#datane').addClass('hidden');
@@ -170,16 +151,25 @@
             reset_form();
         });
 
+        // Global Setup
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        // Reload Table
         function reload_table() {
             $('#tabel_user').DataTable().ajax.reload();
         }
 
+        // Reset Form
         function reset_form() {
             $('#form_tambah').attr('action', "{{ url('/admin/user-manajemen/create') }}");
             $('#form_tambah')[0].reset();
         }
 
-        // Fungsi index
+        // Fungsi index tabel
         $(function() {
             var table = $('#tabel_user').DataTable({
                 processing: true,
@@ -235,9 +225,10 @@
                     success: function(data) {
                         $('.error-message').empty();
                         if (data.errors) {
-                            // $.each(data.errors, function(key, value) {
-                            //     Swal.fire('Upss..!', value, 'error');
-                            // });
+                            $.each(data.errors, function(key, value) {
+                                // Show error message below each input
+                                $('#' + key).next('.error-message').text('*' + value);
+                            });
                             Swal.fire("Error", "Datanya ada yang kurang", "error");
                         } else {
                             reset_form();

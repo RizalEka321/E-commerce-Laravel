@@ -43,3 +43,14 @@
         </div>
     </div>
 @endsection
+@section('script')
+    <script>
+        $(function() {
+            $("#tahun").datepicker({
+                format: 'yyyy',
+                autoclose: true,
+                todayHighlight: true,
+            });
+        });
+    </script>
+@endsection

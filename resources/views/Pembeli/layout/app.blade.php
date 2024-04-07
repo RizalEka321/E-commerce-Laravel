@@ -37,6 +37,7 @@
     <link rel="stylesheet" href="{{ url('assets/plugins/datatables-responsive/css/responsive.bootstrap5.min.css') }}">
     {{-- SweetAlert --}}
     <link rel="stylesheet" href="{{ url('assets/plugins/sweetalert/sweetalert2.min.css') }}">
+
 </head>
 
 <body>
@@ -44,10 +45,6 @@
     <div id="loading-container">
         <div id="loading" class="loading"></div>
     </div>
-
-    <a href="#" class="act-btn">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
 
     {{-- Navbar --}}
     @include('Pembeli.layout.navbar')
@@ -63,7 +60,6 @@
 
     {{-- JS Files --}}
     {{-- Bootstrap --}}
-    <script src="{{ asset('assets/plugins/bootstrap/js/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
@@ -71,6 +67,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
     </script>
+    {{-- Jquery --}}
+    <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
     {{-- AOS Animate --}}
     <script src="{{ asset('assets/plugins/aos/js/aos.js') }}"></script>
     {{-- Glightbox --}}

@@ -38,16 +38,16 @@
     display: inline-block;
     padding: 5px 15px;
     border-radius: 2px;
-    border: 1px solid var(--pink);
+    border: 1px solid var(--red);
     text-decoration: none;
     -webkit-transition: all 0.5s ease-in-out;
     color: white;
-    background: linear-gradient(to bottom left, var(--red), #B500A0);
+    background: linear-gradient(to bottom left, var(--red), var(--red));
 }
 
 .pesanan .btn-resell:hover {
-    border-color: var(--pink);
-    color: var(--pink);
+    border-color: var(--red);
+    color: var(--red);
     background: white;
 }
 
@@ -57,17 +57,17 @@
     display: inline-block;
     padding: 5px 15px;
     border-radius: 2px;
-    border: 1px solid var(--pink);
+    border: 1px solid var(--red);
     text-decoration: none;
     -webkit-transition: all 0.5s ease-in-out;
-    color: var(--pink);
+    color: var(--red);
     background: white;
 }
 
 .pesanan .btn-nilai:hover {
-    border-color: var(--pink);
+    border-color: var(--red);
     color: white;
-    background: var(--pink);
+    background: var(--red);
 }
 
 #total {
