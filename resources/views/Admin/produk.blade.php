@@ -50,15 +50,16 @@
                             <div class="col">
                                 <div id="input_foto" class="form-group">
                                     <label for="foto">Gambar :</label>
-                                    <input id="foto" type="file" name="foto" class="form-control">
+                                    <input id="foto" type="file" name="foto" class="form-control"
+                                        accept=".jpeg, .png, .jpg">
                                     <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="harga">Harga:</label>
-                                    <input id="harga" type="number" name="harga" value="{{ old('harga') }}"
-                                        class="form-control" placeholder="Harga">
+                                    <input id="harga" type="number" name="harga" class="form-control"
+                                        placeholder="Harga" value="{{ old('harga') }}">
                                     <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
@@ -131,15 +132,18 @@
             }
         });
 
+        // Reload Table
         function reload_table() {
             $('#tabel_produk').DataTable().ajax.reload();
         }
 
+        // Reset Form
         function reset_form() {
             $('#form-add').attr('action', "{{ url('/admin/produk/create') }}");
             $('#form_tambah')[0].reset();
         }
 
+        // Reset validasi
         function reset_errors() {
             $('.error-message').empty();
         }
@@ -155,7 +159,7 @@
             }
         }
 
-        // Fungsi index
+        // Fungsi index tabel
         $(function() {
             var table = $('#tabel_produk').DataTable({
                 processing: true,
@@ -212,11 +216,11 @@
                     success: function(data) {
                         $('.error-message').empty();
                         if (data.errors) {
-                            console.log(data)
                             $.each(data.errors, function(key, value) {
                                 // Show error message below each input
                                 $('#' + key).next('.error-message').text('*' + value);
                             });
+                            // Jika terdapat error, tampilkan pesan error dalam SweetAlert
                             Swal.fire("Error", "Datanya ada yang kurang", "error");
                         } else {
                             reset_form();

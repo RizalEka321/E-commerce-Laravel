@@ -192,3 +192,15 @@ Home page styles
 .home .owl-dots button.owl-dot:focus {
     outline: none;
 }
+
+::-webkit-scrollbar {
+    width: 13px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--white);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--red);
+}

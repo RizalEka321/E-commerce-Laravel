@@ -72,7 +72,7 @@
                                     </form>
                                 </li>
                             @elseif(auth()->user()->role == 'Pembeli')
-                                <li><a class="dropdown-item" href="{{ route('profile') }}">Profile</a></li>
+                                <li><a class="dropdown-item" href="{{ route('profile') }}">Akun Saya</a></li>
                                 <li><a class="dropdown-item" href="{{ route('pesanan_saya') }}">Pesanan Saya</a></li>
                                 <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
                             @endif

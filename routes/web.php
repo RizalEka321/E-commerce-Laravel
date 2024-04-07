@@ -98,6 +98,7 @@ Route::middleware(['auth:web', 'pembeli'])->group(function () {
     Route::get('/keranjang/list', [KeranjangController::class, "get_keranjang"])->name('keranjang.list');
     Route::post('/keranjang/update', [KeranjangController::class, "update_keranjang"])->name('keranjang.update');
     Route::post('/keranjang/delete', [KeranjangController::class, "delete_keranjang"])->name('keranjang.delete');
+    Route::post('/keranjang/delete-all', [KeranjangController::class, "delete_all_keranjang"])->name('keranjang.delete_all');
     Route::post('/keranjang/create', [KeranjangController::class, "add_keranjang"])->name('keranjang.add');
 });
 

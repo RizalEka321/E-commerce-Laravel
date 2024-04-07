@@ -74,7 +74,7 @@
                                                             </h4>
                                                         </div>
                                                         <div class="total d-flex justify-content-end mb-0">
-                                                            @if ($item->bukti_pembayaran == null)
+                                                            {{-- @if ($item->bukti_pembayaran == null)
                                                                 <!-- Button trigger modal -->
                                                                 <button type="button" class="btn-resell"
                                                                     data-bs-toggle="modal"
@@ -83,7 +83,7 @@
                                                                 </button>
                                                             @else
                                                                 <h4> Bukti Sudah Di upload</h4>
-                                                            @endif
+                                                            @endif --}}
 
                                                             <!-- Modal -->
                                                             <div class="modal fade" id="exampleModal{{ $item->id }}"
@@ -286,6 +286,8 @@
                                                             </h4>
                                                         </div>
                                                         <div class="d-flex justify-content-end mt-3 mb-0">
+                                                            <a target="_blank" type="button" class="btn-resell me-2"
+                                                                href="#">Beli Lagi</a>
                                                             <a target="_blank" type="button" class="btn-resell"
                                                                 href="#">Cetak</a>
                                                         </div>

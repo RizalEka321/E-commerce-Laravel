@@ -11,7 +11,7 @@
         sizes="16x16" /> --}}
     <link rel="stylesheet" href="{{ asset('assets/admin/css/style.css?ts=' . time()) }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/loading.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/trix/css/trix.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/trix/trix.css') }}">
     {{-- Bootsrap 5 --}}
     <link href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     {{-- Data Tables --}}
@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="{{ url('assets/plugins/fontawesome/css/all.css') }}">
     {{-- SweetAlert --}}
     <link rel="stylesheet" href="{{ url('assets/plugins/sweetalert/sweetalert2.min.css') }}">
+    {{-- Datepicker --}}
+    <link rel="stylesheet" href="{{ url('assets/plugins/datepicker/bootstrap-datepicker.min.css') }}">
 
 </head>
 
@@ -44,8 +46,11 @@
     {{-- Admin Main JS --}}
     <script src="{{ asset('assets/admin/js/main.js') }}"></script>
     {{-- Bootstrap 5 --}}
-    <script src="{{ asset('assets/plugins/bootstrap/js/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+    {{-- Jquery --}}
+    <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
+    {{-- Datepicker --}}
+    <script src="{{ asset('assets/plugins/datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     {{-- Sweetalert --}}
     <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
     {{-- Data Tables --}}
@@ -55,7 +60,7 @@
     <script src="{{ url('assets/plugins/datatables-responsive/js/responsive.bootstrap5.min.js') }}"></script>
     @yield('script')
     {{-- Trix JS --}}
-    <script src="{{ asset('assets/plugins/trix/js/trix.umd.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/trix/trix.umd.min.js') }}"></script>
     <style>
         trix-toolbar [data-trix-button-group="file-tools"] {
             display: none;

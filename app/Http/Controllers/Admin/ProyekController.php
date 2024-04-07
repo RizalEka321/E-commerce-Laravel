@@ -104,9 +104,9 @@ class ProyekController extends Controller
             'foto_logo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto_desain' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'deskripsi_proyek' => 'required|string',
-            'jumlah' => 'required|numeric',
-            'harga_satuan' => 'required|numeric',
-            'nominal_dp' => 'numeric|nullable',
+            'jumlah' => 'required|integer|min:0',
+            'harga_satuan' => 'required|integer|min:0',
+            'nominal_dp' => 'integer|nullable|min:0',
             'deadline' => 'required',
         ], [
             'nama_pemesan.required' => 'Nama wajib diisi.',
@@ -132,10 +132,13 @@ class ProyekController extends Controller
             'deskripsi_proyek.required' => 'Deskripsi wajib diisi.',
             'deskripsi_proyek.string' => 'Deskripsi harus berupa teks.',
             'jumlah.required' => 'Jumlah wajib diisi.',
-            'jumlah.numeric' => 'Jumlah harus berupa angka.',
+            'jumlah.integer' => 'Jumlah harus berupa angka.',
+            'jumlah.min' => 'Jumlah tidak boleh kurang dari 0.',
             'harga_satuan.required' => 'Harga Satuan wajib diisi.',
-            'harga_satuan.numeric' => 'Harga Satuan harus berupa angka.',
-            'nominal_dp.numeric' => 'Nominal DP harus berupa angka.',
+            'harga_satuan.integer' => 'Harga Satuan harus berupa angka.',
+            'harga_satuan.min' => 'Harga tidak boleh kurang dari 0.',
+            'nominal_dp.integer' => 'Nominal DP harus berupa angka.',
+            'nominal_dp.min' => 'Nominal DP tidak boleh kurang dari 0.',
             'deadline.required' => 'Deadline Proyek wajib diisi.',
         ]);
 
@@ -154,6 +157,14 @@ class ProyekController extends Controller
             $foto_desain = $request->foto_desain;
             $file_desain =  'desain' . '.' . $foto_desain->extension();
             $foto_desain->move(public_path($path), $file_desain);
+
+            // Perhitungan total pembayaran
+            $total_pembayaran = $request->jumlah * $request->harga_satuan;
+
+            // Validasi nominal DP tidak boleh lebih besar dari total pembayaran
+            if ($request->nominal_dp > $total_pembayaran) {
+                return response()->json(['errors' => ['nominal_dp' => ['Nominal DP tidak boleh lebih besar dari total pembayaran.']]]);
+            }
 
             $proyekData = [
                 'nama_pemesan' => Str::title($request->nama_pemesan),
@@ -200,12 +211,12 @@ class ProyekController extends Controller
             'no_hp' => 'required|string',
             'alamat' => 'required|string',
             'item' => 'required|string',
-            'foto_logo' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'foto_desain' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'foto_logo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_desain' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'deskripsi_proyek' => 'required|string',
-            'jumlah' => 'required|numeric',
-            'harga_satuan' => 'required|numeric',
-            'nominal_dp' => 'numeric|nullable',
+            'jumlah' => 'required|integer|min:0',
+            'harga_satuan' => 'required|integer|min:0',
+            'nominal_dp' => 'integer|nullable|min:0',
             'deadline' => 'required',
         ], [
             'nama_pemesan.required' => 'Nama wajib diisi.',
@@ -220,19 +231,24 @@ class ProyekController extends Controller
             'alamat.string' => 'Alamat harus berupa teks.',
             'item.required' => 'Item wajib diisi.',
             'item.string' => 'Item harus berupa teks.',
+            'foto_logo.required' => 'Foto Logo wajib diisi.',
             'foto_logo.image' => 'Foto Logo harus berupa file gambar.',
             'foto_logo.mimes' => 'Foto Logo harus dalam format jpeg, png, atau jpg.',
             'foto_logo.max' => 'Foto Logo tidak boleh lebih dari 2048 KB.',
+            'foto_desain.required' => 'Foto Desain wajib diisi.',
             'foto_desain.image' => 'Foto Desain harus berupa file gambar.',
             'foto_desain.mimes' => 'Foto Desain harus dalam format jpeg, png, atau jpg.',
             'foto_desain.max' => 'Foto Desain tidak boleh lebih dari 2048 KB.',
             'deskripsi_proyek.required' => 'Deskripsi wajib diisi.',
             'deskripsi_proyek.string' => 'Deskripsi harus berupa teks.',
             'jumlah.required' => 'Jumlah wajib diisi.',
-            'jumlah.numeric' => 'Jumlah harus berupa angka.',
+            'jumlah.integer' => 'Jumlah harus berupa angka.',
+            'jumlah.min' => 'Jumlah tidak boleh kurang dari 0.',
             'harga_satuan.required' => 'Harga Satuan wajib diisi.',
-            'harga_satuan.numeric' => 'Harga Satuan harus berupa angka.',
-            'nominal_dp.numeric' => 'Nominal DP harus berupa angka.',
+            'harga_satuan.integer' => 'Harga Satuan harus berupa angka.',
+            'harga_satuan.min' => 'Harga tidak boleh kurang dari 0.',
+            'nominal_dp.integer' => 'Nominal DP harus berupa angka.',
+            'nominal_dp.min' => 'Nominal DP tidak boleh kurang dari 0.',
             'deadline.required' => 'Deadline Proyek wajib diisi.',
         ]);
 

@@ -98,14 +98,16 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="foto_logo">Gambar Logo :</label>
-                                    <input id="foto_logo" type="file" name="foto_logo" class="form-control" autofocus>
+                                    <input id="foto_logo" type="file" name="foto_logo" class="form-control"
+                                        accept=".jpeg, .png, .jpg">
                                     <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="foto_desain">Gambar Desain :</label>
-                                    <input id="foto_desain" type="file" name="foto_desain" class="form-control">
+                                    <input id="foto_desain" type="file" name="foto_desain" class="form-control"
+                                        accept=".jpeg, .png, .jpg">
                                     <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>

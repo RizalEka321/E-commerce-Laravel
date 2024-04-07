@@ -49,7 +49,7 @@ class ProdukController extends Controller
         $validator = Validator::make($request->all(), [
             'judul' => 'required|string|min:2|max:100|unique:produk',
             'deskripsi' => 'required|string',
-            'harga' => 'required|numeric',
+            'harga' => 'required|integer|min:0',
             'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'jenis_ukuran' => 'required|array|min:1',
             'jenis_ukuran.*' => 'string|max:255',
@@ -62,12 +62,19 @@ class ProdukController extends Controller
             'judul.max' => 'Nama maksimal hanya boleh 100 karakter.',
             'deskripsi.required' => 'Deskripsi wajib diisi.',
             'harga.required' => 'Harga wajib diisi.',
-            'harga.numeric' => 'Harga harus berupa angka.',
+            'harga.integer' => 'Harga harus berupa angka.',
+            'harga.min' => 'Harga tidak boleh kurang dari 0.',
             'foto.required' => 'Foto wajib diunggah.',
             'foto.image' => 'File harus berupa gambar.',
             'foto.mimes' => 'Format gambar hanya boleh jpeg, png, atau jpg.',
             'foto.max' => 'Ukuran gambar maksimal adalah 2 MB.',
+            'jenis_ukuran.required' => 'Jenis ukuran wajib diisi.',
+            'jenis_ukuran.array' => 'Jenis ukuran harus berupa array.',
+            'jenis_ukuran.min' => 'Minimal satu jenis ukuran harus dipilih.',
+            'jenis_ukuran.*.string' => 'Setiap jenis ukuran harus berupa teks.',
+            'jenis_ukuran.*.max' => 'Panjang jenis ukuran maksimal adalah 255 karakter.',
         ]);
+
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
@@ -117,7 +124,7 @@ class ProdukController extends Controller
         $validator = Validator::make($request->all(), [
             'judul' => 'required|string|min:2|max:100',
             'deskripsi' => 'required|string',
-            'harga' => 'required|numeric',
+            'harga' => 'required|integer|min:0',
             'foto'     => 'image|mimes:jpeg,png,jpg|max:2048',
             'jenis_ukuran' => 'required|array|min:1',
             'jenis_ukuran.*' => 'string|max:255',
@@ -129,11 +136,18 @@ class ProdukController extends Controller
             'judul.max' => 'Nama maksimal hanya boleh 100 karakter.',
             'deskripsi.required' => 'Deskripsi wajib diisi.',
             'harga.required' => 'Harga wajib diisi.',
-            'harga.numeric' => 'Harga harus berupa angka.',
+            'harga.integer' => 'Harga harus berupa bilangan bulat.',
+            'harga.min' => 'Harga tidak boleh kurang dari 0.',
             'foto.image' => 'File harus berupa gambar.',
             'foto.mimes' => 'Format gambar hanya boleh jpeg, png, atau jpg.',
             'foto.max' => 'Ukuran gambar maksimal adalah 2 MB.',
+            'jenis_ukuran.required' => 'Jenis ukuran wajib diisi.',
+            'jenis_ukuran.array' => 'Jenis ukuran harus berupa array.',
+            'jenis_ukuran.min' => 'Minimal satu jenis ukuran harus dipilih.',
+            'jenis_ukuran.*.string' => 'Setiap jenis ukuran harus berupa teks.',
+            'jenis_ukuran.*.max' => 'Panjang jenis ukuran maksimal adalah 255 karakter.',
         ]);
+
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
@@ -144,7 +158,6 @@ class ProdukController extends Controller
             $produk->judul = Str::title($request->judul);
             $produk->slug = Str::slug($request->judul);
             $produk->deskripsi = $request->deskripsi;
-            $produk->stok = $request->stok;
             $produk->harga = $request->harga;
 
             if ($request->hasFile('foto')) {
@@ -190,6 +203,18 @@ class ProdukController extends Controller
     {
         $id = $request->input('q');
         $produk = Produk::find($id);
+        $fotoPath = public_path($produk->foto);
+        if (file_exists($fotoPath)) {
+            unlink($fotoPath);
+        }
+
+        // Hapus folder jika masih ada
+        $folderPath = dirname($fotoPath);
+        if (is_dir($folderPath)) {
+            rmdir($folderPath);
+        }
+
+        // Hapus entri produk dari database
         $produk->delete();
 
         return response()->json(['status' => true]);
