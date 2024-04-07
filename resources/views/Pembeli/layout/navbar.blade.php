@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" data-aos="fade-down">
     <div class="container">
         <a href="{{ route('home') }}" class="navbar-brand">
-            {{-- <img src="/images/logo.svg" alt="Logo" /> --}}
-            LOKAL-INDUSTRI
+            <img src="assets/pembeli/img/logo2.png" alt="" width="50px" height="50px">
+            | GARMENT STUDIO
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
