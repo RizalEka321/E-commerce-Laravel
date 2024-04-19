@@ -12,13 +12,14 @@ class Pesanan extends Model
     protected $primaryKey = 'id_pesanan';
     protected $fillable = [
         'id_pesanan',
-        'user_id',
+        'users_id',
         'alamat_pengiriman',
         'no_hp',
         'metode_pengiriman',
         'metode_pembayaran',
         'status',
-        'total'
+        'total',
+        'snaptoken'
     ];
 
     public function user()

@@ -15,7 +15,8 @@ class Keranjang extends Model
         'users_id',
         'produk_id',
         'jumlah',
-        'ukuran'
+        'ukuran',
+        'status'
     ];
 
     public function produk()

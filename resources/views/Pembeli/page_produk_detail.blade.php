@@ -1,75 +1,6 @@
 @extends('Pembeli.layout.app')
 @section('title', 'Detail Produk')
 @section('content')
-    <style>
-        .radio-toolbar input[type="radio"] {
-            display: none;
-        }
-
-        .radio-toolbar label {
-            display: inline-block;
-            border: 1px solid #ddd;
-            padding: 10px 20px;
-            margin-right: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .radio-toolbar input[type="radio"]:checked+label {
-            background-color: var(--red);
-            color: #fff
-        }
-
-        .radio-toolbar input[type="radio"]+label:hover {
-            transition: transform .2s;
-            color: var(--red);
-            border: 1px solid var(--red)
-        }
-
-        /*--------------------------*/
-        .qty-container {
-            display: flex;
-            align-items: left;
-            justify-content: flex-start;
-        }
-
-        .qty-container .input-qty {
-            text-align: center;
-            padding: 6px 10px;
-            border: 1px solid #d4d4d4;
-            max-width: 80px;
-        }
-
-        .qty-container .qty-btn-minus,
-        .qty-container .qty-btn-plus {
-            border: 1px solid #d4d4d4;
-            padding: 10px 13px;
-            font-size: 10px;
-            height: 38px;
-            width: 38px;
-            transition: 0.3s;
-        }
-
-        .qty-container .qty-btn-plus {
-            margin-left: -1px;
-        }
-
-        .qty-container .qty-btn-minus {
-            margin-right: -1px;
-        }
-
-        .qty-btn-minus:hover {
-            transition: transform .2s;
-            color: var(--white);
-            background: var(--red);
-        }
-
-        .qty-btn-plus:hover {
-            transition: transform .2s;
-            color: var(--white);
-            background: var(--red);
-        }
-    </style>
     {{-- Detail Produk --}}
     <section class="detail-produk">
         <div class="container">
@@ -84,7 +15,7 @@
                         <h2>Rp {{ number_format($produk_detail->harga, 0, '.', '.') }}</h2>
                     </div>
                     <div>
-                        <form id="form_tambah" action="{{ url('/keranjang/create') }}" method="POST" role="form">
+                        <form id="form_tambah" action="#" method="POST" role="form">
                             <input type="hidden" name="produk_id" value="{{ $produk_detail->id_produk }}">
                             <div class="mb-3">
                                 <label for="ukuran">Ukuran</label>
@@ -108,10 +39,11 @@
                                             class="fa fa-plus"></i></button>
                                 </div>
                             </div>
-                            <button type="submit" class="btn-keranjang"><i class="fa-solid fa-cart-shopping"></i>
+                            <button type="submit" id="btn_masukkan_keranjang" class="btn-keranjang"><i
+                                    class="fa-solid fa-cart-shopping"></i>
                                 Masukkan
                                 Keranjang</button>
-                            <a href="#" class="btn-beli">Beli Sekarang</a>
+                            <button class="btn-beli" id="btn_beli_sekarang">Beli Sekarang</button>
                         </form>
                     </div>
                 </div>
@@ -183,46 +115,105 @@
             });
         });
 
-        $(function() {
-            $('#form_tambah').submit(function(event) {
-                event.preventDefault();
-                event.stopImmediatePropagation();
-                var url = $(this).attr('action');
-                var formData = new FormData($(this)[0]);
+        $('#btn_masukkan_keranjang').click(function(event) {
+            event.preventDefault(); // Mencegah tindakan default tombol
 
-                // showLoading();
-                $.ajax({
-                    url: url,
-                    type: "POST",
-                    dataType: "JSON",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(data) {
-                        $('.error-message').empty();
-                        if (data.errors) {
-                            console.log(data)
-                            $.each(data.errors, function(key, value) {
-                                // Show error message below each input
-                                $('#' + key).next('.error-message').text('*' + value);
-                            });
-                        } else {
-                            reset_form();
-                            Swal.fire(
-                                'Sukses',
-                                'Produk Berhasil Dimasukkan Keranjang',
-                                'success'
-                            );
-                            reload_table();
-                        }
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(jqXHR);
-                    },
-                    complete: function() {
-                        // hideLoading();
+            // Ubah action form ke URL endpoint checkout
+            var checkoutUrl = "{{ url('/keranjang/create') }}"; // Ganti URL sesuai kebutuhan
+            $('#form_tambah').attr('action', checkoutUrl);
+
+            var url = $('#form_tambah').attr('action');
+            var formData = new FormData($('#form_tambah')[0]);
+
+            // Lakukan AJAX request
+            $.ajax({
+                url: url,
+                type: "POST",
+                dataType: "JSON",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    $('.error-message').empty();
+                    if (data.errors) {
+                        $.each(data.errors, function(key, value) {
+                            // Tampilkan pesan error di bawah setiap input
+                            $('#' + key).next('.error-message').text(
+                                '*' + value);
+                        });
+                    } else {
+                        reset_form();
+                        Swal.fire(
+                            'Sukses',
+                            'Produk Berhasil Dimasukkan Keranjang',
+                            'success'
+                        );
                     }
-                });
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR);
+                },
+                complete: function() {
+                    // Lakukan sesuatu setelah request selesai (jika diperlukan)
+                }
+            });
+        });
+        // Event handler untuk tombol "Beli Sekarang"
+        $('#btn_beli_sekarang').click(function(event) {
+            event.preventDefault(); // Mencegah tindakan default tombol
+
+
+            var checkoutUrl = "{{ url('/checkout-langsung') }}"; // Ganti URL sesuai kebutuhan
+            $('#form_tambah').attr('action', checkoutUrl);
+
+            var url = $('#form_tambah').attr('action');
+            var formData = new FormData($('#form_tambah')[0]);
+
+            // Lakukan AJAX request
+            $.ajax({
+                url: url,
+                type: "POST",
+                dataType: "JSON",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    $('.error-message').empty();
+                    console.log(data.errors);
+                    if (data.errors) {
+                        $.each(data.errors, function(key, value) {
+                            // Tampilkan pesan error di bawah setiap input
+                            $('#' + key).next('.error-message').text('*' +
+                                value);
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Checkout Sekarang?',
+                            text: "Anda akan langsung checkout, lanjutkan?",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ya, checkout!',
+                            cancelButtonText: 'Batal' // Tambahkan teks untuk tombol batal
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Ubah action form ke URL endpoint checkout
+                                window.location.href = "{{ url('/checkout') }}";
+                            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                // Pengguna memilih untuk membatalkan aksi, tidak perlu melakukan apapun
+                                Swal.fire('Batal', 'Anda membatalkan checkout.', 'info');
+                                reset_form();
+                            }
+                        });
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR);
+                },
+                complete: function() {
+                    // Lakukan sesuatu setelah request selesai (jika diperlukan)
+                }
             });
         });
     </script>

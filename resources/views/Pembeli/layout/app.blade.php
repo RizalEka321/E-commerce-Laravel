@@ -31,12 +31,15 @@
     <link href="{{ asset('assets/pembeli/css/style-pesanan-saya.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/pembeli/css/style-profile.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/pembeli/css/style-cart.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/pembeli/css/style-checkout.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/admin/css/loading.css') }}" rel="stylesheet">
     {{-- Data Tables --}}
     <link rel="stylesheet" href="{{ url('assets/plugins/datatables-bs4/css/dataTables.bootstrap5.min.css') }}">
     <link rel="stylesheet" href="{{ url('assets/plugins/datatables-responsive/css/responsive.bootstrap5.min.css') }}">
     {{-- SweetAlert --}}
     <link rel="stylesheet" href="{{ url('assets/plugins/sweetalert/sweetalert2.min.css') }}">
+    <script type="text/javascript" src="https://app.stg.midtrans.com/snap/snap.js"
+        data-client-key="SB-Mid-client-6BnDuXoAtzO-cjum"></script>
 
 </head>
 

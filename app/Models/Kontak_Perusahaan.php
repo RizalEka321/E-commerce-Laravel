@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Kontak extends Model
+class Kontak_Perusahaan extends Model
 {
     use HasFactory;
-    protected $table = 'kontak';
-    protected $primaryKey = 'id_kontak';
+    protected $table = 'kontak_perusahaan';
+    protected $primaryKey = 'id_kontak_perusahaan';
     protected $fillable = [
-        'id_kontak',
+        'id_kontak_perusahaan',
         'instagram',
         'whastapp',
         'email',

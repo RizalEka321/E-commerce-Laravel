@@ -1,61 +1,61 @@
 /*===============================================================
 Detail Produk page styles
 =================================================================*/
-.detail-produk {
+.checkout {
     margin-top: 80px;
     color: var(--black);
 }
 
-.detail-produk .hr-detail {
+.checkout .hr-checkout {
     border-width: 2px;
     color: var(--red);
 }
 
-.detail-produk .row {
+.checkout .konten {
     background-color: #fff;
     border-radius: 5px;
 }
 
-.detail-produk .card {
+.checkout .card {
     color: var(--red);
     padding: 25px;
     border-radius: 10px;
     border: 0;
 }
 
-.detail-produk .card img {
+.checkout .card img {
     border-radius: 10px;
     width: 500px;
     height: 100%;
     object-fit: cover;
 }
 
-.detail-produk .title {
+.checkout .title {
     color: var(--black);
     font-weight: 700;
 }
 
-.detail-produk .price {
+.checkout .price {
     color: var(--red);
     font-style: bold;
     background-color: #f5f5f5;
 }
 
-.detail-produk .rating {
+.checkout .rating {
     color: var(--pink);
 }
 
-.detail-produk .card-body h3 {
+.checkout .card-body h3 {
     color: var(--black);
     font-weight: 700;
 }
 
-.detail-produk .card-body h4 {
+.checkout .card-body h4 {
     margin-top: 25px;
     margin-bottom: 25px;
 }
 
-.detail-produk .btn-keranjang {
+.checkout .btn-buatpesanan {
     font-weight: 600;
     font-size: 16px;
     display: inline-block;
@@ -67,13 +67,13 @@ Detail Produk page styles
     background: linear-gradient(to bottom left, var(--white), var(--white));
 }
 
-.detail-produk .btn-keranjang:hover {
+.checkout .btn-buatpesanan:hover {
     border-color: var(--red);
     color: var(--white);
     background: var(--red);
 }
 
-.detail-produk .btn-beli {
+.checkout .btn-batal {
     font-weight: 600;
     font-size: 16px;
     display: inline-block;
@@ -85,25 +85,25 @@ Detail Produk page styles
     background: linear-gradient(to bottom left, var(--red), var(--red));
 }
 
-.detail-produk .btn-beli:hover {
+.checkout .btn-batal:hover {
     border-color: var(--red);
     color: var(--red);
     background: var(--white);
 }
 
-.detail-produk .description {
+.checkout .description {
     border: 0;
     border-radius: 10px;
     color: var(--var(--black));
     background-color: var(--white);
 }
 
-.detail-produk .description h4 {
+.checkout .description h4 {
     color: var(--black);
     font-weight: 700;
 }
 
-.detail-produk .description p {
+.checkout .description p {
     margin-bottom: 0;
     letter-spacing: 0.5px;
 }

@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kontak', function (Blueprint $table) {
-            $table->char('id_kontak');
-            $table->string('instagram');
-            $table->string('whatsapp');
-            $table->string('email');
-            $table->string('facebook');
+        Schema::create('profil_perusahaan', function (Blueprint $table) {
+            $table->char('id_profil_perusahaan');
+            $table->string('foto');
+            $table->string('deskripsi');
+            $table->string('alamat');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kontak');
+        Schema::dropIfExists('profil_perusahaan');
     }
 };

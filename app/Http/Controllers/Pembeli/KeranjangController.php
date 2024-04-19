@@ -52,7 +52,8 @@ class KeranjangController extends Controller
                 'users_id' => Auth::user()->id,
                 'produk_id' => $request->produk_id,
                 'jumlah' => $request->jumlah,
-                'ukuran' => $request->ukuran
+                'ukuran' => $request->ukuran,
+                'status' => 'Tidak'
             ]);
         }
 
@@ -62,7 +63,7 @@ class KeranjangController extends Controller
 
     public function get_keranjang()
     {
-        $data = Keranjang::where('users_id', Auth::user()->id)->with('produk')->get();
+        $data = Keranjang::where('users_id', Auth::user()->id)->where('status', 'Tidak')->with('produk')->get();
 
         return Datatables::of($data)
             ->addIndexColumn()
@@ -139,7 +140,7 @@ class KeranjangController extends Controller
     public function delete_all_keranjang(Request $request)
     {
         $id = $request->input('q');
-        $keranjang = Keranjang::where('users_id', $id)->get();
+        $keranjang = Keranjang::where('users_id', $id)->where('status', 'Tidak')->get();
         foreach ($keranjang as $item) {
             $item->delete();
         }

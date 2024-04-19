@@ -10,6 +10,13 @@ class Detail_Pesanan extends Model
     use HasFactory;
     protected $table = 'detail_pesanan';
     protected $primaryKey = 'id_detail';
+    protected $fillable = [
+        'id_detail',
+        'pesanan_id',
+        'produk_id',
+        'jumlah',
+        'ukuran',
+    ];
 
     public function produk()
     {

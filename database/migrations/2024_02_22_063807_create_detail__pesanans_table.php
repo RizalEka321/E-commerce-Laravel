@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('produk_id');
             $table->foreignId('pesanan_id');
             $table->integer('jumlah');
+            $table->string('ukuran');
             $table->foreign('produk_id')->references('id_produk')->on('produk');
             $table->foreign('pesanan_id')->references('id_pesanan')->on('pesanan');
             $table->timestamps();

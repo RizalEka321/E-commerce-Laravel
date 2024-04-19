@@ -12,8 +12,10 @@ use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\PesananController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Pembeli\ProfileController;
+use App\Http\Controllers\Pembeli\CheckoutController;
 use App\Http\Controllers\Pembeli\KeranjangController;
 use App\Http\Controllers\Admin\DetailPesananController;
+use App\Http\Controllers\Pembeli\PemesananController;
 use App\Http\Controllers\Pembeli\PesananSayaController;
 
 /*
@@ -38,7 +40,6 @@ Route::middleware(['auth:web', 'pemilik'])->group(function () {
     // Dashboard
     Route::get('/admin', [DashboardController::class, "index"])->name('admin.dashboard');
     // Admin Katalog
-    Route::get('/tes', [ProdukController::class, "index1"])->name('admin.tes');
     Route::get('/admin/produk', [ProdukController::class, "index"])->name('admin.produk');
     Route::get('/admin/produk/list', [ProdukController::class, "get_produk"])->name('admin.get-produk');
     Route::post('/admin/produk/create', [ProdukController::class, "store"])->name('admin.produk.create');
@@ -67,9 +68,10 @@ Route::middleware(['auth:web', 'pemilik'])->group(function () {
     // Laporan Pendapatan
     Route::get('/admin/laporan', [LaporanController::class, "index"])->name('admin.laporan');
     Route::post('/admin/laporan/cetak', [LaporanController::class, "cetak"])->name('admin.laporan.cetak');
-    // Kontak
-    Route::get('/admin/kontak', [KontakController::class, "index"])->name('admin.kontak');
-    Route::post('/admin/kontak/update', [KontakController::class, "update"])->name('admin.kontak.update');
+    // Profil dan Kontak Perusahaan
+    Route::get('/admin/profil', [KontakController::class, "index"])->name('admin.profil');
+    Route::post('/admin/profil/update', [KontakController::class, "update_profil"])->name('admin.profil.update');
+    Route::post('/admin/kontak/update', [KontakController::class, "update_kontak"])->name('admin.kontak.update');
     // Admin User Manajemen
     Route::get('/admin/user-manajemen', [UserController::class, "index"])->name('admin.user-manajemen');
     Route::get('/admin/user-manajemen/list', [UserController::class, "get_user"])->name('admin.get-user');
@@ -80,6 +82,7 @@ Route::middleware(['auth:web', 'pemilik'])->group(function () {
     // Log Aktivitas
     Route::get('/admin/log', [LogController::class, "index"])->name('admin.log');
     Route::get('/admin/log/list', [LogController::class, "get_log"])->name('admin.get-log');
+    Route::post('/admin/log/detail', [LogController::class, "detail"])->name('admin.log.detail');
 });
 
 // Pegawai
@@ -100,6 +103,13 @@ Route::middleware(['auth:web', 'pembeli'])->group(function () {
     Route::post('/keranjang/delete', [KeranjangController::class, "delete_keranjang"])->name('keranjang.delete');
     Route::post('/keranjang/delete-all', [KeranjangController::class, "delete_all_keranjang"])->name('keranjang.delete_all');
     Route::post('/keranjang/create', [KeranjangController::class, "add_keranjang"])->name('keranjang.add');
+    // checkout
+    Route::post('/keranjang/checkout', [CheckoutController::class, "checkout_keranjang"])->name('checkout.keranjang');
+    Route::post('/checkout-langsung', [CheckoutController::class, "checkout_langsung"])->name('checkout.langsung');
+    Route::get('/checkout', [CheckoutController::class, "checkout"])->name('checkout');
+    // pemesanan
+    Route::post('/pemesanan-store', [PemesananController::class, "pemesanan_store"])->name('pemesanan.store');
+    Route::post('/pemesanan-out', [PemesananController::class, "pemesanan_out"])->name('pemesanan.out');
 });
 
 // Guest
