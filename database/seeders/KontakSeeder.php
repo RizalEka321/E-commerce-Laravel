@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Kontak;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Kontak_Perusahaan;
+use App\Models\Profil_Perusahaan;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class KontakSeeder extends Seeder
 {
@@ -13,16 +14,26 @@ class KontakSeeder extends Seeder
      */
     public function run(): void
     {
+        $profil = [
+            [
+                'id_profil_perusahaan' => 'satu',
+                'deskripsi' => 'tes',
+                'alamat' => 'tes',
+                'foto' => 'tes',
+            ],
+        ];
+
         $kontak = [
             [
-                'id_kontak' => 'kontak',
+                'id_kontak_perusahaan' => 'satu',
                 'instagram' => 'tes',
-                'whatsapp' => 'tes',
+                'whatsapp' => '0867234234234',
                 'email' => 'admin@gmail.com',
                 'facebook' => 'tes',
             ],
         ];
 
-        Kontak::insert($kontak);
+        Profil_Perusahaan::insert($profil);
+        Kontak_Perusahaan::insert($kontak);
     }
 }

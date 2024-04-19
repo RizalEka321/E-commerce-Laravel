@@ -13,11 +13,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ProdukController extends Controller
 {
-    public function index1()
-    {
-        $data = Produk::with('ukuran')->get();
-        return view('Admin.tes', compact('data'));
-    }
     public function index()
     {
         return view('Admin.produk');

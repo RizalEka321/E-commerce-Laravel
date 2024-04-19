@@ -47,10 +47,10 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('admin.kontak') }}" class="nav-link {{ set_active('admin.kontak') }}">
+            <a href="{{ route('admin.profil') }}" class="nav-link {{ set_active('admin.profil') }}">
                 <i class="fa-solid fa-address-book"></i>
                 <span class="links_name">
-                    Kontak Perusahaan
+                    Profil Perusahaan
                 </span>
             </a>
         </li>

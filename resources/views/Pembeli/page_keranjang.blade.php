@@ -1,50 +1,6 @@
 @extends('Pembeli.layout.app')
 @section('title', 'Keranjang')
 @section('content')
-    <style>
-        .qty-container {
-            display: flex;
-            align-items: left;
-            justify-content: flex-start;
-        }
-
-        .qty-container .input-qty {
-            text-align: center;
-            padding: 6px 10px;
-            border: 1px solid #d4d4d4;
-            max-width: 80px;
-        }
-
-        .qty-container .qty-btn-minus,
-        .qty-container .qty-btn-plus {
-            border: 1px solid #d4d4d4;
-            padding: 10px 13px;
-            font-size: 10px;
-            height: 38px;
-            width: 38px;
-            transition: 0.3s;
-        }
-
-        .qty-container .qty-btn-plus {
-            margin-left: -1px;
-        }
-
-        .qty-container .qty-btn-minus {
-            margin-right: -1px;
-        }
-
-        .qty-btn-minus:hover {
-            transition: transform .2s;
-            color: var(--white);
-            background: var(--red);
-        }
-
-        .qty-btn-plus:hover {
-            transition: transform .2s;
-            color: var(--white);
-            background: var(--red);
-        }
-    </style>
     {{-- Keranjang --}}
     <section class="keranjang">
         <div class="container">
@@ -73,7 +29,8 @@
                                 onClick="delete_all_data({{ Auth::user()->id }})">Hapus Semua</a>
                         </td>
                         <td colspan="5" class="text-end">
-                            <button class="btn-keranjang px-5">Checkout</button>
+                            <a href="javascript:void(0)" class="btn-keranjang px-5"
+                                onclick="checkout({{ Auth::user()->id }})">Checkout</a>
                         </td>
                     </tr>
                 </tfoot>
@@ -81,31 +38,6 @@
         </div>
     </section>
     {{-- Keranjang --}}
-    <section class="home" id="produk">
-        <div class="container py-3 mt-3">
-            <div>
-                <h5>Produk Lainnya</h5>
-                <hr class="hr-home opacity-100" data-aos="flip-right" data-aos-delay="100">
-            </div>
-            <div class="col-lg-12 my-5">
-                <div class="home-slider owl-carousel">
-                    @foreach ($produk as $k)
-                        <div class="single-box text-center">
-                            <div class="img-area">
-                                <img alt="produk" class="img-fluid move-animation" src="{{ asset($k->foto) }}" />
-                            </div>
-                            <div class="info-area">
-                                {{-- <p class="kategori mt-1 mx-3">{{ $k->judul }}</p> --}}
-                                <h4 id="title_card">{{ Str::limit($k->judul, 20) }}</h4>
-                                <h6 class="price">Rp {{ number_format($k->harga, 0, '.', '.') }}</h6>
-                                <a href="{{ route('detail_produk', $k->slug) }}" class="btn-beli">Beli</a>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </section>
 @endsection
 @section('script')
     <script type="text/javascript">
@@ -173,6 +105,32 @@
                 }
             });
         });
+
+        function hitungTotalHarga() {
+            var totalHarga = 0;
+            // Loop melalui setiap baris tabel
+            $('#tabel_keranjang tbody tr').each(function() {
+                // Periksa apakah checkbox pada baris ini dicentang
+                if ($(this).find('.checkbox-produk').is(':checked')) {
+                    // Ambil harga dan jumlah dari baris ini
+                    var harga = parseInt($(this).find('.harga-produk').text().replace('Rp ', '').replace(/\./g,
+                        ''));
+                    var jumlah = parseInt($(this).find('.input-qty').val());
+                    // Hitung total harga untuk produk ini dan tambahkan ke totalHarga
+                    totalHarga += harga * jumlah;
+                }
+            });
+
+            // Mengubah total harga menjadi format mata uang Rupiah
+            var formattedTotalHarga = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR'
+            }).format(totalHarga);
+
+            // Menampilkan total harga dalam elemen dengan id 'total_keranjang'
+            $('#total_keranjang').text(formattedTotalHarga);
+        }
+
 
         $(document).ready(function() {
             // Event listener untuk tombol plus
@@ -273,5 +231,29 @@
                 }
             })
         };
+
+        function checkout(id) {
+            Swal.fire({
+                title: 'Checkout',
+                text: "Apakah anda yakin!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, checkout!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ url('/keranjang/checkout') }}",
+                        type: "POST",
+                        data: {
+                            q: id
+                        },
+                        dataType: "JSON",
+                    });
+                    window.location.href = "{{ url('/checkout') }}";
+                }
+            })
+        }
     </script>
 @endsection

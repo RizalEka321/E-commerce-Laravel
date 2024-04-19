@@ -14,10 +14,13 @@ return new class extends Migration
         Schema::create('pesanan', function (Blueprint $table) {
             $table->id('id_pesanan');
             $table->foreignId('users_id');
+            $table->string('alamat_pengiriman');
+            $table->string('no_hp');
             $table->enum('metode_pengiriman', ['Pickup', 'Delivery']);
             $table->enum('metode_pembayaran', ['Cash', 'Transfer']);
             $table->enum('status', ['Menunggu Pembayaran', 'Diproses', 'Selesai', 'Dibatalkan']);
             $table->bigInteger('total');
+            $table->string('snaptoken')->nullable();
             $table->timestamps();
             $table->foreign('users_id')->references('id')->on('users');
         });

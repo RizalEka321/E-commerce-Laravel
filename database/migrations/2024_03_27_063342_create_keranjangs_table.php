@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('users_id');
             $table->integer('jumlah');
             $table->string('ukuran');
+            $table->enum('status', ['Ya', 'Tidak']);
             $table->foreign('users_id')->references('id')->on('users');
             $table->foreign('produk_id')->references('id_produk')->on('produk');
             $table->timestamps();

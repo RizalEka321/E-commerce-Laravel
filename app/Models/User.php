@@ -54,10 +54,10 @@ class User extends Authenticatable
     }
     public function keranjang()
     {
-        return $this->hasMany(Pesanan::class);
+        return $this->hasMany(Keranjang::class);
     }
     public function log()
     {
-        return $this->hasMany(Pesanan::class);
+        return $this->hasMany(Log::class);
     }
 }

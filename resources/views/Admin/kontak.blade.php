@@ -6,42 +6,74 @@
         <div class="content">
             <div class="card border-0">
                 <div class="card_header mx-3 pt-1">
-                    <h4 class="judul"><i class="fa-solid fa-address-book"></i> KONTAK PERUSAHAAN</h4>
+                    <h4 class="judul"><i class="fa-solid fa-industry"></i> PROFIL PERUSAHAAN</h4>
                     <hr>
                 </div>
                 <form id="form_tambah" action="{{ url('/admin/kontak/update') }}" method="POST" enctype="multipart/form-data"
                     role="form">
                     <div class="card-body">
-                        <div class="mb-3">
-                            <div class="form-group">
-                                <label for="instagram">Instagram :</label>
-                                <input id="instagram" type="text" name="instagram" value="{{ $kontak->instagram }}"
-                                    class="form-control" placeholder="Instagram" autofocus>
-                                <span class="form-text text-danger error-message"></span>
+                        <div class="row gx-5 mb-3">
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <div id="input_foto" class="form-group">
+                                        <label for="foto">Gambar :</label>
+                                        <input id="foto" type="file" name="foto" class="form-control"
+                                            accept=".jpeg, .png, .jpg">
+                                        <span class="form-text text-danger error-message"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="form-group">
+                                        <label for="alamat">Alamat :</label>
+                                        <textarea id="alamat" name="alamat" class="form-control" placeholder="Masukkan Alamat" id="alamat">{{ $profil->alamat }}</textarea>
+                                        <span class="form-text text-danger error-message"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="form-group">
+                                        <label for="deskripsi">Deskripsi :</label>
+                                        <input id="input_deskripsi" type="hidden" name="deskripsi"
+                                            value="{{ $profil->deskripsi }}">
+                                        <trix-editor input="input_deskripsi" id="deskripsi" class="form-control"
+                                            placeholder="Deskripsi"></trix-editor>
+                                        <span class="form-text text-danger error-message"></span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="form-group">
-                                <label for="whatsapp">Whastapp :</label>
-                                <input id="whatsapp" type="text" name="whatsapp" value="{{ $kontak->whatsapp }}"
-                                    class="form-control" placeholder="Whatsapp" autofocus>
-                                <span class="form-text text-danger error-message"></span>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="form-group">
-                                <label for="email">Email :</label>
-                                <input id="email" type="email" name="email" value="{{ $kontak->email }}"
-                                    class="form-control" placeholder="Email" autofocus>
-                                <span class="form-text text-danger error-message"></span>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="form-group">
-                                <label for="facebook">Facebook :</label>
-                                <input id="facebook" type="text" name="facebook" value="{{ $kontak->facebook }}"
-                                    class="form-control" placeholder="Facebook" autofocus>
-                                <span class="form-text text-danger error-message"></span>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <div class="form-group">
+                                        <label for="instagram">Instagram :</label>
+                                        <input id="instagram" type="text" name="instagram"
+                                            value="{{ $kontak->instagram }}" class="form-control" placeholder="Instagram"
+                                            autofocus>
+                                        <span class="form-text text-danger error-message"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="form-group">
+                                        <label for="whatsapp">Whastapp :</label>
+                                        <input id="whatsapp" type="text" name="whatsapp" value="{{ $kontak->whatsapp }}"
+                                            class="form-control" placeholder="Whatsapp" autofocus>
+                                        <span class="form-text text-danger error-message"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="form-group">
+                                        <label for="email">Email :</label>
+                                        <input id="email" type="email" name="email" value="{{ $kontak->email }}"
+                                            class="form-control" placeholder="Email" autofocus>
+                                        <span class="form-text text-danger error-message"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="form-group">
+                                        <label for="facebook">Facebook :</label>
+                                        <input id="facebook" type="text" name="facebook" value="{{ $kontak->facebook }}"
+                                            class="form-control" placeholder="Facebook" autofocus>
+                                        <span class="form-text text-danger error-message"></span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- /.card-body -->
