@@ -78,8 +78,8 @@ class ProdukController extends Controller
         // Simpan foto
         $foto = $request->file('foto');
         $file_name = $request->judul . '.' . $foto->getClientOriginalExtension();
-        $path = 'data/Produk/' . Str::title($request->judul);
-        $foto->move(public_path($path), $file_name);
+        $path = 'data/Produk/';
+        $foto->move($path, $file_name);
 
         // Simpan produk
         $produk = Produk::create([

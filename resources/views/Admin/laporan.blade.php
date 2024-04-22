@@ -1,4 +1,4 @@
-@extends('admin.layout.app')
+@extends('Admin.layout.app')
 @section('title', 'Laporan')
 @section('content')
     {{-- Data Tabel Katalog --}}

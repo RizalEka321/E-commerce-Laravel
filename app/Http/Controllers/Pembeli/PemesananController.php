@@ -51,10 +51,10 @@ class PemesananController extends Controller
 
         if ($request->metode_pembayaran == 'Transfer') {
             // Set your Midtrans configuration here
-            \Midtrans\Config::$serverKey = 'SB-Mid-server-hP9DFpt7GvdZqHypfZ0lxc0_';
-            \Midtrans\Config::$isProduction = false;
-            \Midtrans\Config::$isSanitized = true;
-            \Midtrans\Config::$is3ds = true;
+            \Midtrans\Config::$serverKey    = config('services.midtrans.serverKey');
+            \Midtrans\Config::$isProduction = config('services.midtrans.isProduction');
+            \Midtrans\Config::$isSanitized  = config('services.midtrans.isSanitized');
+            \Midtrans\Config::$is3ds        = config('services.midtrans.is3ds');
 
             $params = [
                 'transaction_details' => [

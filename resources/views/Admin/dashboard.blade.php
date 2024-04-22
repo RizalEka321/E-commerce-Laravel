@@ -1,4 +1,4 @@
-@extends('Admin.Layout.app')
+@extends('Admin.layout.app')
 @section('title', 'Dashboard')
 @section('content')
     <div class="card-boxes">

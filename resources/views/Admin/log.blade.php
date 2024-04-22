@@ -1,4 +1,4 @@
-@extends('admin.layout.app')
+@extends('Admin.layout.app')
 @section('title', 'Log Aktivitas')
 @section('content')
     {{-- Data Tabel Log Aktivitas --}}

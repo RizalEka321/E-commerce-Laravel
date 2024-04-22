@@ -64,7 +64,7 @@
                     <div class="col-md-5 col-lg-5 order-md-2">
                         <div class="card border-0 bg-white rounded">
                             <div class="card-body">
-                                <img src="{{ asset('assets/Pembeli/img/logo1.png') }}" class="img-fluid" width="100%"
+                                <img src="{{ asset('assets/pembeli/img/logo1.png') }}" class="img-fluid" width="100%"
                                     alt="Company Image">
                             </div>
                         </div>

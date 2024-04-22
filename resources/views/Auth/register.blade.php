@@ -1,4 +1,4 @@
-@extends('auth.layout.app')
+@extends('Auth.layout.app')
 @section('title', 'Register')
 @section('content')
     <div class="container register">
