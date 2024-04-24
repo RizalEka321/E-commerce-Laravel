@@ -61,6 +61,9 @@
     {{-- OwlCarousel --}}
     <script src="{{ asset('assets/plugins/OwlCarousel2-2.3.4/js/owl.carousel.js') }}"></script>
     <script src="{{ asset('assets/plugins/OwlCarousel2-2.3.4/js/owl.carousel.min.js') }}"></script>
+    {{-- JS Sendiri --}}
+    <script src="{{ asset('assets/pembeli/js/main.js') }}"></script>
+    <script src="{{ asset('assets/pembeli/js/navbar.js') }}"></script>
     {{-- Sweetalert --}}
     <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
     @yield('script')

@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mt-5">
         <div class="container-fluid">
-            <div class="row main-content bg-success">
+            <div class="row main-content">
                 <div class="col-md-4 text-center company__info">
                     <img src="{{ asset('assets/admin/img/Logo_Lokal.png') }}" alt="LogoLokal">
                 </div>
