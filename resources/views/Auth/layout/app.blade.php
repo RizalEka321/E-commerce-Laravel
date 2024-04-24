@@ -4,57 +4,66 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/logo-yokresell.png') }}">
-    <link rel="icon" type="image/png" href="{{ asset('assets/img/logo-yokresell.png') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/pembeli/img/logo-yokresell.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('assets/pembeli/img/logo-yokresell.png') }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>
-        LOKAL-INDUSTRI | @yield('title')
+        Lokal Industri | @yield('title')
     </title>
 
     {{-- CSS File --}}
-    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
-        rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" rel="stylesheet" />
-    <link href="{{ asset('assets/auth/css/style.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/auth/css/style-auth.css') }}" rel="stylesheet" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <link rel="stylesheet" href="{{ asset('assets/admin/css/loading.css') }}">
-    <script src="{{ asset('assets/admin/js/loading.js') }}"></script>
-
+    {{-- Bootstrap --}}
+    <link href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    {{-- AOS Animate --}}
+    <link rel="stylesheet" href="{{ url('assets/plugins/aos/css/aos.css') }}">
+    {{-- Font Awesome --}}
+    <link rel="stylesheet" href="{{ url('assets/plugins/fontawesome/css/all.css') }}">
+    <link rel="stylesheet" href="{{ url('assets/plugins/fontawesome/css/all.min.css') }}">
+    {{-- OwlCarousel --}}
+    <link href="{{ asset('assets/plugins/OwlCarousel2-2.3.4/css/owl.carousel.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/plugins/OwlCarousel2-2.3.4/css/owl.carousel.min.css') }}" rel="stylesheet" />
+    {{-- Style Sendiri --}}
+    <link href="{{ asset('assets/pembeli/css/style.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/pembeli/css/style-auth.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/admin/css/loading.css') }}" rel="stylesheet">
 </head>
 
 <body>
-    {{-- Topbar --}}
-    {{-- @include('Auth.layout.topbar') --}}
-    {{-- End Topbar --}}
-
-    {{-- Main Content --}}
     {{-- Loader --}}
     <div id="loading-container">
         <div id="loading" class="loading"></div>
     </div>
+
+    @include('Auth.layout.topbar')
+    {{-- Main Content --}}
     @yield('content')
     {{-- End Main Content --}}
 
-    {{-- Footer --}}
-    {{-- @include('Auth.layout.footer') --}}
-    {{-- End Footer --}}
 
     {{-- JS Files --}}
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    {{-- Bootstrap --}}
+    <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
+    </script>
+    {{-- Jquery --}}
+    <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
+    {{-- AOS Animate --}}
+    <script src="{{ asset('assets/plugins/aos/js/aos.js') }}"></script>
+    {{-- Glightbox --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.2.0/js/glightbox.min.js"></script>
+    {{-- Vanila --}}
     <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-    {{-- JS File --}}
-    <script src="{{ asset('assets/auth/js/main.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/auth/js/alamat-autocomplete.js') }}"></script>
+    {{-- OwlCarousel --}}
+    <script src="{{ asset('assets/plugins/OwlCarousel2-2.3.4/js/owl.carousel.js') }}"></script>
+    <script src="{{ asset('assets/plugins/OwlCarousel2-2.3.4/js/owl.carousel.min.js') }}"></script>
+    {{-- Sweetalert --}}
+    <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
+    @yield('script')
     <script>
         function loading() {
             const loadingContainer = document.getElementById("loading-container");

@@ -1,6 +1,6 @@
 <header class="header d-flex flex-column align-items-center justify-content-center">
     <div class="pb-1 pt-3" data-aos="fade" data-aos-delay="100">
-        <a href="{{ route('pembeli.dashboard') }}">
+        <a href="{{ route('home') }}">
             <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1"
                 style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
                 viewBox="0 0 1160 250" xmlns:xlink="http://www.w3.org/1999/xlink">

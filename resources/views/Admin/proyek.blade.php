@@ -9,8 +9,11 @@
                     <h4 class="judul"><i class="fa-solid fa-cube"></i> DATA PROYEK</h4>
                     <hr>
                 </div>
-                <a type="button" class="btn-tambah mb-2" id="btn-add"><i class="fa-solid fa-square-plus"></i>&nbsp;&nbsp;
-                    TAMBAH DATA PROYEK</a>
+                @if (Auth::user()->role == 'Pegawai')
+                    <a type="button" class="btn-tambah mb-2" id="btn-add"><i
+                            class="fa-solid fa-square-plus"></i>&nbsp;&nbsp;
+                        TAMBAH DATA PROYEK</a>
+                @endif
                 <table id="tabel_proyek" class="table table-bordered" style="width:100%">
                     <thead>
                         <tr>

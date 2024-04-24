@@ -21,6 +21,20 @@ class Pesanan extends Model
         'total',
         'snaptoken'
     ];
+    public static function generateId()
+    {
+        $pesanan = self::latest()->first();
+        if (!$pesanan) {
+            $last_id = 'PSN-0000000';
+        } else {
+            $last_id = $pesanan->id_pesanan;
+        }
+
+        $new_number = (int) substr($last_id, -7) + 1;
+        $new_id = 'PSN-' . str_pad($new_number, 7, '0', STR_PAD_LEFT);
+
+        return $new_id;
+    }
 
     public function user()
     {

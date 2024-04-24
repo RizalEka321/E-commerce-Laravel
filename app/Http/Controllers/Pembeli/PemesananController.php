@@ -39,12 +39,15 @@ class PemesananController extends Controller
             $totalHarga += $item->jumlah * $item->produk->harga;
         }
 
+        $idPesanan = Pesanan::generateID();
+
         $pesanan = [
+            'id_pesanan' => $idPesanan,
             'users_id' => Auth::user()->id,
-            'alamat_pengiriman' => $request->alamat_pengiriman,
-            'no_hp' => $request->no_hp,
             'metode_pengiriman' => $request->metode_pengiriman,
             'metode_pembayaran' => $request->metode_pembayaran,
+            'alamat_pengiriman' => $request->alamat_pengiriman,
+            'no_hp' => $request->no_hp,
             'status' => 'Menunggu Pembayaran',
             'total' => $totalHarga
         ];
@@ -58,7 +61,7 @@ class PemesananController extends Controller
 
             $params = [
                 'transaction_details' => [
-                    'order_id' => rand(),
+                    'order_id' => $idPesanan,
                     'gross_amount' => 10000,
                 ],
                 'customer_details' => [
@@ -70,11 +73,11 @@ class PemesananController extends Controller
             ];
             $snapToken = \Midtrans\Snap::getSnapToken($params);
             $pesanan['snaptoken'] = $snapToken;
-            $akhir = Pesanan::create($pesanan);
+            Pesanan::create($pesanan);
             // Memasukkan pada detail pesanan
             foreach ($keranjang as $item) {
                 Detail_Pesanan::create([
-                    'pesanan_id' => $akhir->id_pesanan,
+                    'pesanan_id' => $idPesanan,
                     'produk_id' => $item->produk->id_produk,
                     'jumlah' => $item->jumlah,
                     'ukuran' => $item->ukuran,
@@ -86,11 +89,11 @@ class PemesananController extends Controller
             }
             return view('Pembeli.page_pemesanan_transfer', compact('snapToken'));
         } else {
-            $akhir = Pesanan::create($pesanan);
+            Pesanan::create($pesanan);
             // Memasukkan pada detail pesanan
             foreach ($keranjang as $item) {
                 Detail_Pesanan::create([
-                    'pesanan_id' => $akhir->id_pesanan,
+                    'pesanan_id' => $idPesanan,
                     'produk_id' => $item->produk->id_produk,
                     'jumlah' => $item->jumlah,
                     'ukuran' => $item->ukuran,

@@ -16,23 +16,33 @@ class UserSeeder extends Seeder
         $user = [
             [
                 'nama_lengkap' => 'Rizal Eka Budi Pratama',
-                'username' => 'admin',
+                'username' => 'pemilik321',
                 'role' => 'Pemilik',
                 'email' => 'admin@gmail.com',
                 'alamat' => 'Gurit RT001 RW001, Desa Pengatigan, Kecamatan Rogojampi',
                 'no_hp' => '085936155999',
                 'foto' => 'fotonya',
-                'password' => bcrypt('admin'),
+                'password' => bcrypt('Pemilik321'),
+            ],
+            [
+                'nama_lengkap' => 'Pratama',
+                'username' => 'pegawai321',
+                'role' => 'Pegawai',
+                'email' => 'Rio@gmail.com',
+                'alamat' => 'Gurit RT001 RW001, Desa Pengatigan, Kecamatan Rogojampi',
+                'no_hp' => '085936155999',
+                'foto' => null,
+                'password' => bcrypt('Pegawai321'),
             ],
             [
                 'nama_lengkap' => 'Farhan',
-                'username' => 'pembeli',
+                'username' => 'pembeli321',
                 'role' => 'Pembeli',
                 'email' => 'Rizal@gmail.com',
                 'alamat' => 'Gurit RT001 RW001, Desa Pengatigan, Kecamatan Rogojampi',
                 'no_hp' => '085936155999',
                 'foto' => null,
-                'password' => bcrypt('pembeli'),
+                'password' => bcrypt('Pembeli321'),
             ],
         ];
 

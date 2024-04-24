@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('detail_pesanan', function (Blueprint $table) {
             $table->id('id_detail');
             $table->foreignId('produk_id');
-            $table->foreignId('pesanan_id');
+            $table->string('pesanan_id');
             $table->integer('jumlah');
             $table->string('ukuran');
-            $table->foreign('produk_id')->references('id_produk')->on('produk');
-            $table->foreign('pesanan_id')->references('id_pesanan')->on('pesanan');
+            $table->foreign('produk_id')->references('id_produk')->on('produk')->onDelete('cascade');
+            $table->foreign('pesanan_id')->references('id_pesanan')->on('pesanan')->onDelete('cascade');
             $table->timestamps();
         });
     }

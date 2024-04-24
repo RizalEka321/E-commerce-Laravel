@@ -1,40 +1,25 @@
 @extends('Auth.layout.app')
-@section('title', 'Login')
+@section('title', 'Verifikasi email')
 @section('content')
     <div class="container mt-5">
         <div class="container-fluid">
-            <div class="row main-content bg-success">
-                <div class="col-md-4 text-center company__info">
-                    <img src="{{ asset('assets/admin/img/Logo_Lokal.png') }}" alt="LogoLokal">
-                </div>
-                <div class="col-md-8 col-xs-12 col-sm-12 login_form ">
-                    <div class="container-fluid">
-                        <div class="row text-center">
-                            <h2>Log In</h2>
-                        </div>
-                        <div class="row">
-                            <form class="formLogin" id="form_login" method="POST" action="{{ url('/dologin') }}">
-                                <div class="mb-3">
-                                    <div class="form-group inputan">
-                                        <input type="text" id="username" name="username" placeholder="Masukkan Username"
-                                            autofocus="username">
-                                        <span class="form-text text-danger error-message"></span>
-                                    </div>
+            <div class="row justify-content-center mt-5">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">Verify Your Email Address</div>
+                        <div class="card-body">
+                            @if ($message = Session::get('success'))
+                                <div class="alert alert-success" role="alert">
+                                    {{ $message }}
                                 </div>
-                                <div class="mb-2">
-                                    <div class="form-group inputan">
-                                        <input type="password" name="password" id="password"
-                                            placeholder="Masukkan Password">
-                                        <span class="form-text text-danger error-message"></span>
-                                    </div>
-                                </div>
-                                <div class="text-center">
-                                    <button type="submit" class="btn">Login</button>
-                                </div>
+                            @endif
+                            Before proceeding, please check your email for a verification link. If you did not receive the
+                            email,
+                            <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+                                @csrf
+                                <button type="submit" class="btn btn-link p-0 m-0 align-baseline">click here to request
+                                    another</button>.
                             </form>
-                        </div>
-                        <div class="row text-center">
-                            <p>Tidak Punya Akun? <a href="{{ route('register') }}">Daftar</a></p>
                         </div>
                     </div>
                 </div>

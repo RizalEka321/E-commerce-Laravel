@@ -39,7 +39,7 @@
     {{-- SweetAlert --}}
     <link rel="stylesheet" href="{{ url('assets/plugins/sweetalert/sweetalert2.min.css') }}">
     <script type="text/javascript" src="https://app.stg.midtrans.com/snap/snap.js"
-        data-client-key="SB-Mid-client-6BnDuXoAtzO-cjum"></script>
+        data-client-key="{{ config('services.midtrans.clientKey') }}"></script>
 
 </head>
 
