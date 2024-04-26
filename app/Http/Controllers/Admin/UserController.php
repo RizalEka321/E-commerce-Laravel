@@ -34,30 +34,35 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nama_lengkap' => 'required|string',
-            'username' => 'required|string|max:255|unique:' . User::class,
+            'nama_lengkap' => 'required|min:8|max:25',
+            'username' => 'required|min:8|max:16|unique:users',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8|max:16|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
+            'password_confirmation' => 'required|same:password',
             'role' => 'required',
-            'email' => 'required|string|email|unique:' . User::class . '|max:100',
-            'alamat' => 'required',
-            'no_hp' => 'required',
+            'alamat' => 'nullable',
+            'no_hp' => 'nullable',
             'foto'     => 'image|mimes:jpeg,png,jpg|max:2048',
-            'password' => 'required|min:8|unique:' . User::class,
-            'password_confirmation' => 'required|same:password', // Konfirmasi password harus sama dengan password
         ], [
-            'nama_lengkap.required' => 'Nama Panjang wajib diisi.',
-            'username.required' => 'Username wajib diisi.',
-            'username.unique' => 'Username ini sudah digunakan.',
+            'nama_lengkap.required' => 'Nama lengkap tidak boleh kosong',
+            'nama_lengkap.min' => 'Panjang nama lengkap minimal harus 8 karakter',
+            'nama_lengkap.max' => 'Panjang nama lengkap maksimal adalah 25 karakter',
+            'username.required' => 'Username tidak boleh kosong',
+            'username.min' => 'Panjang username minimal harus 8 karakter',
+            'username.max' => 'Panjang username maksimal harus 16 karakter',
+            'username.unique' => 'Username sudah digunakan',
             'role.required' => 'Role wajib diisi.',
             'email.required' => 'Email wajib diisi.',
             'email.unique' => 'Email ini sudah digunakan.',
             'email.email' => 'Email tidak valid.',
-            'alamat.required' => 'Alamat wajib diisi.',
-            'no_hp.required' => 'No HP wajib diisi.',
-            'foto.required' => 'Foto wajib diisi.',
-            'password.required' => 'Password wajib diisi.',
-            'password.unique' => 'Password sudah digunakan.',
+            'password.min' => 'Panjang password minimal harus 8 karakter',
+            'password.max' => 'Panjang password maksimal harus 16 karakter',
+            'password.regex' => 'Password harus mengandung setidaknya satu huruf kapital, satu huruf kecil, dan satu angka',
             'password_confirmation.required' => 'Konfirmasi Password wajib diisi.',
             'password_confirmation.same' => 'Konfirmasi Password tidak sesuai dengan Password.',
+            'foto.image' => 'File harus berupa gambar.',
+            'foto.mimes' => 'Format file harus jpeg, png, atau jpg.',
+            'foto.max' => 'Ukuran file tidak boleh lebih dari 2 MB.',
         ]);
 
         if ($validator->fails()) {
@@ -66,7 +71,7 @@ class UserController extends Controller
 
             $foto = $request->foto;
             $file_name = $request->username . '.' . $foto->extension();
-            $path = 'data/user/' . Str::title($request->username);
+            $path = 'data/User/';
             $foto->move(public_path($path), $file_name);
 
             User::create([
@@ -77,7 +82,8 @@ class UserController extends Controller
                 'alamat' => $request->alamat,
                 'no_hp' => $request->no_hp,
                 'password' => Hash::make($request->password),
-                'foto' => "$path/$file_name"
+                'foto' => "$path/$file_name",
+                'email_verified_at' => now()
             ]);
             echo json_encode(['status' => TRUE]);
         }

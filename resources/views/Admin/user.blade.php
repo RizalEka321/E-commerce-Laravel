@@ -67,7 +67,7 @@
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="no_hp">No Handphone(HP) :</label>
+                                    <label for="no_hp">No Handphone(HP) (Opsional) :</label>
                                     <input id="no_hp" type="text" name="no_hp" value="{{ old('no_hp') }}"
                                         class="form-control" placeholder="Masukkan No HP">
                                     <span class="form-text text-danger error-message"></span>
@@ -77,7 +77,7 @@
                         <div id="input_foto" class="row gx-5 mb-3 hidden">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="foto">Foto:</label>
+                                    <label for="foto">Foto(Opsional):</label>
                                     <input id="foto" type="file" name="foto" class="form-control">
                                     <span class="form-text text-danger error-message"></span>
                                 </div>
@@ -97,7 +97,7 @@
                         </div>
                         <div class="mb-3">
                             <div class="form-group">
-                                <label for="alamat">Alamat :</label>
+                                <label for="alamat">Alamat(Opsional) :</label>
                                 <textarea id="alamat" name="alamat" class="form-control" placeholder="Masukkan Alamat" id="alamat">{{ old('alamat') }}</textarea>
                                 <span class="form-text text-danger error-message"></span>
                             </div>

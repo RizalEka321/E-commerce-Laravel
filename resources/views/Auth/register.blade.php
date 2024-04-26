@@ -3,17 +3,17 @@
 @section('content')
     <div class="container mt-5">
         <div class="container-fluid">
-            <div class="row main-content bg-success">
+            <div class="row main-content">
                 <div class="col-md-4 text-center company__info">
                     <img src="{{ asset('assets/admin/img/Logo_Lokal.png') }}" alt="LogoLokal">
                 </div>
-                <div class="col-md-8 col-xs-12 col-sm-12 login_form ">
-                    <div class="container-fluid">
+                <div class="col-md-8 col-xs-12 col-sm-12">
+                    <div class="container">
                         <div class="row text-center">
                             <h2>Register</h2>
                         </div>
                         <div class="row">
-                            <form id="form_register" method="POST" action="{{ url('/doregister') }}">
+                            <form class="formLogin" id="form_register" method="POST" action="{{ url('/doregister') }}">
                                 <div class="mb-3">
                                     <div class="form-group inputan">
                                         <label for="nama_lengkap">Nama Lengkap</label>
@@ -46,7 +46,7 @@
                                         <span class="form-text text-danger error-message"></span>
                                     </div>
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-2">
                                     <div class="form-group inputan">
                                         <label for="password_confirmation">Konfirmasi Password :</label>
                                         <input type="password" id="password_confirmation" name="password_confirmation"
@@ -60,7 +60,7 @@
                             </form>
                         </div>
                         <div class="row text-center">
-                            <a href="{{ route('login') }}">Login</a>
+                            <p>Punya Akun? <a href="{{ route('login') }}">Login</a></p>
                         </div>
                     </div>
                 </div>

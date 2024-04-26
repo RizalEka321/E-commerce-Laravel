@@ -7,12 +7,12 @@
                 <div class="col-md-4 text-center company__info">
                     <img src="{{ asset('assets/admin/img/Logo_Lokal.png') }}" alt="LogoLokal">
                 </div>
-                <div class="col-md-8 col-xs-12 col-sm-12 login_form ">
-                    <div class="container-fluid">
+                <div class="col-md-8 col-xs-12 col-sm-12">
+                    <div class="container">
                         <div class="row text-center">
                             <h2>Log In</h2>
                         </div>
-                        <div class="row">
+                        <div class="row mt-2">
                             <form class="formLogin" id="form_login" method="POST" action="{{ url('/dologin') }}">
                                 <div class="mb-3">
                                     <div class="form-group inputan">
@@ -34,7 +34,7 @@
                             </form>
                         </div>
                         <div class="row text-center">
-                            <p>Tidak Punya Akun? <a href="{{ route('register') }}">Daftar</a></p>
+                            <p>Belum Punya Akun? <a href="{{ route('register') }}">Daftar</a></p>
                         </div>
                     </div>
                 </div>
