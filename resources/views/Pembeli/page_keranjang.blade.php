@@ -4,7 +4,6 @@
     {{-- Keranjang --}}
     <section class="keranjang">
         <div class="container">
-            <hr class="my-2 hr-keranjang opacity-100" data-aos="flip-right" data-aos-delay="100">
             <table id="tabel_keranjang" class="table table-condensed">
                 <thead>
                     <tr>

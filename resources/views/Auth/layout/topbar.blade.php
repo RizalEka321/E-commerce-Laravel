@@ -1,8 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container">
         <a href="{{ route('home') }}" class="navbar-brand">
-            {{-- <img src="/images/logo.svg" alt="Logo" /> --}}
-            LOKAL-INDUSTRI
+            <img src="{{ asset('assets/pembeli/img/logonavbar_hitam.png') }}" alt="" width="100%" height="70px">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

@@ -3,7 +3,6 @@
 @section('content')
     <section class="checkout">
         <div class="container">
-            <hr class="my-2 hr-checkout opacity-100" data-aos="flip-right" data-aos-delay="100">
             <div class="konten">
                 <table id="tabel_keranjang" class="table table-condensed">
                     <thead>

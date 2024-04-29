@@ -22,13 +22,14 @@ class KeranjangController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'produk_id' => 'required',
-            'jumlah' => 'required',
+            'jumlah' => 'required|numeric|min:0',
             'ukuran' => 'required',
         ], [
-            'judul.required' => 'Nama wajib diisi.',
-            'judul.unique' => 'Nama ini sudah digunakan.',
-            'judul.min' => 'Nama minimal harus terdiri dari 2 karakter.',
-            'judul.max' => 'Nama maksimal hanya boleh 100 karakter.',
+            'produk_id.required' => 'Produk ID wajib diisi.',
+            'jumlah.required' => 'Jumlah wajib diisi.',
+            'jumlah.numeric' => 'Jumlah harus berupa angka.',
+            'jumlah.min' => 'Jumlah tidak boleh kurang dari 0.',
+            'ukuran.required' => 'Ukuran wajib diisi.',
         ]);
 
         if ($validator->fails()) {
@@ -57,9 +58,9 @@ class KeranjangController extends Controller
             ]);
         }
 
-        // Tambahkan ukuran-ukuran yang dimasukkan oleh pengguna
         return response()->json(['status' => true]);
     }
+
 
     public function get_keranjang()
     {

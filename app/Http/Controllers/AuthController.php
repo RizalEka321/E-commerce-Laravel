@@ -6,8 +6,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 class AuthController extends Controller
@@ -23,7 +24,7 @@ class AuthController extends Controller
     public function dologin(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required|min:8|max:16',
+            'username' => 'required|min:8|max:16|regex:/^[a-zA-Z0-9]+$/',
             'password' => 'required|min:8|max:16|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
         ], [
             'username.required' => 'Username tidak boleh kosong',
@@ -32,8 +33,12 @@ class AuthController extends Controller
             'username.max' => 'Panjang username maksimal harus 16 karakter',
             'password.min' => 'Panjang password minimal harus 8 karakter',
             'password.max' => 'Panjang password maksimal harus 16 karakter',
-            'password.regex' => 'Password harus mengandung setidaknya satu huruf kapital, satu huruf kecil, dan satu angka',
+            'password.regex' => 'Password yang masukkan tidak valid',
+            'username.regex' => 'Username tidak valid ',
         ]);
+
+
+        $slug_produk = Session::get('slug_produk');
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
@@ -43,16 +48,18 @@ class AuthController extends Controller
                 'username' => $request->username,
                 'password' => $request->password
             ])) {
-                $request->session()->regenerate();
-
-                $role = Auth::user()->role;
-
-                aktivitas('Melakukan Login');
-
-                if ($role === 'Pembeli') {
-                    return response()->json(['redirect' => '/']);
+                if ($slug_produk) {
+                    // Jika ada slug produk yang disimpan dalam session, arahkan kembali ke halaman produk yang dipilih
+                    return response()->json(['redirect' => '/produk/' . $slug_produk]);
                 } else {
-                    return response()->json(['redirect' => '/admin']);
+                    // Jika tidak ada, arahkan sesuai peran pengguna
+                    $role = Auth::user()->role;
+
+                    if ($role === 'Pembeli') {
+                        return response()->json(['redirect' => '/']);
+                    } else {
+                        return response()->json(['redirect' => '/admin']);
+                    }
                 }
             }
         }
@@ -77,7 +84,7 @@ class AuthController extends Controller
             'username.max' => 'Panjang username maksimal harus 16 karakter',
             'username.unique' => 'Username sudah digunakan',
             'email.required' => 'Email tidak boleh kosong',
-            'email.email' => 'Email harus dalam format yang benar',
+            'email.email' => 'Email tidak valid',
             'email.unique' => 'Email sudah digunakan',
             'password.required' => 'Password tidak boleh kosong',
             'password.min' => 'Panjang password minimal harus 8 karakter',

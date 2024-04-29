@@ -4,7 +4,6 @@
     {{-- Paket Usaha --}}
     <section class="profile">
         <div class="container">
-            <hr class="my-2 hr-profile opacity-100" data-aos="flip-right" data-aos-delay="100">
             <div class="row">
                 <form action="#" method="POST" enctype="multipart/form-data">
                     @csrf

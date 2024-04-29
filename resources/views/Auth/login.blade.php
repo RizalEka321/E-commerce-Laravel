@@ -3,39 +3,40 @@
 @section('content')
     <div class="container mt-5">
         <div class="container-fluid">
-            <div class="row main-content">
-                <div class="col-md-4 text-center company__info">
-                    <img src="{{ asset('assets/admin/img/Logo_Lokal.png') }}" alt="LogoLokal">
-                </div>
-                <div class="col-md-8 col-xs-12 col-sm-12">
-                    <div class="container">
-                        <div class="row text-center">
-                            <h2>Log In</h2>
-                        </div>
-                        <div class="row mt-2">
-                            <form class="formLogin" id="form_login" method="POST" action="{{ url('/dologin') }}">
-                                <div class="mb-3">
-                                    <div class="form-group inputan">
-                                        <input type="text" id="username" name="username" placeholder="Masukkan Username"
-                                            autofocus="username">
-                                        <span class="form-text text-danger error-message"></span>
+            <div class="konten_login">
+                <div class="container">
+                    <div class="judul text-center">
+                        <h2>Log In</h2>
+                    </div>
+                    <div class="row mt-2">
+                        <form class="formLogin" id="form_login" method="POST" action="{{ url('/dologin') }}">
+                            <div class="mb-4">
+                                <div class="form-group inputan">
+                                    <label for="username">Username</label>
+                                    <input type="text" id="username" name="username" placeholder="Username"
+                                        autofocus="username">
+                                    <span class="form-text text-danger error-message"></span>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <div class="form-group inputan">
+                                    <label for="password">Password</label>
+                                    <div class="password-input">
+                                        <input type="password" name="password" id="password" placeholder="Password">
+                                        <span class="password-toggle" onclick="togglePasswordVisibility()">
+                                            <i class="fas fa-eye"></i>&nbsp;lihat password
+                                        </span>
                                     </div>
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
-                                <div class="mb-2">
-                                    <div class="form-group inputan">
-                                        <input type="password" name="password" id="password"
-                                            placeholder="Masukkan Password">
-                                        <span class="form-text text-danger error-message"></span>
-                                    </div>
-                                </div>
-                                <div class="text-center">
-                                    <button type="submit" class="btn">Login</button>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="row text-center">
-                            <p>Belum Punya Akun? <a href="{{ route('register') }}">Daftar</a></p>
-                        </div>
+                            </div>
+                            <div class="text-center mb-2">
+                                <button type="submit" class="btn">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="row text-center">
+                        <p>Belum Punya Akun? <a class="btn-daflog" href="{{ route('register') }}">Daftar</a></p>
                     </div>
                 </div>
             </div>
@@ -54,6 +55,21 @@
             $('#form_login').attr('action', "{{ url('/dologin') }}");
             $('#form_login')[0].reset();
             $('.error-message').empty();
+        }
+
+        function togglePasswordVisibility() {
+            var passwordField = document.getElementById("password");
+            var icon = document.querySelector(".password-toggle i");
+
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                passwordField.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
         }
 
         // Fungsi login

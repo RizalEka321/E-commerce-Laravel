@@ -49,7 +49,7 @@
                 </div>
             </div>
             <div class="description row my-2 py-2">
-                <h4 class="title">Deskripsi</h4>
+                <h4 class="title">{{ Session::get('slug_produk') }}</h4>
                 <div class="mx-2">
                     {!! $produk_detail->deskripsi !!}
                 </div>
@@ -116,105 +116,123 @@
         });
 
         $('#btn_masukkan_keranjang').click(function(event) {
-            event.preventDefault(); // Mencegah tindakan default tombol
+            event.preventDefault();
 
-            // Ubah action form ke URL endpoint checkout
-            var checkoutUrl = "{{ url('/keranjang/create') }}"; // Ganti URL sesuai kebutuhan
-            $('#form_tambah').attr('action', checkoutUrl);
+            // Check if user is logged in
+            var isLoggedIn = "{{ Auth::check() }}";
+            if (!isLoggedIn) {
+                window.location.href = "{{ route('login') }}";
+                return;
+            } else {
+                // Ubah action form ke URL endpoint checkout
+                var checkoutUrl = "{{ url('/keranjang/create') }}";
+                $('#form_tambah').attr('action', checkoutUrl);
 
-            var url = $('#form_tambah').attr('action');
-            var formData = new FormData($('#form_tambah')[0]);
+                var url = $('#form_tambah').attr('action');
+                var formData = new FormData($('#form_tambah')[0]);
 
-            // Lakukan AJAX request
-            $.ajax({
-                url: url,
-                type: "POST",
-                dataType: "JSON",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(data) {
-                    $('.error-message').empty();
-                    if (data.errors) {
-                        $.each(data.errors, function(key, value) {
-                            // Tampilkan pesan error di bawah setiap input
-                            $('#' + key).next('.error-message').text(
-                                '*' + value);
-                        });
-                    } else {
-                        reset_form();
-                        Swal.fire(
-                            'Sukses',
-                            'Produk Berhasil Dimasukkan Keranjang',
-                            'success'
-                        );
+                // Lakukan AJAX request
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    dataType: "JSON",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        $('.error-message').empty();
+                        if (data.errors) {
+                            $.each(data.errors, function(key, value) {
+                                // Tampilkan pesan error di bawah setiap input
+                                $('#' + key).next('.error-message').text(
+                                    '*' + value);
+                            });
+                            Swal.fire(
+                                'Error',
+                                'Ada Yang Salah',
+                                'error'
+                            );
+                        } else {
+                            reset_form();
+                            Swal.fire(
+                                'Sukses',
+                                'Produk Berhasil Dimasukkan Keranjang',
+                                'success'
+                            );
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR);
+                    },
+                    complete: function() {
+                        // Lakukan sesuatu setelah request selesai (jika diperlukan)
                     }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR);
-                },
-                complete: function() {
-                    // Lakukan sesuatu setelah request selesai (jika diperlukan)
-                }
-            });
+                });
+            }
         });
         // Event handler untuk tombol "Beli Sekarang"
         $('#btn_beli_sekarang').click(function(event) {
             event.preventDefault(); // Mencegah tindakan default tombol
 
+            // Check if user is logged in
+            var isLoggedIn = "{{ Auth::check() }}";
+            if (!isLoggedIn) {
+                window.location.href = "{{ route('login') }}";
+                return;
+            } else {
+                var checkoutUrl = "{{ url('/checkout-langsung') }}"; // Ganti URL sesuai kebutuhan
+                $('#form_tambah').attr('action', checkoutUrl);
 
-            var checkoutUrl = "{{ url('/checkout-langsung') }}"; // Ganti URL sesuai kebutuhan
-            $('#form_tambah').attr('action', checkoutUrl);
+                var url = $('#form_tambah').attr('action');
+                var formData = new FormData($('#form_tambah')[0]);
 
-            var url = $('#form_tambah').attr('action');
-            var formData = new FormData($('#form_tambah')[0]);
-
-            // Lakukan AJAX request
-            $.ajax({
-                url: url,
-                type: "POST",
-                dataType: "JSON",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(data) {
-                    $('.error-message').empty();
-                    console.log(data.errors);
-                    if (data.errors) {
-                        $.each(data.errors, function(key, value) {
-                            // Tampilkan pesan error di bawah setiap input
-                            $('#' + key).next('.error-message').text('*' +
-                                value);
-                        });
-                    } else {
-                        Swal.fire({
-                            title: 'Checkout Sekarang?',
-                            text: "Anda akan langsung checkout, lanjutkan?",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Ya, checkout!',
-                            cancelButtonText: 'Batal' // Tambahkan teks untuk tombol batal
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                // Ubah action form ke URL endpoint checkout
-                                window.location.href = "{{ url('/checkout') }}";
-                            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                // Pengguna memilih untuk membatalkan aksi, tidak perlu melakukan apapun
-                                Swal.fire('Batal', 'Anda membatalkan checkout.', 'info');
-                                reset_form();
-                            }
-                        });
+                // Lakukan AJAX request
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    dataType: "JSON",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        $('.error-message').empty();
+                        console.log(data.errors);
+                        if (data.errors) {
+                            $.each(data.errors, function(key, value) {
+                                // Tampilkan pesan error di bawah setiap input
+                                $('#' + key).next('.error-message').text('*' +
+                                    value);
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Checkout Sekarang?',
+                                text: "Anda akan langsung checkout, lanjutkan?",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Ya, checkout!',
+                                cancelButtonText: 'Batal' // Tambahkan teks untuk tombol batal
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // Ubah action form ke URL endpoint checkout
+                                    window.location.href = "{{ url('/checkout') }}";
+                                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                    // Pengguna memilih untuk membatalkan aksi, tidak perlu melakukan apapun
+                                    Swal.fire('Batal', 'Anda membatalkan checkout.', 'info');
+                                    reset_form();
+                                }
+                            });
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR);
+                    },
+                    complete: function() {
+                        // Lakukan sesuatu setelah request selesai (jika diperlukan)
                     }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR);
-                },
-                complete: function() {
-                    // Lakukan sesuatu setelah request selesai (jika diperlukan)
-                }
-            });
+                });
+            }
         });
     </script>
 @endsection

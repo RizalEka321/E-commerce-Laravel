@@ -1,6 +1,7 @@
 /*===============================================================
 Home page styles
 =================================================================*/
+
 .carousel-item {
     height: 100vh;
     min-height: 300px;
@@ -96,43 +97,94 @@ Home page styles
     }
 }
 
-/* Home Katalog styles */
-.home {
-    color: var(--black);
+
+@media (max-width: 768px) {
+    .konten{
+        margin-top: 110px;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .carousel-caption h1 {
+        font-size: 40px;
+    }
+
+    .carousel-caption h2 {
+        font-size: 18px;
+    }
+
+    .carousel-caption .btn-beli {
+        font-size: 15px;
+    }
 }
 
-.home span {
+@media (max-width: 576px) {
+    .carousel-caption h1 {
+        font-size: 30px;
+    }
+
+    .carousel-caption h2 {
+        font-size: 16px;
+    }
+
+    .carousel-caption .btn-beli {
+        font-size: 14px;
+    }
+}
+
+/* Home Perusahaan */
+.home_perusahaan {
+    color: var(--black);
+    margin-top: 20px;
+}
+
+.home_perusahaan span {
     font-size: 30px;
     font-weight: 600;
 }
 
-.home .hr-home {
+.home_perusahaan .hr-home_perusahaan {
+    border-width: 2px;
+    margin-bottom: 0px;
+}
+
+/* Home Produk */
+.home_produk {
+    color: var(--black);
+}
+
+.home_produk span {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.home_produk .hr-home_produk {
     border-width: 2px;
     color: var(--red);
 }
 
-.home .info-area .kategori {
+.home_produk .info-area .kategori {
     color: #B500A0;
     background-color: #ce3abd5e;
     text-align: center;
     border-radius: 10px;
 }
 
-.home .info-area .jenis {
+.home_produk .info-area .jenis {
     color: #B500A0;
     font-size: 18px;
 }
 
-.home .info-area h4 {
+.home_produk .info-area h4 {
     font-size: 20px;
     font-weight: 600;
 }
 
-.home .info-area h6 {
+.home_produk .info-area h6 {
     font-size: 15px;
 }
 
-.home .single-box {
+.home_produk .single-box {
     box-shadow: 0px 0px 4px #c7c7c7;
     color: black;
     margin: 5px 2px;
@@ -141,14 +193,14 @@ Home page styles
     background-color: var(--white);
 }
 
-.home .single-box img {
+.home_produk .single-box img {
     width: 100%;
     height: 250px;
     object-fit: cover;
     border-radius: 5px 5px 0 0;
 }
 
-.home .btn-beli {
+.home_produk .btn-beli {
     margin-top: 10px;
     margin-bottom: 20px;
     font-weight: 500;
@@ -163,19 +215,19 @@ Home page styles
     background: linear-gradient(to bottom left, var(--red), var(--red));
 }
 
-.home .btn-beli:hover {
+.home_produk .btn-beli:hover {
     color: var(--red);
     border-color: var(--red);
     background: var(--white);
 }
 
 /* Owl Carousel dots styles */
-.home .owl-dots {
+.home_produk .owl-dots {
     text-align: center;
     margin-top: 5px;
 }
 
-.home .owl-dots button.owl-dot {
+.home_produk .owl-dots button.owl-dot {
     width: 15px;
     height: 15px;
     border-radius: 50%;
@@ -185,11 +237,11 @@ Home page styles
     margin: 0 3px;
 }
 
-.home .owl-dots button.owl-dot.active {
+.home_produk .owl-dots button.owl-dot.active {
     background-color: var(--black);
 }
 
-.home .owl-dots button.owl-dot:focus {
+.home_produk .owl-dots button.owl-dot:focus {
     outline: none;
 }
 

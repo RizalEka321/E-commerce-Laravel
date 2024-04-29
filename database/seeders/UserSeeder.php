@@ -23,6 +23,7 @@ class UserSeeder extends Seeder
                 'no_hp' => '085936155999',
                 'foto' => 'fotonya',
                 'password' => bcrypt('Pemilik321'),
+                'email_verified_at' => now()
             ],
             [
                 'nama_lengkap' => 'Pratama',
@@ -33,6 +34,7 @@ class UserSeeder extends Seeder
                 'no_hp' => '085936155999',
                 'foto' => null,
                 'password' => bcrypt('Pegawai321'),
+                'email_verified_at' => now()
             ],
             [
                 'nama_lengkap' => 'Farhan',
@@ -43,6 +45,7 @@ class UserSeeder extends Seeder
                 'no_hp' => '085936155999',
                 'foto' => null,
                 'password' => bcrypt('Pembeli321'),
+                'email_verified_at' => now()
             ],
         ];
 

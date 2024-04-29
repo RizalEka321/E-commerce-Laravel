@@ -24,6 +24,7 @@
     <link href="{{ asset('assets/plugins/OwlCarousel2-2.3.4/css/owl.carousel.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/plugins/OwlCarousel2-2.3.4/css/owl.carousel.min.css') }}" rel="stylesheet" />
     {{-- Style Sendiri --}}
+    <link href="{{ asset('assets/pembeli/css/variable.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/pembeli/css/style.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/pembeli/css/style-home.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/pembeli/css/style-produk.css') }}" rel="stylesheet" />
@@ -85,6 +86,7 @@
     {{-- JS Sendiri --}}
     <script src="{{ asset('assets/pembeli/js/main.js') }}"></script>
     <script src="{{ asset('assets/pembeli/js/navbar.js') }}"></script>
+    <script src="{{ asset('assets/pembeli/js/tab_perusahaan.js') }}"></script>
     {{-- Data Tables --}}
     <script src="{{ url('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ url('assets/plugins/datatables-bs4/js/dataTables.bootstrap5.min.js') }}"></script>

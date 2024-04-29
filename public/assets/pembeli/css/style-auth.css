@@ -1,114 +1,90 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 body {
-    background-color: var(--red);
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    color: var(--black);
+    background-image: url("/assets/pembeli/img/bg_auth.png");
+    /* filter: blur(5px); */
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
-.main-content{
-	width: 50%;
+.konten_login{
+	width: 40%;
 	border-radius: 5px;
-	box-shadow: 0 5px 5px rgba(0,0,0,.4);
 	margin: 5em auto;
+    padding: 40px;
 	display: flex;
     background-color: var(--white);
 }
-.company__info{
-	background-color: #000;
-	border-top-left-radius: 5px;
-	border-bottom-left-radius: 5px;
+
+.konten_register{
+	width: 60%;
+	border-radius: 5px;
+	margin: 5em auto;
+    padding: 40px;
 	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	color: #fff;
+    background-color: var(--white);
 }
 
-.row > h2{
-	color:#000;
-    margin-top: 10px;
-    margin-bottom: 5px;
-}
-
-.fomlogreg{
-	background-color: #fff;
-	border-top-right-radius:20px;
-	border-bottom-right-radius:20px;
-	border-top:1px solid #ccc;
-	border-right:1px solid #ccc;
+.judul{
+    font-weight: 800;
 }
 
 .inputan input{
 	width: 100%;
-	border: 1px solid rgb(100, 100, 100);
+	border: 1px solid rgb(167, 167, 167);
 	border-radius: 5px;
     padding: 5px 10px;
 	transition: all .5s ease;
 }
+
 .inputan input:focus{
-	border-bottom-color: #000;
-	box-shadow: 0 0 5px rgba(0,80,80,.4);
+	border: 1px solid var(--red);
 	border-radius: 4px;
 }
+
 .btn{
 	transition: all .5s ease;
-	width: 70%;
-	border-radius: 30px;
-	color:#000;
+	width: 100%;
+	border-radius: 5px;
+	color:var(--white);
 	font-weight: 600;
-	background-color: #fff;
-	border: 1px solid #000;
-	margin-top: 1.5em;
-	margin-bottom: 1em;
+	background-color: var(--red);
+	border: 1px solid var(--red);
     margin-left: auto;
     margin-right: auto;
 }
 .btn:hover, .btn:focus{
-	background-color: #000;
-	color:#fff;
+    background-color: var(--white);
+    border: 1px solid var(--red);
+	color: var(--red);
+}
+
+.btn-daflog{
+    color: var(--red);
+    text-decoration: none;
+    font-weight: 700;
 }
 
 @media screen and (max-width: 640px) {
-	.main-content{width: 90%;}
-	.company__info{
-		display: none;
-	}
-	.login_form{
-		border-top-left-radius:20px;
-		border-bottom-left-radius:20px;
-	}
+	.konten_login{
+        width: 100%;
+        padding: 10px;;
+    }
 }
 @media screen and (min-width: 642px) and (max-width:800px){
-	.main-content{width: 70%;}
-}
-
-.autocomplete-items {
-    position: absolute;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    max-height: 200px;
-    overflow-y: auto;
-    z-index: 1;
-}
-
-.autocomplete-items div {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    cursor: pointer;
-}
-
-.autocomplete-items div:last-child {
-    border-bottom: none;
-}
-
-.autocomplete-items div:hover {
-    background-color: #e9e9e9;
+	.konten_login{
+        width: 100%;
+    }
 }
 
 /* Navigation styles */
 .navbar {
     background-color: #ffffff;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-brand{
@@ -167,7 +143,7 @@ body {
 
 .navbar-nav {
     display: flex;
-    justify-content: center;
+    justify-konten: center;
     align-items: left;
 }
 
