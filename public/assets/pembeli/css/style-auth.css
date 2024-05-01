@@ -4,7 +4,7 @@ body {
     font-family: "Montserrat", sans-serif;
     font-optical-sizing: auto;
     color: var(--black);
-    background-image: url("/assets/pembeli/img/bg_auth.png");
+    background-image: url("/assets/pembeli/img/bg_auth.jpg");
     /* filter: blur(5px); */
     height: 100%;
     background-position: center;
@@ -82,98 +82,14 @@ body {
     }
 }
 
-/* Navigation styles */
-.navbar {
-    background-color: #ffffff;
+::-webkit-scrollbar {
+    width: 13px;
 }
 
-.navbar-brand{
-    color: var(--red);
-    font-weight: 500;
+::-webkit-scrollbar-track {
+    background: var(--white);
 }
 
-.navbar-toggler {
-    border: 2px solid var(--red);
-}
-
-.navbar-toggler i {
-    color: var(--red);
-}
-
-.navbar .navbar-toggler:focus,
-.navbar-toggler.active {
-    border-color: var(--red);
-}
-
-.navbar-nav .dropdown-item {
-    color: var(--red);
-    font-weight: 600;
-}
-
-.navbar-nav .dropdown-item:hover {
-    color: white;
-    background: linear-gradient(to bottom left, var(--red), var(--red));
-}
-
-.navbar-nav .nav-link {
-    color: var(--red);
-    font-weight: 600;
-    transition: color 0.5s ease;
-    border-radius: 10px;
-    padding: 5px 15px;
-    margin: 0 5px;
-}
-
-.navbar-nav .nav-link:hover,
-.navbar-nav .nav-link:focus {
-    color: white;
-    background: linear-gradient(to bottom left, var(--red), var(--red));
-
-}
-
-.navbar-nav .nav-link.active,
-.navbar-nav .nav-link.show {
-    color: white;
-}
-
-.navbar-nav .nav-link .username {
-    font-size: 30px;
-    vertical-align: middle;
-}
-
-.navbar-nav {
-    display: flex;
-    justify-konten: center;
-    align-items: left;
-}
-
-@media (max-width: 991px) {
-    .nav-item {
-        margin-bottom: 5px;
-    }
-
-    .navbar-nav {
-        margin-top: 10px;
-    }
-}
-
-@media (max-width: 768px) {
-    .nav-item {
-        margin-bottom: 5px;
-    }
-
-    .navbar-nav {
-        margin-top: 10px;
-    }
-}
-
-@media (max-width: 576px) {
-    .nav-item {
-        margin-bottom: 5px;
-
-    }
-
-    .navbar-nav {
-        margin-top: 10px;
-    }
+::-webkit-scrollbar-thumb {
+    background: var(--red);
 }

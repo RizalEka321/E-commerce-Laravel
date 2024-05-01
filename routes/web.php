@@ -106,6 +106,8 @@ Route::middleware(['auth:web', 'pegawai'])->group(function () {
 Route::middleware(['auth:web', 'pembeli', 'verified'])->group(function () {
     // Profile
     Route::get('/profile', [ProfileController::class, "page_profile"])->name('profile');
+    Route::post('/profile/update', [ProfileController::class, "update"])->name('profile.update');
+    Route::post('/profile/update-password', [ProfileController::class, "update_password"])->name('profile.update_password');
     // Pesanan Saya
     Route::get('/pesanan-saya', [PesananSayaController::class, "page_pesanan_saya"])->name('pesanan_saya');
     // Keranjang

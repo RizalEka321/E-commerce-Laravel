@@ -35,7 +35,7 @@
         <div id="loading" class="loading"></div>
     </div>
 
-    @include('Auth.layout.topbar')
+    {{-- @include('Auth.layout.topbar') --}}
     {{-- Main Content --}}
     @yield('content')
     {{-- End Main Content --}}

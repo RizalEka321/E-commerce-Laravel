@@ -48,13 +48,13 @@ body {
 }
 
 .navbar-nav .dropdown-item {
-    color: var(--red);
+    color: var(--black);
     font-weight: 600;
 }
 
 .navbar-nav .dropdown-item:hover {
     color: white;
-    background: linear-gradient(to bottom left, var(--red), var(--red));
+    background-color: var(--black);
 }
 
 .navbar-nav .nav-link {
@@ -281,4 +281,16 @@ body {
 
 .autocomplete-items div:hover {
     background-color: #e9e9e9;
+}
+
+::-webkit-scrollbar {
+    width: 13px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--white);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--red);
 }
