@@ -34,6 +34,9 @@
     <link href="{{ asset('assets/pembeli/css/style-cart.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/pembeli/css/style-checkout.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/admin/css/loading.css') }}" rel="stylesheet">
+    @if (!Request::is('/'))
+        <link href="{{ asset('assets/pembeli/css/style-navbar-tambahan.css') }}" rel="stylesheet" />
+    @endif
     {{-- Data Tables --}}
     <link rel="stylesheet" href="{{ url('assets/plugins/datatables-bs4/css/dataTables.bootstrap5.min.css') }}">
     <link rel="stylesheet" href="{{ url('assets/plugins/datatables-responsive/css/responsive.bootstrap5.min.css') }}">
@@ -85,7 +88,9 @@
     <script src="{{ asset('assets/plugins/OwlCarousel2-2.3.4/js/owl.carousel.min.js') }}"></script>
     {{-- JS Sendiri --}}
     <script src="{{ asset('assets/pembeli/js/main.js') }}"></script>
-    <script src="{{ asset('assets/pembeli/js/navbar.js') }}"></script>
+    @if (Request::is('/'))
+        <script src="{{ asset('assets/pembeli/js/navbar.js') }}"></script>
+    @endif
     <script src="{{ asset('assets/pembeli/js/tab_perusahaan.js') }}"></script>
     {{-- Data Tables --}}
     <script src="{{ url('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>

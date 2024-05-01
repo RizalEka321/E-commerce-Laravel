@@ -1,8 +1,16 @@
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" data-aos="fade-down">
     <div class="container">
-        <a href="{{ route('home') }}" class="navbar-brand" id="logo_navbar">
-            <img src="{{ asset('assets/pembeli/img/logonavbar_putih.png') }}" alt="" width="100%" height="50px">
-        </a>
+        @if (Request::is('/'))
+            <a href="{{ route('home') }}" class="navbar-brand" id="logo_navbar">
+                <img src="{{ asset('assets/pembeli/img/logonavbar_putih.png') }}" alt="" width="100%"
+                    height="50px">
+            </a>
+        @else
+            <a href="{{ route('home') }}" class="navbar-brand" id="logo_navbar">
+                <img src="{{ asset('assets/pembeli/img/logonavbar_hitam.png') }}" alt="" width="100%"
+                    height="50px">
+            </a>
+        @endif
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fas fa-bars py-1"></i>
