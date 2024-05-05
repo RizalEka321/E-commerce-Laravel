@@ -1,83 +1,94 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
 body {
     font-family: "Montserrat", sans-serif;
     font-optical-sizing: auto;
     color: var(--black);
     background-image: url("/assets/pembeli/img/bg_auth.jpg");
-    /* filter: blur(5px); */
-    height: 100%;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    margin: 0;
+    height: 100vh;
 }
 
-.konten_login{
-	width: 40%;
-	border-radius: 5px;
-	margin: 5em auto;
+.konten_login {
+    width: 40%;
+    border-radius: 5px;
+    margin: auto;
     padding: 40px;
-	display: flex;
+    display: flex;
     background-color: var(--white);
 }
 
-.konten_register{
-	width: 60%;
-	border-radius: 5px;
-	margin: 5em auto;
+.konten_register {
+    width: 60%;
+    border-radius: 5px;
+    margin: auto;
     padding: 40px;
-	display: flex;
+    display: flex;
     background-color: var(--white);
 }
 
-.judul{
+.konten_verifikasi {
+    width: 60%;
+    border-radius: 5px;
+    margin: 20px auto;
+    display: flex;
+    padding: 30px;
+    background-color: var(--white);
+    text-align: justify;
+}
+
+.judul {
     font-weight: 800;
 }
 
-.inputan input{
-	width: 100%;
-	border: 1px solid rgb(167, 167, 167);
-	border-radius: 5px;
+.inputan input {
+    width: 100%;
+    border: 1px solid rgb(167, 167, 167);
+    border-radius: 5px;
     padding: 5px 10px;
-	transition: all .5s ease;
+    transition: all 0.5s ease;
 }
 
-.inputan input:focus{
-	border: 1px solid var(--red);
-	border-radius: 4px;
+.inputan input:focus {
+    border: 1px solid var(--red);
+    border-radius: 4px;
 }
 
-.btn{
-	transition: all .5s ease;
-	width: 100%;
-	border-radius: 5px;
-	color:var(--white);
-	font-weight: 600;
-	background-color: var(--red);
-	border: 1px solid var(--red);
+.btn {
+    transition: all 0.5s ease;
+    width: 100%;
+    border-radius: 5px;
+    color: var(--white);
+    font-weight: 600;
+    background-color: var(--red);
+    border: 1px solid var(--red);
     margin-left: auto;
     margin-right: auto;
 }
-.btn:hover, .btn:focus{
+.btn:hover,
+.btn:focus {
     background-color: var(--white);
     border: 1px solid var(--red);
-	color: var(--red);
+    color: var(--red);
 }
 
-.btn-daflog{
+.btn-daflog {
     color: var(--red);
     text-decoration: none;
     font-weight: 700;
 }
 
 @media screen and (max-width: 640px) {
-	.konten_login{
+    .konten_login {
         width: 100%;
-        padding: 10px;;
+        padding: 10px;
     }
 }
-@media screen and (min-width: 642px) and (max-width:800px){
-	.konten_login{
+@media screen and (min-width: 642px) and (max-width: 800px) {
+    .konten_login {
         width: 100%;
     }
 }

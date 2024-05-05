@@ -4,13 +4,12 @@
     {{-- Detail Produk --}}
     <section class="detail-produk">
         <div class="container">
-            <hr class="my-2 hr-detail opacity-100" data-aos="flip-right" data-aos-delay="100">
             <div class="row mt-3 py-2">
                 <div class="col-md-3 col-lg-5">
                     <img src="{{ asset($produk_detail->foto) }}" class="card-img-top" alt="...">
                 </div>
                 <div class="col-md-5 col-lg-7 pt-2">
-                    <h3 class="title">{{ $produk_detail->judul }}</h3>
+                    <h4 class="title">{{ $produk_detail->judul }}</h4>
                     <div class="price p-4 mb-3">
                         <h2>Rp {{ number_format($produk_detail->harga, 0, '.', '.') }}</h2>
                     </div>
@@ -49,21 +48,21 @@
                 </div>
             </div>
             <div class="description row my-2 py-2">
-                <h4 class="title">{{ Session::get('slug_produk') }}</h4>
+                <h4 class="title">Deskripsi Produk</h4>
                 <div class="mx-2">
                     {!! $produk_detail->deskripsi !!}
                 </div>
             </div>
         </div>
     </section>
-    <section class="home" id="produk">
+    <section class="home_produk" id="produk">
         <div class="container py-3 mt-3">
             <div>
                 <h5>Produk Lainnya</h5>
-                <hr class="hr-home opacity-100" data-aos="flip-right" data-aos-delay="100">
+                <hr class="hr-home_produk opacity-100" data-aos="flip-right" data-aos-delay="100">
             </div>
             <div class="col-lg-12 my-5">
-                <div class="home-slider owl-carousel">
+                <div class="home_produk-slider owl-carousel">
                     @foreach ($produk as $k)
                         <div class="single-box text-center">
                             <div class="img-area">

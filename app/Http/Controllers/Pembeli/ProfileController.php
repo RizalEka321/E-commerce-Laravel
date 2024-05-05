@@ -4,16 +4,18 @@ namespace App\Http\Controllers\Pembeli;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Profil_Perusahaan;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class ProfileController extends Controller
 {
     public function page_profile()
     {
-        return view('Pembeli.page_profile');
+        $profile = Profil_Perusahaan::where('id_profil_perusahaan', 'satu')->first();
+        return view('Pembeli.page_profile', compact('profile'));
     }
 
     public function update(Request $request)
@@ -69,6 +71,44 @@ class ProfileController extends Controller
             $user->save();
 
             echo json_encode(['status' => TRUE]);
+        }
+    }
+
+    public function update_foto(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'foto' => 'image|mimes:jpeg,png,jpg|max:2048'
+        ], [
+            'foto.image' => 'File harus berupa gambar.',
+            'foto.mimes' => 'Format gambar hanya boleh jpeg, png, atau jpg.',
+            'foto.max' => 'Ukuran gambar maksimal adalah 2 MB.',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()]);
+        } else {
+            $id = Auth::user()->id;
+            $user = User::find($id);
+
+            if ($request->hasFile('foto')) {
+                if ($user->foto) {
+                    if (file_exists(public_path($user->foto))) {
+                        unlink(public_path($user->foto));
+                    }
+                }
+
+                $foto = $request->file('foto');
+                $file_name = $user->username . '.' . $foto->getClientOriginalExtension();
+                $path = 'data/User/';
+                $foto->move($path, $file_name);
+                $user->foto = "$path/$file_name";
+            }
+
+            $user->save();
+
+            $foto_baru = $user->foto;
+
+            echo json_encode(['status' => TRUE, 'foto' => $foto_baru]);
         }
     }
 }

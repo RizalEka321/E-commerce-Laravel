@@ -1,73 +1,81 @@
 /*===============================================================
 Detail Produk page styles
 =================================================================*/
+/* body {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    background-color: var(--bgwhite);
+} */
+
 .checkout {
-    margin-top: 80px;
     color: var(--black);
 }
 
-.checkout .hr-checkout {
-    border-width: 2px;
-    color: var(--red);
-}
-
-.checkout .konten {
-    background-color: #fff;
+.konten_produk {
+    margin-top: 100px;
     border-radius: 5px;
 }
 
-.checkout .card {
-    color: var(--red);
+.konten_produk .card {
     padding: 25px;
     border-radius: 10px;
     border: 0;
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.25);
 }
 
-.checkout .card img {
+.konten_produk .card img {
     border-radius: 10px;
-    width: 500px;
+    width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.checkout .title {
+.konten_produk .card-body {
+    display: flex;
+}
+
+.konten_produk .card-image {
+    flex: 0 0 auto;
+    width: 150px; /* Ubah sesuai kebutuhan Anda */
+}
+
+.konten_produk .card-content {
+    flex: 1;
+}
+
+.konten_produk .price {
+    display: inline-block;
+}
+
+
+.konten_produk .title {
     color: var(--black);
     font-weight: 700;
 }
 
-.checkout .price {
-    color: var(--red);
-    font-style: bold;
-    background-color: #f5f5f5;
+.konten_produk .price {
+    color: var(--black);
+    font-weight: bold;
 }
 
-.checkout .rating {
+.konten_produk .rating {
     color: var(--pink);
 }
 
-.checkout .card-body h3 {
-    color: var(--black);
-    font-weight: 700;
-}
-
-.checkout .card-body h4 {
-    margin-top: 25px;
-    margin-bottom: 25px;
-}
-
-.checkout .btn-buatpesanan {
+.konten_produk .btn-bayar {
     font-weight: 600;
     font-size: 16px;
     display: inline-block;
     padding: 5px 15px;
     border: 1px solid var(--red);
+    border-radius: 5px;
     text-decoration: none;
     -webkit-transition: all 0.5s ease-in-out;
     color: var(--red);
     background: linear-gradient(to bottom left, var(--white), var(--white));
 }
 
-.checkout .btn-buatpesanan:hover {
+.checkout .btn-bayar:hover {
     border-color: var(--red);
     color: var(--white);
     background: var(--red);
@@ -106,73 +114,4 @@ Detail Produk page styles
 .checkout .description p {
     margin-bottom: 0;
     letter-spacing: 0.5px;
-}
-
-
-.radio-toolbar input[type="radio"] {
-    display: none;
-}
-
-.radio-toolbar label {
-    display: inline-block;
-    border: 1px solid #ddd;
-    padding: 10px 20px;
-    margin-right: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.radio-toolbar input[type="radio"]:checked+label {
-    background-color: var(--red);
-    color: #fff
-}
-
-.radio-toolbar input[type="radio"]+label:hover {
-    transition: transform .2s;
-    color: var(--red);
-    border: 1px solid var(--red)
-}
-
-/*--------------------------*/
-.qty-container {
-    display: flex;
-    align-items: left;
-    justify-content: flex-start;
-}
-
-.qty-container .input-qty {
-    text-align: center;
-    padding: 6px 10px;
-    border: 1px solid #d4d4d4;
-    max-width: 80px;
-}
-
-.qty-container .qty-btn-minus,
-.qty-container .qty-btn-plus {
-    border: 1px solid #d4d4d4;
-    padding: 10px 13px;
-    font-size: 10px;
-    height: 38px;
-    width: 38px;
-    transition: 0.3s;
-}
-
-.qty-container .qty-btn-plus {
-    margin-left: -1px;
-}
-
-.qty-container .qty-btn-minus {
-    margin-right: -1px;
-}
-
-.qty-btn-minus:hover {
-    transition: transform .2s;
-    color: var(--white);
-    background: var(--red);
-}
-
-.qty-btn-plus:hover {
-    transition: transform .2s;
-    color: var(--white);
-    background: var(--red);
 }

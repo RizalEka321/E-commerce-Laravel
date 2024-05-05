@@ -17,10 +17,11 @@ class Detail_Pesanan extends Model
         'jumlah',
         'ukuran',
     ];
+    protected $keyType = 'string';
 
     public function produk()
     {
-        return $this->belongsTo(produk::class, 'produk_id');
+        return $this->belongsTo(Produk::class, 'produk_id');
     }
 
     public function pesanan()

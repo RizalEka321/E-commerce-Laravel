@@ -26,11 +26,8 @@
                                     <label for="password">Password</label>
                                     <div class="password-input">
                                         <input type="password" name="password" id="password" placeholder="Password">
-                                        <span class="password-toggle" onclick="togglePasswordVisibility()">
-                                            <i class="fas fa-eye"></i>&nbsp;lihat password
-                                        </span>
+                                        <span class="form-text text-danger error-message"></span>
                                     </div>
-                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                             <div class="text-center mb-2">

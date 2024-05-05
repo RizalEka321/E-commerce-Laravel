@@ -21,6 +21,8 @@ class Pesanan extends Model
         'total',
         'snaptoken'
     ];
+    protected $keyType = 'string';
+
     public static function generateId()
     {
         $pesanan = self::latest()->first();

@@ -18,26 +18,26 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto nav-center">
                 @if (!Request::is('checkout'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('home') }}">
+                            Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('home') }}#profil">
+                            Profile
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('home') }}#produk">
+                            Produk
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('home') }}#kontak">
+                            Kontak
+                        </a>
+                    </li>
                     @auth
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}">
-                                Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}#profil">
-                                Profile
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}#produk">
-                                Produk
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}#kontak">
-                                Kontak
-                            </a>
-                        </li>
                         @if (Auth::user()->role == 'Pembeli')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('keranjang') }}"><i class="fas fa-shopping-cart"></i>
@@ -45,37 +45,26 @@
                             </li>
                         @elseif (Auth::user()->role == 'Pemilik')
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fa fa-wrench"></i> Admin
+                                <a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fa fa-wrench"></i>
+                                    Admin
                                     CMS</a>
                             </li>
                         @endif
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                @if (auth()->user()->avatar == null)
+                                @if (Auth::user()->foto == null)
                                     <i class="fa-solid fa-user"></i>
                                 @else
-                                    <img src="#" id="preview" class="rounded img-fluid"
+                                    <img src="{{ asset(Auth::user()->foto) }}" class="rounded img-fluid preview"
                                         style="width: 20px; height: 20px;" />
                                 @endif
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 @if (auth()->user()->role == 'Pemilik')
-                                    <li><a class="dropdown-item" href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Log Out') }}</a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                            style="display: none;">
-                                            @csrf
-                                        </form>
-                                    </li>
+                                    <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
                                 @elseif (auth()->user()->role == 'Pegawai')
-                                    <li><a class="dropdown-item" href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Log Out') }}</a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                            style="display: none;">
-                                            @csrf
-                                        </form>
-                                    </li>
+                                    <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
                                 @elseif(auth()->user()->role == 'Pembeli')
                                     <li><a class="dropdown-item" href="{{ route('profile') }}">Akun Saya</a></li>
                                     <li><a class="dropdown-item" href="{{ route('pesanan_saya') }}">Pesanan Saya</a></li>
@@ -86,31 +75,10 @@
                     @endauth
                     @guest
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}">
-                                Home</a>
-                        </li>
-                        @if (Request::is('/'))
-                            <li class="nav-item">
-                                <a class="nav-link" href="#profil">
-                                    Profile
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#produk">
-                                    Produk
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#kontak">
-                                    Kontak
-                                </a>
-                            </li>
-                        @endif
-                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn btn-success nav-link px-4" href="{{ route('register') }}">Register</a>
+                            <a class="nav-link" href="{{ route('register') }}">Register</a>
                         </li>
                     @endguest
                 @endif

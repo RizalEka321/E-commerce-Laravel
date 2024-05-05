@@ -1,29 +1,27 @@
 @extends('Auth.layout.app')
 @section('title', 'Verifikasi email')
 @section('content')
-    <div class="container mt-5">
+    <div class="container mt-3">
         <a href="{{ route('home') }}">
             <img src="{{ asset('assets/pembeli/img/logonavbar_hitam.png') }}" alt="" width="300px" height="70px">
         </a>
-        <div class="container-fluid">
-            <div class="row justify-content-center mt-5">
-                <div class="col-md-8">
-                    <div class="card">
-                        <div class="card-header">Verify Your Email Address</div>
-                        <div class="card-body">
-                            @if ($message = Session::get('success'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ $message }}
-                                </div>
-                            @endif
-                            Before proceeding, please check your email for a verification link. If you did not receive the
-                            email,
-                            <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
-                                @csrf
-                                <button type="submit" class="btn btn-link p-0 m-0 align-baseline">click here to request
-                                    another</button>.
-                            </form>
+        <div class="container">
+            <div class="konten_verifikasi">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div class="mb-1">
+                            <h4>Verifikasi Email Anda</h4>
                         </div>
+                        <p>Sebelum melanjutkan, kami mohon Anda memeriksa kotak masuk email Anda untuk menemukan tautan
+                            verifikasi
+                            yang telah kami kirimkan. Jika Anda tidak menemukan email tersebut,</p>
+                        <form method="POST" action="{{ route('verification.resend') }}">
+                            @csrf
+                            <p>Anda dapat meminta kami mengirimkan email verifikasi kembali dengan</p>
+                            <button type="submit" class="btn btn-link p-0 m-0 align-baseline">klik di sini</button>.
+                        </form>
+                        <br>
+                        <p>Jika Anda masih mengalami masalah dengan verifikasi, silakan hubungi tim dukungan kami.</p>
                     </div>
                 </div>
             </div>

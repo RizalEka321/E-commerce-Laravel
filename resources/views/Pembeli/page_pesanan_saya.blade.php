@@ -3,7 +3,6 @@
 @section('content')
     <section class="pesanan">
         <div class="container">
-            <hr class="my-2 hr-pesanan opacity-100" data-aos="flip-right" data-aos-delay="100">
             <div class="my-4">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">

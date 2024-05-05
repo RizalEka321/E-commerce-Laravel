@@ -6,8 +6,9 @@ use App\Models\Produk;
 use App\Models\Ukuran;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\Ukuran_Produk;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -21,23 +22,38 @@ class ProdukController extends Controller
     public function get_produk()
     {
         $data = Produk::select('id_produk', 'judul', 'harga')->with('ukuran')->get();
-        return Datatables::of($data)
-            ->addIndexColumn()
-            ->addColumn('action', function ($row) {
-                $actionBtn = '<div class="btn-group"><a href="javascript:void(0)" type="button" id="btn-edit" class="btn-edit" onClick="edit_data(' . "'" . $row->id_produk . "'" . ')"><i class="fa-solid fa-pen-to-square"></i></a><a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' . "'" . $row->id_produk . "'" . ')"><i class="fa-solid fa-trash-can"></i></a>
-                        </div>';
+        $dataTable = Datatables::of($data)
+            ->addIndexColumn();
+
+        if (Auth::user()->role == 'Pegawai') {
+            $dataTable->addColumn('action', function ($row) {
+                $actionBtn = '<div class="btn-group">' .
+                    '<a href="javascript:void(0)" type="button" id="btn-edit" class="btn-edit" onClick="edit_data(' . "'" . $row->id_produk . "'" . ')"><i class="fa-solid fa-pen-to-square"></i></a>' .
+                    '<a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' . "'" . $row->id_produk . "'" . ')"><i class="fa-solid fa-trash-can"></i></a>' .
+                    '</div>';
                 return $actionBtn;
-            })
-            ->addColumn('stok', function ($row) {
-                $totalStok = 0;
-                foreach ($row->ukuran as $ukuran) {
-                    $totalStok += $ukuran->stok;
-                }
-                return $totalStok;
-            })
-            ->rawColumns(['action', 'stok'])
-            ->make(true);
+            });
+        } else if (Auth::user()->role == 'Pemilik') {
+            $dataTable->addColumn('action', function ($row) {
+                $actionBtn = '<div class="btn-group">' .
+                    '<a href="javascript:void(0)" type="button" id="btn-edit" class="btn-ubah" onClick="edit_data(' . "'" . $row->id_produk . "'" . ')">Detail</a>' .
+                    '</div>';
+                return $actionBtn;
+            });
+        }
+
+        $dataTable->addColumn('stok', function ($row) {
+            $totalStok = 0;
+            foreach ($row->ukuran as $ukuran) {
+                $totalStok += $ukuran->stok;
+            }
+            return $totalStok;
+        });
+        $dataTable->rawColumns(['action', 'stok']);
+
+        return $dataTable->make(true);
     }
+
 
     public function store(Request $request)
     {

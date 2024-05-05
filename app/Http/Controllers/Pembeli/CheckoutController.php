@@ -20,12 +20,23 @@ class CheckoutController extends Controller
             ->with('produk')
             ->get();
 
+        // Menghitung total barang checkout
+        $total_barang = $checkout->sum(function ($item) {
+            return $item->jumlah;
+        });
+
         // Menghitung total harga checkout
         $total_harga = $checkout->sum(function ($item) {
             return $item->produk->harga * $item->jumlah;
         });
 
-        return view('Pembeli.page_checkout', compact('checkout', 'total_harga'));
+        $ongkir = 10000;
+
+        $admin = 2500;
+
+        $total_keseluruhan = $total_harga + $ongkir + $admin;
+
+        return view('Pembeli.page_checkout', compact('checkout', 'total_barang', 'total_harga', 'ongkir', 'admin', 'total_keseluruhan'));
     }
 
     public function checkout_keranjang(Request $request)
