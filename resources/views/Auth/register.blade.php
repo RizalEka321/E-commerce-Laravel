@@ -2,9 +2,6 @@
 @section('title', 'Login')
 @section('content')
     <div class="container mt-3">
-        <a href="{{ route('home') }}">
-            <img src="{{ asset('assets/pembeli/img/logonavbar_hitam.png') }}" alt="" width="300px" height="70px">
-        </a>
         <div class="container-fluid">
             <div class="konten_register">
                 <div class="container">

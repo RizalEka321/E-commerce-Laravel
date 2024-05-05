@@ -35,7 +35,7 @@
     <link href="{{ asset('assets/pembeli/css/style-checkout.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/admin/css/loading.css') }}" rel="stylesheet">
     @if (!Request::is('/'))
-        <link href="{{ asset('assets/pembeli/css/style-navbar-tambahan.css') }}" rel="stylesheet" />
+        <link href="{{ asset('assets/pembeli/css/style-tambahan.css') }}" rel="stylesheet" />
     @endif
     {{-- Data Tables --}}
     <link rel="stylesheet" href="{{ url('assets/plugins/datatables-bs4/css/dataTables.bootstrap5.min.css') }}">

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('profil_perusahaan', function (Blueprint $table) {
             $table->char('id_profil_perusahaan');
             $table->string('foto');
-            $table->string('deskripsi');
+            $table->text('deskripsi');
             $table->string('alamat');
             $table->timestamps();
         });

@@ -1,224 +1,207 @@
 @extends('Pembeli.layout.app')
 @section('title', 'Homepage')
 @section('content')
-    <a href="#" class="act-btn">
+    <a href="https://wa.me/{{ $nomor_wa }}?text=Halo%20admin%2C%20ada%20yang%20ingin%20saya%20tanyakan" class="act-btn">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
     {{-- Banner --}}
-    <div class="konten">
+    <section class="home_carousel">
         <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 0"
-                    aria-current="true"></button>
-                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 1"
-                    class=""></button>
-                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 2"
-                    class=""></button>
-            </div>
             <div class="carousel-inner">
                 <div class="carousel-item active" data-bs-interval="4000">
-                    <img class="d-block w-100 img-fluid" src="{{ asset('assets/pembeli/img/bg1.jpg') }}" alt="slide 0">
+                    <img class="d-block w-100 img-fluid" src="{{ asset('assets/pembeli/img/bg_carousel.png') }}"
+                        alt="slide 0">
                     <div class="carousel-caption">
-                        <h1>LOKAL-INDUSTRI</h1>
-                        <h2>Ayo Majukan Dan Kembangkan UMKM Indonesia</h2>
+                        <h1>Membuat pakaian dengan kualitas terbaik!</h1>
                         <a href="#produk" class="btn-lihat">Lihat Produk Kami</a>
                     </div>
                 </div>
                 <div class="carousel-item" data-bs-interval="4000">
-                    <img class="d-block w-100 img-fluid" src="{{ asset('assets/pembeli/img/bg1.jpg') }}" alt="slide 1">
+                    <img class="d-block w-100 img-fluid" src="{{ asset('assets/pembeli/img/bg_carousel.png') }}"
+                        alt="slide 1">
                     <div class="carousel-caption">
-                        <h1>LOKAL-INDUSTRI</h1>
-                        <h2>Ayo Majukan Dan Kembangkan UMKM Indonesia</h2>
+                        <h1>Ayo Majukan Dan Kembangkan UMKM Indonesia</h1>
                         <a href="#profil" class="btn-lihat">Lihat Profil Kami</a>
                     </div>
                 </div>
                 <div class="carousel-item" data-bs-interval="4000">
-                    <img class="d-block w-100 img-fluid" src="{{ asset('assets/pembeli/img/bg1.jpg') }}" alt="slide 2">
+                    <img class="d-block w-100 img-fluid" src="{{ asset('assets/pembeli/img/bg_carousel.png') }}"
+                        alt="slide 2">
                     <div class="carousel-caption">
-                        <h1>LOKAL-INDUSTRI</h1>
-                        <h2>Ayo Majukan Dan Kembangkan UMKM Indonesia</h2>
+                        <h1>Ayo Majukan Dan Kembangkan UMKM Indonesia</h1>
                         <a href="#kontak" class="btn-lihat">Hubungi Kami</a>
                     </div>
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
         </div>
-    </div>
+    </section>
     {{-- ./Banner --}}
 
     {{-- Profile Perusahaan --}}
     <section class="home_perusahaan" id="profil">
         <div class="container">
-            <div class="text-center mb-2">
-                <span>Profile Perusahaan</span>
-            </div>
-            <div class="tab">
-                <button class="tablinks" onclick="openCity(event, 'Profile')" id="defaultOpen">Profile</button>
-                <button class="tablinks" onclick="openCity(event, 'Lokasi')">Lokasi</button>
-                <button class="tablinks" onclick="openCity(event, 'Kontak')">Kontak</button>
-            </div>
-
-            <div id="Profile" class="tabcontent">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt molestias laboriosam quae fugit accusamus,
-                    cum neque omnis eligendi quasi cumque autem consequatur ipsam molestiae. Aliquam nihil accusamus officia
-                    sapiente iure voluptate expedita modi officiis, mollitia sunt perspiciatis consectetur. Laudantium
-                    cumque consequuntur repudiandae fugit pariatur similique blanditiis eum modi adipisci praesentium
-                    commodi ea illo, dicta, nostrum numquam eligendi cum ad nobis, aliquam vero accusantium recusandae. Quod
-                    deserunt officiis accusamus asperiores omnis. Cumque doloremque voluptate nemo distinctio pariatur ut
-                    labore molestiae excepturi quas accusamus repellat nam velit autem numquam non vero quibusdam quis quae
-                    voluptatibus, sit debitis perferendis. Nam odio molestiae blanditiis corrupti, illum ratione nostrum
-                    veritatis in omnis ipsa asperiores nesciunt eos distinctio eius harum illo molestias, delectus, ad
-                    obcaecati sint! Iusto nostrum incidunt quibusdam dignissimos at minus sed veniam numquam illo esse est
-                    rerum maxime, perspiciatis fugit ut veritatis maiores cumque nobis possimus sequi expedita. Explicabo
-                    placeat saepe aut, blanditiis sit obcaecati eligendi officiis rerum tempore nostrum nobis iusto eaque
-                    natus vitae ipsa maiores cumque, excepturi quasi nam repudiandae vero fugiat. Quod aliquid laboriosam
-                    fugiat perferendis mollitia veritatis cum saepe illo magni? Id nobis ab fugit, deleniti autem ipsum
-                    possimus aperiam! Et magnam deleniti consequatur natus veritatis repudiandae temporibus totam!</p>
-            </div>
-
-            <div id="Lokasi" class="tabcontent">
-                <p>Paris is the capital of France.</p>
-            </div>
-
-            <div id="Kontak" class="tabcontent">
-                <p>Tokyo is the capital of Japan.</p>
+            <div class="row align-items-center">
+                <div class="col-lg-6 info-perusahaan">
+                    <h2>CV. Lokal Industri</h2>
+                    {!! $profile->deskripsi !!}
+                </div>
+                <div class="col-lg-6 img-perusahaan">
+                    <img src="{{ asset($profile->foto) }}" alt="Lokal Industri">
+                </div>
             </div>
         </div>
     </section>
+    {{-- ./Profile Perusahaan --}}
 
-    <style>
-        .tab {
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            background-color: var(--black);
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
-        }
-
-        /* Style the buttons inside the tab */
-        .tab button {
-            background-color: var(--black);
-            color: var(--white);
-            float: left;
-            border: none;
-            outline: none;
-            cursor: pointer;
-            padding: 14px 50px;
-            transition: 0.3s;
-            font-size: 17px;
-        }
-
-        /* Change background color of buttons on hover */
-        .tab button:hover {
-            background-color: #ccc;
-            color: var(--black);
-            transform: scale(1.4);
-            transition: transform 0.3s;
-        }
-
-
-        /* Create an active/current tablink class */
-        .tab button.active {
-            background-color: #ccc;
-        }
-
-        /* Style the tab content */
-        .tabcontent {
-            display: none;
-            padding: 6px 12px;
-            border-top: none;
-        }
-
-        /* Style the close button */
-        .topright {
-            float: right;
-            cursor: pointer;
-            font-size: 28px;
-        }
-
-        .topright:hover {
-            color: red;
-        }
-    </style>
-    {{-- Profile Perusahaan --}}
+    {{-- Bg Produk --}}
+    <section class="home_bgproduk">
+        <img src="{{ asset('assets/pembeli/img/bg_home.png') }}" alt="produk-kami">
+    </section>
+    {{-- ./Profile Perusahaan --}}
 
     {{-- Produk --}}
     <section class="home_produk" id="produk">
-        <div class="container py-3 mt-3">
+        <div class="container">
             <div class="text-center">
-                <span>Produk</span>
-                <hr class="hr-home_produk opacity-100" data-aos="flip-right" data-aos-delay="100">
+                <span>Beli Sekarang</span>
             </div>
-            <div class="col-lg-12 my-5">
+            <div class="col-lg-12 mt-5">
                 <div class="home_produk-slider owl-carousel">
                     @foreach ($produk as $k)
-                        <div class="single-box text-center">
-                            <div class="img-area">
-                                <img alt="produk" class="img-fluid move-animation" src="{{ asset($k->foto) }}" />
-                            </div>
-                            <div class="info-area">
-                                {{-- <p class="kategori mt-1 mx-3">{{ $k->judul }}</p> --}}
-                                <h4 id="title_card">{{ Str::limit($k->judul, 20) }}</h4>
-                                <h6 class="price">Rp {{ number_format($k->harga, 0, '.', '.') }}</h6>
-                                <a href="{{ route('detail_produk', $k->slug) }}" class="btn-beli">Beli</a>
-                            </div>
+                        <div class="single-box">
+                            <a href="{{ route('detail_produk', $k->slug) }}" class="btn-beli">
+                                <div class="img-produk">
+                                    <img alt="produk" class="img-fluid move-animation" src="{{ asset($k->foto) }}" />
+                                </div>
+                                <div class="info-produk">
+                                    <h4 class="produk">{{ Str::limit($k->judul, 25) }}</h4>
+                                    <h4 class="harga">Rp {{ number_format($k->harga, 0, '.', '.') }}</h4>
+                                </div>
+                            </a>
                         </div>
                     @endforeach
                 </div>
             </div>
         </div>
     </section>
-    {{-- Produk --}}
+    {{-- ./Produk --}}
 
     {{-- FAQ --}}
-    {{-- <section class="home" id="kontak">
-        <div class="container py-3 mt-3">
-            <div class="text-center">
-                <hr class="hr-home opacity-100" data-aos="flip-right" data-aos-delay="100">
-                <span>Kontak</span>
-                <hr class="hr-home opacity-100" data-aos="flip-right" data-aos-delay="100">
+    <section class="home_faq" id="FAQ">
+        <div class="container">
+            <div class="text-center mb-4">
+                <span>Pertanyaan Umum (FAQ)</span>
             </div>
-            <h2>Pertanyaan Umum (FAQ)</h2>
-            <div class="accordion" id="accordionExample">
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Pertanyaan 1?
-                        </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                        data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            Jawaban untuk pertanyaan 1 di sini...
-                        </div>
-                    </div>
+            <div class="tab">
+                <button class="btn-panel" id="btn-faq-answer1" onclick="togglePanel('faq-answer1')"><i
+                        class="fa-solid fa-chevron-down"></i> Custom produksi di Lokal apakah free design? </button>
+                <div class="panel hilang" id="faq-answer1">
+                    <div class="paragraf" id="myDiv_id1"></div>
+                    <p id="paragraph_id1">Frequently Asked Questions (FAQ) pages contain a list of commonly asked
+                        questions and answers on a website about topics such as hours, shipping and handling,
+                        product information, and return policies.
+
+                        Sure there are chatbots, support lines, and customer reviews to help shoppers on their
+                        path to purchase, but there’s one forgotten customer service tactic that is
+                        cost-effective and streamlined. That tactic is an FAQ page.
+                    </p>
                 </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingTwo">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            Pertanyaan 2?
-                        </button>
-                    </h2>
-                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                        data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            Jawaban untuk pertanyaan 2 di sini...
-                        </div>
-                    </div>
+                <button class="btn-panel" id="btn-faq-answer2" onclick="togglePanel('faq-answer2')"><i
+                        class="fa-solid fa-chevron-down"></i> Apa saja bahan yang tersedia di Lokal Industri? </button>
+                <div class="panel hilang" id="faq-answer2">
+                    <div class="paragraf" id="myDiv_id2"></div>
+                    <p id="paragraph_id2">An FAQ page is a time-saving customer service tactic that provides the
+                        most commonly asked questions and answers for current or potential customers.
+
+                        Before diving into how to make an FAQ page, you need to know why having one is so
+                        important. There are so many reasons beyond improving the customer experience for
+                        perfecting your FAQ page. Keep in mind the importance of an FAQ page when developing
+                        your own e-commerce website so you can make sure it increases sales and not the other
+                        way around.
+                    </p>
                 </div>
-                <!-- More FAQ items go here -->
+                <button class="btn-panel" id="btn-faq-answer3" onclick="togglePanel('faq-answer3')"><i
+                        class="fa-solid fa-chevron-down"></i> Metode printing apa yang Lokal pakai? </button>
+                <div class="panel hilang" id="faq-answer3">
+                    <div class="paragraf" id="myDiv_id3"></div>
+                    <p id="paragraph_id3">An FAQ page is a time-saving customer service tactic that provides the
+                        most commonly asked questions and answers for current or potential customers.
+
+                        Before diving into how to make an FAQ page, you need to know why having one is so
+                        important. There are so many reasons beyond improving the customer experience for
+                        perfecting your FAQ page. Keep in mind the importance of an FAQ page when developing
+                        your own e-commerce website so you can make sure it increases sales and not the other
+                        way around.
+                    </p>
+                </div>
+                <button class="btn-panel" id="btn-faq-answer4" onclick="togglePanel('faq-answer4')"><i
+                        class="fa-solid fa-chevron-down"></i> Berapa lama estimasi pengerjaannya? </button>
+                <div class="panel hilang" id="faq-answer4">
+                    <div class="paragraf" id="myDiv_id4"></div>
+                    <p id="paragraph_id4">An FAQ page is a time-saving customer service tactic that provides the
+                        most commonly asked questions and answers for current or potential customers.
+
+                        Before diving into how to make an FAQ page, you need to know why having one is so
+                        important. There are so many reasons beyond improving the customer experience for
+                        perfecting your FAQ page. Keep in mind the importance of an FAQ page when developing
+                        your own e-commerce website so you can make sure it increases sales and not the other
+                        way around.
+                    </p>
+                </div>
             </div>
         </div>
-    </section> --}}
-    {{-- FAQ --}}
+    </section>
+    {{-- ./FAQ --}}
+
+    {{-- Kontak --}}
+    <section class="home_kontak" id="kontak">
+        <div class="container">
+            <div class="info-kontak text-center">
+                <span class="mb-2">Hubungi Kami</span>
+                <p>Isi form berikut untuk menghubungi kami lebih lanjut melalui email. Deskripsikan pertanyaaan anda dengan
+                    sebaik mungkin </p>
+            </div>
+            <form action="" method="post">
+                <div class="row mb-3">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="nama">NAMA</label>
+                            <input type="text" id="nama" name="nama" class="input-kecil">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="email">EMAIL</label>
+                            <input type="email" id="email" name="email" class="input-kecil">
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label for="pesan">PESAN</label>
+                        <textarea id="pesan" name="pesan" class="input-besar">{{ old('pesan') }}</textarea>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="sumbit" class="btn-kirim">Kirim</button>
+                </div>
+            </form>
+        </div>
+    </section>
+    {{-- ./Kontak --}}
+@endsection
+@section('script')
+    <script>
+        function togglePanel(panelId) {
+            var panel = $('#' + panelId);
+            var btn = $('#btn-' + panelId);
+            if (panel.hasClass('hilang')) {
+                panel.removeClass('hilang');
+                btn.addClass("muncul");
+            } else {
+                panel.addClass('hilang');
+                btn.removeClass("muncul");
+            }
+        }
+    </script>
 @endsection

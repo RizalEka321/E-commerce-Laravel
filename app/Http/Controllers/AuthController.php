@@ -43,24 +43,33 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
         } else {
-            // Validasi hanya username tanpa melakukan autentikasi
-            if (Auth::attempt([
-                'username' => $request->username,
-                'password' => $request->password
-            ])) {
-                if ($slug_produk) {
-                    // Jika ada slug produk yang disimpan dalam session, arahkan kembali ke halaman produk yang dipilih
-                    return response()->json(['redirect' => '/produk/' . $slug_produk]);
-                } else {
-                    // Jika tidak ada, arahkan sesuai peran pengguna
-                    $role = Auth::user()->role;
+            $user = User::where('username', $request->username)->first();
 
-                    if ($role === 'Pembeli') {
-                        return response()->json(['redirect' => '/']);
+            if ($user) {
+                if (Auth::attempt([
+                    'username' => $request->username,
+                    'password' => $request->password
+                ])) {
+                    if ($slug_produk) {
+                        // Jika ada slug produk yang disimpan dalam session, arahkan kembali ke halaman produk yang dipilih
+                        return response()->json(['redirect' => '/produk/' . $slug_produk]);
                     } else {
-                        return response()->json(['redirect' => '/admin']);
+                        // Jika tidak ada, arahkan sesuai peran pengguna
+                        $role = Auth::user()->role;
+
+                        if ($role === 'Pembeli') {
+                            return response()->json(['redirect' => '/']);
+                        } else {
+                            return response()->json(['redirect' => '/admin']);
+                        }
                     }
+                } else {
+                    // Jika autentikasi gagal (kombinasi username dan password tidak cocok)
+                    return response()->json(['error' => 'Password yang anda masukkan salah']);
                 }
+            } else {
+                // Jika username tidak ditemukan dalam basis data
+                return response()->json(['error' => 'Username atau password yang anda masukkan tidak ditemukan']);
             }
         }
         // Notifikasi jika username dan password salah secara bersamaan

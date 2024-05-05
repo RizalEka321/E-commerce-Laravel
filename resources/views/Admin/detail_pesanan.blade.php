@@ -15,12 +15,12 @@
                 <table id="tabel_detail" class="table table-bordered" style="width:100%">
                     <thead>
                         <tr>
-                            <th width="15%">Aksi</th>
-                            <th width="5%">No</th>
-                            <th width="30%">Produk</th>
-                            <th width="5%">Jumlah</th>
-                            <th width="20%">Harga</th>
-                            <th width="25%">Total</th>
+                            <th style="width: 5%;">No</th>
+                            <th style="width: 30%;">Produk</th>
+                            <th style="width: 5%;">Jumlah</th>
+                            <th style="width: 5%;">Ukuran</th>
+                            <th style="width: 20%;">Harga</th>
+                            <th style="width: 35%;">Total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -105,22 +105,6 @@
 @endsection
 @section('script')
     <script type="text/javascript">
-        // Button
-        $('#btn-add').click(function() {
-            $('#tambah_data').removeClass('hidden');
-            $('#datane').addClass('hidden');
-            $('.judul').html(
-                '<h4 class="judul"><iTAMB<i class="fa-solid fa-truck-fast"></i>TAMBAH DATA PESANAN</h4>');
-
-        });
-        $('#btn-close').click(function() {
-            $('#datane').removeClass('hidden');
-            $('#tambah_data').addClass('hidden');
-            $('.judul').html(
-                '<h4 class="judul"><i class="fa-solid fa-truck-fast"></i> DATA PESANAN</h4>');
-            reset_form();
-        });
-
         // Global Setup
         $.ajaxSetup({
             headers: {
@@ -145,12 +129,8 @@
                 paging: true,
                 orderClasses: false,
                 info: false,
-                ajax: "{{ url('/admin/pesanan/detail/list') }}/{{ $detail->id_detail }}",
+                ajax: "{{ url('/admin/pesanan/detail/list') }}/{{ $detail->pesanan_id }}",
                 columns: [{
-                        data: 'action',
-                        name: 'action',
-                    },
-                    {
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
                     },
@@ -164,6 +144,10 @@
                     {
                         data: 'jumlah',
                         name: 'jumlah'
+                    },
+                    {
+                        data: 'ukuran',
+                        name: 'ukuran'
                     },
                     {
                         data: 'produk_id',

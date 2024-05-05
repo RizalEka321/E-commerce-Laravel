@@ -55,6 +55,7 @@ class UserController extends Controller
             'email.required' => 'Email wajib diisi.',
             'email.unique' => 'Email ini sudah digunakan.',
             'email.email' => 'Email tidak valid.',
+            'password.required' => 'Password wajib diisi.',
             'password.min' => 'Panjang password minimal harus 8 karakter',
             'password.max' => 'Panjang password maksimal harus 16 karakter',
             'password.regex' => 'Password harus mengandung setidaknya satu huruf kapital, satu huruf kecil, dan satu angka',
@@ -68,11 +69,15 @@ class UserController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
         } else {
-
-            $foto = $request->foto;
-            $file_name = $request->username . '.' . $foto->extension();
-            $path = 'data/User/';
-            $foto->move(public_path($path), $file_name);
+            if ($request->hasFile('foto')) {
+                $foto = $request->file('foto');
+                $file_name = $request->username . '.' . $foto->getClientOriginalExtension();
+                $path = 'data/User/';
+                $foto->move($path, $file_name);
+            } else {
+                $file_name = null;
+                $path = null;
+            }
 
             User::create([
                 'nama_lengkap' => $request->nama_lengkap,
@@ -100,27 +105,34 @@ class UserController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nama_lengkap' => 'required|string',
-            'username' => 'required|string|max:255',
+            'nama_lengkap' => 'required|min:8|max:25',
+            'username' => 'required|min:8|max:16',
+            'email' => 'required|email',
+            'password' => 'nullable|min:8|max:16|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
+            'password_confirmation' => 'nullable|same:password',
             'role' => 'required',
-            'email' => 'required|string|email',
-            'alamat' => 'required',
-            'no_hp' => 'required',
+            'alamat' => 'nullable',
+            'no_hp' => 'nullable',
             'foto'     => 'image|mimes:jpeg,png,jpg|max:2048',
-            'password' => 'nullable|min:8',
         ], [
-            'nama_lengkap.required' => 'Nama Panjang wajib diisi.',
-            'username.required' => 'Username wajib diisi.',
-            'username.unique' => 'Username ini sudah digunakan.',
-            'role.required' => 'Role Panjang wajib diisi.',
-            'email.required' => 'Plat Nomor wajib diisi.',
-            'email.unique' => 'Plat Nomor ini sudah digunakan.',
+            'nama_lengkap.required' => 'Nama lengkap tidak boleh kosong',
+            'nama_lengkap.min' => 'Panjang nama lengkap minimal harus 8 karakter',
+            'nama_lengkap.max' => 'Panjang nama lengkap maksimal adalah 25 karakter',
+            'username.required' => 'Username tidak boleh kosong',
+            'username.min' => 'Panjang username minimal harus 8 karakter',
+            'username.max' => 'Panjang username maksimal harus 16 karakter',
+            'username.unique' => 'Username sudah digunakan',
+            'role.required' => 'Role wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.unique' => 'Email ini sudah digunakan.',
             'email.email' => 'Email tidak valid.',
-            'alamat.required' => 'Alamat wajib diisi.',
-            'no_hp.required' => 'No HP wajib diisi.',
-            'foto.required' => 'Foto wajib diisi.',
-            'password.required' => 'Password wajib diisi.',
-            'password.unique' => 'Password sudah digunakan.',
+            'password.min' => 'Panjang password minimal harus 8 karakter',
+            'password.max' => 'Panjang password maksimal harus 16 karakter',
+            'password.regex' => 'Password harus mengandung setidaknya satu huruf kapital, satu huruf kecil, dan satu angka',
+            'password_confirmation.same' => 'Konfirmasi Password tidak sesuai dengan Password.',
+            'foto.image' => 'File harus berupa gambar.',
+            'foto.mimes' => 'Format file harus jpeg, png, atau jpg.',
+            'foto.max' => 'Ukuran file tidak boleh lebih dari 2 MB.',
         ]);
 
         if ($validator->fails()) {
@@ -135,7 +147,23 @@ class UserController extends Controller
             $user->email = $request->email;
             $user->alamat = $request->alamat;
             $user->no_hp = $request->no_hp;
-            $user->password = $request->password;
+            if ($request->has('password') && $request->password != null) {
+                $user->password = $request->password;
+            }
+
+            if ($request->hasFile('foto')) {
+                if ($user->foto) {
+                    if (file_exists(public_path($user->foto))) {
+                        unlink(public_path($user->foto));
+                    }
+                }
+
+                $foto = $request->file('foto');
+                $file_name = $request->username . '.' . $foto->getClientOriginalExtension();
+                $path = 'data/User/';
+                $foto->move($path, $file_name);
+                $user->foto = "$path/$file_name";
+            }
 
             $user->save();
 

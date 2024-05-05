@@ -3,107 +3,173 @@
 @section('content')
     <section class="checkout">
         <div class="container">
-            <div class="konten">
-                <table id="tabel_keranjang" class="table table-condensed">
-                    <thead>
-                        <tr>
-                            <th width="50%">Produk Dipesan</th>
-                            <th width="10%">Harga</th>
-                            <th width="8%">Kuantitas</th>
-                            <th width="22%">Total Harga</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($checkout as $item)
-                            <tr>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-sm-3 hidden-xs"><img src="{{ asset($item->produk->foto) }}"
-                                                width="100" height="100" class="img-responsive" /></div>
-                                        <div class="col-sm-9">
-                                            <h5 class="nomargin">{{ $item->produk->judul }}</h5>
-                                            <h6 class="nomargin">Ukuran {{ $item->ukuran }}</h6>
+            <div class="konten_produk">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <div>
+                                    <h6>Alamat Pengiriman:</h6>
+                                    <p>{{ Auth::user()->alamat }} <button type="button" class="btn btn-primary"
+                                            data-bs-toggle="modal" data-bs-target="#modal_alamat">
+                                            <i class="fa-solid fa-pencil"></i>
+                                        </button></p>
+                                </div>
+                                <div>
+                                    <h6>No. Telepon:</h6>
+                                    <p>{{ Auth::user()->no_hp }} <button type="button" class="btn btn-primary"
+                                            data-bs-toggle="modal" data-bs-target="#modal_no_hp">
+                                            <i class="fa-solid fa-pencil"></i></button></p>
+                                </div>
+                                <!-- Button trigger modal -->
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="modal_alamat" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h1>Alamat</h1>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </td>
-                                <td>Rp {{ number_format($item->produk->harga, 0, '.', '.') }}</td>
-                                <td>{{ $item->jumlah }}</td>
-                                <td>Rp {{ number_format($item->produk->harga * $item->jumlah, 0, '.', '.') }}</td>
-                            </tr>
+                                </div>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="modal_no_hp" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h1>No HP</h1>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @foreach ($checkout as $item)
+                            <div class="card mb-4">
+                                <div class="card-body d-flex">
+                                    <div class="card-image me-3">
+                                        <img src="{{ asset($item->produk->foto) }}" class="card-title" alt="Image 1">
+                                    </div>
+                                    <div class="card-content">
+                                        <h5 class="card-title">
+                                            {{ $item->produk->judul }}
+                                        </h5>
+                                        <p class="card-text">Size,
+                                            <span>{{ $item->ukuran }}</span>
+                                        </p>
+                                        <div class="nav-item position-relative">
+                                            <div class="price position-absolute top-0 end-0">
+                                                <h5>{{ $item->jumlah }} X Rp.
+                                                    {{ number_format($item->produk->harga, 0, '.', '.') }}
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @endforeach
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="5" class="text-end">
-                                <h3><strong>Total <span id="total_keranjang">Rp
-                                            {{ number_format($total_harga, 0, '.', '.') }}</span></strong></h3>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
+                        <form id="form_tambah" action="{{ url('/pemesanan-store') }}" method="POST"
+                            enctype="multipart/form-data" role="form">
+                            @csrf
+                            @method('post')
+                            <div class="card mb-2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <label for="ukuran">Metode Pembayaran
+                                        <button type="button" class="btn" data-bs-toggle="modal"
+                                            data-bs-target="#info_pembayaran">
+                                            <i class="fa-solid fa-circle-info"></i>
+                                        </button>
+                                    </label>
+                                    <div class="radio-toolbar d-flex">
+                                        <div class="mr-2">
+                                            <input type="radio" id="radio_cash" name="metode_pembayaran" value="Cash">
+                                            <label for="radio_cash">CASH</label>
+                                        </div>
+                                        <div>
+                                            <input type="radio" id="radio_transfer" name="metode_pembayaran"
+                                                value="Transfer">
+                                            <label for="radio_transfer">TRANSFER</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <label for="ukuran">Metode Pengiriman<button type="button" class="btn"
+                                            data-bs-toggle="modal" data-bs-target="#info_pengiriman">
+                                            <i class="fa-solid fa-circle-info"></i>
+                                        </button></label>
+                                    <div class="radio-toolbar d-flex">
+                                        <input type="radio" id="radio_pickup" name="metode_pengiriman" value="Pickup">
+                                        <label for="radio_pickup">PICKUP</label>
+                                        <input type="radio" id="radio_delivery" name="metode_pengiriman"
+                                            value="Delivery">
+                                        <label for="radio_delivery">DELIVERY</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-4">
+                        <di class="card">
+                            <h6>Ringkasan Belanja</h6>
+                            <div class="d-flex justify-content-between">
+                                <h6>Total Harga ({{ $total_barang }} Barang)</h6>
+                                <h6 class="text-left">Rp. {{ number_format($total_harga, 0, ',', '.') }}</h6>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <h6>Ongkos Kirim</h6>
+                                <h6 class="text-left">Rp. {{ number_format($ongkir, 0, ',', '.') }}</h6>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <h6>Biaya Admin</h6>
+                                <h6 class="text-left">Rp. {{ number_format($admin, 0, ',', '.') }}</h6>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between mb-4">
+                                <h6>Total Belanja</h6>
+                                <h6 class="text-left">Rp. {{ number_format($total_keseluruhan, 0, ',', '.') }}</h6>
+                            </div>
+                            <button class="btn-bayar"><i class="fa-solid fa-shield"></i> Bayar</button>
+                    </div>
+                </div>
             </div>
+        </div>
         </div>
         <div class="container mb-5">
             <div class="konten">
                 <div class="card border-0">
-                    <form id="form_tambah" action="{{ url('/pemesanan-store') }}" method="POST"
-                        enctype="multipart/form-data" role="form">
-                        @csrf
-                        @method('post')
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <div class="form-group">
-                                    <label for="alamat_pengiriman">Alamat :</label>
-                                    <textarea id="alamat_pengiriman" name="alamat_pengiriman" class="form-control" placeholder="Masukkan Alamat"
-                                        id="alamat">{{ Auth::user()->alamat }}</textarea>
-                                    <span class="form-text text-danger error-message"></span>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-group">
-                                    <label for="no_hp">No Handphone(HP) :</label>
-                                    <input id="no_hp" type="text" name="no_hp" value="{{ Auth::user()->no_hp }}"
-                                        class="form-control" placeholder="Masukkan No HP">
-                                    <span class="form-text text-danger error-message"></span>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="ukuran">Metode Pembayaran<button type="button" class="btn"
-                                        data-bs-toggle="modal" data-bs-target="#info_pembayaran">
-                                        <i class="fa-solid fa-circle-info"></i>
-                                    </button></label>
-                                <div class="radio-toolbar">
-                                    <input type="radio" id="radio_cash" name="metode_pembayaran" value="Cash">
-                                    <label for="radio_cash">CASH</label>
-                                    <input type="radio" id="radio_transfer" name="metode_pembayaran" value="Transfer">
-                                    <label for="radio_transfer">TRANSFER</label>
-                                </div>
-                            </div>
-                            <div class="mb-5">
-                                <label for="ukuran">Metode Pengiriman<button type="button" class="btn"
-                                        data-bs-toggle="modal" data-bs-target="#info_pengiriman">
-                                        <i class="fa-solid fa-circle-info"></i>
-                                    </button></label>
-                                <div class="radio-toolbar">
-                                    <input type="radio" id="radio_pickup" name="metode_pengiriman" value="Pickup">
-                                    <label for="radio_pickup">PICKUP</label>
-                                    <input type="radio" id="radio_delivery" name="metode_pengiriman" value="Delivery">
-                                    <label for="radio_delivery">DELIVERY</label>
-                                </div>
-                            </div>
-                            <div class="card-footer mb-3">
-                                {{-- <a type="button" id="btn-close" class="btn-batal"><i
-                                        class='nav-icon fas fa-arrow-left'></i>&nbsp;&nbsp; BATALKAN</a> --}}
-                                <button type="submit" id="btn-simpan" class="btn-buatpesanan"><i
-                                        class="nav-icon fas fa-save"></i>&nbsp;&nbsp; BUAT PESANAN</button>
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
         <!-- Modal Pembayaran -->
-        <div class="modal fade" id="info_pembayaran" tabindex="-1" aria-labelledby="modal_pembayaran" aria-hidden="true">
+        <div class="modal fade" id="info_pembayaran" tabindex="-1" aria-labelledby="modal_pembayaran"
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -203,5 +269,24 @@
                 }
             });
         }
+
+        $('.btn-bayar').click(function(e) {
+            e.preventDefault(); // Menghentikan perilaku default dari tombol
+            var formData = $('form').serialize(); // Mengambil data form
+
+            $.ajax({
+                type: 'POST',
+                url: 'proses.php', // Ganti dengan URL yang benar
+                data: formData,
+                success: function(response) {
+                    // Handle response dari server
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    // Handle error
+                    console.error(xhr.responseText);
+                }
+            });
+        });
     </script>
 @endsection

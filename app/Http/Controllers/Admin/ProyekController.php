@@ -146,7 +146,7 @@ class ProyekController extends Controller
             return response()->json(['errors' => $validator->errors()]);
         } else {
             // Folder
-            $path = 'data/Proyek/' . Str::title($request->nama_pemesan);
+            $path = 'data/Proyek/';
 
             // Foto Logo
             $foto_logo = $request->foto_logo;
@@ -269,7 +269,7 @@ class ProyekController extends Controller
             $proyek->deadline = $request->deadline;
 
             // Folder
-            $path = 'data/Proyek/' . Str::title($request->nama_pemesan);
+            $path = 'data/Proyek/';
 
             // Foto Logo
             if ($request->hasFile('foto_logo')) {

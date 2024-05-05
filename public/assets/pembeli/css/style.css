@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
 body {
     font-family: "Montserrat", sans-serif;
@@ -8,13 +8,13 @@ body {
 
 /* Header styles */
 .btn-notif {
-    border: 1px solid #CE3ABD;
+    border: 1px solid #ce3abd;
     background-color: #fff;
-    color: #B500A0;
+    color: #b500a0;
 }
 
 .btn-notif:hover {
-    background-color: #CE3ABD;
+    background-color: #ce3abd;
     color: #fff;
 }
 
@@ -26,10 +26,10 @@ body {
 
 .scrolled {
     background-color: var(--white);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.navbar-brand{
+.navbar-brand {
     color: var(--red);
     font-weight: 500;
 }
@@ -66,14 +66,9 @@ body {
     margin: 0 5px;
 }
 
-#scrolled_link{
-    color: var(--black);
-}
-
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-link:focus {
-    color: var(--black);
-    background-color: var(--white);
+    color: var(--red);
 }
 
 .navbar-nav .nav-link .username {
@@ -110,7 +105,6 @@ body {
 @media (max-width: 576px) {
     .nav-item {
         margin-bottom: 5px;
-
     }
 
     .navbar-nav {
@@ -126,7 +120,7 @@ body {
     height: 60px;
     line-height: 60px;
     text-align: center;
-    color: white;
+    color: var(--white);
     font-size: 30px;
     font-weight: bold;
     border-radius: 50%;
@@ -146,48 +140,85 @@ body {
 
 /* Footer styles */
 .footer {
+    width: 100%;
+    height: auto;
+    min-height: auto;
     color: white;
     font-size: 16px;
-    background: linear-gradient(to bottom left, #000000, #000000);
+    background-color: var(--abu);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+    padding-top: 80px;
 }
 
-.footer svg {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    height: 50px;
+.footer .footer-top {
+    padding-bottom: 40px;
 }
 
-.footer svg text {
-    font-size: 210px;
+.footer .footer-top .footer-logo {
+    text-align: start;
 }
 
-.footer .footer-top .footer-contact {
+.footer .footer-top .footer-logo img {
+    width: 100%;
+    max-width: 100px;
+    margin-left: 6px;
+}
+
+.footer .footer-top .social-links {
+    display: flex;
+    justify-content: start;
+    margin-top: 5px;
+}
+
+.footer .footer-top .social-links a {
+    color: var(--white);
     font-size: 20px;
+    transition: 0.3s;
+    margin: 0 5px;
 }
 
-.footer .footer-top .footer-contact p {
-    font-size: 20px;
-    font-weight: bold;
-    margin-top: 15px;
-    margin-bottom: 0;
+.footer .footer-top .social-links a:hover {
+    color: var(--red);
 }
 
-.footer .footer-top .footer-contact span {
+.footer .footer-top .footer-lokasi {
+    text-align: start;
+}
+
+.footer .footer-top .footer-lokasi h4 {
     font-size: 20px;
-    font-weight: 500;
+    margin-bottom: 10px;
+    font-weight: 400;
+}
+
+.footer .footer-top .footer-lokasi span {
+    font-size: 14px;
+    font-weight: 200;
 }
 
 .footer .footer-top .footer-links {
     margin-bottom: 30px;
+    text-align: start;
+}
+
+.footer .footer-top .footer-links h4 {
+    font-size: 20px;
+    margin-bottom: 12px;
+    font-weight: 400;
 }
 
 .footer .footer-top .footer-links ul {
     list-style: none;
     padding: 0;
-    margin: 0;
 }
 
 .footer .footer-top .footer-links ul li {
+    font-size: 14px;
+    font-weight: 200;
     padding: 10px 0;
     display: flex;
     align-items: center;
@@ -208,34 +239,20 @@ body {
 
 .footer .footer-top .footer-links ul a:hover {
     text-decoration: none;
-    -webkit-transform: scale(1.1);
-    color: var(--light-bg);
+    color: var(--red);
 }
 
-.footer .hr-bold-footer {
-    border-width: 2px;
-    color: white;
+.footer .copyright {
+    width: 100%;
+    height: 5vh;
+    display: flex;
+    justify-content: center;
+    background-color: var(--black);
 }
 
 .footer .copyright p {
-    font-weight: 500;
-    margin-top: 5px;
-    margin-left: 5px;
-    margin-right: 5px;
-}
-
-.footer .social-links a {
-    color: white;
-    font-size: 25px;
-    transition: 0.3s;
-    display: inline-block;
-    margin-left: 5px;
-    margin-right: 5px;
-}
-
-.footer .social-links a:hover {
-    -webkit-transform: scale(1.1);
-    color: var(--light-bg);
+    font-weight: 300;
+    margin: 0; /* Menghapus margin default */
 }
 
 @media (max-width: 768px) {
@@ -255,32 +272,6 @@ body {
         margin-left: 5px;
         margin-right: 5px;
     }
-}
-
-.autocomplete-items {
-    position: absolute;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    max-height: 200px;
-    overflow-y: auto;
-    z-index: 1;
-    color: #CE3ABD;
-}
-
-.autocomplete-items div {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    cursor: pointer;
-}
-
-.autocomplete-items div:last-child {
-    border-bottom: none;
-}
-
-.autocomplete-items div:hover {
-    background-color: #e9e9e9;
 }
 
 ::-webkit-scrollbar {

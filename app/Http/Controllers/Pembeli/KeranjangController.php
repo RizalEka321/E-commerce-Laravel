@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pembeli;
 use App\Models\Produk;
 use App\Models\Keranjang;
 use Illuminate\Http\Request;
+use App\Models\Profil_Perusahaan;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
@@ -15,20 +16,21 @@ class KeranjangController extends Controller
 {
     public function page_keranjang()
     {
-        $produk = Produk::all();
-        return view('Pembeli.page_keranjang', compact('produk'));
+        $produk = Produk::select('slug', 'judul', 'foto', 'harga')->get();
+        $profile = Profil_Perusahaan::where('id_profil_perusahaan', 'satu')->first();
+        return view('Pembeli.page_keranjang', compact('produk', 'profile'));
     }
     public function add_keranjang(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'produk_id' => 'required',
-            'jumlah' => 'required|numeric|min:0',
+            'jumlah' => 'required|numeric|min:1',
             'ukuran' => 'required',
         ], [
             'produk_id.required' => 'Produk ID wajib diisi.',
             'jumlah.required' => 'Jumlah wajib diisi.',
             'jumlah.numeric' => 'Jumlah harus berupa angka.',
-            'jumlah.min' => 'Jumlah tidak boleh kurang dari 0.',
+            'jumlah.min' => 'Jumlah tidak boleh kurang dari 1.',
             'ukuran.required' => 'Ukuran wajib diisi.',
         ]);
 
@@ -40,6 +42,7 @@ class KeranjangController extends Controller
         $keranjang = Keranjang::where('users_id', Auth::user()->id)
             ->where('produk_id', $request->produk_id)
             ->where('ukuran', $request->ukuran)
+            ->where('status', 'Tidak')
             ->first();
 
         // tambah keranjang

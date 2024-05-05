@@ -5,9 +5,9 @@ Home page styles
 .carousel-item {
     height: 100vh;
     min-height: 300px;
-  }
+}
 
-  .carousel-inner {
+.carousel-inner {
     width: 100%;
     height: 100%;
 }
@@ -29,25 +29,18 @@ Home page styles
 }
 
 .carousel-caption {
-    text-align: center;
+    text-align: left;
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 35%;
     transform: translate(-50%, -50%);
 }
 
 .carousel-caption h1 {
     margin: 0;
-    font-size: 48px;
+    font-size: 30px;
     font-weight: bold;
-    color: var(--red);
-    text-shadow: 3px 3px 3px black;
-}
-
-.carousel-caption h2 {
     color: var(--white);
-    margin: 10px 0 0 0;
-    font-size: 20px;
     text-shadow: 3px 3px 3px black;
 }
 
@@ -69,73 +62,14 @@ Home page styles
     border-color: var(--white);
 }
 
-@media (max-width: 768px) {
-    .carousel-caption h1 {
-        font-size: 40px;
-    }
-
-    .carousel-caption h2 {
-        font-size: 18px;
-    }
-
-    .carousel-caption .btn-beli {
-        font-size: 15px;
-    }
-}
-
-@media (max-width: 576px) {
-    .carousel-caption h1 {
-        font-size: 30px;
-    }
-
-    .carousel-caption h2 {
-        font-size: 16px;
-    }
-
-    .carousel-caption .btn-beli {
-        font-size: 14px;
-    }
-}
-
-
-@media (max-width: 768px) {
-    .konten{
-        margin-top: 110px;
-        margin-left: 5px;
-        margin-right: 5px;
-    }
-
-    .carousel-caption h1 {
-        font-size: 40px;
-    }
-
-    .carousel-caption h2 {
-        font-size: 18px;
-    }
-
-    .carousel-caption .btn-beli {
-        font-size: 15px;
-    }
-}
-
-@media (max-width: 576px) {
-    .carousel-caption h1 {
-        font-size: 30px;
-    }
-
-    .carousel-caption h2 {
-        font-size: 16px;
-    }
-
-    .carousel-caption .btn-beli {
-        font-size: 14px;
-    }
-}
-
 /* Home Perusahaan */
 .home_perusahaan {
     color: var(--black);
-    margin-top: 20px;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
 }
 
 .home_perusahaan span {
@@ -143,14 +77,35 @@ Home page styles
     font-weight: 600;
 }
 
-.home_perusahaan .hr-home_perusahaan {
-    border-width: 2px;
-    margin-bottom: 0px;
+.home_perusahaan .info-perusahaan {
+    text-align: justify;
+    padding-right: 20px;
+    height: 100%;
+}
+
+.home_perusahaan .img-perusahaan {
+    padding-left: 20px;
+    border-left: 2px solid #ccc;
+}
+
+.home_perusahaan .img-perusahaan img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Home Bg Produk */
+.home_bgproduk img {
+    width: 100%;
+    height: 100vh;
 }
 
 /* Home Produk */
 .home_produk {
     color: var(--black);
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
 }
 
 .home_produk span {
@@ -158,89 +113,197 @@ Home page styles
     font-weight: 600;
 }
 
-.home_produk .hr-home_produk {
-    border-width: 2px;
-    color: var(--red);
-}
-
-.home_produk .info-area .kategori {
-    color: #B500A0;
-    background-color: #ce3abd5e;
-    text-align: center;
-    border-radius: 10px;
-}
-
-.home_produk .info-area .jenis {
-    color: #B500A0;
-    font-size: 18px;
-}
-
-.home_produk .info-area h4 {
-    font-size: 20px;
-    font-weight: 600;
-}
-
-.home_produk .info-area h6 {
-    font-size: 15px;
-}
-
-.home_produk .single-box {
-    box-shadow: 0px 0px 4px #c7c7c7;
-    color: black;
-    margin: 5px 2px;
-    border-radius: 5px;
-    /* border: 2px solid var(--pink); */
-    background-color: var(--white);
+.home_produk .single-box a {
+    text-decoration: none;
+    color: var(--black);
 }
 
 .home_produk .single-box img {
     width: 100%;
-    height: 250px;
+    height: 270px;
     object-fit: cover;
-    border-radius: 5px 5px 0 0;
-}
-
-.home_produk .btn-beli {
-    margin-top: 10px;
-    margin-bottom: 20px;
-    font-weight: 500;
-    font-size: 16px;
-    display: inline-block;
-    padding: 5px 25px;
     border-radius: 10px;
-    border: 2px solid var(--red);
-    text-decoration: none;
-    -webkit-transition: all 0.5s ease-in-out;
+    margin-bottom: 10px;
+    box-shadow: 5px 5px 5px var(--shadow);
+}
+
+.home_produk .info-produk .produk {
+    font-size: 18px;
+    margin-bottom: 0;
+}
+
+.home_produk .info-produk .harga {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/* Home Faq */
+.home_faq {
+    color: var(--black);
+    width: 100%;
+    min-height: 100vh;
+    height: auto;
+    display: flex;
+    align-items: center;
+    background-image: url("/assets/pembeli/img/bg_faq.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+}
+
+.home_faq span {
+    font-size: 30px;
+    font-weight: 600;
     color: var(--white);
-    background: linear-gradient(to bottom left, var(--red), var(--red));
 }
-
-.home_produk .btn-beli:hover {
-    color: var(--red);
-    border-color: var(--red);
-    background: var(--white);
-}
-
-/* Owl Carousel dots styles */
-.home_produk .owl-dots {
-    text-align: center;
-    margin-top: 5px;
-}
-
-.home_produk .owl-dots button.owl-dot {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    border: 2px solid var(--black);
-    display: inline-block;
-    background: var(--white);
-    margin: 0 3px;
-}
-
-.home_produk .owl-dots button.owl-dot.active {
-    background-color: var(--black);
-}
-
-.home_produk .owl-dots button.owl-dot:focus {
+.btn-panel {
+    background-color: rgba(255, 255, 255, 0.712);
+    color: #282a35;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    border-radius: 5px;
     outline: none;
+    transition: 0.4s;
+    font-weight: bold;
+    font-size: 16px;
+}
+.btn-panel:hover {
+    background-color: var(--white);
+    color: var(--black);
+}
+
+.panel {
+    padding: 0 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+    background-color: #f3ecea;
+    margin-top: -28px;
+    color: var(--black);
+    overflow: hidden;
+    border-radius: 0px 0px 10px 10px;
+    text-align: left;
+}
+
+.panel,
+.btn-panel {
+    margin-bottom: 2rem;
+}
+
+.paragraf {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    white-space: pre-wrap;
+}
+
+.hilang {
+    display: none;
+}
+
+.muncul {
+    border-radius: 10px 10px 0px 0px;
+    background-color: var(--white);
+}
+
+/* Home Kontak */
+.home_kontak {
+    color: var(--black);
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.info-kontak {
+    margin-bottom: 40px;
+}
+
+.info-kontak span {
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--black);
+}
+
+.info-kontak p {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 50%;
+}
+
+.home_kontak .input-kecil,
+.input-besar {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.home_kontak .input-besar {
+    height: 150px;
+    resize: vertical;
+}
+
+.home_kontak .btn-kirim {
+    font-size: 16px;
+    padding: 5px 40px;
+    border-radius: 20px;
+    color: var(--white);
+    background-color: var(--red);
+}
+
+.home_kontak .btn-kirim:hover {
+    border-color: var(--white);
+}
+
+@media (max-width: 768px) {
+    .carousel-caption h1 {
+        font-size: 20px;
+    }
+
+    .carousel-caption .btn-beli {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .carousel-caption h1 {
+        font-size: 20px;
+    }
+
+    .carousel-caption .btn-beli {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .carousel-caption h1 {
+        font-size: 20px;
+    }
+
+    .carousel-caption h2 {
+        font-size: 18px;
+    }
+
+    .carousel-caption .btn-beli {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .carousel-caption h1 {
+        font-size: 30px;
+    }
+
+    .carousel-caption h2 {
+        font-size: 16px;
+    }
+
+    .carousel-caption .btn-beli {
+        font-size: 14px;
+    }
 }

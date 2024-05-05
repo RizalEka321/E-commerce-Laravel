@@ -21,7 +21,7 @@ class KontakController extends Controller
     public function update_kontak(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'deskripsi' => 'required|string|min:2|max:100',
+            'deskripsi' => 'required|string|min:2|max:500',
             'alamat' => 'required|string|min:2|max:100', // Mengubah tipe validasi dari numeric menjadi string
             'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
             'instagram' => 'required|string|min:2|max:100',
@@ -32,7 +32,7 @@ class KontakController extends Controller
             'deskripsi.required' => 'Deskripsi wajib diisi.',
             'deskripsi.string' => 'Deskripsi harus berupa teks.',
             'deskripsi.min' => 'Deskripsi minimal harus terdiri dari 2 karakter.',
-            'deskripsi.max' => 'Deskripsi maksimal hanya boleh 100 karakter.',
+            'deskripsi.max' => 'Deskripsi maksimal hanya boleh 500 karakter.',
             'alamat.required' => 'Alamat wajib diisi.',
             'alamat.string' => 'Alamat harus berupa teks.',
             'alamat.min' => 'Alamat minimal harus terdiri dari 2 karakter.',
