@@ -52,15 +52,15 @@ class AuthController extends Controller
                 ])) {
                     if ($slug_produk) {
                         // Jika ada slug produk yang disimpan dalam session, arahkan kembali ke halaman produk yang dipilih
-                        return response()->json(['redirect' => '/produk/' . $slug_produk]);
+                        return response()->json(['status' => TRUE, 'redirect' => '/produk/' . $slug_produk]);
                     } else {
                         // Jika tidak ada, arahkan sesuai peran pengguna
                         $role = Auth::user()->role;
 
                         if ($role === 'Pembeli') {
-                            return response()->json(['redirect' => '/']);
+                            return response()->json(['status' => TRUE, 'redirect' => '/']);
                         } else {
-                            return response()->json(['redirect' => '/admin']);
+                            return response()->json(['status' => TRUE, 'redirect' => '/admin']);
                         }
                     }
                 } else {
@@ -118,7 +118,7 @@ class AuthController extends Controller
 
             Auth::login($user);
 
-            return response()->json(['redirect' => '/email/verify']);
+            return response()->json(['status' => TRUE, 'redirect' => '/email/verify']);
         }
     }
 

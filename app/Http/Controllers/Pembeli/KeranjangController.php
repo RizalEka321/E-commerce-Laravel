@@ -64,49 +64,52 @@ class KeranjangController extends Controller
         return response()->json(['status' => true]);
     }
 
-
     public function get_keranjang()
     {
-        $data = Keranjang::where('users_id', Auth::user()->id)->where('status', 'Tidak')->with('produk')->get();
+        $keranjang = Keranjang::where('users_id', Auth::user()->id)
+            ->where('status', 'Tidak')
+            ->with('produk')
+            ->get();
 
-        return Datatables::of($data)
-            ->addIndexColumn()
-            ->addColumn('produk', function ($row) {
-                $produk = '<td data-th="Product">
-                <div class="row">
-                    <div class="col-sm-3 hidden-xs"><img src="' . asset($row->produk->foto) . '" width="100" height="100" class="img-responsive" /></div>
-                    <div class="col-sm-9">
-                        <h5 class="nomargin">' . $row->produk->judul . '</h5>
-                        <h6 class="nomargin">Ukuran ' . $row->ukuran . '</h6>
-                    </div>
-                </div>
-            </td>';
-                return $produk;
-            })
-            ->addColumn('harga', function ($row) {
-                $harga = 'Rp ' . number_format($row->produk->harga, 0, ',', '.');
-                return $harga;
-            })
-            ->addColumn('jumlah', function ($row) {
-                $jumlah = '
-                <div class="qty-container">
-                    <button class="qty-btn-minus btn-light" type="button"><i class="fa fa-minus"></i></button>
-                    <input type="text" name="jumlah" value="' . $row->jumlah . '" class="update-keranjang input-qty" data-id="' . $row->id_keranjang . '" name="jumlah" />
-                    <button class="qty-btn-plus btn-light" type="button"><i class="fa fa-plus"></i></button>
-                </div>';
-                return $jumlah;
-            })
-            ->addColumn('total_harga', function ($row) {
-                $total_harga = 'Rp ' . number_format($row->produk->harga * $row->jumlah, 0, ',', '.');
-                return $total_harga;
-            })
-            ->addColumn('action', function ($row) {
-                $actionBtn = '<div class="btn-group"><a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' . "'" . $row->id_keranjang . "'" . ')">Hapus</a></div>';
-                return $actionBtn;
-            })
-            ->rawColumns(['produk', 'harga', 'jumlah', 'total_harga', 'action'])
-            ->make(true);
+        $formattedKeranjang = [];
+        foreach ($keranjang as $item) {
+            $formattedKeranjang[] = [
+                'produk' => '<div class="card keranjang-atas">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="row">
+                                        <div class="col"><img src="' . asset($item->produk->foto) . '" width="100" height="100" class="img-responsive" /></div>
+                                        <div class="col">
+                                            <h5 class="nomargin">' . $item->produk->judul . '</h5>
+                                            <h6 class="nomargin">' . $item->ukuran . '</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <h5>Rp. ' . number_format($item->produk->harga, 0, ',', '.') . '</h5>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="qty-container">
+                                        <button class="qty-btn-minus btn-light" type="button"><i class="fa fa-minus"></i></button>
+                                        <input type="text" name="jumlah" value="' . $item->jumlah . '" class="update-keranjang input-qty" data-id="' . $item->id_keranjang . '" />
+                                        <button class="qty-btn-plus btn-light" type="button"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <h5>Rp. ' . number_format($item->produk->harga * $item->jumlah, 0, ',', '.') . '</h5>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="btn-group"><a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' . "'" . $item->id_keranjang . "'" . ')">Hapus</a></div>
+                                </div>
+                            </div>
+                        </div>',
+                'sub_total' => $item->produk->harga * $item->jumlah
+            ];
+        }
+
+        return response()->json($formattedKeranjang);
     }
+
 
     public function update_keranjang(Request $request)
     {

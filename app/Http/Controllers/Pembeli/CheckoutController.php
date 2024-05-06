@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pembeli;
 use App\Models\Produk;
 use App\Models\Keranjang;
 use Illuminate\Http\Request;
+use App\Models\Profil_Perusahaan;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
@@ -20,24 +21,28 @@ class CheckoutController extends Controller
             ->with('produk')
             ->get();
 
-        // Menghitung total barang checkout
-        $total_barang = $checkout->sum(function ($item) {
-            return $item->jumlah;
-        });
+        // Memeriksa apakah ada data checkout
+        if ($checkout->count() > 0) {
+            // Menghitung total barang checkout
+            $total_barang = $checkout->sum(function ($item) {
+                return $item->jumlah;
+            });
 
-        // Menghitung total harga checkout
-        $total_harga = $checkout->sum(function ($item) {
-            return $item->produk->harga * $item->jumlah;
-        });
+            // Menghitung total harga checkout
+            $total_harga = $checkout->sum(function ($item) {
+                return $item->produk->harga * $item->jumlah;
+            });
 
-        $ongkir = 10000;
+            $ongkir = 10000;
+            $admin = 2500;
+            $total_keseluruhan = $total_harga + $ongkir + $admin;
 
-        $admin = 2500;
-
-        $total_keseluruhan = $total_harga + $ongkir + $admin;
-
-        return view('Pembeli.page_checkout', compact('checkout', 'total_barang', 'total_harga', 'ongkir', 'admin', 'total_keseluruhan'));
+            return view('Pembeli.page_checkout', compact('checkout', 'total_barang', 'total_harga', 'ongkir', 'admin', 'total_keseluruhan'));
+        } else {
+            return back()->with('error', 'Belum ada barang yang di-checkout.');
+        }
     }
+
 
     public function checkout_keranjang(Request $request)
     {

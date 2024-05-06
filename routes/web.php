@@ -125,6 +125,8 @@ Route::middleware(['auth:web', 'pembeli', 'verified'])->group(function () {
     // pemesanan
     Route::post('/pemesanan-store', [PemesananController::class, "pemesanan_store"])->name('pemesanan.store');
     Route::post('/pemesanan-out', [PemesananController::class, "pemesanan_out"])->name('pemesanan.out');
+    Route::get('/pemesanan-cash', [PemesananController::class, "pemesanan_cash"])->name('pemesanan.cash');
+    Route::get('/pemesanan-online/{id}', [PemesananController::class, "pemesanan_online"])->name('pemesanan.online');
 });
 
 // Guest

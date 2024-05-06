@@ -5,8 +5,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/pembeli/img/logo-yokresell.png') }}">
-    <link rel="icon" type="image/png" href="{{ asset('assets/pembeli/img/logo-yokresell.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/pembeli/img/logo2.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('assets/pembeli/img/logo2.png') }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>
         Lokal Industri | @yield('title')
@@ -27,9 +27,9 @@
     <link href="{{ asset('assets/pembeli/css/variable.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/pembeli/css/style.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/pembeli/css/style-home.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/pembeli/css/style-produk.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/pembeli/css/style-detail-produk.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/pembeli/css/style-pesanan-saya.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/pembeli/css/style-pemesanan.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/pembeli/css/style-profile.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/pembeli/css/style-cart.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/pembeli/css/style-checkout.css') }}" rel="stylesheet" />
@@ -43,7 +43,9 @@
     {{-- SweetAlert --}}
     <link rel="stylesheet" href="{{ url('assets/plugins/sweetalert/sweetalert2.min.css') }}">
     {{-- Midtrans --}}
-    <script type="text/javascript" src="https://app.stg.midtrans.com/snap/snap.js"
+    {{-- <script type="text/javascript" src="https://app.stg.midtrans.com/snap/snap.js"
+        data-client-key="{{ config('services.midtrans.clientKey') }}"></script> --}}
+    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
         data-client-key="{{ config('services.midtrans.clientKey') }}"></script>
 
 </head>
@@ -63,7 +65,9 @@
     {{-- End Main Content --}}
 
     {{-- Footer --}}
-    @include('Pembeli.layout.footer')
+    @if (!Request::is('checkout'))
+        @include('Pembeli.layout.footer')
+    @endif
     {{-- End Footer --}}
 
     {{-- JS Files --}}

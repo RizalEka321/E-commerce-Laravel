@@ -6,18 +6,6 @@ Detail page styles
     color: var(--black);
 }
 
-.keranjang .hr-keranjang {
-    border-width: 2px;
-    color: var(--red);
-}
-
-.keranjang .row {
-    background-color: #fff;
-    border-radius: 5px;
-    padding-top: 10px;
-    padding-bottom: 20px;
-}
-
 .keranjang .btn-keranjang {
     font-weight: 600;
     font-size: 16px;
@@ -87,13 +75,13 @@ Detail page styles
 }
 
 .qty-btn-minus:hover {
-    transition: transform .2s;
+    transition: transform 0.2s;
     color: var(--white);
     background: var(--red);
 }
 
 .qty-btn-plus:hover {
-    transition: transform .2s;
+    transition: transform 0.2s;
     color: var(--white);
     background: var(--red);
 }

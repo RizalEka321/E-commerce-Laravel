@@ -94,8 +94,6 @@
                         @endforeach
                         <form id="form_tambah" action="{{ url('/pemesanan-store') }}" method="POST"
                             enctype="multipart/form-data" role="form">
-                            @csrf
-                            @method('post')
                             <div class="card mb-2">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <label for="ukuran">Metode Pembayaran
@@ -242,49 +240,36 @@
             $('.error-message').empty();
         }
 
-        // window.addEventListener('beforeunload', function(event) {
-        //     // Lakukan request Ajax untuk membatalkan pesanan
-        //     handleLeavePage();
-        // });
+        $('.btn-bayar').click(function(e) {
+            e.preventDefault();
+            var url = $('#form_tambah').attr('action');
+            var formData = new FormData($('#form_tambah')[0]);
 
-        // window.addEventListener('popstate', function(event) {
-        //     // Panggil fungsi untuk menangani permintaan saat pengguna meninggalkan halaman
-        //     handleLeavePage();
-        // });
-
-        function handleLeavePage() {
-            // Lakukan permintaan AJAX untuk membatalkan pesanan
+            // showLoading();
             $.ajax({
-                url: "{{ url('/pemesanan-out') }}", // Ganti dengan URL endpoint yang sesuai
+                url: url,
                 type: "POST",
                 dataType: "JSON",
+                data: formData,
                 processData: false,
                 contentType: false,
-                success: function(response) {
-                    // Handle respons dari server jika diperlukan
-                    console.log(response);
+                success: function(data) {
+                    $('.error-message').empty();
+                    if (data.errors) {
+                        $.each(data.errors, function(key, value) {
+                            // Menampilkan pesan error di bawah setiap input
+                            $('#' + key).next('.error-message').text('*' + value);
+                        });
+                        Swal.fire("Error", "Datanya ada yang kurang", "error");
+                    } else {
+                        window.location.href = data.redirect;
+                    }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR);
-                }
-            });
-        }
-
-        $('.btn-bayar').click(function(e) {
-            e.preventDefault(); // Menghentikan perilaku default dari tombol
-            var formData = $('form').serialize(); // Mengambil data form
-
-            $.ajax({
-                type: 'POST',
-                url: 'proses.php', // Ganti dengan URL yang benar
-                data: formData,
-                success: function(response) {
-                    // Handle response dari server
-                    console.log(response);
                 },
-                error: function(xhr, status, error) {
-                    // Handle error
-                    console.error(xhr.responseText);
+                complete: function() {
+                    // hideLoading();
                 }
             });
         });

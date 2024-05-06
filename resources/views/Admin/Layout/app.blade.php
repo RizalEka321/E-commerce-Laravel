@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Lokal-Industri | @yield('title')</title>
-    {{-- <link rel="icon" type="image/png" href="{{ asset('assets/admin/img/icon_panjang.png') }}" alt=""
-        sizes="16x16" /> --}}
+    <link rel="icon" type="image/png" href="{{ asset('assets/pembeli/img/logo2.png') }}" alt=""
+        sizes="16x16" />
     <link rel="stylesheet" href="{{ asset('assets/admin/css/style.css?ts=' . time()) }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/loading.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/trix/trix.css') }}">

@@ -1,11 +1,6 @@
 /*===============================================================
 Detail Produk page styles
 =================================================================*/
-/* body {
-    font-family: "Montserrat", sans-serif;
-    font-optical-sizing: auto;
-    background-color: var(--bgwhite);
-} */
 
 .checkout {
     color: var(--black);
@@ -46,7 +41,6 @@ Detail Produk page styles
 .konten_produk .price {
     display: inline-block;
 }
-
 
 .konten_produk .title {
     color: var(--black);

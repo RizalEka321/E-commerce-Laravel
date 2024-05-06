@@ -8,12 +8,24 @@ use App\Models\Pesanan;
 use App\Models\Keranjang;
 use Illuminate\Http\Request;
 use App\Models\Detail_Pesanan;
+use App\Models\Profil_Perusahaan;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class PemesananController extends Controller
 {
+    public function pemesanan_cash()
+    {
+        $profile = Profil_Perusahaan::where('id_profil_perusahaan', 'satu')->first();
+        return view('Pembeli.page_pemesanan_cash', compact('profile'));
+    }
+    public function pemesanan_online($id)
+    {
+        $profile = Profil_Perusahaan::where('id_profil_perusahaan', 'satu')->first();
+        $pesanan = Pesanan::where('id_pesanan', $id)->with('detail')->first();
+        return view('Pembeli.page_pemesanan_transfer', compact('pesanan', 'profile'));
+    }
     public function pemesanan_store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -84,7 +96,7 @@ class PemesananController extends Controller
                 foreach ($keranjang as $item) {
                     $item->delete();
                 }
-                return view('Pembeli.page_pemesanan_transfer', compact('snapToken'));
+                return response()->json(['status' => TRUE, 'redirect' => '/pemesanan-online/' . $idPesanan]);
             } else {
                 Pesanan::create($pesanan);
                 // Memasukkan pada detail pesanan
@@ -100,7 +112,7 @@ class PemesananController extends Controller
                 foreach ($keranjang as $item) {
                     $item->delete();
                 }
-                return view('Pembeli.page_pemesanan_cash');
+                return response()->json(['status' => TRUE, 'redirect' => '/pemesanan-cash']);
             }
         }
     }
@@ -114,5 +126,18 @@ class PemesananController extends Controller
             $item->delete();
         }
         return response()->json(['status' => true]);
+    }
+
+    public function pembayaran(Request $request)
+    {
+        $serverKey = config('services.midtrans.serverKey');
+        $hashed = hash('sha512', $request->order_id . $request->status_code . $request->gros_amount . $serverKey);
+        if ($hashed == $request->signature_key) {
+            if ($request->transaction_status == 'capture') {
+                $pesanan = Pesanan::where('id_pesanan', $request->order_id)->first();
+                $pesanan->status = 'Diproses';
+                $pesanan->save();
+            }
+        }
     }
 }
