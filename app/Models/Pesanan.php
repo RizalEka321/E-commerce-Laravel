@@ -25,17 +25,17 @@ class Pesanan extends Model
 
     public static function generateId()
     {
-        $pesanan = self::latest()->first();
-        if (!$pesanan) {
-            $last_id = 'PSN-0000000';
+        $latestOrder = self::latest()->first();
+        if (!$latestOrder) {
+            $lastId = 'PSN-000000001';
         } else {
-            $last_id = $pesanan->id_pesanan;
+            $lastId = $latestOrder->id_pesanan;
         }
 
-        $new_number = (int) substr($last_id, -7) + 1;
-        $new_id = 'PSN-' . str_pad($new_number, 7, '0', STR_PAD_LEFT);
+        $lastIdNumber = (int) substr($lastId, -9) + 1;
+        $newId = 'PSN-' . str_pad($lastIdNumber, 9, '0', STR_PAD_LEFT);
 
-        return $new_id;
+        return $newId;
     }
 
     public function user()

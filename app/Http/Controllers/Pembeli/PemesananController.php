@@ -131,12 +131,13 @@ class PemesananController extends Controller
     public function pembayaran(Request $request)
     {
         $serverKey = config('services.midtrans.serverKey');
-        $hashed = hash('sha512', $request->order_id . $request->status_code . $request->gros_amount . $serverKey);
+        $hashed = hash('sha512', $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
         if ($hashed == $request->signature_key) {
             if ($request->transaction_status == 'capture') {
                 $pesanan = Pesanan::where('id_pesanan', $request->order_id)->first();
-                $pesanan->status = 'Diproses';
-                $pesanan->save();
+                $pesanan->update([
+                    'status' => 'Diproses',
+                ]);
             }
         }
     }

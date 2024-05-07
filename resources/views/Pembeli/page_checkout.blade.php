@@ -232,6 +232,34 @@
             }
         });
 
+        window.addEventListener('beforeunload', function(event) {
+            // Lakukan request Ajax untuk membatalkan pesanan
+            handleLeavePage();
+        });
+
+        window.addEventListener('popstate', function(event) {
+            // Panggil fungsi untuk menangani permintaan saat pengguna meninggalkan halaman
+            handleLeavePage();
+        });
+
+        function handleLeavePage() {
+            // Lakukan permintaan AJAX untuk membatalkan pesanan
+            $.ajax({
+                url: "{{ url('/pemesanan-out') }}", // Ganti dengan URL endpoint yang sesuai
+                type: "POST",
+                dataType: "JSON",
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    // Handle respons dari server jika diperlukan
+                    console.log(response);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR);
+                }
+            });
+        }
+
         function reset_form() {
             $('#form_tambah')[0].reset();
         }

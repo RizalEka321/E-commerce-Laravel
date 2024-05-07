@@ -18,8 +18,7 @@
             window.snap.embed(snapToken, {
                 embedId: 'snap', // Tetapkan embedId ke ID div di mana Anda ingin menyematkan Snap
                 onSuccess: function(result) {
-                    /* Anda dapat menambahkan implementasi khusus Anda di sini */
-                    alert("payment success!");
+                    window.location.href = '/pesanan-saya';
                     console.log(result);
                 },
                 onPending: function(result) {
