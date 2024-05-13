@@ -99,7 +99,7 @@ class ProfileController extends Controller
 
                 $foto = $request->file('foto');
                 $file_name = $user->username . '.' . $foto->getClientOriginalExtension();
-                $path = 'data/User/';
+                $path = 'data/User';
                 $foto->move($path, $file_name);
                 $user->foto = "$path/$file_name";
             }

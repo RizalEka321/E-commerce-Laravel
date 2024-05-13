@@ -1,71 +1,71 @@
 @extends('Pembeli.layout.app')
 @section('title', 'Keranjang')
 @section('content')
+    {{-- Keranjang --}}
     <style>
-        .tabel {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        .tabel tbody td {
-            padding-bottom: 10px;
-        }
-
-        .tabel tfoot td {
-            padding-bottom: 10px;
-        }
-
-        .keranjang-atas {
-            padding: 15px;
-            border: 0;
+        .tabel-header {
             background-color: var(--white);
+            margin-bottom: 8px;
+            padding: 10px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
         }
 
-        .keranjang-atas .row {
-            align-items: center;
+        .tabel-header .btn-hapus {
+            text-decoration: none;
         }
 
-        .keranjang-atas img {
-            max-width: 100px;
-            max-height: 100px;
-            margin-right: 10px;
+        .tabel-header .btn-hapus {
+            font-weight: 600;
+            font-size: 12px;
+            display: inline-block;
+            text-decoration: none;
+            -webkit-transition: all 0.5s ease-in-out;
+            color: var(--black);
         }
 
-        .keranjang-bawah {
-            padding: 15px;
-            border: 0;
-            background-color: var(--white);
+        .tabel-header .btn-hapus:hover {
+            border-color: var(--red);
+            color: var(--white);
+            background: var(--red);
         }
     </style>
-    {{-- Keranjang --}}
     <section class="keranjang mb-4">
+        <h1 class="title">Keranjang</h1>
         <div class="container">
             <table id="tabel_keranjang" class="tabel">
+                <thead>
+                    <tr>
+                        <div class="tabel-header">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input type="checkbox" id="checkbox_semua" onclick="selectAll()">
+                                    <a class="btn-hapus" id="pilih_semua" onclick="selectAll()">Pilih Semua</a>
+                                </div>
+                                <div id="hapus" class="col-lg-6 hidden text-end">
+                                    <a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus"
+                                        onClick="delete_all_data({{ Auth::user()->id }})">Hapus Semua</a>
+                                </div>
+                            </div>
+                        </div>
+                    </tr>
+                </thead>
                 <tbody>
                 </tbody>
                 <tfoot>
                     <tr>
                         <td colspan="5" class="text-end">
-                            <div class="card keranjang-bawah">
+                            <div class="keranjang-bawah">
                                 <h3><strong>Total <span id="total_keranjang"></span></strong></h3>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="card keranjang-bawah">
-                                <div class="d-flex justify-content-between">
-                                    <a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus"
-                                        onClick="delete_all_data({{ Auth::user()->id }})">Hapus Semua</a>
-                                    <a href="javascript:void(0)" class="btn-keranjang px-5"
-                                        onclick="checkout({{ Auth::user()->id }})">Checkout</a>
-                                </div>
                             </div>
                         </td>
                     </tr>
                 </tfoot>
             </table>
+            <div class="text-end">
+                <a href="javascript:void(0)" class="btn-keranjang px-5"
+                    onclick="checkout({{ Auth::user()->id }})">Checkout</a>
+            </div>
         </div>
     </section>
     {{-- Keranjang --}}
@@ -171,6 +171,17 @@
                 });
             }
         });
+
+        function selectAll() {
+            // Mengambil semua elemen checkbox di dalam tabel
+            var checkboxes = document.querySelectorAll('.tabel-isi input[type="checkbox"]');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = true;
+            });
+
+
+            $('#hapus').removeClass('hidden');
+        }
 
         function delete_data(id) {
             Swal.fire({

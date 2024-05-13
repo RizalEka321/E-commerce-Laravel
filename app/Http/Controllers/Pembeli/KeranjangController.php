@@ -72,40 +72,44 @@ class KeranjangController extends Controller
             ->get();
 
         $formattedKeranjang = [];
+
         foreach ($keranjang as $item) {
             $formattedKeranjang[] = [
-                'produk' => '<div class="card keranjang-atas">
+                'produk' => '<div class="tabel-isi">
+                    <div class="row">
+                        <div class="col-lg-6">
                             <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="row">
-                                        <div class="col"><img src="' . asset($item->produk->foto) . '" width="100" height="100" class="img-responsive" /></div>
-                                        <div class="col">
-                                            <h5 class="nomargin">' . $item->produk->judul . '</h5>
-                                            <h6 class="nomargin">' . $item->ukuran . '</h6>
-                                        </div>
+                                <div class="col-lg-4 foto">
+                                    <div class="d-flex justify-content-between">
+                                        <input type="checkbox" class="me-2">
+                                        <img src="' . asset($item->produk->foto) . '"/>
                                     </div>
                                 </div>
-                                <div class="col-lg-2">
-                                    <h5>Rp. ' . number_format($item->produk->harga, 0, ',', '.') . '</h5>
-                                </div>
-                                <div class="col-lg-2">
-                                    <div class="qty-container">
-                                        <button class="qty-btn-minus btn-light" type="button"><i class="fa fa-minus"></i></button>
-                                        <input type="text" name="jumlah" value="' . $item->jumlah . '" class="update-keranjang input-qty" data-id="' . $item->id_keranjang . '" />
-                                        <button class="qty-btn-plus btn-light" type="button"><i class="fa fa-plus"></i></button>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2">
-                                    <h5>Rp. ' . number_format($item->produk->harga * $item->jumlah, 0, ',', '.') . '</h5>
-                                </div>
-                                <div class="col-lg-2">
-                                    <div class="btn-group"><a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' . "'" . $item->id_keranjang . "'" . ')">Hapus</a></div>
+                                <div class="col-lg-8 foto-detail"> <!-- Corrected typo here -->
+                                    <h5>' . $item->produk->judul . '</h5>
+                                    <h6>' . $item->ukuran . '</h6>
+                                    <h6>Rp. ' . number_format($item->produk->harga, 0, ',', '.') . '</h6>
                                 </div>
                             </div>
-                        </div>',
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex justify-content-end align-items-center">
+                                <div>
+                                    <h5>Rp. ' . number_format($item->produk->harga * $item->jumlah, 0, ',', '.') . '</h5>
+                                    <div class="qty-container">
+                                        <button class="qty-btn-minus" type="button"><i class="fa fa-minus"></i></button>
+                                        <input type="text" name="jumlah" value="' . $item->jumlah . '" class="update-keranjang input-qty" data-id="' . $item->id_keranjang . '" />
+                                        <button class="qty-btn-plus" type="button"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>',
                 'sub_total' => $item->produk->harga * $item->jumlah
             ];
         }
+
 
         return response()->json($formattedKeranjang);
     }

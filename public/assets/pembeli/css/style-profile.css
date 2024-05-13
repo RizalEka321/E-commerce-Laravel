@@ -2,12 +2,19 @@
 Profile styles
 =================================================================*/
 .profile {
-    margin-top: 80px;
-    color: var(--red);
+    margin-top: 85px;
 }
 
-.profile .hr-profile {
-    border-width: 2px;
+.profile .title {
+    font-size: 30px;
+    font-weight: 700;
+    margin-left: 90px;
+}
+
+.profile .container {
+    background-color: var(--white);
+    border-radius: 5px;
+    box-shadow: 4px 4px 3px rgba(0, 0, 0, 0.25);
 }
 
 .profile .card .card-body h4 {
@@ -22,7 +29,7 @@ Profile styles
     text-align: left;
 }
 
-.profile .row {
+.profile .konten {
     margin-bottom: 18px;
 }
 
@@ -31,9 +38,13 @@ Profile styles
 }
 
 .profile .card img {
-    border-radius: 8px 8px 0 0;
-    width: 100%;
-    height: 100px;
+    display: block;
+    margin: auto;
+    margin-top: 40px;
+    border: 2px solid black;
+    border-radius: 50%;
+    width: 250px;
+    height: 250px;
     object-fit: cover;
 }
 
@@ -45,22 +56,58 @@ Profile styles
     color: var(--red);
 }
 
+.profile .btn-upload {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
 .profile .btn-profile {
     margin-top: 10px;
     margin-bottom: 10px;
     font-weight: 500;
     font-size: 16px;
     display: inline-block;
-    padding: 5px 25px;
+    padding: 5px 30px;
     border-radius: 5px;
     border: 2px solid var(--red);
     text-decoration: none;
     -webkit-transition: all 0.5s ease-in-out;
     color: white;
-    background: linear-gradient(to bottom left, var(--red), var(--red));
+    background-color: var(--red);
 }
 
 .profile .btn-profile:hover {
+    color: var(--red);
+    border-color: var(--red);
+    background: white;
+}
+.profile .btn-password {
+    position: relative; /* Menetapkan posisi relatif untuk tombol */
+    height: 100%;
+    width: 100%;
+    color: rgb(82, 82, 82);
+    font-weight: 500;
+    font-size: 16px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    padding: 7px 10px;
+    border-radius: 8px;
+    border: 2px solid rgb(231, 231, 231);
+    text-decoration: none;
+    -webkit-transition: all 0.5s ease-in-out;
+    background-color: var(--white);
+}
+
+.profile .btn-password .fa-chevron-up {
+    position: absolute;
+    right: 0;
+    margin-right: 10px;
+}
+
+.profile .btn-password:hover {
     color: var(--red);
     border-color: var(--red);
     background: white;

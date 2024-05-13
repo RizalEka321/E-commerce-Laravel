@@ -9,9 +9,9 @@
                     <img src="{{ asset($produk_detail->foto) }}" class="card-img-top" alt="...">
                 </div>
                 <div class="col-md-5 col-lg-7 pt-2">
-                    <h4 class="title">{{ $produk_detail->judul }}</h4>
-                    <div class="price p-4 mb-3">
-                        <h2>Rp {{ number_format($produk_detail->harga, 0, '.', '.') }}</h2>
+                    <h2 class="title">{{ $produk_detail->judul }}</h2>
+                    <div class="price">
+                        <h4>Rp. {{ number_format($produk_detail->harga, 0, '.', '.') }}</h4>
                     </div>
                     <div>
                         <form id="form_tambah" action="#" method="POST" role="form">
@@ -38,11 +38,11 @@
                                             class="fa fa-plus"></i></button>
                                 </div>
                             </div>
-                            <button type="submit" id="btn_masukkan_keranjang" class="btn-keranjang"><i
-                                    class="fa-solid fa-cart-shopping"></i>
-                                Masukkan
-                                Keranjang</button>
-                            <button class="btn-beli" id="btn_beli_sekarang">Beli Sekarang</button>
+                            <div class="button-container">
+                                <button type="submit" id="btn_masukkan_keranjang" class="btn-keranjang"><i
+                                        class="fa-solid fa-plus"></i> Keranjang</button>
+                                <button class="btn-beli" id="btn_beli_sekarang">Beli Sekarang</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -51,31 +51,6 @@
                 <h4 class="title">Deskripsi Produk</h4>
                 <div class="mx-2">
                     {!! $produk_detail->deskripsi !!}
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="home_produk" id="produk">
-        <div class="container py-3 mt-3">
-            <div>
-                <h5>Produk Lainnya</h5>
-                <hr class="hr-home_produk opacity-100" data-aos="flip-right" data-aos-delay="100">
-            </div>
-            <div class="col-lg-12 my-5">
-                <div class="home_produk-slider owl-carousel">
-                    @foreach ($produk as $k)
-                        <div class="single-box text-center">
-                            <div class="img-area">
-                                <img alt="produk" class="img-fluid move-animation" src="{{ asset($k->foto) }}" />
-                            </div>
-                            <div class="info-area">
-                                {{-- <p class="kategori mt-1 mx-3">{{ $k->judul }}</p> --}}
-                                <h4 id="title_card">{{ Str::limit($k->judul, 20) }}</h4>
-                                <h6 class="price">Rp {{ number_format($k->harga, 0, '.', '.') }}</h6>
-                                <a href="{{ route('detail_produk', $k->slug) }}" class="btn-beli">Beli</a>
-                            </div>
-                        </div>
-                    @endforeach
                 </div>
             </div>
         </div>
