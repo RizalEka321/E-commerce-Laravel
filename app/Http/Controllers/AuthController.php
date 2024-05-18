@@ -27,14 +27,14 @@ class AuthController extends Controller
             'username' => 'required|min:8|max:16|regex:/^[a-zA-Z0-9]+$/',
             'password' => 'required|min:8|max:16|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
         ], [
-            'username.required' => 'Username tidak boleh kosong',
-            'password.required' => 'Password tidak boleh kosong',
-            'username.min' => 'Panjang username minimal harus 8 karakter',
-            'username.max' => 'Panjang username maksimal harus 16 karakter',
-            'password.min' => 'Panjang password minimal harus 8 karakter',
-            'password.max' => 'Panjang password maksimal harus 16 karakter',
-            'password.regex' => 'Password yang masukkan tidak valid',
-            'username.regex' => 'Username tidak valid ',
+            'username.required' => 'Username tidak boleh kosong.',
+            'password.required' => 'Password tidak boleh kosong.',
+            'username.min' => 'Username harus memiliki panjang minimal 8 karakter.',
+            'username.max' => 'Username harus memiliki panjang maksimal 16 karakter.',
+            'password.min' => 'Password harus memiliki panjang minimal 8 karakter.',
+            'password.max' => 'Password harus memiliki panjang minimal 8 karakter.',
+            'password.regex' => 'Password yang masukkan tidak valid.',
+            'username.regex' => 'Username yang anda masukan tidak valid.',
         ]);
 
 
@@ -52,59 +52,60 @@ class AuthController extends Controller
                 ])) {
                     if ($slug_produk) {
                         // Jika ada slug produk yang disimpan dalam session, arahkan kembali ke halaman produk yang dipilih
-                        return response()->json(['redirect' => '/produk/' . $slug_produk]);
+                        return response()->json(['status' => 'TRUE', 'redirect' => '/produk/' . $slug_produk]);
                     } else {
                         // Jika tidak ada, arahkan sesuai peran pengguna
                         $role = Auth::user()->role;
 
                         if ($role === 'Pembeli') {
-                            return response()->json(['redirect' => '/']);
+                            return response()->json(['status' => 'TRUE', 'redirect' => '/']);
                         } else {
-                            return response()->json(['redirect' => '/admin']);
+                            return response()->json(['status' => 'TRUE', 'redirect' => '/admin']);
                         }
                     }
                 } else {
                     // Jika autentikasi gagal (kombinasi username dan password tidak cocok)
-                    return response()->json(['error' => 'Password yang anda masukkan salah']);
+                    return response()->json(['status' => 'FALSE', 'error' => 'Password yang anda masukkan salah.']);
                 }
             } else {
                 // Jika username tidak ditemukan dalam basis data
-                return response()->json(['error' => 'Username atau password yang anda masukkan tidak ditemukan']);
+                return response()->json(['status' => 'FALSE', 'error' => 'Username atau password yang anda masukkan tidak terdaftar. Silahkan registrasi jika belum memiliki akun.']);
             }
         }
         // Notifikasi jika username dan password salah secara bersamaan
-        return response()->json(['error' => 'Username dan password salah.']);
+        return response()->json(['status' => 'FALSE', 'error' => 'Username dan password salah.']);
     }
 
     public function doregister(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nama_lengkap' => 'required|min:8|max:25',
+            'nama_lengkap' => 'required|min:8|max:25|regex:/^[a-zA-Z\s]+$/',
             'username' => 'required|min:8|max:16|unique:users',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|max:16|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
             'password_confirmation' => 'required|same:password'
         ], [
-            'nama_lengkap.required' => 'Nama lengkap tidak boleh kosong',
-            'nama_lengkap.min' => 'Panjang nama lengkap minimal harus 8 karakter',
-            'nama_lengkap.max' => 'Panjang nama lengkap maksimal adalah 25 karakter',
-            'username.required' => 'Username tidak boleh kosong',
-            'username.min' => 'Panjang username minimal harus 8 karakter',
-            'username.max' => 'Panjang username maksimal harus 16 karakter',
-            'username.unique' => 'Username sudah digunakan',
-            'email.required' => 'Email tidak boleh kosong',
-            'email.email' => 'Email tidak valid',
-            'email.unique' => 'Email sudah digunakan',
-            'password.required' => 'Password tidak boleh kosong',
-            'password.min' => 'Panjang password minimal harus 8 karakter',
-            'password.max' => 'Panjang password maksimal harus 16 karakter',
-            'password.regex' => 'Password harus mengandung setidaknya satu huruf kapital, satu huruf kecil, dan satu angka',
+            'nama_lengkap.required' => 'Input nama tidak boleh kosong.',
+            'nama_lengkap.min' => 'Nama harus memiliki panjang minimal 8 karakter.',
+            'nama_lengkap.max' => 'Nama harus memiliki panjang maksimal 25 karakter.',
+            'nama_lengkap.regex' => 'Nama tidak boleh mengandung simbol atau angka, harus berupa huruf !.',
+            'username.required' => 'Input Username tidak boleh kosong.',
+            'username.min' => 'Username harus memiliki panjang minimal 8 karakter.',
+            'username.max' => 'Username harus memiliki panjang maksimal 16 karakter.',
+            'username.unique' => 'Username yang dimasukan sudah digunakan.',
+            'email.required' => 'Input Email tidak boleh kosong.',
+            'email.email' => 'Email yang anda masukan tidak valid.',
+            'email.unique' => 'Email yang dimasukan sudah didaftarkan sebelumnya.',
+            'password.required' => 'Input password tidak boleh kosong.',
+            'password.min' => 'Password harus memiliki panjang minimal 8 karakter.',
+            'password.max' => 'Password harus memiliki panjang maksimal 16 karakter.',
+            'password.regex' => 'Password harus mengandung setidaknya satu huruf kapital, satu huruf kecil, dan satu angka.',
             'password_confirmation.required' => 'Konfirmasi Password wajib diisi.',
             'password_confirmation.same' => 'Konfirmasi Password tidak sesuai dengan Password.',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()]);
+            return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
         } else {
             $user = User::create([
                 'nama_lengkap' => $request->nama_lengkap,
@@ -118,7 +119,7 @@ class AuthController extends Controller
 
             Auth::login($user);
 
-            return response()->json(['redirect' => '/email/verify']);
+            return response()->json(['status' => 'TRUE', 'redirect' => '/email/verify']);
         }
     }
 
@@ -149,6 +150,12 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+        // Check if the request expects JSON response
+        if ($request->expectsJson()) {
+            return response()->json(['status' => 'TRUE', 'redirect' => '/']);
+        }
+
+        // If the request does not expect JSON, return redirect
         return redirect('/');
     }
 }

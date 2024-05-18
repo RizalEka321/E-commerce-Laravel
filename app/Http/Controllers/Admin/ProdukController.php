@@ -51,7 +51,7 @@ class ProdukController extends Controller
         });
         $dataTable->rawColumns(['action', 'stok']);
 
-        return $dataTable->make(true);
+        return $dataTable->make('TRUE');
     }
 
 
@@ -88,7 +88,7 @@ class ProdukController extends Controller
 
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()]);
+            return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
         }
 
         // Simpan foto
@@ -119,7 +119,7 @@ class ProdukController extends Controller
                 'ukuran_id' => $ukuran->id_ukuran,
             ]);
         }
-        return response()->json(['status' => true]);
+        return response()->json(['status' => 'TRUE']);
     }
 
     public function edit(Request $request)
@@ -127,7 +127,7 @@ class ProdukController extends Controller
         $id = $request->input('q');
         $produk = Produk::with('ukuran')->find($id);
 
-        return response()->json(['status' => true, 'produk' => $produk]);
+        return response()->json(['status' => 'TRUE', 'produk' => $produk]);
     }
 
     public function update(Request $request)
@@ -161,7 +161,7 @@ class ProdukController extends Controller
 
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()]);
+            return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
         } else {
             $id = $request->query('q');
             $produk = Produk::find($id);
@@ -206,7 +206,7 @@ class ProdukController extends Controller
                 ->whereNotIn('ukuran_id', collect($request->jenis_ukuran)->pluck('id_ukuran'))
                 ->delete();
 
-            return response()->json(['status' => true]);
+            return response()->json(['status' => 'TRUE']);
         }
     }
 
@@ -228,6 +228,6 @@ class ProdukController extends Controller
         // Hapus entri produk dari database
         $produk->delete();
 
-        return response()->json(['status' => true]);
+        return response()->json(['status' => 'TRUE']);
     }
 }

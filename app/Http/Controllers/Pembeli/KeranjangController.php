@@ -35,7 +35,7 @@ class KeranjangController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()]);
+            return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
         }
 
         // Cek apakah produk sudah ada di keranjang pengguna
@@ -61,7 +61,7 @@ class KeranjangController extends Controller
             ]);
         }
 
-        return response()->json(['status' => true]);
+        return response()->json(['status' => 'TRUE']);
     }
 
 

@@ -47,8 +47,9 @@ class CheckoutController extends Controller
             $item->status = 'Ya';
             $item->save();
         }
-        return response()->json(['status' => true]);
+        return response()->json(['status' => 'TRUE']);
     }
+    
     public function checkout_langsung(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -63,7 +64,7 @@ class CheckoutController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()]);
+            return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
         } else {
             Keranjang::create([
                 'users_id' => Auth::user()->id,
@@ -74,6 +75,6 @@ class CheckoutController extends Controller
             ]);
         }
 
-        return response()->json(['status' => true]);
+        return response()->json(['status' => 'TRUE']);
     }
 }

@@ -29,8 +29,8 @@
                             <div class="mb-3">
                                 <div class="form-group inputan">
                                     <label for="email">Email</label>
-                                    <input type="email" id="email" name="email" placeholder="Masukkan Email"
-                                        autofocus="username">
+                                    <input type="text" id="email" name="email" placeholder="Masukkan Email"
+                                        autofocus="email">
                                     <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
