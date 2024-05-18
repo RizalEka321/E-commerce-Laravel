@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pembeli;
 
 use App\Models\Produk;
+use App\Models\Ukuran;
 use App\Models\Keranjang;
 use Illuminate\Http\Request;
 use App\Models\Profil_Perusahaan;
@@ -25,18 +26,20 @@ class KeranjangController extends Controller
         $validator = Validator::make($request->all(), [
             'produk_id' => 'required',
             'jumlah' => 'required|numeric|min:1',
-            'ukuran' => 'required',
+            'id_ukuran' => 'required',
         ], [
             'produk_id.required' => 'Produk ID wajib diisi.',
             'jumlah.required' => 'Jumlah wajib diisi.',
             'jumlah.numeric' => 'Jumlah harus berupa angka.',
             'jumlah.min' => 'Jumlah tidak boleh kurang dari 1.',
-            'ukuran.required' => 'Ukuran wajib diisi.',
+            'id_ukuran.required' => 'Ukuran wajib diisi.',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
         }
+
+        $ukuran = Ukuran::where('id_ukuran', $request->id_ukuran)->select('jenis_ukuran')->first();
 
         // Cek apakah produk sudah ada di keranjang pengguna
         $keranjang = Keranjang::where('users_id', Auth::user()->id)
@@ -55,8 +58,9 @@ class KeranjangController extends Controller
             $keranjang = Keranjang::create([
                 'users_id' => Auth::user()->id,
                 'produk_id' => $request->produk_id,
+                'ukuran_id' => $request->id_ukuran,
                 'jumlah' => $request->jumlah,
-                'ukuran' => $request->ukuran,
+                'ukuran' => $ukuran->jenis_ukuran,
                 'status' => 'Tidak'
             ]);
         }
@@ -64,49 +68,56 @@ class KeranjangController extends Controller
         return response()->json(['status' => 'TRUE']);
     }
 
-
     public function get_keranjang()
     {
-        $data = Keranjang::where('users_id', Auth::user()->id)->where('status', 'Tidak')->with('produk')->get();
+        $keranjang = Keranjang::where('users_id', Auth::user()->id)
+            ->where('status', 'Tidak')
+            ->with('produk')
+            ->get();
 
-        return Datatables::of($data)
-            ->addIndexColumn()
-            ->addColumn('produk', function ($row) {
-                $produk = '<td data-th="Product">
-                <div class="row">
-                    <div class="col-sm-3 hidden-xs"><img src="' . asset($row->produk->foto) . '" width="100" height="100" class="img-responsive" /></div>
-                    <div class="col-sm-9">
-                        <h5 class="nomargin">' . $row->produk->judul . '</h5>
-                        <h6 class="nomargin">Ukuran ' . $row->ukuran . '</h6>
+        $formattedKeranjang = [];
+
+        foreach ($keranjang as $item) {
+            $formattedKeranjang[] = [
+                'produk' => '<div class="tabel-isi">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-lg-4 foto">
+                                    <div class="d-flex justify-content-between">
+                                        <input type="checkbox" class="me-2">
+                                        <img src="' . asset($item->produk->foto) . '"/>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8 foto-detail"> <!-- Corrected typo here -->
+                                    <h5>' . $item->produk->judul . '</h5>
+                                    <h6>' . $item->ukuran . '</h6>
+                                    <h6>Rp. ' . number_format($item->produk->harga, 0, ',', '.') . '</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex justify-content-end align-items-center">
+                                <div>
+                                    <h5>Rp. ' . number_format($item->produk->harga * $item->jumlah, 0, ',', '.') . '</h5>
+                                    <div class="qty-container">
+                                        <button class="qty-btn-minus" type="button"><i class="fa fa-minus"></i></button>
+                                        <input type="text" name="jumlah" value="' . $item->jumlah . '" class="update-keranjang input-qty" data-id="' . $item->id_keranjang . '" />
+                                        <button class="qty-btn-plus" type="button"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </td>';
-                return $produk;
-            })
-            ->addColumn('harga', function ($row) {
-                $harga = 'Rp ' . number_format($row->produk->harga, 0, ',', '.');
-                return $harga;
-            })
-            ->addColumn('jumlah', function ($row) {
-                $jumlah = '
-                <div class="qty-container">
-                    <button class="qty-btn-minus btn-light" type="button"><i class="fa fa-minus"></i></button>
-                    <input type="text" name="jumlah" value="' . $row->jumlah . '" class="update-keranjang input-qty" data-id="' . $row->id_keranjang . '" name="jumlah" />
-                    <button class="qty-btn-plus btn-light" type="button"><i class="fa fa-plus"></i></button>
-                </div>';
-                return $jumlah;
-            })
-            ->addColumn('total_harga', function ($row) {
-                $total_harga = 'Rp ' . number_format($row->produk->harga * $row->jumlah, 0, ',', '.');
-                return $total_harga;
-            })
-            ->addColumn('action', function ($row) {
-                $actionBtn = '<div class="btn-group"><a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' . "'" . $row->id_keranjang . "'" . ')">Hapus</a></div>';
-                return $actionBtn;
-            })
-            ->rawColumns(['produk', 'harga', 'jumlah', 'total_harga', 'action'])
-            ->make(true);
+                </div>',
+                'sub_total' => $item->produk->harga * $item->jumlah
+            ];
+        }
+
+
+        return response()->json($formattedKeranjang);
     }
+
 
     public function update_keranjang(Request $request)
     {

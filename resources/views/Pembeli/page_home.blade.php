@@ -1,15 +1,19 @@
 @extends('Pembeli.layout.app')
 @section('title', 'Homepage')
 @section('content')
-    <a href="https://wa.me/{{ $nomor_wa }}?text=Halo%20admin%2C%20ada%20yang%20ingin%20saya%20tanyakan" class="act-btn">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
+    <div class="btn-wa">
+        <a href="https://wa.me/{{ $nomor_wa }}?text=Halo%20admin%2C%20ada%20yang%20ingin%20saya%20tanyakan"
+            class="btn-wa-button"><i class="fa-brands fa-whatsapp"></i><span class="long-text">Hubungi untuk custom
+                produk</span>
+        </a>
+    </div>
+
     {{-- Banner --}}
     <section class="home_carousel">
         <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active" data-bs-interval="4000">
-                    <img class="d-block w-100 img-fluid" src="{{ asset('assets/pembeli/img/bg_carousel.png') }}"
+                    <img class="d-block w-100 img-fluid" src="{{ asset('assets/pembeli/img/bg_carousel1.png') }}"
                         alt="slide 0">
                     <div class="carousel-caption">
                         <h1>Membuat pakaian dengan kualitas terbaik!</h1>
@@ -17,7 +21,7 @@
                     </div>
                 </div>
                 <div class="carousel-item" data-bs-interval="4000">
-                    <img class="d-block w-100 img-fluid" src="{{ asset('assets/pembeli/img/bg_carousel.png') }}"
+                    <img class="d-block w-100 img-fluid" src="{{ asset('assets/pembeli/img/bg_carousel2.png') }}"
                         alt="slide 1">
                     <div class="carousel-caption">
                         <h1>Ayo Majukan Dan Kembangkan UMKM Indonesia</h1>
@@ -25,7 +29,7 @@
                     </div>
                 </div>
                 <div class="carousel-item" data-bs-interval="4000">
-                    <img class="d-block w-100 img-fluid" src="{{ asset('assets/pembeli/img/bg_carousel.png') }}"
+                    <img class="d-block w-100 img-fluid" src="{{ asset('assets/pembeli/img/bg_carousel3.png') }}"
                         alt="slide 2">
                     <div class="carousel-caption">
                         <h1>Ayo Majukan Dan Kembangkan UMKM Indonesia</h1>
@@ -203,5 +207,11 @@
                 btn.removeClass("muncul");
             }
         }
+
+        $(".btn-wa-button").hover(function() {
+            $(".long-text").addClass("show-long-text");
+        }, function() {
+            $(".long-text").removeClass("show-long-text");
+        });
     </script>
 @endsection

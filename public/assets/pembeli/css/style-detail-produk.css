@@ -2,90 +2,68 @@
 Detail Produk page styles
 =================================================================*/
 .detail-produk {
-    margin-top: 80px;
+    margin-top: 100px;
+    margin-bottom: 50px;
     color: var(--black);
 }
 
-.detail-produk .hr-detail {
-    border-width: 2px;
-    color: var(--red);
-}
-
 .detail-produk .row {
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: var(--white);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.25);
 }
 
-.detail-produk .card {
-    color: var(--red);
-    padding: 25px;
+.detail-produk img {
     border-radius: 10px;
-    border: 0;
-}
-
-.detail-produk .card img {
-    border-radius: 10px;
-    width: 500px;
-    height: 100%;
+    width: 100%;
+    height: 365px;
     object-fit: cover;
 }
 
 .detail-produk .title {
-    color: var(--black);
-    font-weight: 700;
+    color: var(--red);
 }
 
 .detail-produk .price {
-    color: var(--red);
-    font-style: bold;
-    background-color: #f5f5f5;
-}
-
-.detail-produk .rating {
-    color: var(--pink);
-}
-
-.detail-produk .card-body h3 {
     color: var(--black);
-    font-weight: 700;
-}
-
-.detail-produk .card-body h4 {
-    margin-top: 25px;
-    margin-bottom: 25px;
-}
-
-.detail-produk .btn-keranjang {
-    font-weight: 600;
-    font-size: 16px;
-    display: inline-block;
-    padding: 5px 15px;
-    border: 1px solid var(--red);
-    text-decoration: none;
-    -webkit-transition: all 0.5s ease-in-out;
-    color: var(--red);
-    background: linear-gradient(to bottom left, var(--white), var(--white));
-}
-
-.detail-produk .btn-keranjang:hover {
-    border-color: var(--red);
-    color: var(--white);
-    background: var(--red);
+    font-style: bold;
 }
 
 .detail-produk .btn-beli {
     font-weight: 600;
     font-size: 16px;
     display: inline-block;
-    padding: 5px 15px;
+    padding: 8px 18px;
     border: 1px solid var(--red);
+    border-radius: 5px;
     text-decoration: none;
-    -webkit-transition: all 0.5s ease-in-out;
-    color: var(--white);
-    background: linear-gradient(to bottom left, var(--red), var(--red));
+    transition: all 0.5s ease-in-out;
+    color: var(--red);
+    background-color: var(--white);
 }
 
 .detail-produk .btn-beli:hover {
+    border-color: var(--red);
+    color: var(--white);
+    background: var(--red);
+}
+
+.detail-produk .btn-keranjang {
+    font-weight: 600;
+    font-size: 16px;
+    display: inline-block;
+    padding: 8px 18px;
+    border: 1px solid var(--red);
+    border-radius: 5px;
+    text-decoration: none;
+    transition: all 0.5s ease-in-out;
+    color: var(--white);
+    background-color: var(--red);
+}
+
+.detail-produk .btn-keranjang:hover {
     border-color: var(--red);
     color: var(--red);
     background: var(--white);
@@ -93,21 +71,18 @@ Detail Produk page styles
 
 .detail-produk .description {
     border: 0;
-    border-radius: 10px;
     color: var(--var(--black));
     background-color: var(--white);
 }
 
 .detail-produk .description h4 {
     color: var(--black);
-    font-weight: 700;
 }
 
 .detail-produk .description p {
     margin-bottom: 0;
     letter-spacing: 0.5px;
 }
-
 
 .radio-toolbar input[type="radio"] {
     display: none;
@@ -116,21 +91,21 @@ Detail Produk page styles
 .radio-toolbar label {
     display: inline-block;
     border: 1px solid #ddd;
-    padding: 10px 20px;
+    padding: 5px 15px;
     margin-right: 10px;
     cursor: pointer;
     border-radius: 5px;
 }
 
-.radio-toolbar input[type="radio"]:checked+label {
+.radio-toolbar input[type="radio"]:checked + label {
     background-color: var(--red);
-    color: #fff
+    color: #fff;
 }
 
-.radio-toolbar input[type="radio"]+label:hover {
-    transition: transform .2s;
+.radio-toolbar input[type="radio"] + label:hover {
+    transition: transform 0.2s;
     color: var(--red);
-    border: 1px solid var(--red)
+    border: 1px solid var(--red);
 }
 
 /*--------------------------*/
@@ -159,20 +134,46 @@ Detail Produk page styles
 
 .qty-container .qty-btn-plus {
     margin-left: -1px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .qty-container .qty-btn-minus {
     margin-right: -1px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 .qty-btn-minus:hover {
-    transition: transform .2s;
+    transition: transform 0.2s;
     color: var(--white);
     background: var(--red);
 }
 
 .qty-btn-plus:hover {
-    transition: transform .2s;
+    transition: transform 0.2s;
     color: var(--white);
     background: var(--red);
+}
+
+.button-container {
+    margin-top: 100px;
+}
+
+@media (max-width: 991px) {
+    .button-container {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .button-container {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .button-container {
+        margin-top: 10px;
+    }
 }

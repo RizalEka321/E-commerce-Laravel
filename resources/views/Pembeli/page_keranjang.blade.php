@@ -2,16 +2,52 @@
 @section('title', 'Keranjang')
 @section('content')
     {{-- Keranjang --}}
-    <section class="keranjang">
+    <style>
+        .tabel-header {
+            background-color: var(--white);
+            margin-bottom: 8px;
+            padding: 10px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .tabel-header .btn-hapus {
+            text-decoration: none;
+        }
+
+        .tabel-header .btn-hapus {
+            font-weight: 600;
+            font-size: 12px;
+            display: inline-block;
+            text-decoration: none;
+            -webkit-transition: all 0.5s ease-in-out;
+            color: var(--black);
+        }
+
+        .tabel-header .btn-hapus:hover {
+            border-color: var(--red);
+            color: var(--white);
+            background: var(--red);
+        }
+    </style>
+    <section class="keranjang mb-4">
+        <h1 class="title">Keranjang</h1>
         <div class="container">
-            <table id="tabel_keranjang" class="table table-condensed">
+            <table id="tabel_keranjang" class="tabel">
                 <thead>
                     <tr>
-                        <th width="50%">Produk</th>
-                        <th width="10%">Harga</th>
-                        <th width="8%">Kuantitas</th>
-                        <th width="22%">Total Harga</th>
-                        <th width="10%">Aksi</th>
+                        <div class="tabel-header">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input type="checkbox" id="checkbox_semua" onclick="selectAll()">
+                                    <a class="btn-hapus" id="pilih_semua" onclick="selectAll()">Pilih Semua</a>
+                                </div>
+                                <div id="hapus" class="col-lg-6 hidden text-end">
+                                    <a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus"
+                                        onClick="delete_all_data({{ Auth::user()->id }})">Hapus Semua</a>
+                                </div>
+                            </div>
+                        </div>
                     </tr>
                 </thead>
                 <tbody>
@@ -19,25 +55,22 @@
                 <tfoot>
                     <tr>
                         <td colspan="5" class="text-end">
-                            <h3><strong>Total <span id="total_keranjang"></span></strong></h3>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-start">
-                            <a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus"
-                                onClick="delete_all_data({{ Auth::user()->id }})">Hapus Semua</a>
-                        </td>
-                        <td colspan="5" class="text-end">
-                            <a href="javascript:void(0)" class="btn-keranjang px-5"
-                                onclick="checkout({{ Auth::user()->id }})">Checkout</a>
+                            <div class="keranjang-bawah">
+                                <h3><strong>Total <span id="total_keranjang"></span></strong></h3>
+                            </div>
                         </td>
                     </tr>
                 </tfoot>
             </table>
+            <div class="text-end">
+                <a href="javascript:void(0)" class="btn-keranjang px-5"
+                    onclick="checkout({{ Auth::user()->id }})">Checkout</a>
+            </div>
         </div>
     </section>
     {{-- Keranjang --}}
 @endsection
+
 @section('script')
     <script type="text/javascript">
         $.ajaxSetup({
@@ -46,90 +79,56 @@
             }
         });
 
-        function reload_table() {
-            $('#tabel_keranjang').DataTable().ajax.reload();
-        }
-
-        $(function() {
-            var table = $('#tabel_keranjang').DataTable({
-                processing: true,
-                serverSide: true,
-                searching: false,
-                paging: false,
-                orderClasses: false,
-                info: false,
-                ajax: "{{ url('/keranjang/list') }}",
-                columns: [{
-                        data: 'produk',
-                        name: 'produk',
-                    },
-                    {
-                        data: 'harga',
-                        name: 'harga',
-                    },
-                    {
-                        data: 'jumlah',
-                        name: 'jumlah'
-                    },
-                    {
-                        data: 'total_harga',
-                        name: 'total_harga'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action'
-                    },
-                ],
-                footerCallback: function(row, data, start, end, display) {
-                    var api = this.api(),
-                        data;
-
-                    // Total semua harga dalam tabel
-                    var totalHarga = api.column(3, {
-                        page: 'current'
-                    }).data().reduce(function(a, b) {
-                        // Menghilangkan simbol rupiah ('Rp') dan tanda pemisah ribuan (titik)
-                        var price = parseInt(b.replace('Rp ', '').replace(/\./g, ''));
-                        return a + price;
-                    }, 0);
-
-                    // Mengubah total harga menjadi format mata uang Rupiah
-                    var formattedTotalHarga = new Intl.NumberFormat('id-ID', {
-                        style: 'currency',
-                        currency: 'IDR'
-                    }).format(totalHarga);
-
-                    // Menampilkan total harga dalam elemen dengan id 'total_keranjang'
-                    $('#total_keranjang').text(formattedTotalHarga);
-                }
-            });
+        $(document).ready(function() {
+            reload_data();
         });
 
-        function hitungTotalHarga() {
-            var totalHarga = 0;
-            // Loop melalui setiap baris tabel
-            $('#tabel_keranjang tbody tr').each(function() {
-                // Periksa apakah checkbox pada baris ini dicentang
-                if ($(this).find('.checkbox-produk').is(':checked')) {
-                    // Ambil harga dan jumlah dari baris ini
-                    var harga = parseInt($(this).find('.harga-produk').text().replace('Rp ', '').replace(/\./g,
-                        ''));
-                    var jumlah = parseInt($(this).find('.input-qty').val());
-                    // Hitung total harga untuk produk ini dan tambahkan ke totalHarga
-                    totalHarga += harga * jumlah;
+        function reload_data() {
+            $.ajax({
+                url: "{{ url('/keranjang/list') }}",
+                type: "GET",
+                dataType: "json",
+                success: function(response) {
+                    isi_tabel(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
                 }
             });
-
-            // Mengubah total harga menjadi format mata uang Rupiah
-            var formattedTotalHarga = new Intl.NumberFormat('id-ID', {
-                style: 'currency',
-                currency: 'IDR'
-            }).format(totalHarga);
-
-            // Menampilkan total harga dalam elemen dengan id 'total_keranjang'
-            $('#total_keranjang').text(formattedTotalHarga);
         }
 
+        function isi_tabel(data) {
+            var tableBody = $('#tabel_keranjang tbody');
+            var totalHarga = 0;
+            tableBody.empty(); // Bersihkan tabel sebelum menambahkan data baru
+
+            // Periksa apakah data adalah array
+            if (Array.isArray(data)) {
+                data.forEach(function(item) {
+                    var row = $('<tr>');
+                    row.append('<td>' + item.produk + '</td>');
+
+                    totalHarga += item.sub_total;
+                    tableBody.append(row);
+                });
+
+                var formattedTotalHarga = totalHarga.toLocaleString("id-ID", {
+                    style: "currency",
+                    currency: "IDR"
+                });
+
+                var formattedTotalHarga = totalHarga.toLocaleString("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                });
+
+                $('#total_keranjang').text(formattedTotalHarga);
+            } else {
+                console.error('Data yang diterima bukanlah array:', data);
+            }
+        }
 
         $(document).ready(function() {
             // Event listener untuk tombol plus
@@ -163,7 +162,7 @@
                         jumlah: jumlah
                     },
                     success: function(response) {
-                        reload_table();
+                        reload_data();
                         console.log(response);
                     },
                     error: function(xhr) {
@@ -172,6 +171,17 @@
                 });
             }
         });
+
+        function selectAll() {
+            // Mengambil semua elemen checkbox di dalam tabel
+            var checkboxes = document.querySelectorAll('.tabel-isi input[type="checkbox"]');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = true;
+            });
+
+
+            $('#hapus').removeClass('hidden');
+        }
 
         function delete_data(id) {
             Swal.fire({
@@ -197,7 +207,7 @@
                         'Produk berhasil Dihapus',
                         'success'
                     )
-                    reload_table();
+                    reload_data();
                 }
             })
         };
@@ -226,7 +236,7 @@
                         'Produk berhasil Dihapus',
                         'success'
                     )
-                    reload_table();
+                    reload_data();
                 }
             })
         };

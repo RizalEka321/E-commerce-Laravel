@@ -4,14 +4,14 @@
     {{-- Detail Produk --}}
     <section class="detail-produk">
         <div class="container">
-            <div class="row mt-3 py-2">
-                <div class="col-md-3 col-lg-5">
-                    <img src="{{ asset($produk_detail->foto) }}" class="card-img-top" alt="...">
+            <div class="row">
+                <div class="col-md-5 col-lg-5">
+                    <img src="{{ asset($produk_detail->foto) }}" class="card-img-top" alt="Produk Lokal Industri">
                 </div>
-                <div class="col-md-5 col-lg-7 pt-2">
-                    <h4 class="title">{{ $produk_detail->judul }}</h4>
-                    <div class="price p-4 mb-3">
-                        <h2>Rp {{ number_format($produk_detail->harga, 0, '.', '.') }}</h2>
+                <div class="col-md-7 col-lg-7">
+                    <h2 class="title">{{ $produk_detail->judul }}</h2>
+                    <div class="price">
+                        <h4>Rp. {{ number_format($produk_detail->harga, 0, '.', '.') }}</h4>
                     </div>
                     <div>
                         <form id="form_tambah" action="#" method="POST" role="form">
@@ -21,8 +21,8 @@
                                 <div class="radio-toolbar">
                                     @foreach ($produk_detail->ukuran as $u)
                                         @if ($u->stok != null)
-                                            <input type="radio" id="radio{{ $u->id_ukuran }}" name="ukuran"
-                                                value="{{ $u->jenis_ukuran }}">
+                                            <input type="radio" id="radio{{ $u->id_ukuran }}" name="id_ukuran"
+                                                value="{{ $u->id_ukuran }}">
                                             <label for="radio{{ $u->id_ukuran }}">{{ $u->jenis_ukuran }}</label>
                                         @endif
                                     @endforeach
@@ -38,44 +38,19 @@
                                             class="fa fa-plus"></i></button>
                                 </div>
                             </div>
-                            <button type="submit" id="btn_masukkan_keranjang" class="btn-keranjang"><i
-                                    class="fa-solid fa-cart-shopping"></i>
-                                Masukkan
-                                Keranjang</button>
-                            <button class="btn-beli" id="btn_beli_sekarang">Beli Sekarang</button>
+                            <div class="button-container">
+                                <button type="submit" id="btn_masukkan_keranjang" class="btn-keranjang"><i
+                                        class="fa-solid fa-plus"></i> Keranjang</button>
+                                <button class="btn-beli" id="btn_beli_sekarang">Beli Sekarang</button>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
-            <div class="description row my-2 py-2">
+            <div class="row description">
                 <h4 class="title">Deskripsi Produk</h4>
                 <div class="mx-2">
                     {!! $produk_detail->deskripsi !!}
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="home_produk" id="produk">
-        <div class="container py-3 mt-3">
-            <div>
-                <h5>Produk Lainnya</h5>
-                <hr class="hr-home_produk opacity-100" data-aos="flip-right" data-aos-delay="100">
-            </div>
-            <div class="col-lg-12 my-5">
-                <div class="home_produk-slider owl-carousel">
-                    @foreach ($produk as $k)
-                        <div class="single-box text-center">
-                            <div class="img-area">
-                                <img alt="produk" class="img-fluid move-animation" src="{{ asset($k->foto) }}" />
-                            </div>
-                            <div class="info-area">
-                                {{-- <p class="kategori mt-1 mx-3">{{ $k->judul }}</p> --}}
-                                <h4 id="title_card">{{ Str::limit($k->judul, 20) }}</h4>
-                                <h6 class="price">Rp {{ number_format($k->harga, 0, '.', '.') }}</h6>
-                                <a href="{{ route('detail_produk', $k->slug) }}" class="btn-beli">Beli</a>
-                            </div>
-                        </div>
-                    @endforeach
                 </div>
             </div>
         </div>
@@ -139,18 +114,16 @@
                     processData: false,
                     contentType: false,
                     success: function(data) {
-                        $('.error-message').empty();
                         if (data.errors) {
+                            let errorMessages = '';
                             $.each(data.errors, function(key, value) {
-                                // Tampilkan pesan error di bawah setiap input
-                                $('#' + key).next('.error-message').text(
-                                    '*' + value);
+                                errorMessages += value + '<br>';
                             });
-                            Swal.fire(
-                                'Error',
-                                'Ada Yang Salah',
-                                'error'
-                            );
+                            Swal.fire({
+                                title: 'Error',
+                                html: errorMessages,
+                                icon: 'error'
+                            });
                         } else {
                             reset_form();
                             Swal.fire(
@@ -171,15 +144,14 @@
         });
         // Event handler untuk tombol "Beli Sekarang"
         $('#btn_beli_sekarang').click(function(event) {
-            event.preventDefault(); // Mencegah tindakan default tombol
-
+            event.preventDefault();
             // Check if user is logged in
             var isLoggedIn = "{{ Auth::check() }}";
             if (!isLoggedIn) {
                 window.location.href = "{{ route('login') }}";
                 return;
             } else {
-                var checkoutUrl = "{{ url('/checkout-langsung') }}"; // Ganti URL sesuai kebutuhan
+                var checkoutUrl = "{{ url('/checkout-langsung') }}";
                 $('#form_tambah').attr('action', checkoutUrl);
 
                 var url = $('#form_tambah').attr('action');
@@ -194,13 +166,15 @@
                     processData: false,
                     contentType: false,
                     success: function(data) {
-                        $('.error-message').empty();
-                        console.log(data.errors);
                         if (data.errors) {
+                            let errorMessages = '';
                             $.each(data.errors, function(key, value) {
-                                // Tampilkan pesan error di bawah setiap input
-                                $('#' + key).next('.error-message').text('*' +
-                                    value);
+                                errorMessages += value + '<br>';
+                            });
+                            Swal.fire({
+                                title: 'Error',
+                                html: errorMessages,
+                                icon: 'error'
                             });
                         } else {
                             Swal.fire({
@@ -211,14 +185,12 @@
                                 confirmButtonColor: '#3085d6',
                                 cancelButtonColor: '#d33',
                                 confirmButtonText: 'Ya, checkout!',
-                                cancelButtonText: 'Batal' // Tambahkan teks untuk tombol batal
+                                cancelButtonText: 'Batal'
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // Ubah action form ke URL endpoint checkout
                                     window.location.href = "{{ url('/checkout') }}";
                                 } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                    // Pengguna memilih untuk membatalkan aksi, tidak perlu melakukan apapun
-                                    Swal.fire('Batal', 'Anda membatalkan checkout.', 'info');
                                     reset_form();
                                 }
                             });

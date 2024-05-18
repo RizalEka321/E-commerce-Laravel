@@ -1,17 +1,17 @@
 @extends('Auth.layout.app')
 @section('title', 'Login')
 @section('content')
-    <div class="container mt-3">
-        <a href="{{ route('home') }}">
-            <img src="{{ asset('assets/pembeli/img/logonavbar_hitam.png') }}" alt="" width="300px" height="70px">
-        </a>
-        <div class="container-fluid">
-            <div class="konten_login">
-                <div class="container">
+    <section class="auth">
+        <div class="konten_auth">
+            <a class="text-center" href="{{ route('home') }}">
+                <img src="{{ asset('assets/pembeli/img/logo_auth.png') }}" alt="" width="300px" height="70px">
+            </a>
+            <div class="card">
+                <div class="card-body">
                     <div class="judul text-center">
-                        <h2>Log In</h2>
+                        <h1>Login</h1>
                     </div>
-                    <div class="row mt-2">
+                    <div class="row mt-4">
                         <form class="formLogin" id="form_login" method="POST" action="{{ url('/dologin') }}">
                             <div class="mb-4">
                                 <div class="form-group inputan">
@@ -35,13 +35,13 @@
                             </div>
                         </form>
                     </div>
-                    <div class="row text-center">
+                    <div class="btn-belum text-center">
                         <p>Belum Punya Akun? <a class="btn-daflog" href="{{ route('register') }}">Daftar</a></p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 @endsection
 @section('script')
     <script>

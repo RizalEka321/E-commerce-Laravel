@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('id_keranjang');
             $table->foreignId('produk_id');
             $table->foreignId('users_id');
+            $table->integer('ukuran_id');
             $table->integer('jumlah');
             $table->string('ukuran');
             $table->enum('status', ['Ya', 'Tidak']);

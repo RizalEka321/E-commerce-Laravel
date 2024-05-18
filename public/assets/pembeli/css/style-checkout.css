@@ -1,65 +1,147 @@
 /*===============================================================
 Detail Produk page styles
 =================================================================*/
-/* body {
-    font-family: "Montserrat", sans-serif;
-    font-optical-sizing: auto;
-    background-color: var(--bgwhite);
-} */
 
 .checkout {
+    margin-top: 100px;
+    margin-bottom: 50px;
     color: var(--black);
 }
 
+.checkout .title {
+    font-size: 30px;
+    font-weight: 700;
+    margin-left: 90px;
+}
+
 .konten_produk {
-    margin-top: 100px;
     border-radius: 5px;
 }
 
-.konten_produk .card {
-    padding: 25px;
+.konten_produk .identitas h6 {
+    font-weight: 700;
+}
+
+.konten_produk .identitas .btn-tulis {
+    background: none;
+    border: none;
+    text-decoration: none;
+    transition: all 0.5s ease-in-out;
+}
+
+.konten_produk .identitas .btn-tulis:hover {
+    color: var(--red);
+}
+
+.konten_produk .kiri .card {
+    margin-bottom: 10px;
     border-radius: 10px;
     border: 0;
     box-shadow: 0 6px 6px rgba(0, 0, 0, 0.25);
 }
 
-.konten_produk .card img {
+.konten_produk .kiri .card img {
     border-radius: 10px;
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.konten_produk .card-body {
+.konten_produk .kiri .card .foto-detail .size {
+    color: #888888;
+}
+
+.konten_produk .kiri .card .sub-harga {
+    height: 100%;
     display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: end;
 }
 
-.konten_produk .card-image {
-    flex: 0 0 auto;
-    width: 150px; /* Ubah sesuai kebutuhan Anda */
-}
-
-.konten_produk .card-content {
-    flex: 1;
-}
-
-.konten_produk .price {
-    display: inline-block;
-}
-
-
-.konten_produk .title {
-    color: var(--black);
+.konten_produk .kiri .card .sub-harga h6 {
     font-weight: 700;
 }
 
-.konten_produk .price {
-    color: var(--black);
-    font-weight: bold;
+.konten_produk .metode {
+    position: relative;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
-.konten_produk .rating {
-    color: var(--pink);
+.konten_produk .metode .btn-metode {
+    position: absolute;
+    top: -5px;
+    right: -15px;
+    z-index: 1;
+}
+
+.metode .btn-metode {
+    background: none;
+    border: none;
+    transition: all 0.5s ease-in-out;
+}
+.metode .btn-metode:hover {
+    color: var(--red);
+}
+
+.metode .btn-metode i {
+    font-size: 20px;
+}
+
+.konten_produk .metode label {
+    font-weight: 700;
+}
+.konten_produk .metode .radio-toolbar label {
+    font-weight: 400;
+}
+
+.radio-toolbar {
+    display: flex;
+}
+
+.radio-toolbar input[type="radio"] {
+    display: none;
+}
+
+.radio-toolbar label {
+    display: inline-block;
+    border: 1px solid #ddd;
+    padding: 5px 15px;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.radio-toolbar input[type="radio"]:checked + label {
+    background-color: var(--red);
+    color: #fff;
+}
+
+.radio-toolbar input[type="radio"] + label:hover {
+    transition: transform 0.2s;
+    color: var(--red);
+    border: 1px solid var(--red);
+}
+
+.konten_produk .kanan .card {
+    padding: 20px;
+    border-radius: 10px;
+    border: 0;
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.25);
+}
+
+.konten_produk .kanan .card .total {
+    font-weight: 700;
+}
+
+.konten_produk .kanan .card .text-left {
+    font-weight: 700;
+}
+
+.hidden {
+    display: none;
 }
 
 .konten_produk .btn-bayar {
@@ -70,9 +152,9 @@ Detail Produk page styles
     border: 1px solid var(--red);
     border-radius: 5px;
     text-decoration: none;
-    -webkit-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
     color: var(--red);
-    background: linear-gradient(to bottom left, var(--white), var(--white));
+    background-color: var(--white);
 }
 
 .checkout .btn-bayar:hover {
@@ -88,7 +170,7 @@ Detail Produk page styles
     padding: 5px 15px;
     border: 1px solid var(--red);
     text-decoration: none;
-    -webkit-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
     color: var(--white);
     background: linear-gradient(to bottom left, var(--red), var(--red));
 }
@@ -97,21 +179,4 @@ Detail Produk page styles
     border-color: var(--red);
     color: var(--red);
     background: var(--white);
-}
-
-.checkout .description {
-    border: 0;
-    border-radius: 10px;
-    color: var(--var(--black));
-    background-color: var(--white);
-}
-
-.checkout .description h4 {
-    color: var(--black);
-    font-weight: 700;
-}
-
-.checkout .description p {
-    margin-bottom: 0;
-    letter-spacing: 0.5px;
 }

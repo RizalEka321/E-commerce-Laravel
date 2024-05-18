@@ -2,20 +2,50 @@
 Detail page styles
 =================================================================*/
 .keranjang {
-    margin-top: 80px;
+    margin-top: 100px;
+    margin-bottom: 50px;
     color: var(--black);
 }
 
-.keranjang .hr-keranjang {
-    border-width: 2px;
-    color: var(--red);
+.keranjang .title {
+    font-size: 30px;
+    font-weight: 700;
+    margin-left: 90px;
 }
 
-.keranjang .row {
-    background-color: #fff;
+.keranjang .tabel {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.keranjang .tabel tbody td {
+    padding-bottom: 10px;
+}
+
+.keranjang .tabel tfoot td {
+    padding-bottom: 10px;
+}
+
+.keranjang .tabel-isi {
+    padding: 15px;
+    background-color: var(--white);
+}
+
+.keranjang .tabel-isi .foto-detail {
+    margin: 0;
+}
+
+.keranjang .tabel-isi .foto img {
+    width: 100%;
+    height: 100%;
     border-radius: 5px;
-    padding-top: 10px;
-    padding-bottom: 20px;
+}
+
+.keranjang-bawah {
+    background-color: var(--white);
+    padding: 15px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 .keranjang .btn-keranjang {
@@ -34,25 +64,6 @@ Detail page styles
     border-color: var(--red);
     color: var(--red);
     background: var(--white);
-}
-
-.keranjang .btn-hapus {
-    font-weight: 600;
-    font-size: 12px;
-    display: inline-block;
-    padding: 2px 15px;
-    border: 1px solid var(--red);
-    border-radius: 20px;
-    text-decoration: none;
-    -webkit-transition: all 0.5s ease-in-out;
-    color: var(--red);
-    background: var(--white);
-}
-
-.keranjang .btn-hapus:hover {
-    border-color: var(--red);
-    color: var(--white);
-    background: var(--red);
 }
 
 .qty-container {
@@ -87,13 +98,17 @@ Detail page styles
 }
 
 .qty-btn-minus:hover {
-    transition: transform .2s;
+    transition: transform 0.2s;
     color: var(--white);
     background: var(--red);
 }
 
 .qty-btn-plus:hover {
-    transition: transform .2s;
+    transition: transform 0.2s;
     color: var(--white);
     background: var(--red);
+}
+
+.hidden {
+    display: none;
 }
