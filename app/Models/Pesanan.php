@@ -27,13 +27,13 @@ class Pesanan extends Model
     {
         $latestOrder = self::latest()->first();
         if (!$latestOrder) {
-            $lastId = 'PSN-000000001';
+            $lastId = 'PSN-0000000001';
         } else {
             $lastId = $latestOrder->id_pesanan;
         }
 
-        $lastIdNumber = (int) substr($lastId, -9) + 1;
-        $newId = 'PSN-' . str_pad($lastIdNumber, 9, '0', STR_PAD_LEFT);
+        $lastIdNumber = (int) substr($lastId, -10) + 1;
+        $newId = 'PSN-' . str_pad($lastIdNumber, 10, '0', STR_PAD_LEFT);
 
         return $newId;
     }

@@ -14,7 +14,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Pembeli\ProfileController;
 use App\Http\Controllers\Pembeli\CheckoutController;
 use App\Http\Controllers\Pembeli\KeranjangController;
-use App\Http\Controllers\Pembeli\PemesananController;
+use App\Http\Controllers\Pembeli\PembayaranController;
 use App\Http\Controllers\Admin\DetailPesananController;
 use App\Http\Controllers\Pembeli\PesananSayaController;
 
@@ -123,10 +123,10 @@ Route::middleware(['auth:web', 'pembeli', 'verified'])->group(function () {
     Route::post('/checkout-langsung', [CheckoutController::class, "checkout_langsung"])->name('checkout.langsung');
     Route::get('/checkout', [CheckoutController::class, "checkout"])->name('checkout');
     // pemesanan
-    Route::post('/pemesanan-store', [PemesananController::class, "pemesanan_store"])->name('pemesanan.store');
-    Route::post('/pemesanan-out', [PemesananController::class, "pemesanan_out"])->name('pemesanan.out');
-    Route::get('/pemesanan-cash', [PemesananController::class, "pemesanan_cash"])->name('pemesanan.cash');
-    Route::get('/pemesanan-online/{id}', [PemesananController::class, "pemesanan_online"])->name('pemesanan.online');
+    Route::post('/pembayaran-store', [PembayaranController::class, "pembayaran_store"])->name('pembayaran.store');
+    Route::post('/pembayaran-out', [PembayaranController::class, "pembayaran_out"])->name('pembayaran.out');
+    Route::get('/pembayaran-cash', [PembayaranController::class, "pembayaran_cash"])->name('pembayaran.cash');
+    Route::get('/pembayaran-online/{id}', [PembayaranController::class, "pembayaran_online"])->name('pembayaran.online');
 });
 
 // Guest

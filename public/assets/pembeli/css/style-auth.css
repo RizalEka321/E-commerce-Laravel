@@ -2,32 +2,51 @@
 
 body {
     font-family: "Montserrat", sans-serif;
-    font-optical-sizing: auto;
     color: var(--black);
     background-image: url("/assets/pembeli/img/bg_auth.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     margin: 0;
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
 }
 
-.konten_login {
+.auth {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: 0;
+}
+
+.konten_auth {
     width: 40%;
-    border-radius: 5px;
-    margin: auto;
+    border-radius: 10px;
     padding: 40px;
     display: flex;
-    background-color: var(--white);
+    flex-direction: column;
+    align-items: center;
 }
 
-.konten_register {
-    width: 60%;
-    border-radius: 5px;
-    margin: auto;
-    padding: 40px;
-    display: flex;
-    background-color: var(--white);
+.konten_auth a img {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.konten_auth .card {
+    width: 100%;
+    border: none;
+    padding: 30px;
+}
+
+.konten_auth .card-body h1 {
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.konten_auth form label {
+    font-weight: 500;
 }
 
 .konten_verifikasi {
@@ -38,10 +57,6 @@ body {
     padding: 30px;
     background-color: var(--white);
     text-align: justify;
-}
-
-.judul {
-    font-weight: 800;
 }
 
 .inputan input {
@@ -65,8 +80,7 @@ body {
     font-weight: 600;
     background-color: var(--red);
     border: 1px solid var(--red);
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
 }
 .btn:hover,
 .btn:focus {
@@ -82,14 +96,21 @@ body {
 }
 
 @media screen and (max-width: 640px) {
-    .konten_login {
+    .konten_auth {
         width: 100%;
+    }
+
+    .konten_auth .card {
         padding: 10px;
     }
 }
 @media screen and (min-width: 642px) and (max-width: 800px) {
-    .konten_login {
-        width: 100%;
+    .konten_auth {
+        width: 50%;
+    }
+
+    .konten_auth .card {
+        padding: 10px;
     }
 }
 

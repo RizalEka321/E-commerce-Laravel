@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pembeli;
 
 use App\Models\Produk;
+use App\Models\Ukuran;
 use App\Models\Keranjang;
 use Illuminate\Http\Request;
 use App\Models\Profil_Perusahaan;
@@ -25,18 +26,20 @@ class KeranjangController extends Controller
         $validator = Validator::make($request->all(), [
             'produk_id' => 'required',
             'jumlah' => 'required|numeric|min:1',
-            'ukuran' => 'required',
+            'id_ukuran' => 'required',
         ], [
             'produk_id.required' => 'Produk ID wajib diisi.',
             'jumlah.required' => 'Jumlah wajib diisi.',
             'jumlah.numeric' => 'Jumlah harus berupa angka.',
             'jumlah.min' => 'Jumlah tidak boleh kurang dari 1.',
-            'ukuran.required' => 'Ukuran wajib diisi.',
+            'id_ukuran.required' => 'Ukuran wajib diisi.',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
         }
+
+        $ukuran = Ukuran::where('id_ukuran', $request->id_ukuran)->select('jenis_ukuran')->first();
 
         // Cek apakah produk sudah ada di keranjang pengguna
         $keranjang = Keranjang::where('users_id', Auth::user()->id)
@@ -55,8 +58,9 @@ class KeranjangController extends Controller
             $keranjang = Keranjang::create([
                 'users_id' => Auth::user()->id,
                 'produk_id' => $request->produk_id,
+                'ukuran_id' => $request->id_ukuran,
                 'jumlah' => $request->jumlah,
-                'ukuran' => $request->ukuran,
+                'ukuran' => $ukuran->jenis_ukuran,
                 'status' => 'Tidak'
             ]);
         }

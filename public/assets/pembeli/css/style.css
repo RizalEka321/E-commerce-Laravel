@@ -2,8 +2,8 @@
 
 body {
     font-family: "Montserrat", sans-serif;
-    font-optical-sizing: auto;
     background-color: var(--white);
+    margin: 0;
 }
 
 /* Header styles */
@@ -110,32 +110,6 @@ body {
     .navbar-nav {
         margin-top: 10px;
     }
-}
-
-/* Button WA */
-.act-btn {
-    background: #3fc250;
-    display: block;
-    width: 60px;
-    height: 60px;
-    line-height: 60px;
-    text-align: center;
-    color: var(--white);
-    font-size: 30px;
-    font-weight: bold;
-    border-radius: 50%;
-    -webkit-border-radius: 50%;
-    text-decoration: none;
-    position: fixed;
-    right: 30px;
-    bottom: 30px;
-    z-index: 999;
-}
-
-.act-btn:hover {
-    background: #3fc250;
-    border: 1px solid var(--white);
-    transform: scale(1.2, 1.2);
 }
 
 /* Footer styles */

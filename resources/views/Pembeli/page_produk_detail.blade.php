@@ -4,11 +4,11 @@
     {{-- Detail Produk --}}
     <section class="detail-produk">
         <div class="container">
-            <div class="row mt-3 py-2">
-                <div class="col-md-3 col-lg-5">
-                    <img src="{{ asset($produk_detail->foto) }}" class="card-img-top" alt="...">
+            <div class="row">
+                <div class="col-md-5 col-lg-5">
+                    <img src="{{ asset($produk_detail->foto) }}" class="card-img-top" alt="Produk Lokal Industri">
                 </div>
-                <div class="col-md-5 col-lg-7 pt-2">
+                <div class="col-md-7 col-lg-7">
                     <h2 class="title">{{ $produk_detail->judul }}</h2>
                     <div class="price">
                         <h4>Rp. {{ number_format($produk_detail->harga, 0, '.', '.') }}</h4>
@@ -21,8 +21,8 @@
                                 <div class="radio-toolbar">
                                     @foreach ($produk_detail->ukuran as $u)
                                         @if ($u->stok != null)
-                                            <input type="radio" id="radio{{ $u->id_ukuran }}" name="ukuran"
-                                                value="{{ $u->jenis_ukuran }}">
+                                            <input type="radio" id="radio{{ $u->id_ukuran }}" name="id_ukuran"
+                                                value="{{ $u->id_ukuran }}">
                                             <label for="radio{{ $u->id_ukuran }}">{{ $u->jenis_ukuran }}</label>
                                         @endif
                                     @endforeach
@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </div>
-            <div class="description row my-2 py-2">
+            <div class="row description">
                 <h4 class="title">Deskripsi Produk</h4>
                 <div class="mx-2">
                     {!! $produk_detail->deskripsi !!}
@@ -114,18 +114,16 @@
                     processData: false,
                     contentType: false,
                     success: function(data) {
-                        $('.error-message').empty();
                         if (data.errors) {
+                            let errorMessages = '';
                             $.each(data.errors, function(key, value) {
-                                // Tampilkan pesan error di bawah setiap input
-                                $('#' + key).next('.error-message').text(
-                                    '*' + value);
+                                errorMessages += value + '<br>';
                             });
-                            Swal.fire(
-                                'Error',
-                                'Ada Yang Salah',
-                                'error'
-                            );
+                            Swal.fire({
+                                title: 'Error',
+                                html: errorMessages,
+                                icon: 'error'
+                            });
                         } else {
                             reset_form();
                             Swal.fire(
@@ -146,15 +144,14 @@
         });
         // Event handler untuk tombol "Beli Sekarang"
         $('#btn_beli_sekarang').click(function(event) {
-            event.preventDefault(); // Mencegah tindakan default tombol
-
+            event.preventDefault();
             // Check if user is logged in
             var isLoggedIn = "{{ Auth::check() }}";
             if (!isLoggedIn) {
                 window.location.href = "{{ route('login') }}";
                 return;
             } else {
-                var checkoutUrl = "{{ url('/checkout-langsung') }}"; // Ganti URL sesuai kebutuhan
+                var checkoutUrl = "{{ url('/checkout-langsung') }}";
                 $('#form_tambah').attr('action', checkoutUrl);
 
                 var url = $('#form_tambah').attr('action');
@@ -169,13 +166,15 @@
                     processData: false,
                     contentType: false,
                     success: function(data) {
-                        $('.error-message').empty();
-                        console.log(data.errors);
                         if (data.errors) {
+                            let errorMessages = '';
                             $.each(data.errors, function(key, value) {
-                                // Tampilkan pesan error di bawah setiap input
-                                $('#' + key).next('.error-message').text('*' +
-                                    value);
+                                errorMessages += value + '<br>';
+                            });
+                            Swal.fire({
+                                title: 'Error',
+                                html: errorMessages,
+                                icon: 'error'
                             });
                         } else {
                             Swal.fire({
@@ -186,14 +185,12 @@
                                 confirmButtonColor: '#3085d6',
                                 cancelButtonColor: '#d33',
                                 confirmButtonText: 'Ya, checkout!',
-                                cancelButtonText: 'Batal' // Tambahkan teks untuk tombol batal
+                                cancelButtonText: 'Batal'
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // Ubah action form ke URL endpoint checkout
                                     window.location.href = "{{ url('/checkout') }}";
                                 } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                    // Pengguna memilih untuk membatalkan aksi, tidak perlu melakukan apapun
-                                    Swal.fire('Batal', 'Anda membatalkan checkout.', 'info');
                                     reset_form();
                                 }
                             });

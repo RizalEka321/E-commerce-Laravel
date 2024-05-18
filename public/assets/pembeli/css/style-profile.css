@@ -3,69 +3,76 @@ Profile styles
 =================================================================*/
 .profile {
     margin-top: 85px;
-}
-
-.profile .title {
-    font-size: 30px;
-    font-weight: 700;
-    margin-left: 90px;
+    margin-bottom: 18px;
+    color: black;
 }
 
 .profile .container {
     background-color: var(--white);
-    border-radius: 5px;
-    box-shadow: 4px 4px 3px rgba(0, 0, 0, 0.25);
-}
-
-.profile .card .card-body h4 {
-    color: black;
-    font-size: 15px;
-    font-weight: 500;
-    text-align: left;
-}
-
-.profile .card .card-body p {
-    color: var(--red);
-    text-align: left;
-}
-
-.profile .konten {
-    margin-bottom: 18px;
 }
 
 .profile .card {
     border: none;
+    height: 100%;
 }
 
-.profile .card img {
+.profile .foto-profile {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    padding: 30px;
+    width: 100%;
+}
+
+.profile .foto-profile img {
     display: block;
     margin: auto;
-    margin-top: 40px;
-    border: 2px solid black;
-    border-radius: 50%;
-    width: 250px;
-    height: 250px;
+    width: 100%;
+    height: 300px;
     object-fit: cover;
 }
 
-.profile .title {
-    color: black;
+.profile .foto-profile p {
+    text-align: justify;
+    font-size: 13px;
+    width: 100%;
 }
 
-.profile .price {
-    color: var(--red);
+.profile .input-kecil,
+.input-besar {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.profile .input-besar {
+    height: 100px;
+    resize: vertical;
 }
 
 .profile .btn-upload {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    outline: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    font-weight: 500;
+    font-size: 16px;
+    display: inline-block;
+    padding: 5px 30px;
+    border-radius: 5px;
+    border: 2px solid var(--red);
+    text-decoration: none;
+    -webkit-transition: all 0.5s ease-in-out;
+    color: white;
+    background-color: var(--red);
+}
+
+.profile .btn-upload:hover {
+    color: var(--red);
+    border-color: var(--red);
+    background: white;
 }
 
 .profile .btn-profile {
-    margin-top: 10px;
-    margin-bottom: 10px;
     font-weight: 500;
     font-size: 16px;
     display: inline-block;
@@ -84,8 +91,7 @@ Profile styles
     background: white;
 }
 .profile .btn-password {
-    position: relative; /* Menetapkan posisi relatif untuk tombol */
-    height: 100%;
+    position: relative;
     width: 100%;
     color: rgb(82, 82, 82);
     font-weight: 500;
@@ -93,9 +99,9 @@ Profile styles
     text-align: left;
     display: flex;
     align-items: center;
-    padding: 7px 10px;
-    border-radius: 8px;
-    border: 2px solid rgb(231, 231, 231);
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
     text-decoration: none;
     -webkit-transition: all 0.5s ease-in-out;
     background-color: var(--white);
@@ -108,7 +114,21 @@ Profile styles
 }
 
 .profile .btn-password:hover {
-    color: var(--red);
-    border-color: var(--red);
+    color: var(--black);
+    border-color: var(--black);
     background: white;
+}
+
+.navbar {
+    background-color: var(--white);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-nav .nav-link {
+    color: var(--black);
+    font-weight: 600;
+    transition: color 0.5s ease;
+    border-radius: 10px;
+    padding: 5px 15px;
+    margin: 0 5px;
 }

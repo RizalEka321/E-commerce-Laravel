@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Pembeli;
 
-use App\Models\Produk;
+use App\Models\Ukuran;
 use App\Models\Keranjang;
 use Illuminate\Http\Request;
 use App\Models\Profil_Perusahaan;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -21,6 +21,15 @@ class CheckoutController extends Controller
             ->with('produk')
             ->get();
 
+        // $stokItem = DB::table('ukuran_produk')
+        //     ->join('ukuran', 'ukuran_produk.ukuran_id', '=', 'ukuran.id_ukuran')
+        //     ->where('ukuran_produk.produk_id', 1)
+        //     ->where('ukuran.id_ukuran', 3)
+        //     ->select('ukuran.*')
+        //     ->first();
+
+        // @dd($stokItem);
+
         // Memeriksa apakah ada data checkout
         if ($checkout->count() > 0) {
             // Menghitung total barang checkout
@@ -28,21 +37,24 @@ class CheckoutController extends Controller
                 return $item->jumlah;
             });
 
-            // Menghitung total harga checkout
+            // total cash
             $total_harga = $checkout->sum(function ($item) {
                 return $item->produk->harga * $item->jumlah;
             });
 
             $ongkir = 10000;
-            $admin = 2500;
-            $total_keseluruhan = $total_harga + $ongkir + $admin;
+            $admin = 4000;
 
-            return view('Pembeli.page_checkout', compact('checkout', 'total_barang', 'total_harga', 'ongkir', 'admin', 'total_keseluruhan'));
+            // total online delivery
+            $total_with_OD = $total_harga + $ongkir + $admin;
+            // total online pickup
+            $total_with_OP = $total_harga + $admin;
+
+            return view('Pembeli.page_checkout', compact('checkout', 'total_barang', 'total_harga', 'ongkir', 'admin', 'total_with_OD', 'total_with_OP'));
         } else {
-            return back()->with('error', 'Belum ada barang yang di-checkout.');
+            return back();
         }
     }
-
 
     public function checkout_keranjang(Request $request)
     {
@@ -54,27 +66,31 @@ class CheckoutController extends Controller
         }
         return response()->json(['status' => true]);
     }
+
     public function checkout_langsung(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'produk_id' => 'required',
-            'jumlah' => 'required',
-            'ukuran' => 'required',
+            'jumlah' => 'required|numeric|min:1',
+            'id_ukuran' => 'required',
         ], [
-            'judul.required' => 'Nama wajib diisi.',
-            'judul.unique' => 'Nama ini sudah digunakan.',
-            'judul.min' => 'Nama minimal harus terdiri dari 2 karakter.',
-            'judul.max' => 'Nama maksimal hanya boleh 100 karakter.',
+            'produk_id.required' => 'Produk ID wajib diisi.',
+            'jumlah.required' => 'Jumlah wajib diisi.',
+            'jumlah.numeric' => 'Jumlah harus berupa angka.',
+            'jumlah.min' => 'Jumlah tidak boleh kurang dari 1.',
+            'id_ukuran.required' => 'Ukuran wajib diisi.',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
         } else {
+            $ukuran = Ukuran::where('id_ukuran', $request->id_ukuran)->select('jenis_ukuran')->first();
             Keranjang::create([
                 'users_id' => Auth::user()->id,
                 'produk_id' => $request->produk_id,
+                'ukuran_id' => $request->id_ukuran,
                 'jumlah' => $request->jumlah,
-                'ukuran' => $request->ukuran,
+                'ukuran' => $ukuran->jenis_ukuran,
                 'status' => 'Ya'
             ]);
         }

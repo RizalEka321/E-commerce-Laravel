@@ -40,7 +40,6 @@
     @yield('content')
     {{-- End Main Content --}}
 
-
     {{-- JS Files --}}
     {{-- Bootstrap --}}
     <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
