@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Pembeli;
 
 use Midtrans\Snap;
 use Midtrans\Config;
-use App\Models\Produk;
 use App\Models\Ukuran;
 use App\Models\Pesanan;
 use App\Models\Keranjang;
@@ -14,19 +13,25 @@ use App\Models\Profil_Perusahaan;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 
 class PembayaranController extends Controller
 {
-    public function pembayaran_cash()
+    public function pembayaran_cash($id)
     {
+        $id_pesanan = Crypt::decrypt($id);
+        $pesanan = Pesanan::where('id_pesanan', $id_pesanan)->with('detail')->first();
+        $detail = Detail_Pesanan::where('pesanan_id', $id_pesanan)->with('produk')->get();
+        // @dd($detail);
         $profile = Profil_Perusahaan::where('id_profil_perusahaan', 'satu')->first();
-        return view('Pembeli.page_pembayaran_cash', compact('profile'));
+        return view('Pembeli.page_pembayaran_cash', compact('pesanan', 'detail', 'profile'));
     }
     public function pembayaran_online($id)
     {
+        $id_pesanan = Crypt::decrypt($id);
         $profile = Profil_Perusahaan::where('id_profil_perusahaan', 'satu')->first();
-        $pesanan = Pesanan::where('id_pesanan', $id)->with('detail')->first();
+        $pesanan = Pesanan::where('id_pesanan', $id_pesanan)->first();
         return view('Pembeli.page_pembayaran_online', compact('pesanan', 'profile'));
     }
 
@@ -151,11 +156,14 @@ class PembayaranController extends Controller
         // Hapus data keranjang
         Keranjang::where('users_id', Auth::user()->id)->where('status', 'Ya')->delete();
 
+        // Enkripsi id pesanan
+        $id = Crypt::encrypt($id_pesanan);
+
         // Redirect berdasarkan metode pembayaran
         if ($request->metode_pembayaran == 'Transfer') {
-            return response()->json(['status' => TRUE, 'redirect' => '/pembayaran-online/' . $id_pesanan]);
+            return response()->json(['status' => TRUE, 'redirect' => '/pembayaran-online/' . $id]);
         } else {
-            return response()->json(['status' => TRUE, 'redirect' => '/pembayaran-cash']);
+            return response()->json(['status' => TRUE, 'redirect' => '/pembayaran-cash/' . $id]);
         }
     }
 
