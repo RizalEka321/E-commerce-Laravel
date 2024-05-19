@@ -52,6 +52,13 @@ Pembayaran page styles
     margin-left: 40px;
     margin-right: 40px;
 }
+.pembayaran-cash .card .jumlah {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: end;
+}
 
 /* Pembayaran online */
 .pembayaran-online {
@@ -60,10 +67,11 @@ Pembayaran page styles
     margin-bottom: 50px;
 }
 
-.pembayaran-online {
-    background-color: var(--white);
-}
-
 .pembayaran-online .card {
     width: 100%;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--white);
+    margin-bottom: 10px;
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.25);
 }

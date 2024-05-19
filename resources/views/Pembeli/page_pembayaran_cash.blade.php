@@ -43,11 +43,21 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="jumlah">
+                            <div class="col-lg-4">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h6>Total Belanja</h6>
+                                    </div>
+                                    <div class="col-lg-6text-end">
+                                        <h6>Rp. {{ number_format($pesanan->total, 0, ',', '.') }}</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="container">
             <div class="card">
                 <div class="card-body">
                     <p>Silahkan datang ke tempat konveksi untuk melakukan pembayaran.</p>
@@ -63,7 +73,6 @@
                         produk yang Anda beli!</p>
                 </div>
             </div>
-        </div>
     </section>
 @endsection
 @section('script')

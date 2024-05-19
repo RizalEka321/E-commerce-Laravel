@@ -50,7 +50,11 @@
                     {!! $profile->deskripsi !!}
                 </div>
                 <div class="col-lg-6 img-perusahaan">
-                    <img src="{{ asset($profile->foto) }}" alt="Lokal Industri">
+                    @if ($profile->foto == null)
+                        <img src="{{ asset('assets/pembeli/img/default.png') }}" alt="Lokal Industri">
+                    @else
+                        <img src="{{ asset($profile->foto) }}" alt="Lokal Industri">
+                    @endif
                 </div>
             </div>
         </div>
