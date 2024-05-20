@@ -71,13 +71,14 @@ class CheckoutController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'produk_id' => 'required',
-            'jumlah' => 'required|numeric|min:1',
+            'jumlah' => 'required|numeric|min:1|max:100',
             'id_ukuran' => 'required',
         ], [
             'produk_id.required' => 'Produk ID wajib diisi.',
             'jumlah.required' => 'Jumlah wajib diisi.',
-            'jumlah.numeric' => 'Jumlah harus berupa angka.',
-            'jumlah.min' => 'Jumlah tidak boleh kurang dari 1.',
+            'jumlah.numeric' => 'Jumlah yang anda masukan tidak valid, harus berupa angka.',
+            'jumlah.max' => 'Jumlah yang anda masukan lebih dari ketentuan maksimal. Hubungi admin melalui kontak tertera.',
+            'jumlah.min' => 'Jumlah yang anda masukan tidak bisa kurang dari sama dengan 0.',
             'id_ukuran.required' => 'Ukuran wajib diisi.',
         ]);
 

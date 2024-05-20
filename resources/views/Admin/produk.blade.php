@@ -223,8 +223,6 @@
                                 // Show error message below each input
                                 $('#' + key).next('.error-message').text('*' + value);
                             });
-                            // Jika terdapat error, tampilkan pesan error dalam SweetAlert
-                            Swal.fire("Error", "Datanya ada yang kurang", "error");
                         } else {
                             reset_form();
                             $('#datane').removeClass('hidden');

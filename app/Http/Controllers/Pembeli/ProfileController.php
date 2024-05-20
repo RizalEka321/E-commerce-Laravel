@@ -23,7 +23,7 @@ class ProfileController extends Controller
         $validator = Validator::make($request->all(), [
             'nama_lengkap' => 'required|string',
             'alamat' => 'required|min:25|max:75',
-            'no_hp' => 'required|min:12|max:15|regex:/^\d+$/',
+            'no_hp' => 'required|min:12|max:15|regex:/^\+62\d{9,12}$/',
         ], [
             'nama_lengkap.required' => 'Nama Panjang wajib diisi.',
             'alamat.required' => 'Alamat wajib diisi.',
