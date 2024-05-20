@@ -28,7 +28,7 @@ class UserController extends Controller
                 return $actionBtn;
             })
             ->rawColumns(['action'])
-            ->make(true);
+            ->make('TRUE');
     }
 
     public function store(Request $request)
@@ -67,7 +67,7 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()]);
+            return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
         } else {
             if ($request->hasFile('foto')) {
                 $foto = $request->file('foto');
@@ -90,7 +90,7 @@ class UserController extends Controller
                 'foto' => "$path/$file_name",
                 'email_verified_at' => now()
             ]);
-            echo json_encode(['status' => TRUE]);
+            echo json_encode(['status' => 'TRUE']);
         }
     }
 
@@ -99,7 +99,7 @@ class UserController extends Controller
         $id = $request->input('q');
         $user = User::find($id);
 
-        echo json_encode(['status' => TRUE, 'isi' => $user]);
+        echo json_encode(['status' => 'TRUE', 'isi' => $user]);
     }
 
     public function update(Request $request)
@@ -136,7 +136,7 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()]);
+            return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
         } else {
             $id = $request->query('q');
             $user = User::find($id);
@@ -167,7 +167,7 @@ class UserController extends Controller
 
             $user->save();
 
-            echo json_encode(['status' => TRUE]);
+            echo json_encode(['status' => 'TRUE']);
         }
     }
 
@@ -177,6 +177,6 @@ class UserController extends Controller
         $katalog = User::find($id);
         $katalog->delete();
 
-        echo json_encode(['status' => TRUE]);
+        echo json_encode(['status' => 'TRUE']);
     }
 }

@@ -30,13 +30,13 @@ class KeranjangController extends Controller
         ], [
             'produk_id.required' => 'Produk ID wajib diisi.',
             'jumlah.required' => 'Jumlah wajib diisi.',
-            'jumlah.numeric' => 'Jumlah harus berupa angka.',
-            'jumlah.min' => 'Jumlah tidak boleh kurang dari 1.',
+            'jumlah.numeric' => 'Jumlah yang anda masukan tidak valid, harus berupa angka.',
+            'jumlah.min' => 'Jumlah yang anda masukan tidak bisa kurang dari sama dengan 0.',
             'id_ukuran.required' => 'Ukuran wajib diisi.',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()]);
+            return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
         }
 
         $ukuran = Ukuran::where('id_ukuran', $request->id_ukuran)->select('jenis_ukuran')->first();
@@ -65,7 +65,7 @@ class KeranjangController extends Controller
             ]);
         }
 
-        return response()->json(['status' => true]);
+        return response()->json(['status' => 'TRUE']);
     }
 
     public function get_keranjang()

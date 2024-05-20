@@ -22,12 +22,17 @@ class ProfileController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama_lengkap' => 'required|string',
-            'alamat' => 'required',
-            'no_hp' => 'required',
+            'alamat' => 'required|min:25|max:75',
+            'no_hp' => 'required|min:12|max:15|regex:/^\+62\d{9,12}$/',
         ], [
             'nama_lengkap.required' => 'Nama Panjang wajib diisi.',
             'alamat.required' => 'Alamat wajib diisi.',
-            'no_hp.required' => 'No HP wajib diisi.',
+            'alamat.min' => 'Alamat harus memiliki panjang minimal 25 karakter.',
+            'alamat.max' => 'Alamat harus memiliki panjang maksimal 75 karakter.',
+            'no_hp.required' => 'No Handphone wajib diisi.',
+            'no_hp.regex' => 'No Handphone hanya boleh berisikan angka.',
+            'no_hp.min' => 'No Handphone harus memiliki panjang minimal 12 karakter.',
+            'no_hp.max' => 'No Handphone harus memiliki panjang maksimal 15 karakter.',
         ]);
 
         if ($validator->fails()) {

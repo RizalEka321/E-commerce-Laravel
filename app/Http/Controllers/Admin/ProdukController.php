@@ -51,16 +51,16 @@ class ProdukController extends Controller
         });
         $dataTable->rawColumns(['action', 'stok']);
 
-        return $dataTable->make(true);
+        return $dataTable->make('TRUE');
     }
 
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'judul' => 'required|string|min:2|max:100|unique:produk',
-            'deskripsi' => 'required|string',
-            'harga' => 'required|integer|min:0',
+            'judul' => 'required|string|min:12|max:18|unique:produk',
+            'deskripsi' => 'required|min:75|string',
+            'harga' => 'required|integer|min:50000|max:250000',
             'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'jenis_ukuran' => 'required|array|min:1',
             'jenis_ukuran.*' => 'string|max:255',
@@ -69,15 +69,17 @@ class ProdukController extends Controller
         ], [
             'judul.required' => 'Nama wajib diisi.',
             'judul.unique' => 'Nama ini sudah digunakan.',
-            'judul.min' => 'Nama minimal harus terdiri dari 2 karakter.',
-            'judul.max' => 'Nama maksimal hanya boleh 100 karakter.',
+            'judul.min' => 'Nama produk harus memiliki panjang minimal 12 karakter.',
+            'judul.max' => 'Nama produk harus memiliki panjang maksimal 18 karakter.',
             'deskripsi.required' => 'Deskripsi wajib diisi.',
+            'deskripsi.min' => 'Deskripsi produk harus memiliki panjang minimal 75 karakter.',
             'harga.required' => 'Harga wajib diisi.',
             'harga.integer' => 'Harga harus berupa angka.',
-            'harga.min' => 'Harga tidak boleh kurang dari 0.',
+            'harga.min' => 'Harga produk tidak bisa kurang dari 50.000.',
+            'harga.max' => 'Harga produk tidak bisa lebih dari 250.000.',
             'foto.required' => 'Foto wajib diunggah.',
             'foto.image' => 'File harus berupa gambar.',
-            'foto.mimes' => 'Format gambar hanya boleh jpeg, png, atau jpg.',
+            'foto.mimes' => 'Format foto yang anda masukan salah, mohon masukan dengan format jpeg, jpg atau png.',
             'foto.max' => 'Ukuran gambar maksimal adalah 2 MB.',
             'jenis_ukuran.required' => 'Jenis ukuran wajib diisi.',
             'jenis_ukuran.array' => 'Jenis ukuran harus berupa array.',
@@ -88,7 +90,7 @@ class ProdukController extends Controller
 
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()]);
+            return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
         }
 
         // Simpan foto
@@ -119,7 +121,7 @@ class ProdukController extends Controller
                 'ukuran_id' => $ukuran->id_ukuran,
             ]);
         }
-        return response()->json(['status' => true]);
+        return response()->json(['status' => 'TRUE']);
     }
 
     public function edit(Request $request)
@@ -127,30 +129,34 @@ class ProdukController extends Controller
         $id = $request->input('q');
         $produk = Produk::with('ukuran')->find($id);
 
-        return response()->json(['status' => true, 'produk' => $produk]);
+        return response()->json(['status' => 'TRUE', 'produk' => $produk]);
     }
 
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'judul' => 'required|string|min:2|max:100',
-            'deskripsi' => 'required|string',
-            'harga' => 'required|integer|min:0',
-            'foto'     => 'image|mimes:jpeg,png,jpg|max:2048',
+            'judul' => 'required|string|min:12|max:18|unique:produk',
+            'deskripsi' => 'required|min:75|string',
+            'harga' => 'required|integer|min:50000|max:250000',
+            'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'jenis_ukuran' => 'required|array|min:1',
             'jenis_ukuran.*' => 'string|max:255',
             'stok' => 'required|array|min:1',
             'stok.*' => 'nullable|integer|min:0',
         ], [
             'judul.required' => 'Nama wajib diisi.',
-            'judul.min' => 'Nama minimal harus terdiri dari 2 karakter.',
-            'judul.max' => 'Nama maksimal hanya boleh 100 karakter.',
+            'judul.unique' => 'Nama ini sudah digunakan.',
+            'judul.min' => 'Nama produk harus memiliki panjang minimal 12 karakter.',
+            'judul.max' => 'Nama produk harus memiliki panjang maksimal 18 karakter.',
             'deskripsi.required' => 'Deskripsi wajib diisi.',
+            'deskripsi.min' => 'Deskripsi produk harus memiliki panjang minimal 75 karakter.',
             'harga.required' => 'Harga wajib diisi.',
-            'harga.integer' => 'Harga harus berupa bilangan bulat.',
-            'harga.min' => 'Harga tidak boleh kurang dari 0.',
+            'harga.integer' => 'Harga harus berupa angka.',
+            'harga.min' => 'Harga produk tidak bisa kurang dari 50.000.',
+            'harga.max' => 'Harga produk tidak bisa lebih dari 250.000.',
+            'foto.required' => 'Foto wajib diunggah.',
             'foto.image' => 'File harus berupa gambar.',
-            'foto.mimes' => 'Format gambar hanya boleh jpeg, png, atau jpg.',
+            'foto.mimes' => 'Format foto yang anda masukan salah, mohon masukan dengan format jpeg, jpg atau png.',
             'foto.max' => 'Ukuran gambar maksimal adalah 2 MB.',
             'jenis_ukuran.required' => 'Jenis ukuran wajib diisi.',
             'jenis_ukuran.array' => 'Jenis ukuran harus berupa array.',
@@ -160,7 +166,7 @@ class ProdukController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()]);
+            return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
         } else {
             $id = $request->query('q');
             $produk = Produk::find($id);
@@ -205,7 +211,7 @@ class ProdukController extends Controller
                 ->whereNotIn('ukuran_id', collect($request->jenis_ukuran)->pluck('id_ukuran'))
                 ->delete();
 
-            return response()->json(['status' => true]);
+            return response()->json(['status' => 'TRUE']);
         }
     }
 
@@ -227,6 +233,6 @@ class ProdukController extends Controller
         // Hapus entri produk dari database
         $produk->delete();
 
-        return response()->json(['status' => true]);
+        return response()->json(['status' => 'TRUE']);
     }
 }

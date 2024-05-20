@@ -268,7 +268,7 @@
         function delete_data(id) {
             Swal.fire({
                 title: 'Hapus Pesanan',
-                text: "Apakah anda yakin!",
+                text: "Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
