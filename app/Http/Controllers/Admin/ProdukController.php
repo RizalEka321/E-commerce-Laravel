@@ -159,7 +159,6 @@ class ProdukController extends Controller
             'jenis_ukuran.*.max' => 'Panjang jenis ukuran maksimal adalah 255 karakter.',
         ]);
 
-
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
         } else {
@@ -202,7 +201,7 @@ class ProdukController extends Controller
             }
 
             // Hapus ukuran yang tidak terdapat dalam data yang dikirim
-            Ukuran_Produk::where('produk_id', $produk->id_produk)
+            Ukuran_Produk::where('produk_id', $id)
                 ->whereNotIn('ukuran_id', collect($request->jenis_ukuran)->pluck('id_ukuran'))
                 ->delete();
 

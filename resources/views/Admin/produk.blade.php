@@ -73,13 +73,16 @@
                                 <div class="col-sm-10">
                                     @foreach (['S', 'M', 'L', 'XL', 'XXL'] as $size)
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="ukuran{{ $size }}"
-                                                name="jenis_ukuran[]" value="{{ $size }}"
+                                            <input class="form-check-input ukuran-checkbox" type="checkbox"
+                                                id="ukuran{{ $size }}" name="jenis_ukuran[]"
+                                                value="{{ $size }}"
                                                 onclick="toggleStockInput('ukuran{{ $size }}')">
                                             <label class="form-check-label"
                                                 for="ukuran{{ $size }}">{{ $size }}</label>
-                                            <input type="number" class="form-control" id="ukuran{{ $size }}_stok"
-                                                name="stok[]" placeholder="Stok" style="display: none;">
+                                        </div>
+                                        <div class="form-group stok-input-group mb-2"
+                                            id="stok-container-{{ $size }}" style="display:none;">
+                                            <!-- Input stok akan ditambahkan di sini secara dinamis -->
                                         </div>
                                     @endforeach
                                 </div>
@@ -116,16 +119,16 @@
             $('#datane').addClass('hidden');
             $('.judul').html(
                 '<h4 class="judul"><i class="fa-solid fa-shirt"></i> TAMBAH DATA PRODUK</h4>');
-            reset_errors();
-
+            $('.error-message').empty();
+            reset_form();
         });
         $('#btn-close').click(function() {
             $('#datane').removeClass('hidden');
             $('#tambah_data').addClass('hidden');
             $('.judul').html(
                 '<h4 class="judul"><i class="fa-solid fa-shirt"></i> DATA PRODUK</h4>');
+            $('.error-message').empty();
             reset_form();
-            reset_errors();
         });
 
         // Global Setup
@@ -144,6 +147,9 @@
         function reset_form() {
             $('#form-add').attr('action', "{{ url('/admin/produk/create') }}");
             $('#form_tambah')[0].reset();
+            $('[id^=stok-container-]').each(function() {
+                $(this).css('display', 'none').html('');
+            });
         }
 
         // Reset validasi
@@ -153,12 +159,21 @@
 
         function toggleStockInput(checkboxId) {
             var checkbox = document.getElementById(checkboxId);
-            var stockInput = document.getElementById(checkboxId + '_stok');
+            var size = checkbox.value;
+            var stokContainerId = 'stok-container-' + size;
+            var stokContainer = document.getElementById(stokContainerId);
 
             if (checkbox.checked) {
-                stockInput.style.display = 'block'; // Tampilkan input stok jika kotak centang dicentang
+                // Tampilkan input jumlah stok
+                stokContainer.style.display = 'block';
+                stokContainer.innerHTML = `
+            <label for="ukuran${size}_stok">Stok untuk Ukuran ${size}</label>
+            <input type="number" class="form-control" id="ukuran${size}_stok" name="stok[]" placeholder="Stok" min="0">
+        `;
             } else {
-                stockInput.style.display = 'none'; // Sembunyikan input stok jika kotak centang tidak dicentang
+                // Sembunyikan input jumlah stok dan hapus elemen input
+                stokContainer.style.display = 'none';
+                stokContainer.innerHTML = '';
             }
         }
 
@@ -221,12 +236,13 @@
                         if (data.errors) {
                             $.each(data.errors, function(key, value) {
                                 // Show error message below each input
-                                $('#' + key).next('.error-message').text('*' + value);
+                                $('#' + key).next('.error-message').text('*' +
+                                    value);
                             });
                             // Jika terdapat error, tampilkan pesan error dalam SweetAlert
                             Swal.fire("Error", "Datanya ada yang kurang", "error");
                         } else {
-                            reset_form();
+                            $('.error-message').empty();
                             $('#datane').removeClass('hidden');
                             $('#tambah_data').addClass('hidden');
                             Swal.fire(
@@ -265,17 +281,20 @@
                         $('#harga').val(isi.harga);
                         // $('#foto').val(isi.foto);
 
-                        // console.log(isi.ukuran);
                         // Untuk setiap nilai ukuran, tandai centang pada checkbox yang sesuai
                         isi.ukuran.forEach(function(u) {
                             $('#ukuran' + u.jenis_ukuran).prop('checked', true);
-                            $('#ukuran' + u.jenis_ukuran + '_stok').css('display', 'block');
+                            $('#stok-container-' + u.jenis_ukuran).css('display', 'block');
+                            $('#stok-container-' + u.jenis_ukuran).html(`
+                        <label for="ukuran${u.jenis_ukuran}_stok">Stok untuk Ukuran ${u.jenis_ukuran}</label>
+                        <input type="number" value="${u.jenis_ukuran}" name="id_ukuran" hidden>
+                        <input type="number" class="form-control" id="ukuran${u.jenis_ukuran}_stok" name="stok[]" placeholder="Stok" min="0">
+                    `);
                             $('#ukuran' + u.jenis_ukuran + '_stok').val(u.stok);
                         });
 
                         var editor = document.getElementById('deskripsi');
                         editor.editor.loadHTML(isi.deskripsi);
-
 
                         // $('#input_foto').addClass('hidden');
                         $('#tambah_data').removeClass('hidden');
