@@ -125,7 +125,7 @@ Route::middleware(['auth:web', 'pembeli', 'verified'])->group(function () {
     // pemesanan
     Route::post('/pembayaran-store', [PembayaranController::class, "pembayaran_store"])->name('pembayaran.store');
     Route::post('/pembayaran-out', [PembayaranController::class, "pembayaran_out"])->name('pembayaran.out');
-    Route::get('/pembayaran-cash', [PembayaranController::class, "pembayaran_cash"])->name('pembayaran.cash');
+    Route::get('/pembayaran-cash/{id}', [PembayaranController::class, "pembayaran_cash"])->name('pembayaran.cash');
     Route::get('/pembayaran-online/{id}', [PembayaranController::class, "pembayaran_online"])->name('pembayaran.online');
 });
 

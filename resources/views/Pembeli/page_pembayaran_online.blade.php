@@ -1,11 +1,9 @@
 @extends('Pembeli.layout.app')
 @section('title', 'Detail Produk')
 @section('content')
-    <section class="pemesanan">
+    <section class="pembayaran-online">
         <div class="container mb-5">
-            <div class="konten">
-                <div class="card" id="snap"> <!-- Perbaiki penulisan ID di sini -->
-                </div>
+            <div class="card" id="snap">
             </div>
         </div>
     </section>

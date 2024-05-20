@@ -34,7 +34,7 @@
     @else
         <link href="{{ asset('assets/pembeli/css/style-detail-produk.css') }}" rel="stylesheet" />
         <link href="{{ asset('assets/pembeli/css/style-pesanan-saya.css') }}" rel="stylesheet" />
-        <link href="{{ asset('assets/pembeli/css/style-pemesanan.css') }}" rel="stylesheet" />
+        <link href="{{ asset('assets/pembeli/css/style-pembayaran.css') }}" rel="stylesheet" />
         <link href="{{ asset('assets/pembeli/css/style-keranjang.css') }}" rel="stylesheet" />
         <link href="{{ asset('assets/pembeli/css/style-checkout.css') }}" rel="stylesheet" />
         <link href="{{ asset('assets/pembeli/css/style-tambahan.css') }}" rel="stylesheet" />

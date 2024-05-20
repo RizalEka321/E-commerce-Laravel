@@ -81,6 +81,8 @@
                                                         <hr>
                                                         <h6>Rp. {{ number_format($item->total, 0, ',', '.') }}
                                                         </h6>
+                                                        <a href="{{ route('pembayaran.online', Crypt::encrypt($item->id_pesanan)) }}"
+                                                            type="button" class="btn-bayar">Bayar</a>
                                                     @elseif ($item->metode_pengiriman == 'Delivery')
                                                         <h6>Rp. {{ number_format($ongkir, 0, ',', '.') }}</h6>
                                                         <h6>Rp. {{ number_format($admin, 0, ',', '.') }}</h6>
@@ -88,9 +90,13 @@
                                                         <h6>Rp.
                                                             {{ number_format($item->total, 0, ',', '.') }}
                                                         </h6>
+                                                        <a href="{{ route('pembayaran.online', Crypt::encrypt($item->id_pesanan)) }}"
+                                                            type="button" class="btn-bayar">Bayar</a>
                                                     @endif
                                                 @else
                                                     <h6>Rp. {{ number_format($item->total, 0, ',', '.') }}</h6>
+                                                    <a href="{{ route('pembayaran.cash', Crypt::encrypt($item->id_pesanan)) }}"
+                                                        type="button" class="btn-bayar">Bukti</a>
                                                 @endif
                                             </div>
                                         </div>
