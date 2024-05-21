@@ -16,8 +16,10 @@ class PesananController extends Controller
     {
         return view('Admin.pesanan');
     }
+
     public function get_pesanan()
     {
+
         $data = Pesanan::select('id_pesanan', 'users_id', 'metode_pengiriman', 'metode_pembayaran', 'status', 'total')->with('user')->get();
         return Datatables::of($data)
             ->addIndexColumn()
@@ -30,20 +32,25 @@ class PesananController extends Controller
                 return $actionBtn;
             })
             ->addColumn('status_pengerjaan', function ($row) {
-                $statusOptions = ['Menunggu Pembayaran', 'Diproses', 'Selesai'];
                 $dropdown = '<select class="form-control status-dropdown" data-id="' . $row->id_pesanan . '"';
 
+                $statusOptions = [];
                 switch ($row->status) {
                     case 'Menunggu Pembayaran':
-                        $dropdown .= ' style="background-color: #C51605; color: white;"';
+                        $statusOptions = ['Menunggu Pembayaran', 'Diproses', 'Selesai', 'Dibatalkan'];
+                        $dropdown .= ' style="background-color: #FFD700; color: white;"';
                         break;
                     case 'Diproses':
+                        $statusOptions = ['Diproses', 'Selesai', 'Dibatalkan'];
                         $dropdown .= ' style="background-color: #0D1282; color: white;"';
                         break;
                     case 'Selesai':
+                        $statusOptions = ['Selesai', 'Dibatalkan'];
                         $dropdown .= ' style="background-color: #009100; color: white;"';
                         break;
-                    default:
+                    case 'Dibatalkan':
+                        $statusOptions = ['Dibatalkan'];
+                        $dropdown .= ' style="background-color: #C51605; color: white;"';
                         break;
                 }
 
@@ -56,7 +63,6 @@ class PesananController extends Controller
                 $dropdown .= '</select>';
                 return $dropdown;
             })
-
             ->rawColumns(['action', 'status_pengerjaan'])
             ->make(true);
     }

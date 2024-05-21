@@ -285,7 +285,7 @@
                             $('#stok-container-' + u.jenis_ukuran).css('display', 'block');
                             $('#stok-container-' + u.jenis_ukuran).html(`
                         <label for="ukuran${u.jenis_ukuran}_stok">Stok untuk Ukuran ${u.jenis_ukuran}</label>
-                        <input type="number" value="${u.jenis_ukuran}" name="id_ukuran" hidden>
+                        <input type="number" value="${u.id_ukuran}" name="id_ukuran[]" hidden>
                         <input type="number" class="form-control" id="ukuran${u.jenis_ukuran}_stok" name="stok[]" placeholder="Stok" min="0">
                     `);
                             $('#ukuran' + u.jenis_ukuran + '_stok').val(u.stok);
