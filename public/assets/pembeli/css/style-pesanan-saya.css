@@ -44,7 +44,6 @@
 .tab button.active {
     color: var(--red);
     border-radius: 5px;
-    border: 2px solid var(--black);
 }
 
 .tabcontent {
@@ -58,8 +57,18 @@
     box-shadow: 0 3px 2px rgba(0, 0, 0, 0.25);
 }
 
+.tabcontent .card .atas {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.tabcontent .card .atas .metode {
+    color: var(--red);
+}
+
 .tabcontent .card img {
-    width: 100%;
+    width: 150px;
     height: 150px;
     border-radius: 15px;
 }
@@ -67,23 +76,7 @@
     font-weight: 600;
 }
 
-.tabcontent .card .sub-harga {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: end;
-}
-.tabcontent .card .sub-harga .metode {
-    color: var(--red);
-    font-weight: 700;
-}
-
-.tabcontent .card .sub-harga .jumlah-harga {
-    font-weight: 700;
-}
-
-.tabcontent .card .total {
+.tabcontent .card .total-harga {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -91,13 +84,22 @@
     align-items: end;
 }
 
-.tabcontent .card .total .kanan h6 {
+.tabcontent .card .total-harga h6 {
+    color: #aaaaaa;
     font-weight: 700;
 }
 
-.card .total hr {
-    border: 1px solid var(--red);
-    height: 2px;
+.tabcontent .card .total-harga h5 {
+    font-weight: 700;
+}
+
+.tabcontent .card .bawah {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: end;
+    margin-top: 10px;
 }
 
 .kosong {
@@ -118,14 +120,27 @@
     margin-bottom: 10px;
 }
 
-.pesanan .btn-bayar {
-    margin-top: 10px;
-    margin-bottom: 10px;
+.pesanan .btn-detail {
     width: 100%;
-    font-weight: 500;
     font-size: 16px;
-    display: inline-block;
-    padding: 5px 30px;
+    font-weight: 600;
+    padding: 5px 0px;
+    border: none;
+    background: none;
+    text-decoration: none;
+    transition: all 0.5s ease-in-out;
+    color: var(--red);
+}
+
+.pesanan .btn-detail:hover {
+    color: var(--black);
+}
+
+.pesanan .btn-bayar {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 5px 40px;
     border-radius: 5px;
     border: 2px solid var(--red);
     text-decoration: none;
@@ -138,4 +153,28 @@
     color: var(--red);
     border-color: var(--red);
     background: white;
+}
+
+.tabcontent .total {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: end;
+}
+
+.tabcontent .total .kanan h6 {
+    font-weight: 700;
+}
+
+.tabcontent .card .sub-harga {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: end;
+}
+
+.tabcontent .card .sub-harga h6 {
+    font-weight: 700;
 }

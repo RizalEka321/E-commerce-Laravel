@@ -135,12 +135,13 @@ class ProdukController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'judul' => 'required|string|min:12|max:18|unique:produk',
+            'judul' => 'required|string|min:12|max:18|unique:produk,judul,' . $request->query('q') . ',id_produk',
             'deskripsi' => 'required|min:75|string',
             'harga' => 'required|integer|min:50000|max:250000',
-            'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'jenis_ukuran' => 'required|array|min:1',
             'jenis_ukuran.*' => 'string|max:255',
+            'id_ukuran' => 'nullable|array|min:1',
             'stok' => 'required|array|min:1',
             'stok.*' => 'nullable|integer|min:0',
         ], [
@@ -165,55 +166,86 @@ class ProdukController extends Controller
             'jenis_ukuran.*.max' => 'Panjang jenis ukuran maksimal adalah 255 karakter.',
         ]);
 
-
         if ($validator->fails()) {
             return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
-        } else {
-            $id = $request->query('q');
-            $produk = Produk::find($id);
+        }
 
-            $produk->judul = Str::title($request->judul);
-            $produk->slug = Str::slug($request->judul);
-            $produk->deskripsi = $request->deskripsi;
-            $produk->harga = $request->harga;
+        $id = $request->query('q');
+        $produk = Produk::find($id);
 
-            if ($request->hasFile('foto')) {
-                if ($produk->foto) {
-                    if (file_exists(public_path($produk->foto))) {
-                        unlink(public_path($produk->foto));
-                    }
-                }
+        if (!$produk) {
+            return response()->json(['status' => 'FALSE', 'errors' => ['Produk tidak ditemukan.']]);
+        }
 
-                $foto = $request->file('foto');
-                $file_name = $request->judul . '.' . $foto->extension();
-                $path = 'data/Produk';
-                $foto->move(public_path($path), $file_name);
-                $produk->foto = "$path/$file_name";
+        $produk->judul = Str::title($request->judul);
+        $produk->slug = Str::slug($request->judul);
+        $produk->deskripsi = $request->deskripsi;
+        $produk->harga = $request->harga;
+
+        if ($request->hasFile('foto')) {
+            if ($produk->foto && file_exists(public_path($produk->foto))) {
+                unlink(public_path($produk->foto));
             }
 
-            $produk->save();
+            $foto = $request->file('foto');
+            $file_name = $request->judul . '.' . $foto->extension();
+            $path = 'data/Produk';
+            $foto->move(public_path($path), $file_name);
+            $produk->foto = "$path/$file_name";
+        }
 
-            // Perbarui atau tambahkan ukuran-ukuran yang dimasukkan oleh pengguna
-            foreach ($request->jenis_ukuran as $key => $jenisUkuran) {
-                $ukuran = Ukuran::updateOrCreate(
-                    ['jenis_ukuran' => $jenisUkuran],
-                    ['stok' => $request->stok[$key]]
-                );
+        $produk->save();
 
-                // Menyimpan relasi antara produk dan ukuran di tabel pivot
-                Ukuran_Produk::updateOrCreate([
+        // Process ukuran data
+        $existingUkuranIds = [];
+        foreach ($request->jenis_ukuran as $key => $jenisUkuran) {
+            $stok = $request->stok[$key] ?? null;
+
+            if (empty($request->id_ukuran[$key])) {
+                $ukuran = Ukuran::create([
+                    'jenis_ukuran' => $jenisUkuran,
+                    'stok' => $stok,
+                ]);
+            } else {
+                $ukuran = Ukuran::find($request->id_ukuran[$key]);
+                if ($ukuran) {
+                    $ukuran->jenis_ukuran = $jenisUkuran;
+                    $ukuran->stok = $stok;
+                    $ukuran->save();
+                } else {
+                    $ukuran = Ukuran::create([
+                        'jenis_ukuran' => $jenisUkuran,
+                        'stok' => $stok,
+                    ]);
+                }
+            }
+
+            $existingUkuranIds[] = $ukuran->id_ukuran;
+
+            $ukuranProduk = Ukuran_Produk::where('produk_id', $produk->id_produk)
+                ->where('ukuran_id', $ukuran->id_ukuran)
+                ->first();
+
+            if ($ukuranProduk) {
+                $ukuranProduk->update([
+                    'produk_id' => $produk->id_produk,
+                    'ukuran_id' => $ukuran->id_ukuran,
+                ]);
+            } else {
+                Ukuran_Produk::create([
                     'produk_id' => $produk->id_produk,
                     'ukuran_id' => $ukuran->id_ukuran,
                 ]);
             }
-
-            // Hapus ukuran yang tidak terdapat dalam data yang dikirim
-            Ukuran_Produk::where('produk_id', $produk->id_produk)
-                ->whereNotIn('ukuran_id', collect($request->jenis_ukuran)->pluck('id_ukuran'))
-                ->delete();
-
-            return response()->json(['status' => 'TRUE']);
         }
+        Ukuran_Produk::where('produk_id', $produk->id_produk)
+            ->whereNotIn('ukuran_id', $existingUkuranIds)
+            ->delete();
+
+        $unusedUkuranIds = Ukuran::whereNotIn('id_ukuran', Ukuran_Produk::pluck('ukuran_id')->toArray())->pluck('id_ukuran')->toArray();
+        Ukuran::whereIn('id_ukuran', $unusedUkuranIds)->delete();
+
+        return response()->json(['status' => 'TRUE']);
     }
 
     public function destroy(Request $request)
@@ -223,12 +255,6 @@ class ProdukController extends Controller
         $fotoPath = public_path($produk->foto);
         if (file_exists($fotoPath)) {
             unlink($fotoPath);
-        }
-
-        // Hapus folder jika masih ada
-        $folderPath = dirname($fotoPath);
-        if (is_dir($folderPath)) {
-            rmdir($folderPath);
         }
 
         // Hapus entri produk dari database
