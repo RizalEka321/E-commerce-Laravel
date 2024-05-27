@@ -111,6 +111,7 @@ Route::middleware(['auth:web', 'pembeli', 'verified'])->group(function () {
     Route::post('/profile/update-foto', [ProfileController::class, "update_foto"])->name('profile.update_foto');
     // Pesanan Saya
     Route::get('/pesanan-saya', [PesananSayaController::class, "page_pesanan_saya"])->name('pesanan_saya');
+    Route::get('/detail-pesanan', [PesananSayaController::class, "detail_pesanan"])->name('detail_pesanan');
     // Keranjang
     Route::get('/keranjang', [KeranjangController::class, "page_keranjang"])->name('keranjang');
     Route::get('/keranjang/list', [KeranjangController::class, "get_keranjang"])->name('keranjang.list');
@@ -122,9 +123,9 @@ Route::middleware(['auth:web', 'pembeli', 'verified'])->group(function () {
     Route::post('/keranjang/checkout', [CheckoutController::class, "checkout_keranjang"])->name('checkout.keranjang');
     Route::post('/checkout-langsung', [CheckoutController::class, "checkout_langsung"])->name('checkout.langsung');
     Route::get('/checkout', [CheckoutController::class, "checkout"])->name('checkout');
+    Route::post('/checkout/batalkan', [CheckoutController::class, "checkout_batalkan"])->name('checkout.batalkan');
     // pemesanan
     Route::post('/pembayaran-store', [PembayaranController::class, "pembayaran_store"])->name('pembayaran.store');
-    Route::post('/pembayaran-out', [PembayaranController::class, "pembayaran_out"])->name('pembayaran.out');
     Route::get('/pembayaran-cash/{id}', [PembayaranController::class, "pembayaran_cash"])->name('pembayaran.cash');
     Route::get('/pembayaran-online/{id}', [PembayaranController::class, "pembayaran_online"])->name('pembayaran.online');
 });

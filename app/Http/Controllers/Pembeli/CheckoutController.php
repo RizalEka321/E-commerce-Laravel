@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pembeli;
 
+use App\Models\Produk;
 use App\Models\Ukuran;
 use App\Models\Keranjang;
 use Illuminate\Http\Request;
@@ -20,15 +21,6 @@ class CheckoutController extends Controller
             ->where('status', 'Ya')
             ->with('produk')
             ->get();
-
-        // $stokItem = DB::table('ukuran_produk')
-        //     ->join('ukuran', 'ukuran_produk.ukuran_id', '=', 'ukuran.id_ukuran')
-        //     ->where('ukuran_produk.produk_id', 1)
-        //     ->where('ukuran.id_ukuran', 3)
-        //     ->select('ukuran.*')
-        //     ->first();
-
-        // @dd($stokItem);
 
         // Memeriksa apakah ada data checkout
         if ($checkout->count() > 0) {
@@ -59,6 +51,7 @@ class CheckoutController extends Controller
     public function checkout_keranjang(Request $request)
     {
         $id = $request->input('q');
+
         $keranjang = Keranjang::where('users_id', $id)->where('status', 'Tidak')->get();
         foreach ($keranjang as $item) {
             $item->status = 'Ya';
@@ -85,17 +78,33 @@ class CheckoutController extends Controller
         if ($validator->fails()) {
             return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
         } else {
-            $ukuran = Ukuran::where('id_ukuran', $request->id_ukuran)->select('jenis_ukuran')->first();
-            Keranjang::create([
-                'users_id' => Auth::user()->id,
-                'produk_id' => $request->produk_id,
-                'ukuran_id' => $request->id_ukuran,
-                'jumlah' => $request->jumlah,
-                'ukuran' => $ukuran->jenis_ukuran,
-                'status' => 'Ya'
-            ]);
+            $ukuran = Ukuran::where('id_ukuran', $request->id_ukuran)->select('jenis_ukuran', 'stok')->first();
+            if ($ukuran->stok == 0) {
+                return response()->json(['status' => 'FALSE', 'error' => 'Stok Ukuran' + $ukuran->stok + 'Habis']);
+            } elseif ($request->jumlah > $ukuran->stok) {
+                return response()->json(['status' => 'FALSE', 'error' => 'Jumlah yang anda masukkan melebihi stok tersedia untuk ukuran ' . $ukuran->jenis_ukuran]);
+            } else {
+                Keranjang::create([
+                    'users_id' => Auth::user()->id,
+                    'produk_id' => $request->produk_id,
+                    'ukuran_id' => $request->id_ukuran,
+                    'jumlah' => $request->jumlah,
+                    'ukuran' => $ukuran->jenis_ukuran,
+                    'status' => 'Ya'
+                ]);
+            }
         }
-
         return response()->json(['status' => 'TRUE']);
+    }
+
+    public function checkout_batalkan()
+    {
+        $keranjang = Keranjang::where('users_id', Auth::user()->id)->where('status', 'Ya')->with('produk')->get();
+
+        // Menghapus data keranjang
+        foreach ($keranjang as $item) {
+            $item->delete();
+        }
+        return response()->json(['status' => true]);
     }
 }

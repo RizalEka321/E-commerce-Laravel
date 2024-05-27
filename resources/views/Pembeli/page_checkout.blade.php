@@ -253,33 +253,35 @@
             }
         });
 
-        // window.addEventListener('beforeunload', function(event) {
-        //     // Lakukan request Ajax untuk membatalkan pesanan
-        //     handleLeavePage();
-        // });
+        let isCheckoutInProgress = false;
 
-        // window.addEventListener('popstate', function(event) {
-        //     // Panggil fungsi untuk menangani permintaan saat pengguna meninggalkan halaman
-        //     handleLeavePage();
-        // });
+        window.addEventListener('beforeunload', function(event) {
+            if (!isCheckoutInProgress) {
+                handleLeavePage();
+            }
+        });
 
-        // function handleLeavePage() {
-        //     // Lakukan permintaan AJAX untuk membatalkan pesanan
-        //     $.ajax({
-        //         url: "{{ url('/pemesanan-out') }}", // Ganti dengan URL endpoint yang sesuai
-        //         type: "POST",
-        //         dataType: "JSON",
-        //         processData: false,
-        //         contentType: false,
-        //         success: function(response) {
-        //             // Handle respons dari server jika diperlukan
-        //             console.log(response);
-        //         },
-        //         error: function(jqXHR, textStatus, errorThrown) {
-        //             console.log(jqXHR);
-        //         }
-        //     });
-        // }
+        window.addEventListener('popstate', function(event) {
+            if (!isCheckoutInProgress) {
+                handleLeavePage();
+            }
+        });
+
+        function handleLeavePage() {
+            $.ajax({
+                url: "{{ url('/checkout/batalkan') }}",
+                type: "POST",
+                dataType: "JSON",
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR);
+                }
+            });
+        }
 
         $(document).ready(function() {
             $('input[name="metode_pembayaran"]').on('change', function() {
@@ -294,11 +296,8 @@
                     $('input[name="metode_pengiriman"]').prop('checked', false);
                 }
             });
-        });
 
-        $(document).ready(function() {
             $('input[name="metode_pengiriman"]').on('change', function() {
-                // Dapatkan nilai total dengan ongkir dan pickup dari PHP
                 var total_with_OD = '{{ number_format($total_with_OD, 0, ',', '.') }}';
                 var total_with_OP = '{{ number_format($total_with_OP, 0, ',', '.') }}';
 
@@ -314,7 +313,6 @@
             });
         });
 
-
         function reset_form() {
             $('#form_tambah')[0].reset();
         }
@@ -327,8 +325,8 @@
             e.preventDefault();
             var url = $('#form_tambah').attr('action');
             var formData = new FormData($('#form_tambah')[0]);
+            isCheckoutInProgress = true;
 
-            // showLoading();
             $.ajax({
                 url: url,
                 type: "POST",
@@ -339,17 +337,25 @@
                 success: function(data) {
                     $('.error-message').empty();
                     if (data.errors) {
+                        let errorMessages = '';
                         $.each(data.errors, function(key, value) {
-                            // Menampilkan pesan error di bawah setiap input
-                            $('#' + key).next('.error-message').text('*' + value);
+                            errorMessages += value + '<br>';
                         });
-                        Swal.fire("Error", "Datanya ada yang kurang", "error");
+                        Swal.fire({
+                            title: 'Error',
+                            html: errorMessages,
+                            icon: 'error',
+                            confirmButtonText: 'Oke',
+                            confirmButtonColor: '#000000'
+                        });
+                        isCheckoutInProgress = false;
                     } else {
                         window.location.href = data.redirect;
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR);
+                    isCheckoutInProgress = false;
                 },
                 complete: function() {
                     // hideLoading();

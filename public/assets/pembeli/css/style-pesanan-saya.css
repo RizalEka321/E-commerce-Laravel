@@ -50,33 +50,34 @@
     margin-bottom: 20px;
 }
 
-.tabcontent .card {
+.pesanan .card {
     border: none;
     margin-top: 10px;
     background-color: var(--white);
     box-shadow: 0 3px 2px rgba(0, 0, 0, 0.25);
 }
 
-.tabcontent .card .atas {
+.pesanan .card .atas {
     display: flex;
     justify-content: space-between;
     margin-bottom: 5px;
 }
 
-.tabcontent .card .atas .metode {
+.pesanan .card .atas .metode {
     color: var(--red);
 }
 
-.tabcontent .card img {
+.pesanan .card img {
     width: 150px;
     height: 150px;
     border-radius: 15px;
 }
-.tabcontent .card .foto-detail h5 {
+
+.pesanan .card .foto-detail h5 {
     font-weight: 600;
 }
 
-.tabcontent .card .total-harga {
+.pesanan .card .total-harga {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -84,16 +85,16 @@
     align-items: end;
 }
 
-.tabcontent .card .total-harga h6 {
+.pesanan .card .total-harga h6 {
     color: #aaaaaa;
     font-weight: 700;
 }
 
-.tabcontent .card .total-harga h5 {
+.pesanan .card .total-harga h5 {
     font-weight: 700;
 }
 
-.tabcontent .card .bawah {
+.pesanan .card .bawah {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -126,7 +127,6 @@
     font-weight: 600;
     padding: 5px 0px;
     border: none;
-    background: none;
     text-decoration: none;
     transition: all 0.5s ease-in-out;
     color: var(--red);
@@ -155,7 +155,26 @@
     background: white;
 }
 
-.tabcontent .total {
+.modal-konten img {
+    width: 150px;
+    height: 150px;
+    border-radius: 15px;
+}
+.modal-konten .atas {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.modal-konten .atas .metode {
+    color: var(--red);
+}
+
+.modal-konten .foto-detail h5 {
+    font-weight: 600;
+}
+
+.modal-konten .total-harga {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -163,11 +182,16 @@
     align-items: end;
 }
 
-.tabcontent .total .kanan h6 {
+.modal-konten .total-harga h6 {
+    color: #aaaaaa;
     font-weight: 700;
 }
 
-.tabcontent .card .sub-harga {
+.modal-konten .total-harga h5 {
+    font-weight: 700;
+}
+
+.modal-konten .total {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -175,6 +199,18 @@
     align-items: end;
 }
 
-.tabcontent .card .sub-harga h6 {
+.modal-konten .total .kanan h6 {
+    font-weight: 700;
+}
+
+.modal-konten .sub-harga {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: end;
+}
+
+.modal-konten .sub-harga h6 {
     font-weight: 700;
 }
