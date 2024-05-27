@@ -40,7 +40,7 @@
                         <div class="row gx-5 mb-3">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="nama_lengkap">Nama Panjang :</label>
+                                    <label for="nama_lengkap">Nama :</label>
                                     <input id="nama_lengkap" type="text" name="nama_lengkap"
                                         value="{{ old('nama_lengkap') }}" class="form-control"
                                         placeholder="Masukkan Nama Panjang"autofocus>
@@ -85,12 +85,8 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="role">Role :</label>
-                                    <select id="role" name="role" class="form-control">
-                                        <option value="">-- Pilih Role --</option>
-                                        <option value="Pemilik">Pemilik</option>
-                                        <option value="Pegawai">Pegawai</option>
-                                        <option value="Pembeli">Pembeli</option>
-                                    </select>
+                                    <input type="hidden" id="role" name="role" value="Pegawai">
+                                    <input type="text" class="form-control" value="Pegawai" disabled>
                                     <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
@@ -229,14 +225,13 @@
                                 // Show error message below each input
                                 $('#' + key).next('.error-message').text('*' + value);
                             });
-                            Swal.fire("Error", "Datanya ada yang kurang", "error");
                         } else {
                             reset_form();
                             $('#datane').removeClass('hidden');
                             $('#tambah_data').addClass('hidden');
                             Swal.fire(
                                 'Sukses',
-                                'Data berhasil disimpan',
+                                'Data user berhasil ditambahkan',
                                 'success'
                             );
                             $('#form_modal').modal('hide');

@@ -39,25 +39,25 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|max:16|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
             'password_confirmation' => 'required|same:password',
-            'role' => 'required',
+            'role' => 'nullable', // Make role nullable
             'alamat' => 'nullable',
             'no_hp' => 'nullable',
             'foto'     => 'image|mimes:jpeg,png,jpg|max:2048',
         ], [
-            'nama_lengkap.required' => 'Nama lengkap tidak boleh kosong',
-            'nama_lengkap.min' => 'Panjang nama lengkap minimal harus 8 karakter',
-            'nama_lengkap.max' => 'Panjang nama lengkap maksimal adalah 25 karakter',
-            'username.required' => 'Username tidak boleh kosong',
-            'username.min' => 'Panjang username minimal harus 8 karakter',
-            'username.max' => 'Panjang username maksimal harus 16 karakter',
-            'username.unique' => 'Username sudah digunakan',
+            'nama_lengkap.required' => 'Nama wajib diisi.',
+            'nama_lengkap.min' => 'Nama harus memiliki panjang minimal 8 karakter.',
+            'nama_lengkap.max' => 'Nama harus memiliki panjang maksimal 25 karakter.',
+            'username.required' => 'Username wajib diisi.',
+            'username.min' => 'Username harus memiliki panjang minimal 8 karakter.',
+            'username.max' => 'Username harus memiliki panjang maksimal 16 karakter.',
+            'username.unique' => 'Username yang anda masukan sudah digunakan.',
             'role.required' => 'Role wajib diisi.',
             'email.required' => 'Email wajib diisi.',
-            'email.unique' => 'Email ini sudah digunakan.',
-            'email.email' => 'Email tidak valid.',
+            'email.unique' => 'Email yang anda masukan sudah digunakan.',
+            'email.email' => 'Email yang anda masukan tidak valid',
             'password.required' => 'Password wajib diisi.',
-            'password.min' => 'Panjang password minimal harus 8 karakter',
-            'password.max' => 'Panjang password maksimal harus 16 karakter',
+            'password.min' => 'Password harus memiliki panjang minimal 8 karakter.',
+            'password.max' => 'Password harus memiliki panjang maksimal 16 karakter.',
             'password.regex' => 'Password harus mengandung setidaknya satu huruf kapital, satu huruf kecil, dan satu angka',
             'password_confirmation.required' => 'Konfirmasi Password wajib diisi.',
             'password_confirmation.same' => 'Konfirmasi Password tidak sesuai dengan Password.',
@@ -79,10 +79,12 @@ class UserController extends Controller
                 $path = null;
             }
 
+            $role = $request->input('role', 'Pegawai'); // Set default role to Pegawai
+
             User::create([
                 'nama_lengkap' => $request->nama_lengkap,
                 'username' => $request->username,
-                'role' => $request->role,
+                'role' => $role,
                 'email' => $request->email,
                 'alamat' => $request->alamat,
                 'no_hp' => $request->no_hp,
