@@ -176,22 +176,36 @@
                                 html: errorMessages,
                                 icon: 'error'
                             });
+                        } else if (data.error) {
+                            Swal.fire("Error", data.error, "error");
                         } else {
                             Swal.fire({
                                 title: 'Checkout Sekarang?',
                                 text: "Anda akan langsung checkout, lanjutkan?",
                                 icon: 'warning',
                                 showCancelButton: true,
-                                confirmButtonColor: '#3085d6',
+                                confirmButtonColor: '#000000',
                                 cancelButtonColor: '#d33',
                                 confirmButtonText: 'Ya, checkout!',
                                 cancelButtonText: 'Batal'
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    // Ubah action form ke URL endpoint checkout
                                     window.location.href = "{{ url('/checkout') }}";
                                 } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                    reset_form();
+                                    $.ajax({
+                                        url: "{{ url('/checkout/batalkan') }}",
+                                        type: "POST",
+                                        dataType: "JSON",
+                                        processData: false,
+                                        contentType: false,
+                                        success: function(response) {
+                                            console.log(response);
+                                        },
+                                        error: function(jqXHR, textStatus,
+                                            errorThrown) {
+                                            console.log(jqXHR);
+                                        }
+                                    });
                                 }
                             });
                         }

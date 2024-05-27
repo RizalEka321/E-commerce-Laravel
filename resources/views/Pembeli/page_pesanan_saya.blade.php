@@ -42,6 +42,7 @@
                                                 </div>
                                                 <div class="col-lg-8 foto-detail">
                                                     <h5>{{ $d->produk->judul }}. Size, {{ $d->ukuran }}</h5>
+                                                    <h6>{{ $item->total_barang }} Barang</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -60,116 +61,10 @@
                                 <div class="col-lg-4">
                                     <div class="row">
                                         <div class="col-lg-7 kiri text-end">
-                                            <button type="button" class="btn-detail" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal">Lihat Detail Pesanan</button>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="exampleModal" tabindex="-1"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-xl">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Detail
-                                                                Pesanan</h1>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            @foreach ($pesanan2 as $item)
-                                                                <div class="atas">
-                                                                    <div>
-                                                                        <h5 class="id-pesanan">ID Pesanan :
-                                                                            {{ $item->id_pesanan }}</h5>
-                                                                        <h5 class="text-start">Tanggal:
-                                                                            {{ \Carbon\Carbon::parse($item->created_at)->format('d M Y') }}
-                                                                        </h5>
-                                                                    </div>
-                                                                    <h5 class="metode">
-                                                                        {{ $d->pesanan->metode_pembayaran }} /
-                                                                        {{ $d->pesanan->metode_pengiriman }}
-                                                                    </h5>
-                                                                </div>
-                                                                @foreach ($item->detail as $d)
-                                                                    <div class="row">
-                                                                        <div class="col-lg-6">
-                                                                            <div class="row gx-0">
-                                                                                <div class="col-lg-4 foto">
-                                                                                    <div
-                                                                                        class="d-flex justify-content-between">
-                                                                                        <img
-                                                                                            src="{{ asset($d->produk->foto) }}" />
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div
-                                                                                    class="col-lg-8 foto-detail text-start">
-                                                                                    <h5>{{ $d->produk->judul }}</h5>
-                                                                                    <h6>Ukuran {{ $d->ukuran }}</h6>
-                                                                                    <h6>{{ $d->jumlah }} X Rp.
-                                                                                        {{ number_format($d->produk->harga, 0, ',', '.') }}
-                                                                                    </h6>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-lg-6">
-                                                                            <div class="sub-harga">
-                                                                                <h6>Rp.
-                                                                                    {{ number_format($d->produk->harga * $d->jumlah, 0, ',', '.') }}
-                                                                                </h6>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <hr>
-                                                                @endforeach
-                                                                <div class="row total">
-                                                                    <div class="col-lg-3">
-                                                                        <div class="row">
-                                                                            <div class="col-lg-6 kiri">
-                                                                                @if ($item->metode_pembayaran == 'Transfer')
-                                                                                    <h6>Total Harga</h6>
-                                                                                    @if ($item->metode_pengiriman == 'Delivery')
-                                                                                        <h6>Biaya Ongkir</h6>
-                                                                                    @endif
-                                                                                    <h6>Biaya Admin</h6>
-                                                                                    <br>
-                                                                                @endif
-                                                                                <h6>Total Belanja</h6>
-                                                                            </div>
-                                                                            <div class="col-lg-6 kanan text-end">
-                                                                                @if ($item->metode_pembayaran == 'Transfer')
-                                                                                    <h6>Rp.
-                                                                                        {{ number_format($item->total, 0, ',', '.') }}
-                                                                                    </h6>
-                                                                                    @if ($item->metode_pengiriman == 'Pickup')
-                                                                                        <h6>Rp.
-                                                                                            {{ number_format($admin, 0, ',', '.') }}
-                                                                                        </h6>
-                                                                                        <h6>Rp.
-                                                                                            {{ number_format($item->total, 0, ',', '.') }}
-                                                                                        </h6>
-                                                                                    @elseif($item->metode_pengiriman == 'Delivery')
-                                                                                        <h6>Rp.
-                                                                                            {{ number_format($ongkir, 0, ',', '.') }}
-                                                                                        </h6>
-                                                                                        <h6>Rp.
-                                                                                            {{ number_format($admin, 0, ',', '.') }}
-                                                                                        </h6>
-                                                                                        <h6>Rp.
-                                                                                            {{ number_format($item->total, 0, ',', '.') }}
-                                                                                        </h6>
-                                                                                    @endif
-                                                                                @else
-                                                                                    <h6>Rp.
-                                                                                        {{ number_format($item->total, 0, ',', '.') }}
-                                                                                    </h6>
-                                                                                @endif
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            @endforeach
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <a type="button" class="btn-detail" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal"
+                                                onclick="detail('{{ $item->id_pesanan }}')">Lihat Detail
+                                                Pesanan</a>
                                         </div>
                                         <div class="col-lg-5 kanan text-end">
                                             @if ($item->metode_pembayaran == 'Transfer')
@@ -188,7 +83,6 @@
                 @endforeach
             @endif
         </div>
-
         <div id="Diproses" class="tabcontent">
             @if ($pesanan2->Isempty())
                 <div class="card kosong">
@@ -200,7 +94,7 @@
                     </div>
                 </div>
             @else
-                @foreach ($pesanan1 as $item)
+                @foreach ($pesanan2 as $item)
                     <div class="card">
                         <div class="card-body">
                             @foreach ($item->detail as $d)
@@ -233,7 +127,9 @@
                         @endforeach
                         <div class="row bawah">
                             <div class="col-lg-4 text-end">
-                                <a href="" type="button" class="btn-detail">Lihat Detail
+                                <a type="button" class="btn-detail" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal"
+                                    onclick="detail('{{ $item->id_pesanan }}')">Lihat Detail
                                     Pesanan</a>
                             </div>
                         </div>
@@ -242,7 +138,6 @@
             @endforeach
         @endif
     </div>
-
     <div id="Selesai" class="tabcontent">
         @if ($pesanan1->Isempty())
             <div class="card kosong">
@@ -254,7 +149,7 @@
                 </div>
             </div>
         @else
-            @foreach ($pesanan1 as $item)
+            @foreach ($pesanan3 as $item)
                 <div class="card">
                     <div class="card-body">
                         @foreach ($item->detail as $d)
@@ -287,7 +182,9 @@
                     @endforeach
                     <div class="row bawah">
                         <div class="col-lg-4 text-end">
-                            <a href="" type="button" class="btn-detail">Lihat Detail
+                            <a type="button" class="btn-detail" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"
+                                onclick="detail('{{ $item->id_pesanan }}')">Lihat Detail
                                 Pesanan</a>
                         </div>
                     </div>
@@ -295,6 +192,38 @@
             </div>
         @endforeach
     @endif
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Detail
+                    Pesanan</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-konten">
+                    <div class="atas" id="pesanan-id">
+                    </div>
+                    <div id="detail">
+                    </div>
+                    <div class="row total">
+                        <div class="col-lg-3">
+                            <div class="row">
+                                <div class="col-lg-6 kiri" id="kiri">
+                                </div>
+                                <div class="col-lg-6 kanan text-end" id="kanan">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </div>
 </section>
@@ -317,6 +246,113 @@
         }
         document.getElementById(nama_tab).style.display = "block";
         document.getElementById(id).classList.add("active");
+    }
+
+    function detail(id) {
+        $.ajax({
+            url: "{{ url('/detail-pesanan') }}",
+            type: "GET",
+            data: {
+                q: id
+            },
+            dataType: "JSON",
+            success: function(response) {
+                var pesanan = response.pesanan;
+                var detail = response.detail;
+                var admin = response.admin;
+                var ongkir = response.ongkir;
+
+                $('#pesanan-id').html(`
+                <div>
+                    <h5 class="id-pesanan">ID Pesanan: ${pesanan.id_pesanan}</h5>
+                    <h5 class="text-start">Tanggal: ${formatDate(pesanan.created_at)}</h5>
+                </div>
+                <h5 class="metode">
+                    ${pesanan.metode_pembayaran} / ${pesanan.metode_pengiriman}
+                </h5>
+            `);
+
+                var detailHtmlContent = '';
+                detail.forEach(function(item) {
+                    detailHtmlContent += `
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="row gx-0">
+                                <div class="col-lg-4 foto">
+                                    <div class="d-flex justify-content-between">
+                                        <img src="${item.produk.foto}" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-8 foto-detail text-start">
+                                    <h5>${item.produk.judul}</h5>
+                                    <h6>Ukuran ${item.ukuran}</h6>
+                                    <h6>${item.jumlah} X ${number_format(item.produk.harga)}</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="sub-harga">
+                                <h6>${number_format(item.produk.harga * item.jumlah)}</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                `;
+                });
+                $('#detail').html(detailHtmlContent);
+
+                var kiriHtmlContent = '';
+                if (pesanan.metode_pembayaran === 'Transfer') {
+                    kiriHtmlContent += '<h6>Total Harga</h6>';
+                    if (pesanan.metode_pengiriman === 'Delivery') {
+                        kiriHtmlContent += '<h6>Biaya Ongkir</h6>';
+                    }
+                    kiriHtmlContent += '<h6>Biaya Admin</h6><br>';
+                }
+                kiriHtmlContent += '<h6>Total Belanja</h6>';
+                $('#kiri').html(kiriHtmlContent);
+
+                var kananHtmlContent = '';
+                if (pesanan.metode_pembayaran === 'Transfer') {
+                    kananHtmlContent += `<h6>${number_format(pesanan.total)}</h6>`;
+                    if (pesanan.metode_pengiriman === 'Pickup') {
+                        kananHtmlContent += `
+                        <h6>${number_format(admin)}</h6>
+                        <h6>${number_format(pesanan.total)}</h6>
+                    `;
+                    } else if (pesanan.metode_pengiriman === 'Delivery') {
+                        kananHtmlContent += `
+                        <h6>${number_format(ongkir)}</h6>
+                        <h6>${number_format(admin)}</h6>
+                        <h6>${number_format(pesanan.total)}</h6>
+                    `;
+                    }
+                } else {
+                    kananHtmlContent += `<h6>${number_format(pesanan.total)}</h6>`;
+                }
+                $('#kanan').html(kananHtmlContent);
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('id-ID', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+        });
+    }
+    // Helper function to format numbers as currency
+    function number_format(number) {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0
+        }).format(number).replace('IDR', 'Rp.').trim();
     }
 </script>
 @endsection

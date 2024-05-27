@@ -37,35 +37,40 @@ class KeranjangController extends Controller
 
         if ($validator->fails()) {
             return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
-        }
-
-        $ukuran = Ukuran::where('id_ukuran', $request->id_ukuran)->select('jenis_ukuran')->first();
-
-        // Cek apakah produk sudah ada di keranjang pengguna
-        $keranjang = Keranjang::where('users_id', Auth::user()->id)
-            ->where('produk_id', $request->produk_id)
-            ->where('ukuran', $request->ukuran)
-            ->where('status', 'Tidak')
-            ->first();
-
-        // tambah keranjang
-        if ($keranjang) {
-            // Jika produk sudah ada, tingkatkan jumlahnya
-            $keranjang->jumlah += $request->jumlah;
-            $keranjang->save();
         } else {
-            // Jika produk belum ada, tambahkan ke keranjang
-            $keranjang = Keranjang::create([
-                'users_id' => Auth::user()->id,
-                'produk_id' => $request->produk_id,
-                'ukuran_id' => $request->id_ukuran,
-                'jumlah' => $request->jumlah,
-                'ukuran' => $ukuran->jenis_ukuran,
-                'status' => 'Tidak'
-            ]);
-        }
+            $ukuran = Ukuran::where('id_ukuran', $request->id_ukuran)->select('jenis_ukuran', 'stok')->first();
+            if ($ukuran->stok == 0) {
+                return response()->json(['status' => 'FALSE', 'error' => 'Stok Ukuran' + $ukuran->stok + 'Habis']);
+            } elseif ($request->jumlah > $ukuran->stok) {
+                return response()->json(['status' => 'FALSE', 'error' => 'Jumlah yang anda masukkan melebihi stok tersedia untuk ukuran ' . $ukuran->jenis_ukuran]);
+            } else {
+                // Cek apakah produk sudah ada di keranjang pengguna
+                $keranjang = Keranjang::where('users_id', Auth::user()->id)
+                    ->where('produk_id', $request->produk_id)
+                    ->where('ukuran', $request->ukuran)
+                    ->where('status', 'Tidak')
+                    ->first();
 
-        return response()->json(['status' => 'TRUE']);
+                // tambah keranjang
+                if ($keranjang) {
+                    // Jika produk sudah ada, tingkatkan jumlahnya
+                    $keranjang->jumlah += $request->jumlah;
+                    $keranjang->save();
+                } else {
+                    // Jika produk belum ada, tambahkan ke keranjang
+                    $keranjang = Keranjang::create([
+                        'users_id' => Auth::user()->id,
+                        'produk_id' => $request->produk_id,
+                        'ukuran_id' => $request->id_ukuran,
+                        'jumlah' => $request->jumlah,
+                        'ukuran' => $ukuran->jenis_ukuran,
+                        'status' => 'Tidak'
+                    ]);
+                }
+
+                return response()->json(['status' => 'TRUE']);
+            }
+        }
     }
 
     public function get_keranjang()
