@@ -45,16 +45,16 @@
     <section class="home_perusahaan" id="profil">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-6 info-perusahaan">
-                    <h2>CV. Lokal Industri</h2>
-                    {!! $profile->deskripsi !!}
-                </div>
-                <div class="col-lg-6 img-perusahaan">
+                <div class="col-md-6 col-lg-6 order-md-2 order-1 img-perusahaan">
                     @if ($profile->foto == null)
                         <img src="{{ asset('assets/pembeli/img/default.png') }}" alt="Lokal Industri">
                     @else
                         <img src="{{ asset($profile->foto) }}" alt="Lokal Industri">
                     @endif
+                </div>
+                <div class="col-md-6 col-lg-6 order-md-1 order-2 info-perusahaan">
+                    <h2>CV. Lokal Industri</h2>
+                    {!! $profile->deskripsi !!}
                 </div>
             </div>
         </div>

@@ -94,7 +94,6 @@
     @if (Request::is('/'))
         <script src="{{ asset('assets/pembeli/js/navbar.js') }}"></script>
     @endif
-    <script src="{{ asset('assets/pembeli/js/tab_perusahaan.js') }}"></script>
     {{-- Sweetalert --}}
     <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
     @yield('script')

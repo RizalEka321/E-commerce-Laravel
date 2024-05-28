@@ -18,16 +18,33 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="bulan">Bulan :</label>
-                                    <input id="bulan" type="text" name="bulan" value="{{ old('bulan') }}"
-                                        class="form-control" placeholder="Bulan" autofocus>
+                                    <select id="bulan" name="bulan" class="form-control">
+                                        <option value="">-- Pilih Bulan --</option>
+                                        <option value="1">Januari</option>
+                                        <option value="2">Februari</option>
+                                        <option value="3">Maret</option>
+                                        <option value="4">April</option>
+                                        <option value="5">Mei</option>
+                                        <option value="6">Juni</option>
+                                        <option value="7">Juli</option>
+                                        <option value="8">Agustus</option>
+                                        <option value="9">September</option>
+                                        <option value="10">Oktober</option>
+                                        <option value="11">November</option>
+                                        <option value="12">Desember</option>
+                                    </select>
                                     <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="tahun">Tahun :</label>
-                                    <input id="tahun" type="text" name="tahun" value="{{ old('tahun') }}"
-                                        class="form-control" placeholder="Tahun">
+                                    <select id="tahun" name="tahun" class="form-control">
+                                        <option value="">-- Pilih Tahun --</option>
+                                        @foreach ($tahun as $t)
+                                            <option value="{{ $t }}">{{ $t }}</option>
+                                        @endforeach
+                                    </select>
                                     <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
@@ -42,15 +59,4 @@
             </div>
         </div>
     </div>
-@endsection
-@section('script')
-    <script>
-        $(function() {
-            $("#tahun").datepicker({
-                format: 'yyyy',
-                autoclose: true,
-                todayHighlight: true,
-            });
-        });
-    </script>
 @endsection

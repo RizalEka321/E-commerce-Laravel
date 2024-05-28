@@ -14,7 +14,9 @@ class LaporanController extends Controller
 {
     public function index()
     {
-        return view('Admin.laporan');
+        $tahun_sekarang = date('Y');
+        $tahun = range(1900, $tahun_sekarang);
+        return view('Admin.laporan', compact('tahun'));
     }
 
     public function cetak(Request $request)
@@ -62,7 +64,7 @@ class LaporanController extends Controller
         // Total Keseluruhan
         $total_keseluruhan = $total_omset_proyek + $total_omset_pesanan;
 
-        $pdf = Pdf::loadView('admin.cetak_laporan', compact('bulan_huruf', 'tahun', 'proyek', 'pesanan', 'total_omset_proyek', 'total_omset_pesanan', 'total_keseluruhan'));
+        $pdf = Pdf::loadView('Admin.cetak_laporan', compact('bulan_huruf', 'tahun', 'proyek', 'pesanan', 'total_omset_proyek', 'total_omset_pesanan', 'total_keseluruhan'));
         return $pdf->stream('laporan.pdf');
     }
 }
