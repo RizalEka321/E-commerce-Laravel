@@ -24,20 +24,22 @@
     <link href="{{ asset('assets/plugins/OwlCarousel2-2.3.4/css/owl.carousel.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/plugins/OwlCarousel2-2.3.4/css/owl.carousel.min.css') }}" rel="stylesheet" />
     {{-- Style Sendiri --}}
-    <link href="{{ asset('assets/pembeli/css/variable.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/pembeli/css/style.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/admin/css/loading.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/pembeli/css/variable.css') }}?ts={{ time() }}" rel="stylesheet" />
+    <link href="{{ asset('assets/pembeli/css/style.css') }}?ts={{ time() }}" rel="stylesheet" />
+    <link href="{{ asset('assets/admin/css/loading.css') }}?ts={{ time() }}" rel="stylesheet">
     @if (Request::is('/'))
-        <link href="{{ asset('assets/pembeli/css/style-home.css') }}" rel="stylesheet" />
+        <link href="{{ asset('assets/pembeli/css/style-home.css') }}?ts={{ time() }}" rel="stylesheet" />
     @elseif (Request::is('profile'))
-        <link href="{{ asset('assets/pembeli/css/style-profile.css') }}" rel="stylesheet" />
+        <link href="{{ asset('assets/pembeli/css/style-profile.css') }}?ts={{ time() }}" rel="stylesheet" />
     @else
-        <link href="{{ asset('assets/pembeli/css/style-detail-produk.css') }}" rel="stylesheet" />
-        <link href="{{ asset('assets/pembeli/css/style-pesanan-saya.css') }}" rel="stylesheet" />
-        <link href="{{ asset('assets/pembeli/css/style-pembayaran.css') }}" rel="stylesheet" />
-        <link href="{{ asset('assets/pembeli/css/style-keranjang.css') }}" rel="stylesheet" />
-        <link href="{{ asset('assets/pembeli/css/style-checkout.css') }}" rel="stylesheet" />
-        <link href="{{ asset('assets/pembeli/css/style-tambahan.css') }}" rel="stylesheet" />
+        <link href="{{ asset('assets/pembeli/css/style-detail-produk.css') }}?ts={{ time() }}"
+            rel="stylesheet" />
+        <link href="{{ asset('assets/pembeli/css/style-pesanan-saya.css') }}?ts={{ time() }}"
+            rel="stylesheet" />
+        <link href="{{ asset('assets/pembeli/css/style-pembayaran.css') }}?ts={{ time() }}" rel="stylesheet" />
+        <link href="{{ asset('assets/pembeli/css/style-keranjang.css') }}?ts={{ time() }}" rel="stylesheet" />
+        <link href="{{ asset('assets/pembeli/css/style-checkout.css') }}?ts={{ time() }}" rel="stylesheet" />
+        <link href="{{ asset('assets/pembeli/css/style-tambahan.css') }}?ts={{ time() }}" rel="stylesheet" />
     @endif
     {{-- SweetAlert --}}
     <link rel="stylesheet" href="{{ url('assets/plugins/sweetalert/sweetalert2.min.css') }}">

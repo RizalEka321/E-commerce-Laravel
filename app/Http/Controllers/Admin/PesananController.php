@@ -27,7 +27,6 @@ class PesananController extends Controller
                 $actionBtn = '<div class="btn-group">' .
                     '<a href="javascript:void(0)" type="button" id="btn-edit" class="btn-edit" onClick="edit_data(' . "'" . $row->id_pesanan . "'" . ')"><i class="fa-solid fa-pen-to-square"></i></a>' .
                     '<a href="' . route('admin.pesanan.detail', $row->id_pesanan) . '" type="button" id="btn-ubah" class="btn-ubah"><i class="fa-solid fa-eye"></i></a>' .
-                    '<a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' . "'" . $row->id_pesanan . "'" . ')"><i class="fa-solid fa-trash-can"></i></a>' .
                     '</div>';
                 return $actionBtn;
             })

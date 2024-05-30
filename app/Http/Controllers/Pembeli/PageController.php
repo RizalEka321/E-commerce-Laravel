@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Pembeli;
 
 use App\Models\Produk;
-use App\Http\Controllers\Controller;
 use App\Models\Kontak_Perusahaan;
 use App\Models\Profil_Perusahaan;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 
 

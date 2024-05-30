@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Pembeli\PemesananController;
+use App\Http\Controllers\Pembeli\PembayaranController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/pembayaran', [PemesananController::class, "pembayaran"])->name('pembayaran');
+Route::post('/pembayaran', [PembayaranController::class, "pembayaran"])->name('pembayaran');

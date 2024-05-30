@@ -60,19 +60,51 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    <p>Silahkan datang ke tempat konveksi untuk melakukan pembayaran.</p>
-                    <p>Jika Anda membutuhkan bantuan atau memiliki pertanyaan lebih lanjut seputar pembayaran, jangan
-                        ragu
-                        untuk
-                        menghubungi kami melalui nomor telepon atau email yang tercantum di halaman kontak.</p>
-                    <p>Setelah pembayaran berhasil dilakukan, tim kami akan segera memproses pesanan Anda. Kami akan
-                        memberikan
-                        konfirmasi melalui email ketika pesanan Anda telah siap untuk pengiriman atau penjemputan.</p>
-                    <p>Terima kasih atas pembelian Anda dan dukungan Anda terhadap produk kami. Kami berharap Anda
-                        menikmati
-                        produk yang Anda beli!</p>
+                    <h3>Panduan Pembayaran dengan Cara Tunai (Cash)</h3>
+                    <p>Untuk memudahkan proses pembayaran, kami menyediakan opsi pembayaran dengan cara tunai. Berikut
+                        langkah-langkah yang perlu Anda ikuti:</p>
+                    <ul>
+                        <li><strong>Persiapkan Pembayaran Tunai:</strong> Pastikan Anda telah menyiapkan jumlah yang
+                            tepat
+                            sesuai dengan total pembayaran yang tercantum dalam invoice yang telah kami tampilkan
+                            diatas.</li>
+                        <li><strong>Kunjungi Lokasi Pembayaran:</strong> Anda dapat melakukan pembayaran langsung di
+                            kantor kami
+                            yang berlokasi di:
+                            <address>
+                                CV. Lokal Industri<br>
+                                Jl. Kebangkitan No. 123 Kota Industri, Provinsi Kreatif 12345
+                            </address>
+                        </li>
+                        <li><strong>Waktu Operasional:</strong> Kami melayani pembayaran tunai pada hari kerja:
+                            <ul>
+                                <li>Senin - Jumat: 08.00 - 17.00</li>
+                                <li>Sabtu: 08.00 - 12.00</li>
+                                <li>Minggu dan Hari Libur Nasional: Tutup</li>
+                            </ul>
+                        </li>
+                        <li><strong>Konfirmasi Pembayaran:</strong> Setelah melakukan pembayaran, tim kami akan
+                            memberikan bukti
+                            pembayaran resmi. Simpan bukti ini sebagai referensi Anda.</li>
+                    </ul>
+                    <p>Jika Anda memerlukan bantuan lebih lanjut atau memiliki pertanyaan mengenai pembayaran, jangan
+                        ragu untuk
+                        menghubungi tim customer service kami atau melalui email.</p>
+                    <p>Sekali lagi, terima kasih atas kepercayaan Anda berbelanja di CV. Lokal Industri. Kami berharap
+                        produk
+                        kami dapat memberikan manfaat dan kepuasan maksimal bagi Anda. Kami siap melayani kebutuhan Anda
+                        di masa
+                        mendatang.</p>
+                    <p>Salam hangat,</p>
+                    <p><strong>Tim CV. Lokal Industri</strong></p>
+                    <p>Apabila Anda memiliki masukan atau saran, kami sangat terbuka untuk mendengarnya. Kritik dan
+                        saran Anda
+                        membantu kami untuk terus meningkatkan pelayanan dan kualitas produk kami. Terima kasih dan
+                        sampai jumpa
+                        lagi di pembelian selanjutnya!</p>
                 </div>
             </div>
+        </div>
     </section>
 @endsection
 @section('script')

@@ -47,7 +47,18 @@ class PesananSayaController extends Controller
                 return $pesanan;
             });
 
-        return view('Pembeli.page_pesanan_saya', compact('pesanan1', 'pesanan2', 'pesanan3', 'profile'));
+        $pesanan4 = Pesanan::where('users_id', Auth::user()->id)
+            ->where('status', 'Dibatalkan')
+            ->with('detail')
+            ->latest()
+            ->get()
+            ->map(function ($pesanan) {
+                $total_barang = $pesanan->detail->sum('jumlah');
+                $pesanan->total_barang = $total_barang;
+                return $pesanan;
+            });
+
+        return view('Pembeli.page_pesanan_saya', compact('pesanan1', 'pesanan2', 'pesanan3', 'pesanan4', 'profile'));
     }
 
     public function detail_pesanan(Request $request)

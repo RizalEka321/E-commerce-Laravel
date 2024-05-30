@@ -17,7 +17,6 @@ class Detail_Pesanan extends Model
         'jumlah',
         'ukuran',
     ];
-    protected $keyType = 'string';
 
     public function produk()
     {

@@ -27,4 +27,19 @@ class Proyek extends Model
         'status_pengerjaan',
         'status_pembayaran'
     ];
+
+    public static function generateId()
+    {
+        $latestOrder = self::latest()->first();
+        if (!$latestOrder) {
+            $lastId = 'PRY-0000000001';
+        } else {
+            $lastId = $latestOrder->id_pesanan;
+        }
+
+        $lastIdNumber = (int) substr($lastId, -10) + 1;
+        $newId = 'PRY-' . str_pad($lastIdNumber, 10, '0', STR_PAD_LEFT);
+
+        return $newId;
+    }
 }
