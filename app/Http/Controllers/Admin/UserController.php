@@ -39,7 +39,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|max:16|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
             'password_confirmation' => 'required|same:password',
-            'role' => 'nullable', // Make role nullable
+            'role' => 'nullable',
             'alamat' => 'nullable',
             'no_hp' => 'nullable',
             'foto'     => 'image|mimes:jpeg,png,jpg|max:2048',
@@ -51,7 +51,6 @@ class UserController extends Controller
             'username.min' => 'Username harus memiliki panjang minimal 8 karakter.',
             'username.max' => 'Username harus memiliki panjang maksimal 16 karakter.',
             'username.unique' => 'Username yang anda masukan sudah digunakan.',
-            'role.required' => 'Role wajib diisi.',
             'email.required' => 'Email wajib diisi.',
             'email.unique' => 'Email yang anda masukan sudah digunakan.',
             'email.email' => 'Email yang anda masukan tidak valid',
@@ -92,7 +91,7 @@ class UserController extends Controller
                 'foto' => "$path/$file_name",
                 'email_verified_at' => now()
             ]);
-            echo json_encode(['status' => 'TRUE']);
+            return response()->json(['status' => 'TRUE']);
         }
     }
 
@@ -101,41 +100,44 @@ class UserController extends Controller
         $id = $request->input('q');
         $user = User::find($id);
 
-        echo json_encode(['status' => 'TRUE', 'isi' => $user]);
+        return response()->json(['status' => 'TRUE', 'isi' => $user]);
     }
 
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'nama_lengkap' => 'required|min:8|max:25',
-            'username' => 'required|min:8|max:16',
-            'email' => 'required|email',
+            'username' => 'required|min:8|max:16|unique:users',
+            'email' => 'required|email|unique:users',
             'password' => 'nullable|min:8|max:16|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
             'password_confirmation' => 'nullable|same:password',
-            'role' => 'required',
+            'role' => 'nullable',
             'alamat' => 'nullable',
             'no_hp' => 'nullable',
             'foto'     => 'image|mimes:jpeg,png,jpg|max:2048',
         ], [
-            'nama_lengkap.required' => 'Nama lengkap tidak boleh kosong',
-            'nama_lengkap.min' => 'Panjang nama lengkap minimal harus 8 karakter',
-            'nama_lengkap.max' => 'Panjang nama lengkap maksimal adalah 25 karakter',
-            'username.required' => 'Username tidak boleh kosong',
-            'username.min' => 'Panjang username minimal harus 8 karakter',
-            'username.max' => 'Panjang username maksimal harus 16 karakter',
-            'username.unique' => 'Username sudah digunakan',
-            'role.required' => 'Role wajib diisi.',
+            'nama_lengkap.required' => 'Nama wajib diisi.',
+            'nama_lengkap.min' => 'Nama harus memiliki panjang minimal 8 karakter.',
+            'nama_lengkap.max' => 'Nama harus memiliki panjang maksimal 25 karakter.',
+            'username.required' => 'Username wajib diisi.',
+            'username.min' => 'Username harus memiliki panjang minimal 8 karakter.',
+            'username.max' => 'Username harus memiliki panjang maksimal 16 karakter.',
+            'username.unique' => 'Username yang anda masukan sudah digunakan.',
             'email.required' => 'Email wajib diisi.',
-            'email.unique' => 'Email ini sudah digunakan.',
-            'email.email' => 'Email tidak valid.',
-            'password.min' => 'Panjang password minimal harus 8 karakter',
-            'password.max' => 'Panjang password maksimal harus 16 karakter',
+            'email.unique' => 'Email yang anda masukan sudah digunakan.',
+            'email.email' => 'Email yang anda masukan tidak valid',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password harus memiliki panjang minimal 8 karakter.',
+            'password.max' => 'Password harus memiliki panjang maksimal 16 karakter.',
             'password.regex' => 'Password harus mengandung setidaknya satu huruf kapital, satu huruf kecil, dan satu angka',
+            'password_confirmation.required' => 'Konfirmasi Password wajib diisi.',
             'password_confirmation.same' => 'Konfirmasi Password tidak sesuai dengan Password.',
             'foto.image' => 'File harus berupa gambar.',
             'foto.mimes' => 'Format file harus jpeg, png, atau jpg.',
             'foto.max' => 'Ukuran file tidak boleh lebih dari 2 MB.',
         ]);
+
+        $role = $request->input('role', 'Pegawai'); // Set default role to Pegawai
 
         if ($validator->fails()) {
             return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
@@ -145,7 +147,7 @@ class UserController extends Controller
 
             $user->nama_lengkap = $request->nama_lengkap;
             $user->username = $request->username;
-            $user->role = $request->role;
+            $user->role = $role;
             $user->email = $request->email;
             $user->alamat = $request->alamat;
             $user->no_hp = $request->no_hp;
@@ -169,16 +171,16 @@ class UserController extends Controller
 
             $user->save();
 
-            echo json_encode(['status' => 'TRUE']);
+            return response()->json(['status' => 'TRUE']);
         }
     }
 
     public function destroy(Request $request)
     {
         $id = $request->input('q');
-        $katalog = User::find($id);
-        $katalog->delete();
+        $user = User::find($id);
+        $user->delete();
 
-        echo json_encode(['status' => 'TRUE']);
+        return response()->json(['status' => 'TRUE']);
     }
 }

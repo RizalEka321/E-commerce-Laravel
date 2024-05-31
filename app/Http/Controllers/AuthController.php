@@ -81,7 +81,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'nama_lengkap' => 'required|min:8|max:25|regex:/^[a-zA-Z\s]+$/',
             'username' => 'required|min:8|max:16|unique:users',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:users|regex:/^[A-Za-z0-9._%+-]{8,16}@gmail\.com$/',
             'password' => 'required|min:8|max:16|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
             'password_confirmation' => 'required|same:password'
         ], [
@@ -96,11 +96,12 @@ class AuthController extends Controller
             'email.required' => 'Input Email tidak boleh kosong.',
             'email.email' => 'Email yang anda masukan tidak valid.',
             'email.unique' => 'Email yang dimasukan sudah didaftarkan sebelumnya.',
+            'email.regex' => 'Email harus memiliki panjang antara 8 dan 16 karakter.',
             'password.required' => 'Input password tidak boleh kosong.',
             'password.min' => 'Password harus memiliki panjang minimal 8 karakter.',
             'password.max' => 'Password harus memiliki panjang maksimal 16 karakter.',
             'password.regex' => 'Password harus mengandung setidaknya satu huruf kapital, satu huruf kecil, dan satu angka.',
-            'password_confirmation.required' => 'Konfirmasi Password wajib diisi.',
+            'password_confirmation.required' => 'Konfirmasi password tidak boleh kosong.',
             'password_confirmation.same' => 'Konfirmasi Password tidak sesuai dengan Password.',
         ]);
 

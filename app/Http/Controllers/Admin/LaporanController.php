@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use App\Models\Proyek;
 use App\Models\Pesanan;
 use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade as Pdf;
+use Barryvdh\DomPDF\PDF as Pdf;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -66,12 +66,6 @@ class LaporanController extends Controller
                 ->with(['detail.produk', 'user'])
                 ->get();
 
-            // Periksa apakah ada laporan yang ditemukan
-            if ($proyek->isEmpty() && $pesanan->isEmpty()) {
-                // Jika tidak ada laporan ditemukan, kembalikan pesan informasi
-                return redirect()->back()->with('error', 'Periode waktu yang Anda pilih belum memiliki data penjualan untuk dilaporkan.');
-            }
-
             // Total Omset Proyek
             $total_omset_proyek = Proyek::where('status_pembayaran', 'Lunas')
                 ->whereMonth('created_at', $bulan)
@@ -87,8 +81,29 @@ class LaporanController extends Controller
             // Total Keseluruhan
             $total_keseluruhan = $total_omset_proyek + $total_omset_pesanan;
 
-            $pdf = Pdf::loadView('admin.cetak_laporan', compact('bulan_huruf', 'tahun', 'proyek', 'pesanan', 'total_omset_proyek', 'total_omset_pesanan', 'total_keseluruhan'));
-            return $pdf->stream('laporan.pdf');
+            // Periksa apakah ada laporan yang ditemukan
+            if ($proyek->isEmpty() && $pesanan->isEmpty()) {
+                if ($request->expectsJson()) {
+                    return response()->json(['status' => 'FALSE', 'error' => 'Periode waktu yang Anda pilih belum memiliki data penjualan untuk dilaporkan.']);
+                }
+            } else {
+                if ($request->expectsJson()) {
+                    return response()->json([
+                        'status' => 'TRUE',
+                        'bulan_huruf' => $bulan_huruf,
+                        'tahun' => $tahun,
+                        'proyek' => $proyek,
+                        'pesanan' => $pesanan,
+                        'total_omset_proyek' => $total_omset_proyek,
+                        'total_omset_pesanan' => $total_omset_pesanan,
+                        'total_keseluruhan' => $total_keseluruhan,
+                    ]);
+                } else {
+                    // Return JSON response
+                    $pdf = Pdf::loadView('admin.cetak_laporan', compact('bulan_huruf', 'tahun', 'proyek', 'pesanan', 'total_omset_proyek', 'total_omset_pesanan', 'total_keseluruhan'));
+                    return $pdf->stream('laporan.pdf');
+                }
+            }
         }
     }
 }
