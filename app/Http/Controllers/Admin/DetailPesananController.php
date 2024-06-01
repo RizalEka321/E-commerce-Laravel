@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Pesanan;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Detail_Pesanan;
 use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 
 class DetailPesananController extends Controller
 {

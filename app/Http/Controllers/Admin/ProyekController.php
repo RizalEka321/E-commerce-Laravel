@@ -168,10 +168,9 @@ class ProyekController extends Controller
             $foto_desain->move(public_path($path), $file_desain);
 
             // Perhitungan total pembayaran
-            $total_pembayaran = $request->jumlah * $request->harga_satuan;
-
-            // Validasi nominal DP tidak boleh lebih besar dari total pembayaran
-            if ($request->nominal_dp > $total_pembayaran) {
+            $total = $request->harga_satuan * $request->jumlah;
+            $dp = ($total * 50) / 100;
+            if ($request->nominal_dp < $dp) {
                 return response()->json(['errors' => ['nominal_dp' => ['Nominal DP proyek tidak bisa lebih dari harga total keseluruhan proyek.']]]);
             }
 
@@ -187,15 +186,10 @@ class ProyekController extends Controller
                 'jumlah' => $request->jumlah,
                 'harga_satuan' => $request->harga_satuan,
                 'deadline' => $request->deadline,
+                'nominal_dp' => $request->nominal_dp,
+                'status_pembayaran' => 'dp',
                 'status_pengerjaan' => 'diproses',
             ];
-
-            if ($request->nominal_dp == null) {
-                $proyekData['status_pembayaran'] = 'belum';
-            } else {
-                $proyekData['nominal_dp'] = $request->nominal_dp;
-                $proyekData['status_pembayaran'] = 'dp';
-            }
 
             Proyek::create($proyekData);
 

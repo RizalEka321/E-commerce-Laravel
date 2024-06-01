@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Validator;
 
 class LaporanController extends Controller
 {
+    protected $pdf;
+
+    // Inject the PDF service into the controller
+    public function __construct(PDF $pdf)
+    {
+        $this->pdf = $pdf;
+    }
+
     public function index()
     {
         return view('Admin.laporan');
@@ -20,7 +28,7 @@ class LaporanController extends Controller
 
     public function cetak(Request $request)
     {
-        // Validasi bulan dan tahun menggunakan Validator
+        // Validasi bulan dan tahun
         $validator = Validator::make($request->all(), [
             'bulan_tahun' => 'required|date_format:Y-m'
         ], [
@@ -51,20 +59,11 @@ class LaporanController extends Controller
                 12 => 'Desember'
             ];
 
-            // Ubah format bulan menjadi huruf Indonesia
             $bulan_huruf = strtoupper($nama_bulan[intval($bulan)]);
 
             // Lakukan pengambilan data Proyek berdasarkan bulan dan tahun dari kolom created_at
-            $proyek = Proyek::where('status_pembayaran', 'Lunas')
-                ->whereMonth('created_at', $bulan)
-                ->whereYear('created_at', $tahun)
-                ->get();
-
-            $pesanan = Pesanan::where('status', 'Selesai')
-                ->whereMonth('created_at', $bulan)
-                ->whereYear('created_at', $tahun)
-                ->with(['detail.produk', 'user'])
-                ->get();
+            $proyek = Proyek::where('status_pembayaran', 'Lunas')->whereMonth('created_at', $bulan)->whereYear('created_at', $tahun)->get();
+            $pesanan = Pesanan::where('status', 'Selesai')->whereMonth('created_at', $bulan)->whereYear('created_at', $tahun)->with(['detail.produk', 'user'])->get();
 
             // Total Omset Proyek
             $total_omset_proyek = Proyek::where('status_pembayaran', 'Lunas')
@@ -73,17 +72,16 @@ class LaporanController extends Controller
                 ->sum(DB::raw('jumlah * harga_satuan'));
 
             // Total Omset Pesanan
-            $total_omset_pesanan = Pesanan::where('status', 'Selesai')
-                ->whereMonth('created_at', $bulan)
-                ->whereYear('created_at', $tahun)
-                ->sum('total');
+            $total_omset_pesanan = Pesanan::where('status', 'Selesai')->sum('total');
 
             // Total Keseluruhan
             $total_keseluruhan = $total_omset_proyek + $total_omset_pesanan;
 
-            // Periksa apakah ada laporan yang ditemukan
             if ($proyek->isEmpty() && $pesanan->isEmpty()) {
                 if ($request->expectsJson()) {
+                    return response()->json(['status' => 'FALSE', 'error' => 'Periode waktu yang Anda pilih belum memiliki data penjualan untuk dilaporkan.']);
+                } else {
+                    return redirect()->back()->withErrors('Periode waktu yang Anda pilih belum memiliki data penjualan untuk dilaporkan.')->withInput();
                     return response()->json(['status' => 'FALSE', 'error' => 'Periode waktu yang Anda pilih belum memiliki data penjualan untuk dilaporkan.']);
                 }
             } else {
@@ -98,11 +96,9 @@ class LaporanController extends Controller
                         'total_omset_pesanan' => $total_omset_pesanan,
                         'total_keseluruhan' => $total_keseluruhan,
                     ]);
-                } else {
-                    // Return JSON response
-                    $pdf = Pdf::loadView('admin.cetak_laporan', compact('bulan_huruf', 'tahun', 'proyek', 'pesanan', 'total_omset_proyek', 'total_omset_pesanan', 'total_keseluruhan'));
-                    return $pdf->stream('laporan.pdf');
                 }
+                $pdf = $this->pdf->loadView('admin.cetak_laporan', compact('bulan_huruf', 'tahun', 'proyek', 'pesanan', 'total_omset_proyek', 'total_omset_pesanan', 'total_keseluruhan'));
+                return $pdf->stream('laporan.pdf');
             }
         }
     }

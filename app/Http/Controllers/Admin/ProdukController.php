@@ -88,19 +88,21 @@ class ProdukController extends Controller
             'jenis_ukuran.*.max' => 'Panjang jenis ukuran maksimal adalah 255 karakter.',
         ]);
 
-
         if ($validator->fails()) {
             return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
         }
 
+        $id_produk = Produk::generateID();
+
         // Simpan foto
         $foto = $request->file('foto');
-        $file_name = $request->judul . '.' . $foto->getClientOriginalExtension();
+        $file_name = $id_produk . '.' . $foto->getClientOriginalExtension();
         $path = 'data/Produk';
         $foto->move($path, $file_name);
 
         // Simpan produk
-        $produk = Produk::create([
+        Produk::create([
+            'id_produk' => $id_produk,
             'judul' => Str::title($request->judul),
             'slug' => Str::slug($request->judul),
             'deskripsi' => $request->deskripsi,
@@ -117,7 +119,7 @@ class ProdukController extends Controller
 
             // Menyimpan relasi antara produk dan ukuran di tabel pivot
             Ukuran_Produk::create([
-                'produk_id' => $produk->id_produk,
+                'produk_id' => $id_produk,
                 'ukuran_id' => $ukuran->id_ukuran,
             ]);
         }
@@ -188,7 +190,7 @@ class ProdukController extends Controller
             }
 
             $foto = $request->file('foto');
-            $file_name = $request->judul . '.' . $foto->extension();
+            $file_name = $produk->id_produk . '.' . $foto->extension();
             $path = 'data/Produk';
             $foto->move(public_path($path), $file_name);
             $produk->foto = "$path/$file_name";

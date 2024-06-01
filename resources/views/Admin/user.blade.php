@@ -85,48 +85,51 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="role">Role :</label>
-                                    <input type="hidden" id="role" name="role" value="Pegawai">
-                                    <input type="text" class="form-control" value="Pegawai" disabled>
+                                    <select id="role" name="role" class="form-control">
+                                        <option value="Pegawai">Pegawai</option>
+                                        <option value="Pembeli">Pembeli</option>
+                                    </select>
                                     <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="mb-3">
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="alamat">Alamat(Opsional) :</label>
+                            <textarea id="alamat" name="alamat" class="form-control" placeholder="Masukkan Alamat" id="alamat">{{ old('alamat') }}</textarea>
+                            <span class="form-text text-danger error-message"></span>
+                        </div>
+                    </div>
+                    <div class="row gx-5 mb-3">
+                        <div class="col">
                             <div class="form-group">
-                                <label for="alamat">Alamat(Opsional) :</label>
-                                <textarea id="alamat" name="alamat" class="form-control" placeholder="Masukkan Alamat" id="alamat">{{ old('alamat') }}</textarea>
+                                <label for="password">Password:</label>
+                                <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="Password">
                                 <span class="form-text text-danger error-message"></span>
                             </div>
                         </div>
-                        <div class="row gx-5 mb-3">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="password">Password:</label>
-                                    <input type="password" class="form-control" id="password" name="password"
-                                        placeholder="Password">
-                                    <span class="form-text text-danger error-message"></span>
-                                </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="harga_satuan">Konfirmasi Password :</label>
+                                <input type="password" class="form-control" id="password_confirmation"
+                                    name="password_confirmation" placeholder="Konfirmasi Password">
+                                <span class="form-text text-danger error-message"></span>
                             </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="harga_satuan">Konfirmasi Password :</label>
-                                    <input type="password" class="form-control" id="password_confirmation"
-                                        name="password_confirmation" placeholder="Konfirmasi Password">
-                                    <span class="form-text text-danger error-message"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
-                            <a type="button" id="btn-close" class="btn-hapus"><i
-                                    class='nav-icon fas fa-arrow-left'></i>&nbsp;&nbsp; KEMBALI</a>
-                            <button type="submit" id="btn-simpan" class="btn-tambah"><i
-                                    class="nav-icon fas fa-save"></i>&nbsp;&nbsp; TAMBAH</button>
                         </div>
                     </div>
-                </form>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <a type="button" id="btn-close" class="btn-hapus"><i
+                                class='nav-icon fas fa-arrow-left'></i>&nbsp;&nbsp; KEMBALI</a>
+                        <button type="submit" id="btn-simpan" class="btn-tambah"><i
+                                class="nav-icon fas fa-save"></i>&nbsp;&nbsp; TAMBAH</button>
+                    </div>
             </div>
+            </form>
         </div>
+    </div>
     </div>
 @endsection
 @section('script')

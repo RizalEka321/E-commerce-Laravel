@@ -7,12 +7,14 @@ use Midtrans\Config;
 use App\Models\Ukuran;
 use App\Models\Pesanan;
 use App\Models\Keranjang;
+use App\Mail\PesananDipesan;
 use Illuminate\Http\Request;
 use App\Models\Detail_Pesanan;
 use App\Models\Profil_Perusahaan;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 
@@ -128,14 +130,19 @@ class PembayaranController extends Controller
                         'jumlah' => $item->jumlah,
                         'ukuran' => $item->ukuran,
                     ]);
+                    $stokItem = DB::table('ukuran_produk')
+                        ->join('ukuran', 'ukuran_produk.ukuran_id', '=', 'ukuran.id_ukuran')
+                        ->where('ukuran_produk.produk_id', $item->produk->id_produk)
+                        ->where('ukuran.id_ukuran', $item->ukuran_id)
+                        ->select('ukuran.*')
+                        ->first();
 
-                    // Kurangi stok di tabel pivot
-                    $stokItem = Ukuran::where('id_ukuran', $item->id_ukuran)->first();
-
-                    $newStok = $stokItem->stok - $item->jumlah;
-                    $ukuran = Ukuran::where('id_ukuran', $stokItem->id_ukuran)->first();
-                    $ukuran->stok = $newStok;
-                    $ukuran->save();
+                    if ($stokItem->stok > $item->jumlah) {
+                        $newStok = $stokItem->stok - $item->jumlah;
+                        $ukuran = Ukuran::where('id_ukuran', $stokItem->id_ukuran)->first();
+                        $ukuran->stok = $newStok;
+                        $ukuran->save();
+                    }
                 }
 
                 // Hapus data keranjang
@@ -159,16 +166,24 @@ class PembayaranController extends Controller
                     ]);
 
                     // Kurangi stok di tabel pivot
-                    $stokItem = Ukuran::where('id_ukuran', $item->id_ukuran)->first();
+                    $stokItem = DB::table('ukuran_produk')
+                        ->join('ukuran', 'ukuran_produk.ukuran_id', '=', 'ukuran.id_ukuran')
+                        ->where('ukuran_produk.produk_id', $item->produk->id_produk)
+                        ->where('ukuran.id_ukuran', $item->ukuran_id)
+                        ->select('ukuran.*')
+                        ->first();
 
-                    $newStok = $stokItem->stok - $item->jumlah;
-                    $ukuran = Ukuran::where('id_ukuran', $stokItem->id_ukuran)->first();
-                    $ukuran->stok = $newStok;
-                    $ukuran->save();
+                    if ($stokItem->stok > $item->jumlah) {
+                        $newStok = $stokItem->stok - $item->jumlah;
+                        $ukuran = Ukuran::where('id_ukuran', $stokItem->id_ukuran)->first();
+                        $ukuran->stok = $newStok;
+                        $ukuran->save();
+                    }
                 }
 
                 // Hapus data keranjang
                 Keranjang::where('users_id', Auth::user()->id)->where('status', 'Ya')->delete();
+                Mail::to(Auth::user()->email)->send(new PesananDipesan($id_pesanan));
                 return response()->json(['status' => TRUE, 'redirect' => '/pembayaran-cash/' . $id]);
             }
         }
@@ -183,6 +198,11 @@ class PembayaranController extends Controller
                 $pesanan = Pesanan::where('id_pesanan', $request->order_id)->first();
                 $pesanan->update([
                     'status' => 'Diproses',
+                ]);
+            } else {
+                $pesanan = Pesanan::where('id_pesanan', $request->order_id)->first();
+                $pesanan->update([
+                    'status' => 'Dibatalkan',
                 ]);
             }
         }

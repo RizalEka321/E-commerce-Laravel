@@ -6,8 +6,9 @@
         <div class="container">
             <div class="tab">
                 <button class="btn-tab" id="M" onclick="buka_tab(event, 'Menunggu','M')">Menunggu Pembayaran</button>
-                <button class="btn-tab" id="D" onclick="buka_tab(event, 'Diproses','D')">Diproses</button>
+                <button class="btn-tab" id="P" onclick="buka_tab(event, 'Proses','P')">Diproses</button>
                 <button class="btn-tab" id="S" onclick="buka_tab(event, 'Selesai','S')">Selesai</button>
+                <button class="btn-tab" id="B" onclick="buka_tab(event, 'Batal','B')">Dibatalkan</button>
             </div>
 
             <div id="Menunggu" class="tabcontent">
@@ -83,7 +84,7 @@
                 @endforeach
             @endif
         </div>
-        <div id="Diproses" class="tabcontent">
+        <div id="Proses" class="tabcontent">
             @if ($pesanan2->Isempty())
                 <div class="card kosong">
                     <div class="card-body">
@@ -139,7 +140,7 @@
         @endif
     </div>
     <div id="Selesai" class="tabcontent">
-        @if ($pesanan1->Isempty())
+        @if ($pesanan3->Isempty())
             <div class="card kosong">
                 <div class="card-body">
                     <div class="konten">
@@ -193,30 +194,84 @@
         @endforeach
     @endif
 </div>
+<div id="Batal" class="tabcontent">
+    @if ($pesanan4->Isempty())
+        <div class="card kosong">
+            <div class="card-body">
+                <div class="konten">
+                    <i class="fa-regular fa-hourglass"></i>
+                    <h6>Belum Terdapat Pesanan</h6>
+                </div>
+            </div>
+        </div>
+    @else
+        @foreach ($pesanan4 as $item)
+            <div class="card">
+                <div class="card-body">
+                    @foreach ($item->detail as $d)
+                        <div class="atas">
+                            <h5 class="id-pesanan">ID Pesanan : {{ $item->id_pesanan }}</h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-4 foto">
+                                        <div class="d-flex justify-content-between">
+                                            <img src="{{ asset($d->produk->foto) }}" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8 foto-detail">
+                                        <h5>{{ $d->produk->judul }}. Size, {{ $d->ukuran }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="total-harga">
+                                    <h6>Total Belanja</h6>
+                                    <h5>Rp.
+                                        {{ number_format($item->total, 0, ',', '.') }}
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    @break
+                @endforeach
+                <div class="row bawah">
+                    <div class="col-lg-4 text-end">
+                        <a type="button" class="btn-detail" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal"
+                            onclick="detail('{{ $item->id_pesanan }}')">Lihat Detail
+                            Pesanan</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+@endif
+</div>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Detail
-                    Pesanan</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="modal-konten">
-                    <div class="atas" id="pesanan-id">
-                    </div>
-                    <div id="detail">
-                    </div>
-                    <div class="row total">
-                        <div class="col-lg-3">
-                            <div class="row">
-                                <div class="col-lg-6 kiri" id="kiri">
-                                </div>
-                                <div class="col-lg-6 kanan text-end" id="kanan">
-                                </div>
+aria-hidden="true">
+<div class="modal-dialog modal-xl">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Detail
+                Pesanan</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="modal-konten">
+                <div class="atas" id="pesanan-id">
+                </div>
+                <div id="detail">
+                </div>
+                <div class="row total">
+                    <div class="col-lg-3">
+                        <div class="row">
+                            <div class="col-lg-6 kiri" id="kiri">
+                            </div>
+                            <div class="col-lg-6 kanan text-end" id="kanan">
                             </div>
                         </div>
                     </div>
@@ -224,6 +279,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 </div>
 </section>
