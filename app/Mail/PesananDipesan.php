@@ -11,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class PesananMail extends Mailable
+class PesananDipesan extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -42,7 +42,7 @@ class PesananMail extends Mailable
     {
         $pesanan = Pesanan::where('users_id', Auth::user()->id)->where('id_pesanan', $this->id_pesanan)->with('detail')->first();
         return new Content(
-            view: 'Pembeli.email.emailpesanan',
+            view: 'Email.pesanan.emailpesanan',
             with: [
                 'pesanan' => $pesanan,
             ],

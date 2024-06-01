@@ -88,7 +88,6 @@ class ProdukController extends Controller
             'jenis_ukuran.*.max' => 'Panjang jenis ukuran maksimal adalah 255 karakter.',
         ]);
 
-
         if ($validator->fails()) {
             return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
         }

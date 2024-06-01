@@ -6,8 +6,8 @@ use Midtrans\Snap;
 use Midtrans\Config;
 use App\Models\Ukuran;
 use App\Models\Pesanan;
-use App\Mail\PesananMail;
 use App\Models\Keranjang;
+use App\Mail\PesananDipesan;
 use Illuminate\Http\Request;
 use App\Models\Detail_Pesanan;
 use App\Models\Profil_Perusahaan;
@@ -183,7 +183,7 @@ class PembayaranController extends Controller
 
                 // Hapus data keranjang
                 Keranjang::where('users_id', Auth::user()->id)->where('status', 'Ya')->delete();
-                Mail::to(Auth::user()->email)->send(new PesananMail($id_pesanan));
+                Mail::to(Auth::user()->email)->send(new PesananDipesan($id_pesanan));
                 return response()->json(['status' => TRUE, 'redirect' => '/pembayaran-cash/' . $id]);
             }
         }
