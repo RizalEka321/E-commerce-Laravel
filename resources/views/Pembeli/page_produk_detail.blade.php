@@ -105,6 +105,17 @@
                 var url = $('#form_tambah').attr('action');
                 var formData = new FormData($('#form_tambah')[0]);
 
+                Swal.fire({
+                    title: "Sedang memproses",
+                    html: "Mohon tunggu sebentar...",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    willOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
                 // Lakukan AJAX request
                 $.ajax({
                     url: url,
@@ -114,6 +125,8 @@
                     processData: false,
                     contentType: false,
                     success: function(data) {
+                        Swal.close();
+
                         if (data.errors) {
                             let errorMessages = '';
                             $.each(data.errors, function(key, value) {
@@ -135,6 +148,13 @@
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.log(jqXHR);
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Terjadi kesalahan saat memproses memasukkan keranjang.',
+                            icon: 'error',
+                            confirmButtonText: 'Oke',
+                            confirmButtonColor: '#000000'
+                        });
                     },
                     complete: function() {
                         // Lakukan sesuatu setelah request selesai (jika diperlukan)
@@ -145,6 +165,7 @@
         // Event handler untuk tombol "Beli Sekarang"
         $('#btn_beli_sekarang').click(function(event) {
             event.preventDefault();
+
             // Check if user is logged in
             var isLoggedIn = "{{ Auth::check() }}";
             if (!isLoggedIn) {
@@ -157,6 +178,18 @@
                 var url = $('#form_tambah').attr('action');
                 var formData = new FormData($('#form_tambah')[0]);
 
+                // Tampilkan SweetAlert dengan indikator loading
+                Swal.fire({
+                    title: "Sedang memproses",
+                    html: "Mohon tunggu sebentar...",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    willOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
                 // Lakukan AJAX request
                 $.ajax({
                     url: url,
@@ -166,6 +199,9 @@
                     processData: false,
                     contentType: false,
                     success: function(data) {
+                        // Tutup SweetAlert setelah request selesai
+                        Swal.close();
+
                         if (data.errors) {
                             let errorMessages = '';
                             $.each(data.errors, function(key, value) {
@@ -192,8 +228,9 @@
                                 if (result.isConfirmed) {
                                     window.location.href = "{{ url('/checkout') }}";
                                 } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                    // Ajax request untuk membatalkan checkout
                                     $.ajax({
-                                        url: "{{ url('/checkout/batalkan') }}",
+                                        url: "{{ url('/checkout-langsung/batalkan') }}",
                                         type: "POST",
                                         dataType: "JSON",
                                         processData: false,
@@ -212,6 +249,13 @@
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.log(jqXHR);
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Terjadi kesalahan saat memproses checkout.',
+                            icon: 'error',
+                            confirmButtonText: 'Oke',
+                            confirmButtonColor: '#000000'
+                        });
                     },
                     complete: function() {
                         // Lakukan sesuatu setelah request selesai (jika diperlukan)

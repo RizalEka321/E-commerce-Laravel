@@ -22,7 +22,7 @@ class KontakController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'deskripsi' => 'required|string|min:2|max:500',
-            'alamat' => 'required|string|min:2|max:100', // Mengubah tipe validasi dari numeric menjadi string
+            'alamat' => 'required|string|min:2|max:100',
             'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
             'instagram' => 'required|string|min:2|max:100',
             'whatsapp' => 'required|numeric',
@@ -89,6 +89,7 @@ class KontakController extends Controller
             $profil->save();
             $kontak->save();
 
+            aktivitas('Memperbarui Profile Perusahaan');
             return response()->json(['status' => true]);
         }
     }

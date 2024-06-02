@@ -99,7 +99,7 @@
                             </div>
                         </div>
                         <!-- /.card-body -->
-                        <div class="card-footer">
+                        <div>
                             <a type="button" id="btn-close" class="btn-hapus"><i
                                     class='nav-icon fas fa-arrow-left'></i>&nbsp;&nbsp; KEMBALI</a>
                             <button type="submit" id="btn-simpan" class="btn-tambah"><i
@@ -107,6 +107,49 @@
                         </div>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Produk</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <div id="detail-foto" data-foto-url="{{ asset('') }}">
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <form>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <div class="form-group">
+                                            <label for="judul">Nama :</label>
+                                            <div id="detail-judul"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-group">
+                                            <label for="harga">Harga:</label>
+                                            <div id="detail-harga"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-group row">
+                                            <label for="ukuran">Ukuran :</label>
+                                            <div id="detail-ukuran"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -190,7 +233,8 @@
                         data: 'action',
                         name: 'action',
                         orderable: true,
-                        searchable: true
+                        searchable: true,
+                        className: 'text-center'
                     },
                     {
                         data: 'DT_RowIndex',
@@ -341,5 +385,50 @@
                 }
             })
         };
+
+        function detail_data(id) {
+            $.ajax({
+                url: "{{ url('/admin/produk/detail') }}",
+                type: "POST",
+                data: {
+                    q: id
+                },
+                dataType: "JSON",
+                success: function(response) {
+                    if (response.status) {
+                        var isi = response.produk;
+                        var harga = number_format(isi.harga);
+                        const fotoPath = isi.foto;
+                        const baseUrl = $('#detail-foto').data('foto-url');
+                        const fotoUrl = `${baseUrl}${fotoPath}`;
+                        $('#detail-judul').html(`<h6>${isi.judul}</h6>`);
+                        $('#detail-harga').html(`<h6>${harga}</h6>`);
+                        $('#detail-foto').html(
+                            `<img src="${fotoUrl}" alt="Foto Detail" width="100%" height="400">`);
+                        // Untuk setiap nilai ukuran, tandai centang pada checkbox yang sesuai
+                        $('#detail-ukuran').html('');
+                        isi.ukuran.forEach(function(u) {
+                            $('#detail-ukuran').append(
+                                `<h6>Ukuran ${u.jenis_ukuran} Jumlahnya ${u.stok}</h6>`
+                            );
+                        });
+                    } else {
+                        Swal.fire("SALAH BOS", "Tulisen kang bener", "error");
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    Swal.fire('Upss..!', 'Terjadi kesalahan jaringan error message: ' + errorThrown,
+                        'error');
+                }
+            });
+        };
+
+        function number_format(number) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(number).replace('IDR', 'Rp.').trim();
+        }
     </script>
 @endsection

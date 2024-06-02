@@ -21,8 +21,6 @@
     <link rel="stylesheet" href="{{ url('assets/plugins/fontawesome/css/all.css') }}">
     {{-- SweetAlert --}}
     <link rel="stylesheet" href="{{ url('assets/plugins/sweetalert/sweetalert2.min.css') }}">
-    {{-- Datepicker --}}
-    <link rel="stylesheet" href="{{ url('assets/plugins/datepicker/bootstrap-datepicker.min.css') }}">
 
 </head>
 
@@ -49,8 +47,6 @@
     <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
     {{-- Jquery --}}
     <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
-    {{-- Datepicker --}}
-    <script src="{{ asset('assets/plugins/datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     {{-- Sweetalert --}}
     <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
     {{-- Data Tables --}}

@@ -20,7 +20,7 @@ class LogController extends Controller
         return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
-                $actionBtn = '<div class="btn-group"><a href="javascript:void(0)" type="button" id="btn-edit" class="btn-ubah" onClick="detail_data(' . "'" . $row->id_log . "'" . ')"><i class="fa-solid fa-eye"></i></a>
+                $actionBtn = '<div class="btn-group"><a href="javascript:void(0)" type="button" id="btn-edit" class="btn-ubah" onClick="detail_data(' . "'" . $row->id_log . "'" . ')"><i class="fa-solid fa-eye"></i> Detail</a>
                         </div>';
                 return $actionBtn;
             })

@@ -147,7 +147,8 @@
                         data: 'action',
                         name: 'action',
                         orderable: true,
-                        searchable: true
+                        searchable: true,
+                        className: 'text-center'
                     },
                     {
                         data: 'DT_RowIndex',
@@ -169,8 +170,8 @@
                         name: 'metode_pembayaran',
                     },
                     {
-                        data: 'status_pengerjaan',
-                        name: 'status_pengerjaan',
+                        data: 'status',
+                        name: 'status',
                     }
                 ]
             });

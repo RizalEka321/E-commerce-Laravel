@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Proyek;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Proyek;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 
 class ProyekController extends Controller
 {
@@ -21,8 +22,14 @@ class ProyekController extends Controller
         return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
-                $actionBtn = '<div class="btn-group"><a href="javascript:void(0)" type="button" id="btn-edit" class="btn-edit" onClick="edit_data(' . "'" . $row->id_proyek . "'" . ')"><i class="fa-solid fa-pen-to-square"></i></a><a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' . "'" . $row->id_proyek . "'" . ')"><i class="fa-solid fa-trash-can"></i></a>
-                        </div>';
+                $actionBtn = '<div class="btn-group">';
+                if (Auth::user()->role == 'Pegawai') {
+                    $actionBtn .= '<a href="javascript:void(0)" type="button" id="btn-edit" class="btn-edit" onClick="edit_data(' . "'" . $row->id_proyek . "'" . ')"><i class="fa-solid fa-pen-to-square"></i></a>';
+                    $actionBtn .= '<a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' . "'" . $row->id_proyek . "'" . ')"><i class="fa-solid fa-trash-can"></i></a>';
+                } elseif (Auth::user()->role == 'Pemilik') {
+                    $actionBtn .= '<a href="javascript:void(0)" type="button" id="btn-edit" class="btn-ubah" onClick="edit_data(' . "'" . $row->id_proyek . "'" . ')"><i class="fa-solid fa-eye"></i> Detail</a>';
+                }
+                $actionBtn .= '</div>';
                 return $actionBtn;
             })
             ->addColumn('total', function ($row) {
@@ -34,58 +41,65 @@ class ProyekController extends Controller
                 return $total;
             })
             ->addColumn('pembayaran', function ($row) {
-                $pembayaranOptions = ['Belum', 'DP', 'Lunas'];
-                $dropdown = '<select class="form-control pembayaran-dropdown" data-id="' . $row->id_proyek . '"';
+                if (Auth::user()->role == 'Pegawai') {
+                    $pembayaranOptions = ['Belum', 'DP', 'Lunas'];
+                    $dropdown = '<select class="form-control pembayaran-dropdown" data-id="' . $row->id_proyek . '"';
+                    switch ($row->status_pembayaran) {
+                        case 'Belum':
+                            $dropdown .= ' style="background-color: #C51605; color: white;"';
+                            break;
+                        case 'DP':
+                            $dropdown .= ' style="background-color: #0D1282; color: white;"';
+                            break;
+                        case 'Lunas':
+                            $dropdown .= ' style="background-color: #009100; color: white;"';
+                            break;
+                        default:
+                            break;
+                    }
 
-                switch ($row->status_pembayaran) {
-                    case 'Belum':
-                        $dropdown .= ' style="background-color: #C51605; color: white;"';
-                        break;
-                    case 'DP':
-                        $dropdown .= ' style="background-color: #0D1282; color: white;"';
-                        break;
-                    case 'Lunas':
-                        $dropdown .= ' style="background-color: #009100; color: white;"';
-                        break;
-                    default:
-                        break;
+                    $dropdown .= '>';
+
+                    foreach ($pembayaranOptions as $option) {
+                        $selected = ($row->status_pembayaran == $option) ? 'selected' : '';
+                        $dropdown .= '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
+                    }
+                    $dropdown .= '</select>';
+                } elseif (Auth::user()->role == 'Pemilik') {
+                    $dropdown = $row->status_pembayaran;
                 }
-
-                $dropdown .= '>';
-
-                foreach ($pembayaranOptions as $option) {
-                    $selected = ($row->status_pembayaran == $option) ? 'selected' : '';
-                    $dropdown .= '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
-                }
-                $dropdown .= '</select>';
                 return $dropdown;
             })
 
             ->addColumn('pengerjaan', function ($row) {
-                $pengerjaanOptions = ['Diproses', 'Selesai', 'Dibatalkan'];
-                $dropdown = '<select class="form-control pengerjaan-dropdown" data-id="' . $row->id_proyek . '"';
+                if (Auth::user()->role == 'Pegawai') {
+                    $pengerjaanOptions = ['Diproses', 'Selesai', 'Dibatalkan'];
+                    $dropdown = '<select class="form-control pengerjaan-dropdown" data-id="' . $row->id_proyek . '"';
 
-                switch ($row->status_pengerjaan) {
-                    case 'Diproses':
-                        $dropdown .= ' style="background-color: #0D1282; color: white;"';
-                        break;
-                    case 'Selesai':
-                        $dropdown .= ' style="background-color: #009100; color: white;"';
-                        break;
-                    case 'Dibatalkan':
-                        $dropdown .= ' style="background-color: #C51605; color: white;"';
-                        break;
-                    default:
-                        break;
+                    switch ($row->status_pengerjaan) {
+                        case 'Diproses':
+                            $dropdown .= ' style="background-color: #0D1282; color: white;"';
+                            break;
+                        case 'Selesai':
+                            $dropdown .= ' style="background-color: #009100; color: white;"';
+                            break;
+                        case 'Dibatalkan':
+                            $dropdown .= ' style="background-color: #C51605; color: white;"';
+                            break;
+                        default:
+                            break;
+                    }
+
+                    $dropdown .= '>';
+
+                    foreach ($pengerjaanOptions as $option) {
+                        $selected = ($row->status_pengerjaan == $option) ? 'selected' : '';
+                        $dropdown .= '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
+                    }
+                    $dropdown .= '</select>';
+                } elseif (Auth::user()->role == 'Pemilik') {
+                    $dropdown = $row->status_pengerjaan;
                 }
-
-                $dropdown .= '>';
-
-                foreach ($pengerjaanOptions as $option) {
-                    $selected = ($row->status_pengerjaan == $option) ? 'selected' : '';
-                    $dropdown .= '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
-                }
-                $dropdown .= '</select>';
                 return $dropdown;
             })
 
@@ -154,17 +168,19 @@ class ProyekController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
         } else {
+            $id_proyek = Proyek::generateID();
+
             // Folder
             $path = 'data/Proyek';
 
             // Foto Logo
             $foto_logo = $request->foto_logo;
-            $file_logo = 'logo' . '.' . $foto_logo->extension();
+            $file_logo = $id_proyek . '_logo' . '.' . $foto_logo->extension();
             $foto_logo->move(public_path($path), $file_logo);
 
             // Foto Desain
             $foto_desain = $request->foto_desain;
-            $file_desain =  'desain' . '.' . $foto_desain->extension();
+            $file_desain = $id_proyek . 'desain' . '.' . $foto_desain->extension();
             $foto_desain->move(public_path($path), $file_desain);
 
             // Perhitungan total pembayaran
@@ -175,6 +191,7 @@ class ProyekController extends Controller
             }
 
             $proyekData = [
+                'id_proyek' => $id_proyek,
                 'nama_pemesan' => Str::title($request->nama_pemesan),
                 'instansi' => Str::title($request->instansi),
                 'no_hp' => $request->no_hp,
@@ -196,7 +213,6 @@ class ProyekController extends Controller
             return response()->json(['status' => true]);
         }
     }
-
 
     public function edit(Request $request)
     {
@@ -283,7 +299,6 @@ class ProyekController extends Controller
             // Folder
             $path = 'data/Proyek';
 
-            // Foto Logo
             if ($request->hasFile('foto_logo')) {
                 if ($proyek->foto_logo) {
                     if (file_exists(public_path($proyek->foto_logo))) {
@@ -292,7 +307,7 @@ class ProyekController extends Controller
                 }
 
                 $foto_logo = $request->file('foto_logo');
-                $file_logo = 'logo' . '.' . $foto_logo->extension();
+                $file_logo = $id . 'logo' . '.' . $foto_logo->extension();
                 $foto_logo->move(public_path($path), $file_logo);
                 $proyek->foto_logo = "$path/$file_logo";
             }
@@ -306,13 +321,12 @@ class ProyekController extends Controller
                 }
 
                 $foto_desain = $request->file('foto_desain');
-                $file_desain = 'desain' . '.' . $foto_desain->extension();
+                $file_desain = $id . 'desain' . '.' . $foto_desain->extension();
                 $foto_desain->move(public_path($path), $file_desain);
                 $proyek->foto_desain = "$path/$file_desain";
             }
 
             $proyek->save();
-
 
             return response()->json(['status' => true]);
         }

@@ -56,7 +56,7 @@ class AuthController extends Controller
                     } else {
                         // Jika tidak ada, arahkan sesuai peran pengguna
                         $role = Auth::user()->role;
-
+                        aktivitas('Melakukan Login');
                         if ($role === 'Pembeli') {
                             return response()->json(['status' => 'TRUE', 'redirect' => '/']);
                         } else {
@@ -147,15 +147,14 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        aktivitas('Melakukan Logout');
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        // Check if the request expects JSON response
         if ($request->expectsJson()) {
             return response()->json(['status' => 'TRUE', 'redirect' => '/']);
         }
 
-        // If the request does not expect JSON, return redirect
         return redirect('/');
     }
 }

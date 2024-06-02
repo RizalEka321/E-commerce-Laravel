@@ -87,7 +87,6 @@
                                     <label for="role">Role :</label>
                                     <select id="role" name="role" class="form-control">
                                         <option value="">-- Pilih Role --</option>
-                                        <option value="Pemilik">Pemilik</option>
                                         <option value="Pegawai">Pegawai</option>
                                         <option value="Pembeli">Pembeli</option>
                                     </select>

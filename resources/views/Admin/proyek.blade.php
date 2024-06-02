@@ -17,13 +17,13 @@
                 <table id="tabel_proyek" class="table table-bordered" style="width:100%">
                     <thead>
                         <tr>
-                            <th width="5%">Aksi</th>
+                            <th width="15%">Aksi</th>
                             <th width="5%">No</th>
-                            <th>Instansi</th>
-                            <th width="5%">Jumlah</th>
-                            <th>Total</th>
+                            <th width="20%">Instansi</th>
+                            <th width="10%">Jumlah</th>
+                            <th width="15%">Total</th>
                             <th width="15%">Pembayaran</th>
-                            <th width="15%">Status</th>
+                            <th width="20%">Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -153,7 +153,7 @@
                             </div>
                         </div>
                         <!-- /.card-body -->
-                        <div class="card-footer">
+                        <div>
                             <a type="button" id="btn-close" class="btn-hapus"><i
                                     class='nav-icon fas fa-arrow-left'></i>&nbsp;&nbsp; KEMBALI</a>
                             <button type="submit" id="btn-simpan" class="btn-tambah"><i
@@ -428,6 +428,22 @@
                 error: function(xhr, status, error) {
                     console.log('Terjadi kesalahan: ' + error);
                 }
+            });
+        });
+
+        $(document).ready(function() {
+            function calculateDP() {
+                var jumlah = parseInt($('#jumlah').val()) || 0;
+                var hargaSatuan = parseInt($('#harga_satuan').val()) || 0;
+                var dp = jumlah * hargaSatuan * 0.5;
+
+                dp = Math.round(dp);
+
+                $('#nominal_dp').val(dp);
+            }
+
+            $('#jumlah, #harga_satuan').on('input', function() {
+                calculateDP();
             });
         });
     </script>
