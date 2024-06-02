@@ -213,7 +213,19 @@
                 var url = $(this).attr('action');
                 var formData = new FormData($(this)[0]);
 
-                // showLoading();
+                // Tampilkan SweetAlert dengan indikator loading
+                Swal.fire({
+                    title: "Sedang memproses",
+                    html: "Mohon tunggu sebentar...",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    willOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // Lakukan AJAX request
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -222,22 +234,38 @@
                     processData: false,
                     contentType: false,
                     success: function(data) {
+                        // Tutup SweetAlert setelah request selesai
+                        Swal.close();
+
                         $('.error-message').empty();
                         if (data.errors) {
                             $.each(data.errors, function(key, value) {
-                                // Show error message below each input
+                                // Tampilkan pesan error di bawah setiap input
                                 $('#' + key).next('.error-message').text('*' + value);
                             });
-                            Swal.fire("Error", "Datanya ada yang kurang", "error");
+                            // Tampilkan pesan error dengan SweetAlert
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Datanya ada yang kurang',
+                                icon: 'error',
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: true
+                            });
                         } else {
                             reset_form();
                             $('#datane').removeClass('hidden');
                             $('#tambah_data').addClass('hidden');
-                            Swal.fire(
-                                'Sukses',
-                                'Data berhasil disimpan',
-                                'success'
-                            );
+                            Swal.fire({
+                                title: 'Sukses',
+                                text: 'Data berhasil disimpan',
+                                icon: 'success',
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: true
+                            });
                             $('#form_modal').modal('hide');
                             reload_table();
                         }
@@ -256,6 +284,19 @@
         function edit_data(id) {
             $('#form_tambah')[0].reset();
             $('#form_tambah').attr('action', '/admin/user-manajemen/update?q=' + id);
+
+            // Tampilkan SweetAlert dengan indikator loading
+            Swal.fire({
+                title: "Sedang memproses",
+                html: "Mohon tunggu sebentar...",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
             $.ajax({
                 url: "{{ url('/admin/user-manajemen/edit') }}",
                 type: "POST",
@@ -265,6 +306,9 @@
                 dataType: "JSON",
                 success: function(data) {
                     console.log(data);
+
+                    // Tutup SweetAlert setelah request selesai
+                    Swal.close();
 
                     if (data.status) {
                         var isi = data.isi;
@@ -283,18 +327,32 @@
                         $('#datane').addClass('hidden');
                         $('.judul').html(
                             '<h4 class="judul"><i class="fa-solid fa-users"></i> EDIT DATA USER</h4>');
-                        $('#btn-simpan').html(
-                            '<i class="nav-icon fas fa-save"></i>&nbsp;&nbsp; SIMPAN');
+                        $('#btn-simpan').html('<i class="nav-icon fas fa-save"></i>&nbsp;&nbsp; SIMPAN');
                     } else {
-                        Swal.fire("SALAH BOS", "Datanya ada yang salah", "error");
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Datanya ada yang salah',
+                            icon: 'error',
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            toast: true
+                        });
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    Swal.fire('Upss..!', 'Terjadi kesalahan jaringan error message: ' + errorThrown,
-                        'error');
+                    Swal.fire({
+                        title: 'Upss..!',
+                        text: 'Terjadi kesalahan jaringan error message: ' + errorThrown,
+                        icon: 'error',
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        toast: true
+                    });
                 }
             });
-        };
+        }
 
         // Fungsi Hapus
         function delete_data(id) {
@@ -308,6 +366,18 @@
                 confirmButtonText: 'Ya, hapus!'
             }).then((result) => {
                 if (result.isConfirmed) {
+                    // Tampilkan SweetAlert dengan indikator loading
+                    Swal.fire({
+                        title: "Menghapus",
+                        html: "Mohon tunggu sebentar...",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: false,
+                        willOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
                     $.ajax({
                         url: "{{ url('/admin/user-manajemen/delete') }}",
                         type: "POST",
@@ -315,13 +385,31 @@
                             q: id
                         },
                         dataType: "JSON",
+                        success: function(data) {
+                            Swal.fire({
+                                title: 'Hapus!',
+                                text: 'User berhasil Dihapus',
+                                icon: 'success',
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: true
+                            });
+                            reload_table();
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            Swal.fire({
+                                title: 'Upss..!',
+                                text: 'Terjadi kesalahan jaringan error message: ' +
+                                    errorThrown,
+                                icon: 'error',
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: true
+                            });
+                        }
                     });
-                    Swal.fire(
-                        'Hapus!',
-                        'User berhasil Dihapus',
-                        'success'
-                    )
-                    reload_table();
                 }
             })
         };

@@ -267,7 +267,18 @@
                 var url = $(this).attr('action');
                 var formData = new FormData($(this)[0]);
 
-                // showLoading();
+                // Tampilkan SweetAlert dengan indikator loading
+                Swal.fire({
+                    title: "Sedang Memproses",
+                    html: "Mohon tunggu sebentar...",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    willOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -276,30 +287,53 @@
                     processData: false,
                     contentType: false,
                     success: function(data) {
+                        Swal.close(); // Tutup loading Swal saat AJAX berhasil
                         $('.error-message').empty();
                         if (data.errors) {
                             $.each(data.errors, function(key, value) {
-                                // Show error message below each input
-                                $('#' + key).next('.error-message').text('*' +
-                                    value);
+                                // Tampilkan pesan error di bawah setiap input
+                                $('#' + key).next('.error-message').text('*' + value);
+                            });
+                            Swal.fire({
+                                title: 'Error',
+                                html: 'Terjadi kesalahan pada data yang dimasukkan.',
+                                icon: 'error',
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: true
                             });
                         } else {
                             $('.error-message').empty();
                             $('#datane').removeClass('hidden');
                             $('#tambah_data').addClass('hidden');
-                            Swal.fire(
-                                'Sukses',
-                                'Data berhasil disimpan',
-                                'success'
-                            );
+                            Swal.fire({
+                                title: 'Sukses',
+                                text: 'Data berhasil disimpan',
+                                icon: 'success',
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: true
+                            });
                             reload_table();
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
+                        Swal.close(); // Tutup loading Swal saat terjadi error
                         console.log(jqXHR);
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Terjadi kesalahan jaringan: ' + errorThrown,
+                            icon: 'error',
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            toast: true
+                        });
                     },
                     complete: function() {
-                        // hideLoading();
+                        console.log('Sukses');
                     }
                 });
             });
@@ -309,6 +343,19 @@
         function edit_data(id) {
             $('#form_tambah')[0].reset();
             $('#form_tambah').attr('action', '/admin/produk/update?q=' + id);
+
+            // Tampilkan SweetAlert dengan indikator loading
+            Swal.fire({
+                title: "Mengambil Data",
+                html: "Mohon tunggu sebentar...",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
             $.ajax({
                 url: "{{ url('/admin/produk/edit') }}",
                 type: "POST",
@@ -317,11 +364,11 @@
                 },
                 dataType: "JSON",
                 success: function(response) {
+                    Swal.close(); // Menutup loading saat sukses
                     if (response.status) {
                         var isi = response.produk;
                         $('#judul').val(isi.judul);
                         $('#harga').val(isi.harga);
-                        // $('#foto').val(isi.foto);
 
                         // Untuk setiap nilai ukuran, tandai centang pada checkbox yang sesuai
                         isi.ukuran.forEach(function(u) {
@@ -338,7 +385,6 @@
                         var editor = document.getElementById('deskripsi');
                         editor.editor.loadHTML(isi.deskripsi);
 
-                        // $('#input_foto').addClass('hidden');
                         $('#tambah_data').removeClass('hidden');
                         $('#datane').addClass('hidden');
                         $('.judul').html(
@@ -346,15 +392,30 @@
                         $('#btn-simpan').html(
                             '<i class="nav-icon fas fa-save"></i>&nbsp;&nbsp; SIMPAN');
                     } else {
-                        Swal.fire("SALAH BOS", "Tulisen kang bener", "error");
+                        Swal.fire({
+                            title: "SALAH BOS",
+                            text: "Tulisen kang bener",
+                            icon: "error",
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            toast: true
+                        });
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    Swal.fire('Upss..!', 'Terjadi kesalahan jaringan error message: ' + errorThrown,
-                        'error');
+                    Swal.fire({
+                        title: 'Upss..!',
+                        text: 'Terjadi kesalahan jaringan error message: ' + errorThrown,
+                        icon: 'error',
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        toast: true
+                    });
                 }
             });
-        };
+        }
 
         // Fungsi Hapus
         function delete_data(id) {
@@ -368,6 +429,18 @@
                 confirmButtonText: 'Ya, hapus!'
             }).then((result) => {
                 if (result.isConfirmed) {
+                    // Tampilkan SweetAlert dengan indikator loading
+                    Swal.fire({
+                        title: "Menghapus Data",
+                        html: "Mohon tunggu sebentar...",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: false,
+                        willOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
                     $.ajax({
                         url: "{{ url('/admin/produk/delete') }}",
                         type: "POST",
@@ -375,18 +448,46 @@
                             q: id
                         },
                         dataType: "JSON",
+                        success: function(response) {
+                            Swal.close(); // Menutup loading saat sukses
+                            Swal.fire(
+                                'Hapus!',
+                                'Data berhasil Dihapus',
+                                'success'
+                            );
+                            reload_table();
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            Swal.close(); // Menutup loading saat terjadi error
+                            Swal.fire({
+                                title: 'Upss..!',
+                                text: 'Terjadi kesalahan jaringan error message: ' +
+                                    errorThrown,
+                                icon: 'error',
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: true
+                            });
+                        }
                     });
-                    Swal.fire(
-                        'Hapus!',
-                        'Data berhasil Dihapus',
-                        'success'
-                    )
-                    reload_table();
                 }
-            })
-        };
+            });
+        }
 
         function detail_data(id) {
+            // Tampilkan SweetAlert dengan indikator loading
+            Swal.fire({
+                title: "Memuat Data",
+                html: "Mohon tunggu sebentar...",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
             $.ajax({
                 url: "{{ url('/admin/produk/detail') }}",
                 type: "POST",
@@ -395,6 +496,7 @@
                 },
                 dataType: "JSON",
                 success: function(response) {
+                    Swal.close(); // Menutup loading saat sukses
                     if (response.status) {
                         var isi = response.produk;
                         var harga = number_format(isi.harga);
@@ -417,11 +519,13 @@
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
+                    Swal.close(); // Menutup loading saat terjadi error
                     Swal.fire('Upss..!', 'Terjadi kesalahan jaringan error message: ' + errorThrown,
                         'error');
                 }
             });
-        };
+        }
+
 
         function number_format(number) {
             return new Intl.NumberFormat('id-ID', {
