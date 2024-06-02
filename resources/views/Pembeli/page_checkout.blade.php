@@ -269,7 +269,7 @@
 
         function handleLeavePage() {
             $.ajax({
-                url: "{{ url('/checkout/batalkan') }}",
+                url: "{{ url('/checkout-langsung/batalkan') }}",
                 type: "POST",
                 dataType: "JSON",
                 processData: false,
@@ -322,10 +322,20 @@
         }
 
         $('.btn-bayar').click(function(e) {
+            Swal.fire({
+                title: "Sedang memproses",
+                html: "Mohon tunggu sebentar...",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
             e.preventDefault();
             var url = $('#form_tambah').attr('action');
             var formData = new FormData($('#form_tambah')[0]);
-            isCheckoutInProgress = true;
 
             $.ajax({
                 url: url,
@@ -348,17 +358,22 @@
                             confirmButtonText: 'Oke',
                             confirmButtonColor: '#000000'
                         });
-                        isCheckoutInProgress = false;
                     } else {
                         window.location.href = data.redirect;
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR);
-                    isCheckoutInProgress = false;
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat memproses pembayaran.',
+                        icon: 'error',
+                        confirmButtonText: 'Oke',
+                        confirmButtonColor: '#000000'
+                    });
                 },
                 complete: function() {
-                    // hideLoading();
+                    Swal.close();
                 }
             });
         });

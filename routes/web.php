@@ -61,6 +61,8 @@ Route::middleware(['auth:web', 'pemilik_pegawai'])->group(function () {
 
 // Pemilik
 Route::middleware(['auth:web', 'pemilik'])->group(function () {
+    // Produk
+    Route::post('/admin/produk/detail', [ProdukController::class, "detail"])->name('admin.produk.detail');
     // Admin Laporan Pendapatan
     Route::get('/admin/laporan', [LaporanController::class, "index"])->name('admin.laporan');
     Route::post('/admin/laporan/cetak', [LaporanController::class, "cetak"])->name('admin.laporan.cetak');
@@ -123,7 +125,7 @@ Route::middleware(['auth:web', 'pembeli', 'verified'])->group(function () {
     Route::post('/keranjang/checkout', [CheckoutController::class, "checkout_keranjang"])->name('checkout.keranjang');
     Route::post('/checkout-langsung', [CheckoutController::class, "checkout_langsung"])->name('checkout.langsung');
     Route::get('/checkout', [CheckoutController::class, "checkout"])->name('checkout');
-    Route::post('/checkout/batalkan', [CheckoutController::class, "checkout_batalkan"])->name('checkout.batalkan');
+    Route::post('/checkout-langsung/batalkan', [CheckoutController::class, "checkout_langsung_batalkan"])->name('checkout_langsung.batalkan');
     // pemesanan
     Route::post('/pembayaran-store', [PembayaranController::class, "pembayaran_store"])->name('pembayaran.store');
     Route::get('/pembayaran-cash/{id}', [PembayaranController::class, "pembayaran_cash"])->name('pembayaran.cash');

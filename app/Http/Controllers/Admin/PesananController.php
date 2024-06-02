@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Pesanan;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\Detail_Pesanan;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 
 class PesananController extends Controller
 {
@@ -19,47 +20,53 @@ class PesananController extends Controller
 
     public function get_pesanan()
     {
-
         $data = Pesanan::select('id_pesanan', 'users_id', 'metode_pengiriman', 'metode_pembayaran', 'status', 'total')->with('user')->get();
         return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
-                $actionBtn = '<div class="btn-group">' .
-                    '<a href="javascript:void(0)" type="button" id="btn-edit" class="btn-edit" onClick="edit_data(' . "'" . $row->id_pesanan . "'" . ')"><i class="fa-solid fa-pen-to-square"></i></a>' .
-                    '<a href="' . route('admin.pesanan.detail', $row->id_pesanan) . '" type="button" id="btn-ubah" class="btn-ubah"><i class="fa-solid fa-eye"></i></a>' .
-                    '</div>';
+                $actionBtn = '<div class="btn-group">';
+                if (Auth::user()->role == 'Pegawai') {
+                    $actionBtn .= '<a href="javascript:void(0)" type="button" id="btn-edit" class="btn-edit" onClick="edit_data(' . "'" . $row->id_pesanan . "'" . ')"><i class="fa-solid fa-pen-to-square"></i></a>';
+                    $actionBtn .= '<a href="' . route('admin.pesanan.detail', $row->id_pesanan) . '" type="button" id="btn-ubah" class="btn-ubah"><i class="fa-solid fa-eye"></i></a>';
+                } elseif (Auth::user()->role == 'Pemilik') {
+                    $actionBtn .= '<a href="' . route('admin.pesanan.detail', $row->id_pesanan) . '" type="button" id="btn-ubah" class="btn-ubah"><i class="fa-solid fa-eye"></i> Detail</a>';
+                }
+                $actionBtn .= '</div>';
                 return $actionBtn;
             })
             ->addColumn('status_pengerjaan', function ($row) {
-                $dropdown = '<select class="form-control status-dropdown" data-id="' . $row->id_pesanan . '"';
+                if (Auth::user()->role == 'Pegawai') {
+                    $dropdown = '<select class="form-control status-dropdown" data-id="' . $row->id_pesanan . '"';
+                    $statusOptions = [];
+                    switch ($row->status) {
+                        case 'Menunggu Pembayaran':
+                            $statusOptions = ['Menunggu Pembayaran', 'Diproses', 'Selesai', 'Dibatalkan'];
+                            $dropdown .= ' style="background-color: #FFD700; color: white;"';
+                            break;
+                        case 'Diproses':
+                            $statusOptions = ['Diproses', 'Selesai', 'Dibatalkan'];
+                            $dropdown .= ' style="background-color: #0D1282; color: white;"';
+                            break;
+                        case 'Selesai':
+                            $statusOptions = ['Selesai', 'Dibatalkan'];
+                            $dropdown .= ' style="background-color: #009100; color: white;"';
+                            break;
+                        case 'Dibatalkan':
+                            $statusOptions = ['Dibatalkan'];
+                            $dropdown .= ' style="background-color: #C51605; color: white;"';
+                            break;
+                    }
 
-                $statusOptions = [];
-                switch ($row->status) {
-                    case 'Menunggu Pembayaran':
-                        $statusOptions = ['Menunggu Pembayaran', 'Diproses', 'Selesai', 'Dibatalkan'];
-                        $dropdown .= ' style="background-color: #FFD700; color: white;"';
-                        break;
-                    case 'Diproses':
-                        $statusOptions = ['Diproses', 'Selesai', 'Dibatalkan'];
-                        $dropdown .= ' style="background-color: #0D1282; color: white;"';
-                        break;
-                    case 'Selesai':
-                        $statusOptions = ['Selesai', 'Dibatalkan'];
-                        $dropdown .= ' style="background-color: #009100; color: white;"';
-                        break;
-                    case 'Dibatalkan':
-                        $statusOptions = ['Dibatalkan'];
-                        $dropdown .= ' style="background-color: #C51605; color: white;"';
-                        break;
+                    $dropdown .= '>';
+
+                    foreach ($statusOptions as $option) {
+                        $selected = ($row->status == $option) ? 'selected' : '';
+                        $dropdown .= '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
+                    }
+                    $dropdown .= '</select>';
+                } elseif (Auth::user()->role == 'Pemilik') {
+                    $dropdown = $row->status;
                 }
-
-                $dropdown .= '>';
-
-                foreach ($statusOptions as $option) {
-                    $selected = ($row->status == $option) ? 'selected' : '';
-                    $dropdown .= '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
-                }
-                $dropdown .= '</select>';
                 return $dropdown;
             })
             ->rawColumns(['action', 'status_pengerjaan'])

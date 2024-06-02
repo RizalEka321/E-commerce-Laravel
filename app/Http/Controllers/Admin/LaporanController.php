@@ -6,21 +6,13 @@ use Carbon\Carbon;
 use App\Models\Proyek;
 use App\Models\Pesanan;
 use Illuminate\Http\Request;
-use Barryvdh\DomPDF\PDF as Pdf;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class LaporanController extends Controller
 {
-    protected $pdf;
-
-    // Inject the PDF service into the controller
-    public function __construct(PDF $pdf)
-    {
-        $this->pdf = $pdf;
-    }
-
     public function index()
     {
         return view('Admin.laporan');
@@ -61,20 +53,16 @@ class LaporanController extends Controller
 
             $bulan_huruf = strtoupper($nama_bulan[intval($bulan)]);
 
-            // Lakukan pengambilan data Proyek berdasarkan bulan dan tahun dari kolom created_at
             $proyek = Proyek::where('status_pembayaran', 'Lunas')->whereMonth('created_at', $bulan)->whereYear('created_at', $tahun)->get();
             $pesanan = Pesanan::where('status', 'Selesai')->whereMonth('created_at', $bulan)->whereYear('created_at', $tahun)->with(['detail.produk', 'user'])->get();
 
-            // Total Omset Proyek
             $total_omset_proyek = Proyek::where('status_pembayaran', 'Lunas')
                 ->whereMonth('created_at', $bulan)
                 ->whereYear('created_at', $tahun)
                 ->sum(DB::raw('jumlah * harga_satuan'));
 
-            // Total Omset Pesanan
             $total_omset_pesanan = Pesanan::where('status', 'Selesai')->sum('total');
 
-            // Total Keseluruhan
             $total_keseluruhan = $total_omset_proyek + $total_omset_pesanan;
 
             if ($proyek->isEmpty() && $pesanan->isEmpty()) {
@@ -82,7 +70,6 @@ class LaporanController extends Controller
                     return response()->json(['status' => 'FALSE', 'error' => 'Periode waktu yang Anda pilih belum memiliki data penjualan untuk dilaporkan.']);
                 } else {
                     return redirect()->back()->withErrors('Periode waktu yang Anda pilih belum memiliki data penjualan untuk dilaporkan.')->withInput();
-                    return response()->json(['status' => 'FALSE', 'error' => 'Periode waktu yang Anda pilih belum memiliki data penjualan untuk dilaporkan.']);
                 }
             } else {
                 if ($request->expectsJson()) {
@@ -97,7 +84,8 @@ class LaporanController extends Controller
                         'total_keseluruhan' => $total_keseluruhan,
                     ]);
                 }
-                $pdf = $this->pdf->loadView('admin.cetak_laporan', compact('bulan_huruf', 'tahun', 'proyek', 'pesanan', 'total_omset_proyek', 'total_omset_pesanan', 'total_keseluruhan'));
+                aktivitas('Mencetak Laporan Omset Bulan ' . $bulan_huruf);
+                $pdf = Pdf::loadView('Admin.cetak_laporan', compact('bulan_huruf', 'tahun', 'proyek', 'pesanan', 'total_omset_proyek', 'total_omset_pesanan', 'total_keseluruhan'));
                 return $pdf->stream('laporan.pdf');
             }
         }

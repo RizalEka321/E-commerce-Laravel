@@ -22,38 +22,29 @@ class ProdukController extends Controller
     public function get_produk()
     {
         $data = Produk::select('id_produk', 'judul', 'harga')->with('ukuran')->get();
-        $dataTable = Datatables::of($data)
-            ->addIndexColumn();
-
-        if (Auth::user()->role == 'Pegawai') {
-            $dataTable->addColumn('action', function ($row) {
-                $actionBtn = '<div class="btn-group">' .
-                    '<a href="javascript:void(0)" type="button" id="btn-edit" class="btn-edit" onClick="edit_data(' . "'" . $row->id_produk . "'" . ')"><i class="fa-solid fa-pen-to-square"></i></a>' .
-                    '<a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' . "'" . $row->id_produk . "'" . ')"><i class="fa-solid fa-trash-can"></i></a>' .
-                    '</div>';
+        return Datatables::of($data)
+            ->addIndexColumn()
+            ->addColumn('action', function ($row) {
+                $actionBtn = '<div class="btn-group">';
+                if (Auth::user()->role == 'Pegawai') {
+                    $actionBtn .= '<a href="javascript:void(0)" type="button" id="btn-edit" class="btn-edit" onClick="edit_data(' . "'" . $row->id_produk . "'" . ')"><i class="fa-solid fa-pen-to-square"></i></a>';
+                    $actionBtn .= '<a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' . "'" . $row->id_produk . "'" . ')"><i class="fa-solid fa-trash-can"></i></a>';
+                } elseif (Auth::user()->role == 'Pemilik') {
+                    $actionBtn .= '<a href="javascript:void(0)" type="button" id="btn-detail" class="btn-ubah" onClick="detail_data(' . "'" . $row->id_produk . "'" . ')" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-eye"></i> Detail</a>';
+                }
+                $actionBtn .= '</div>';
                 return $actionBtn;
-            });
-        } else if (Auth::user()->role == 'Pemilik') {
-            $dataTable->addColumn('action', function ($row) {
-                $actionBtn = '<div class="btn-group">' .
-                    '<a href="javascript:void(0)" type="button" id="btn-edit" class="btn-ubah" onClick="edit_data(' . "'" . $row->id_produk . "'" . ')">Detail</a>' .
-                    '</div>';
-                return $actionBtn;
-            });
-        }
-
-        $dataTable->addColumn('stok', function ($row) {
-            $totalStok = 0;
-            foreach ($row->ukuran as $ukuran) {
-                $totalStok += $ukuran->stok;
-            }
-            return $totalStok;
-        });
-        $dataTable->rawColumns(['action', 'stok']);
-
-        return $dataTable->make('TRUE');
+            })
+            ->addColumn('stok', function ($row) {
+                $totalStok = 0;
+                foreach ($row->ukuran as $ukuran) {
+                    $totalStok += $ukuran->stok;
+                }
+                return $totalStok;
+            })
+            ->rawColumns(['action', 'stok'])
+            ->make(true);
     }
-
 
     public function store(Request $request)
     {
@@ -127,6 +118,14 @@ class ProdukController extends Controller
     }
 
     public function edit(Request $request)
+    {
+        $id = $request->input('q');
+        $produk = Produk::with('ukuran')->find($id);
+
+        return response()->json(['status' => 'TRUE', 'produk' => $produk]);
+    }
+
+    public function detail(Request $request)
     {
         $id = $request->input('q');
         $produk = Produk::with('ukuran')->find($id);

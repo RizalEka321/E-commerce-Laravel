@@ -22,7 +22,7 @@ return new class extends Migration
             $table->bigInteger('total');
             $table->string('snaptoken')->nullable();
             $table->timestamps();
-            $table->foreign('users_id')->references('id')->on('users');
+            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

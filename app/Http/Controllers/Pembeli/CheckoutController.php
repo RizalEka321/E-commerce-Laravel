@@ -97,7 +97,7 @@ class CheckoutController extends Controller
         return response()->json(['status' => 'TRUE']);
     }
 
-    public function checkout_batalkan()
+    public function checkout_langsung_batalkan()
     {
         $keranjang = Keranjang::where('users_id', Auth::user()->id)->where('status', 'Ya')->with('produk')->get();
 

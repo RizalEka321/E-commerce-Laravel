@@ -42,7 +42,7 @@ class PesananDipesan extends Mailable
     {
         $pesanan = Pesanan::where('users_id', Auth::user()->id)->where('id_pesanan', $this->id_pesanan)->with('detail')->first();
         return new Content(
-            view: 'Email.pesanan.emailpesanan',
+            view: 'Email.pesanan.emaildipesan',
             with: [
                 'pesanan' => $pesanan,
             ],

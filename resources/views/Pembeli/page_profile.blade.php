@@ -153,7 +153,19 @@
             var url = $('#form_profile').attr('action');
             var formData = new FormData($('#form_profile')[0]);
 
-            // showLoading();
+            // Tampilkan SweetAlert dengan indikator loading
+            Swal.fire({
+                title: "Sedang memproses",
+                html: "Mohon tunggu sebentar...",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Lakukan AJAX request
             $.ajax({
                 url: url,
                 type: "POST",
@@ -162,10 +174,10 @@
                 processData: false,
                 contentType: false,
                 success: function(data) {
+                    Swal.close();
                     $('.error-message').empty();
                     if (data.errors) {
                         $.each(data.errors, function(key, value) {
-                            // Show error message below each input
                             $('#' + key).next('.error-message').text('*' + value);
                         });
                     } else {
@@ -178,9 +190,16 @@
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat memperbarui profile.',
+                        icon: 'error',
+                        confirmButtonText: 'Oke',
+                        confirmButtonColor: '#000000'
+                    });
                 },
                 complete: function() {
-                    // hideLoading();
+                    // Lakukan sesuatu setelah request selesai (jika diperlukan)
                 }
             });
         });
@@ -192,7 +211,19 @@
                 var url = $(this).attr('action');
                 var formData = new FormData($(this)[0]);
 
-                // showLoading();
+                // Tampilkan SweetAlert dengan indikator loading
+                Swal.fire({
+                    title: "Sedang memproses",
+                    html: "Mohon tunggu sebentar...",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    willOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // Lakukan AJAX request
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -201,6 +232,9 @@
                     processData: false,
                     contentType: false,
                     success: function(data) {
+                        // Tutup SweetAlert setelah request selesai
+                        Swal.close();
+
                         $('.error-message').empty();
                         if (data.errors) {
                             $.each(data.errors, function(key, value) {
@@ -219,9 +253,16 @@
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.log(jqXHR);
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Terjadi kesalahan saat mengubah password.',
+                            icon: 'error',
+                            confirmButtonText: 'Oke',
+                            confirmButtonColor: '#000000'
+                        });
                     },
                     complete: function() {
-                        // hideLoading();
+                        // Lakukan sesuatu setelah request selesai (jika diperlukan)
                     }
                 });
             });
@@ -238,6 +279,19 @@
                 var url = $('#form_foto').attr('action');
                 var formData = new FormData($('#form_foto')[0]);
 
+                // Tampilkan SweetAlert dengan indikator loading
+                Swal.fire({
+                    title: "Sedang memproses",
+                    html: "Mohon tunggu sebentar...",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    willOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // Lakukan AJAX request
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -246,6 +300,9 @@
                     processData: false,
                     contentType: false,
                     success: function(data) {
+                        // Tutup SweetAlert setelah request selesai
+                        Swal.close();
+
                         $('.error-message').empty();
                         if (data.errors) {
                             $.each(data.errors, function(key, value) {
@@ -253,24 +310,22 @@
                                 $('#' + key).next('.error-message').text('*' + value);
                             });
                         } else {
-                            // Swal.fire(
-                            //     'Sukses',
-                            //     'Foto profile berhasil diubah',
-                            //     'success'
-                            // ).then((result) => {
-                            //     if (result.isConfirmed) {
-                            //         $('.preview').attr('src', data.foto);
-                            //         $('#form_foto')[0].reset();
-                            //     }
-                            // });
+                            // SweetAlert sukses tidak digunakan, akan me-refresh halaman secara otomatis
                             location.reload();
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.log(jqXHR);
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Terjadi kesalahan saat mengubah foto profil.',
+                            icon: 'error',
+                            confirmButtonText: 'Oke',
+                            confirmButtonColor: '#000000'
+                        });
                     },
                     complete: function() {
-                        // hideLoading();
+                        // Lakukan sesuatu setelah request selesai (jika diperlukan)
                     }
                 });
             });

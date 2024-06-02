@@ -12,8 +12,8 @@ class DashboardController extends Controller
     public function index()
     {
         $produk = Produk::count();
-        $pesanan = Pesanan::count();
-        $proyek = Proyek::count();
+        $pesanan = Pesanan::whereNotIn('status', ['Dibatalkan', 'Selesai'])->count();
+        $proyek = Proyek::where('status_pengerjaan', 'Selesai')->count();
         return view('Admin.dashboard', compact('produk', 'pesanan', 'proyek'));
     }
 }
