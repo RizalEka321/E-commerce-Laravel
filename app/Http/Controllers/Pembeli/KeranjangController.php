@@ -21,6 +21,7 @@ class KeranjangController extends Controller
         $profile = Profil_Perusahaan::where('id_profil_perusahaan', 'satu')->first();
         return view('Pembeli.page_keranjang', compact('produk', 'profile'));
     }
+
     public function add_keranjang(Request $request)
     {
         $validator = Validator::make($request->all(), [

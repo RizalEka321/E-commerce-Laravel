@@ -39,7 +39,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|max:16|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
             'password_confirmation' => 'required|same:password',
-            'role' => 'nullable',
+            'role' => 'required|in:Pegawai,Pembeli',
             'alamat' => 'nullable',
             'no_hp' => 'nullable',
             'foto'     => 'image|mimes:jpeg,png,jpg|max:2048',
@@ -54,6 +54,8 @@ class UserController extends Controller
             'email.required' => 'Email wajib diisi.',
             'email.unique' => 'Email yang anda masukan sudah digunakan.',
             'email.email' => 'Email yang anda masukan tidak valid',
+            'role' => 'Role wajib diisi.',
+            'role.in' => 'Role yang anda masukan tidak valid',
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password harus memiliki panjang minimal 8 karakter.',
             'password.max' => 'Password harus memiliki panjang maksimal 16 karakter.',
@@ -78,10 +80,12 @@ class UserController extends Controller
                 $path = null;
             }
 
+            $role = $request->input('role', 'Pegawai'); // Set default role to Pegawai
+
             User::create([
                 'nama_lengkap' => $request->nama_lengkap,
                 'username' => $request->username,
-                'role' => $request->role,
+                'role' => $role,
                 'email' => $request->email,
                 'alamat' => $request->alamat,
                 'no_hp' => $request->no_hp,
@@ -89,7 +93,7 @@ class UserController extends Controller
                 'foto' => "$path/$file_name",
                 'email_verified_at' => now()
             ]);
-            echo json_encode(['status' => 'TRUE']);
+            return response()->json(['status' => 'TRUE']);
         }
     }
 
@@ -98,7 +102,7 @@ class UserController extends Controller
         $id = $request->input('q');
         $user = User::find($id);
 
-        echo json_encode(['status' => 'TRUE', 'isi' => $user]);
+        return response()->json(['status' => 'TRUE', 'isi' => $user]);
     }
 
     public function update(Request $request)
@@ -137,6 +141,8 @@ class UserController extends Controller
             'foto.max' => 'Ukuran file tidak boleh lebih dari 2 MB.',
         ]);
 
+        $role = $request->input('role', 'Pegawai'); // Set default role to Pegawai
+
         if ($validator->fails()) {
             return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
         } else {
@@ -145,7 +151,7 @@ class UserController extends Controller
 
             $user->nama_lengkap = $request->nama_lengkap;
             $user->username = $request->username;
-            $user->role = $request->role;
+            $user->role = $role;
             $user->email = $request->email;
             $user->alamat = $request->alamat;
             $user->no_hp = $request->no_hp;
@@ -169,16 +175,16 @@ class UserController extends Controller
 
             $user->save();
 
-            echo json_encode(['status' => 'TRUE']);
+            return response()->json(['status' => 'TRUE']);
         }
     }
 
     public function destroy(Request $request)
     {
         $id = $request->input('q');
-        $katalog = User::find($id);
-        $katalog->delete();
+        $user = User::find($id);
+        $user->delete();
 
-        echo json_encode(['status' => 'TRUE']);
+        return response()->json(['status' => 'TRUE']);
     }
 }

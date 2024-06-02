@@ -23,7 +23,7 @@ class ProfileController extends Controller
         $validator = Validator::make($request->all(), [
             'nama_lengkap' => 'required|string',
             'alamat' => 'required|min:25|max:75',
-            'no_hp' => 'required|min:12|max:15|regex:/^\+62\d{9,12}$/',
+            'no_hp' => 'required|regex:/^\+?[0-9]+$/|min:10|max:12',
         ], [
             'nama_lengkap.required' => 'Nama Panjang wajib diisi.',
             'alamat.required' => 'Alamat wajib diisi.',
@@ -31,8 +31,8 @@ class ProfileController extends Controller
             'alamat.max' => 'Alamat harus memiliki panjang maksimal 75 karakter.',
             'no_hp.required' => 'No Handphone wajib diisi.',
             'no_hp.regex' => 'No Handphone hanya boleh berisikan angka.',
-            'no_hp.min' => 'No Handphone harus memiliki panjang minimal 12 karakter.',
-            'no_hp.max' => 'No Handphone harus memiliki panjang maksimal 15 karakter.',
+            'no_hp.min' => 'No Handphone harus memiliki panjang minimal 10 karakter.',
+            'no_hp.max' => 'No Handphone harus memiliki panjang maksimal 12 karakter.',
         ]);
 
         if ($validator->fails()) {
@@ -85,8 +85,8 @@ class ProfileController extends Controller
             'foto' => 'image|mimes:jpeg,png,jpg|max:2048'
         ], [
             'foto.image' => 'File harus berupa gambar.',
-            'foto.mimes' => 'Format gambar hanya boleh jpeg, png, atau jpg.',
-            'foto.max' => 'Ukuran gambar maksimal adalah 2 MB.',
+            'foto.mimes' => 'Format foto yang anda masukan salah, mohon masukan dengan format jpeg, jpg, atau png.',
+            'foto.max' => 'Ukuran gambar maksimal yang dapat anda masukan adalah 2MB.',
         ]);
 
         if ($validator->fails()) {
