@@ -29,12 +29,5 @@
                 <i class="fa-solid fa-cube"></i>
             </div>
         </a>
-        {{-- <div class="box">
-        <div class="right_side">
-            <div class="numbers">0</div>
-            <div class="box_topic">Total Pembeli</div>
-        </div>
-        <i class='bx bx-user'></i>
-    </div> --}}
     </div>
 @endsection

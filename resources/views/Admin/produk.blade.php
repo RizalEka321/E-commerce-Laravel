@@ -287,11 +287,10 @@
                     processData: false,
                     contentType: false,
                     success: function(data) {
-                        Swal.close(); // Tutup loading Swal saat AJAX berhasil
+                        Swal.close();
                         $('.error-message').empty();
                         if (data.errors) {
                             $.each(data.errors, function(key, value) {
-                                // Tampilkan pesan error di bawah setiap input
                                 $('#' + key).next('.error-message').text('*' + value);
                             });
                             Swal.fire({
@@ -320,8 +319,7 @@
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        Swal.close(); // Tutup loading Swal saat terjadi error
-                        console.log(jqXHR);
+                        Swal.close();
                         Swal.fire({
                             title: 'Error',
                             text: 'Terjadi kesalahan jaringan: ' + errorThrown,
@@ -331,9 +329,6 @@
                             timer: 3000,
                             toast: true
                         });
-                    },
-                    complete: function() {
-                        console.log('Sukses');
                     }
                 });
             });
@@ -365,45 +360,34 @@
                 dataType: "JSON",
                 success: function(response) {
                     Swal.close(); // Menutup loading saat sukses
-                    if (response.status) {
-                        var isi = response.produk;
-                        $('#judul').val(isi.judul);
-                        $('#harga').val(isi.harga);
+                    var isi = response.produk;
+                    $('#judul').val(isi.judul);
+                    $('#harga').val(isi.harga);
 
-                        // Untuk setiap nilai ukuran, tandai centang pada checkbox yang sesuai
-                        isi.ukuran.forEach(function(u) {
-                            $('#ukuran' + u.jenis_ukuran).prop('checked', true);
-                            $('#stok-container-' + u.jenis_ukuran).css('display', 'block');
-                            $('#stok-container-' + u.jenis_ukuran).html(`
+                    // Untuk setiap nilai ukuran, tandai centang pada checkbox yang sesuai
+                    isi.ukuran.forEach(function(u) {
+                        $('#ukuran' + u.jenis_ukuran).prop('checked', true);
+                        $('#stok-container-' + u.jenis_ukuran).css('display', 'block');
+                        $('#stok-container-' + u.jenis_ukuran).html(`
                         <label for="ukuran${u.jenis_ukuran}_stok">Stok untuk Ukuran ${u.jenis_ukuran}</label>
                         <input type="number" value="${u.id_ukuran}" name="id_ukuran[]" hidden>
                         <input type="number" class="form-control" id="ukuran${u.jenis_ukuran}_stok" name="stok[]" placeholder="Stok" min="0">
                     `);
-                            $('#ukuran' + u.jenis_ukuran + '_stok').val(u.stok);
-                        });
+                        $('#ukuran' + u.jenis_ukuran + '_stok').val(u.stok);
+                    });
 
-                        var editor = document.getElementById('deskripsi');
-                        editor.editor.loadHTML(isi.deskripsi);
+                    var editor = document.getElementById('deskripsi');
+                    editor.editor.loadHTML(isi.deskripsi);
 
-                        $('#tambah_data').removeClass('hidden');
-                        $('#datane').addClass('hidden');
-                        $('.judul').html(
-                            '<h4 class="judul"><i class="fa-solid fa-shirt"></i> EDIT DATA PRODUK</h4>');
-                        $('#btn-simpan').html(
-                            '<i class="nav-icon fas fa-save"></i>&nbsp;&nbsp; SIMPAN');
-                    } else {
-                        Swal.fire({
-                            title: "SALAH BOS",
-                            text: "Tulisen kang bener",
-                            icon: "error",
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            toast: true
-                        });
-                    }
+                    $('#tambah_data').removeClass('hidden');
+                    $('#datane').addClass('hidden');
+                    $('.judul').html(
+                        '<h4 class="judul"><i class="fa-solid fa-shirt"></i> EDIT DATA PRODUK</h4>');
+                    $('#btn-simpan').html(
+                        '<i class="nav-icon fas fa-save"></i>&nbsp;&nbsp; SIMPAN');
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
+                    Swal.close();
                     Swal.fire({
                         title: 'Upss..!',
                         text: 'Terjadi kesalahan jaringan error message: ' + errorThrown,
@@ -429,7 +413,6 @@
                 confirmButtonText: 'Ya, hapus!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Tampilkan SweetAlert dengan indikator loading
                     Swal.fire({
                         title: "Menghapus Data",
                         html: "Mohon tunggu sebentar...",
@@ -450,15 +433,19 @@
                         dataType: "JSON",
                         success: function(response) {
                             Swal.close(); // Menutup loading saat sukses
-                            Swal.fire(
-                                'Hapus!',
-                                'Data berhasil Dihapus',
-                                'success'
-                            );
+                            Swal.fire({
+                                title: 'Hapus!',
+                                text: 'Produk berhasil Dihapus',
+                                icon: 'success',
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: true
+                            });
                             reload_table();
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
-                            Swal.close(); // Menutup loading saat terjadi error
+                            Swal.close();
                             Swal.fire({
                                 title: 'Upss..!',
                                 text: 'Terjadi kesalahan jaringan error message: ' +
@@ -496,36 +483,39 @@
                 },
                 dataType: "JSON",
                 success: function(response) {
-                    Swal.close(); // Menutup loading saat sukses
-                    if (response.status) {
-                        var isi = response.produk;
-                        var harga = number_format(isi.harga);
-                        const fotoPath = isi.foto;
-                        const baseUrl = $('#detail-foto').data('foto-url');
-                        const fotoUrl = `${baseUrl}${fotoPath}`;
-                        $('#detail-judul').html(`<h6>${isi.judul}</h6>`);
-                        $('#detail-harga').html(`<h6>${harga}</h6>`);
-                        $('#detail-foto').html(
-                            `<img src="${fotoUrl}" alt="Foto Detail" width="100%" height="400">`);
-                        // Untuk setiap nilai ukuran, tandai centang pada checkbox yang sesuai
-                        $('#detail-ukuran').html('');
-                        isi.ukuran.forEach(function(u) {
-                            $('#detail-ukuran').append(
-                                `<h6>Ukuran ${u.jenis_ukuran} Jumlahnya ${u.stok}</h6>`
-                            );
-                        });
-                    } else {
-                        Swal.fire("SALAH BOS", "Tulisen kang bener", "error");
-                    }
+                    Swal.close();
+                    var isi = response.produk;
+                    var harga = number_format(isi.harga);
+                    const fotoPath = isi.foto;
+                    const baseUrl = $('#detail-foto').data('foto-url');
+                    const fotoUrl = `${baseUrl}${fotoPath}`;
+                    $('#detail-judul').html(`<h6>${isi.judul}</h6>`);
+                    $('#detail-harga').html(`<h6>${harga}</h6>`);
+                    $('#detail-foto').html(
+                        `<img src="${fotoUrl}" alt="Foto Detail" width="100%" height="400">`);
+                    // Untuk setiap nilai ukuran, tandai centang pada checkbox yang sesuai
+                    $('#detail-ukuran').html('');
+                    isi.ukuran.forEach(function(u) {
+                        $('#detail-ukuran').append(
+                            `<h6>Ukuran ${u.jenis_ukuran} Jumlahnya ${u.stok}</h6>`
+                        );
+                    });
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    Swal.close(); // Menutup loading saat terjadi error
-                    Swal.fire('Upss..!', 'Terjadi kesalahan jaringan error message: ' + errorThrown,
-                        'error');
+                    Swal.close();
+                    Swal.fire({
+                        title: 'Upss..!',
+                        text: 'Terjadi kesalahan jaringan error message: ' +
+                            errorThrown,
+                        icon: 'error',
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        toast: true
+                    });
                 }
             });
         }
-
 
         function number_format(number) {
             return new Intl.NumberFormat('id-ID', {

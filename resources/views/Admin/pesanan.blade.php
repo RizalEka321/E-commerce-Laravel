@@ -185,7 +185,18 @@
                 var url = $(this).attr('action');
                 var formData = new FormData($(this)[0]);
 
-                // showLoading();
+                // Tampilkan SweetAlert dengan indikator loading
+                Swal.fire({
+                    title: "Memproses Data",
+                    html: "Mohon tunggu sebentar...",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    willOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -194,39 +205,70 @@
                     processData: false,
                     contentType: false,
                     success: function(data) {
+                        Swal.close(); // Menutup loading saat sukses
                         $('.error-message').empty();
                         if (data.errors) {
-                            // $.each(data.errors, function(key, value) {
-                            //     Swal.fire('Upss..!', value, 'error');
-                            // });
-                            Swal.fire("Error", "Datanya ada yang kurang", "error");
+                            $.each(data.errors, function(key, value) {
+                                Swal.fire('Upss..!', value, 'error');
+                            });
+                            Swal.fire({
+                                title: 'Error',
+                                html: 'Terjadi kesalahan pada data yang dimasukkan.',
+                                icon: 'error',
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: true
+                            });
                         } else {
                             reset_form();
                             $('#datane').removeClass('hidden');
                             $('#tambah_data').addClass('hidden');
-                            Swal.fire(
-                                'Sukses',
-                                'Data berhasil disimpan',
-                                'success'
-                            );
+                            Swal.fire({
+                                title: 'Sukses',
+                                text: 'Data berhasil disimpan',
+                                icon: 'success',
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: true
+                            });
                             reload_table();
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(jqXHR);
-                    },
-                    complete: function() {
-                        // hideLoading();
+                        Swal.close(); // Menutup loading saat terjadi error
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Terjadi kesalahan jaringan: ' + errorThrown,
+                            icon: 'error',
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            toast: true
+                        });
                     }
                 });
             });
         });
 
-
         // Fungsi Edit dan Update
         function edit_data(id) {
             $('#form_tambah')[0].reset();
             $('#form_tambah').attr('action', '/admin/pesanan/update?q=' + id);
+
+            // Tampilkan SweetAlert dengan indikator loading
+            Swal.fire({
+                title: "Memproses Data",
+                html: "Mohon tunggu sebentar...",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
             $.ajax({
                 url: "{{ url('/admin/pesanan/edit') }}",
                 type: "POST",
@@ -235,70 +277,58 @@
                 },
                 dataType: "JSON",
                 success: function(data) {
-                    console.log(data);
-                    if (data.status) {
-                        var isi = data.isi;
-                        $('#judul').val(isi.judul);
-                        $('#stok').val(isi.stok);
-                        $('#harga').val(isi.harga);
-                        // $('#foto').val(isi.foto);
-                        var editor = document.getElementById('trix_deskripsi');
-                        editor.editor.loadHTML(isi.deskripsi);
+                    Swal.close(); // Menutup loading saat sukses
 
+                    var isi = data.isi;
+                    $('#judul').val(isi.judul);
+                    $('#stok').val(isi.stok);
+                    $('#harga').val(isi.harga);
+                    // $('#foto').val(isi.foto);
+                    var editor = document.getElementById('trix_deskripsi');
+                    editor.editor.loadHTML(isi.deskripsi);
 
-                        // $('#input_foto').addClass('hidden');
-                        $('#tambah_data').removeClass('hidden');
-                        $('#datane').addClass('hidden');
-                        $('.judul').html(
-                            '<h4 class="judul"><i class="fa-solid fa-truck-fast"></i> EDIT DATA PESANAN</h4>'
-                        );
-                        $('#btn-simpan').html(
-                            '<i class="nav-icon fas fa-save"></i>&nbsp;&nbsp; SIMPAN');
-                    } else {
-                        Swal.fire("SALAH BOS", "Tulisen kang bener", "error");
-                    }
+                    // $('#input_foto').addClass('hidden');
+                    $('#tambah_data').removeClass('hidden');
+                    $('#datane').addClass('hidden');
+                    $('.judul').html(
+                        '<h4 class="judul"><i class="fa-solid fa-truck-fast"></i> EDIT DATA PESANAN</h4>'
+                    );
+                    $('#btn-simpan').html(
+                        '<i class="nav-icon fas fa-save"></i>&nbsp;&nbsp; SIMPAN');
+
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    Swal.fire('Upss..!', 'Terjadi kesalahan jaringan error message: ' + errorThrown,
-                        'error');
+                    Swal.close();
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Terjadi kesalahan jaringan: ' + errorThrown,
+                        icon: 'error',
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        toast: true
+                    });
                 }
             });
-        };
-
-        // Fungsi Hapus
-        function delete_data(id) {
-            Swal.fire({
-                title: 'Hapus Pesanan',
-                text: "Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, hapus!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: "{{ url('/admin/pesanan/delete') }}",
-                        type: "POST",
-                        data: {
-                            q: id
-                        },
-                        dataType: "JSON",
-                    });
-                    Swal.fire(
-                        'Hapus!',
-                        'Data berhasil Dihapus',
-                        'success'
-                    )
-                    reload_table();
-                }
-            })
-        };
+        }
 
         // Fungsi Update Status
         $(document).on('change', '.status-dropdown', function() {
             var status = $(this).val();
             var id = $(this).data('id');
+
+            // Tampilkan SweetAlert dengan indikator loading
+            Swal.fire({
+                title: "Memproses Data",
+                html: "Mohon tunggu sebentar...",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
             $.ajax({
                 url: '/admin/pesanan/update-status',
                 method: 'POST',
@@ -307,6 +337,7 @@
                     id: id
                 },
                 success: function(response) {
+                    Swal.close(); // Menutup loading saat sukses
                     console.log('Status berhasil diubah');
                     Swal.fire(
                         'Sukses',
@@ -315,8 +346,17 @@
                     );
                     reload_table();
                 },
-                error: function(xhr, status, error) {
-                    console.log('Terjadi kesalahan: ' + error);
+                error: function(jqXHR, textStatus, errorThrown) {
+                    Swal.close();
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Terjadi kesalahan jaringan: ' + errorThrown,
+                        icon: 'error',
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        toast: true
+                    });
                 }
             });
         });

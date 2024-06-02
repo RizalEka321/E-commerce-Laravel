@@ -96,10 +96,6 @@
             }
         });
 
-        function reset_errors() {
-            $('.error-message').empty();
-        }
-
         // Fungsi Tambah
         $(function() {
             $('#form_tambah').submit(function(event) {
@@ -108,7 +104,17 @@
                 var url = $(this).attr('action');
                 var formData = new FormData($(this)[0]);
 
-                // showLoading();
+                Swal.fire({
+                    title: "Menyimpan Data",
+                    html: "Mohon tunggu sebentar...",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    willOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -117,14 +123,13 @@
                     processData: false,
                     contentType: false,
                     success: function(data) {
+                        Swal.close();
                         $('.error-message').empty();
                         if (data.errors) {
-                            console.log(data)
+                            console.log(data);
                             $.each(data.errors, function(key, value) {
-                                // Show error message below each input
                                 $('#' + key).next('.error-message').text('*' + value);
                             });
-                            Swal.fire("Error", "Datanya ada yang kurang", "error");
                         } else {
                             Swal.fire(
                                 'Sukses',
@@ -134,10 +139,17 @@
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(jqXHR);
-                    },
-                    complete: function() {
-                        // hideLoading();
+                        Swal.close();
+                        Swal.fire({
+                            title: 'Upss..!',
+                            text: 'Terjadi kesalahan jaringan error message: ' +
+                                errorThrown,
+                            icon: 'error',
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            toast: true
+                        });
                     }
                 });
             });

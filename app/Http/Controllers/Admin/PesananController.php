@@ -34,7 +34,7 @@ class PesananController extends Controller
                 $actionBtn .= '</div>';
                 return $actionBtn;
             })
-            ->addColumn('status_pengerjaan', function ($row) {
+            ->addColumn('status', function ($row) {
                 if (Auth::user()->role == 'Pegawai') {
                     $dropdown = '<select class="form-control status-dropdown" data-id="' . $row->id_pesanan . '"';
                     $statusOptions = [];
@@ -64,12 +64,12 @@ class PesananController extends Controller
                         $dropdown .= '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
                     }
                     $dropdown .= '</select>';
-                } elseif (Auth::user()->role == 'Pemilik') {
+                } else if (Auth::user()->role == 'Pemilik') {
                     $dropdown = $row->status;
                 }
                 return $dropdown;
             })
-            ->rawColumns(['action', 'status_pengerjaan'])
+            ->rawColumns(['action', 'status'])
             ->make(true);
     }
 

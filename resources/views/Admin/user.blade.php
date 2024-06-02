@@ -234,16 +234,12 @@
                     processData: false,
                     contentType: false,
                     success: function(data) {
-                        // Tutup SweetAlert setelah request selesai
                         Swal.close();
-
                         $('.error-message').empty();
                         if (data.errors) {
                             $.each(data.errors, function(key, value) {
-                                // Tampilkan pesan error di bawah setiap input
                                 $('#' + key).next('.error-message').text('*' + value);
                             });
-                            // Tampilkan pesan error dengan SweetAlert
                             Swal.fire({
                                 title: 'Error',
                                 text: 'Datanya ada yang kurang',
@@ -266,15 +262,21 @@
                                 timer: 3000,
                                 toast: true
                             });
-                            $('#form_modal').modal('hide');
                             reload_table();
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(jqXHR);
-                    },
-                    complete: function() {
-                        // hideLoading();
+                        Swal.close();
+                        Swal.fire({
+                            title: 'Upss..!',
+                            text: 'Terjadi kesalahan jaringan error message: ' +
+                                errorThrown,
+                            icon: 'error',
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            toast: true
+                        });
                     }
                 });
             });
@@ -285,7 +287,6 @@
             $('#form_tambah')[0].reset();
             $('#form_tambah').attr('action', '/admin/user-manajemen/update?q=' + id);
 
-            // Tampilkan SweetAlert dengan indikator loading
             Swal.fire({
                 title: "Sedang memproses",
                 html: "Mohon tunggu sebentar...",
@@ -305,42 +306,28 @@
                 },
                 dataType: "JSON",
                 success: function(data) {
-                    console.log(data);
-
-                    // Tutup SweetAlert setelah request selesai
                     Swal.close();
-
-                    if (data.status) {
-                        var isi = data.isi;
-                        $('#nama_lengkap').val(isi.nama_lengkap);
-                        $('#username').val(isi.username);
-                        $('#role').val(isi.role);
-                        $('#email').val(isi.email);
-                        $('#no_hp').val(isi.no_hp);
-                        $('#alamat').val(isi.alamat);
-                        $('#password').val(isi.password);
-                        if (isi.foto) {
-                            $('#foto').text(isi.foto);
-                        }
-
-                        $('#tambah_data').removeClass('hidden');
-                        $('#datane').addClass('hidden');
-                        $('.judul').html(
-                            '<h4 class="judul"><i class="fa-solid fa-users"></i> EDIT DATA USER</h4>');
-                        $('#btn-simpan').html('<i class="nav-icon fas fa-save"></i>&nbsp;&nbsp; SIMPAN');
-                    } else {
-                        Swal.fire({
-                            title: 'Error',
-                            text: 'Datanya ada yang salah',
-                            icon: 'error',
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            toast: true
-                        });
+                    var isi = data.isi;
+                    $('#nama_lengkap').val(isi.nama_lengkap);
+                    $('#username').val(isi.username);
+                    $('#role').val(isi.role);
+                    $('#email').val(isi.email);
+                    $('#no_hp').val(isi.no_hp);
+                    $('#alamat').val(isi.alamat);
+                    $('#password').val(isi.password);
+                    if (isi.foto) {
+                        $('#foto').text(isi.foto);
                     }
+
+                    $('#tambah_data').removeClass('hidden');
+                    $('#datane').addClass('hidden');
+                    $('.judul').html(
+                        '<h4 class="judul"><i class="fa-solid fa-users"></i> EDIT DATA USER</h4>');
+                    $('#btn-simpan').html('<i class="nav-icon fas fa-save"></i>&nbsp;&nbsp; SIMPAN');
+
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
+                    Swal.close();
                     Swal.fire({
                         title: 'Upss..!',
                         text: 'Terjadi kesalahan jaringan error message: ' + errorThrown,
@@ -386,6 +373,7 @@
                         },
                         dataType: "JSON",
                         success: function(data) {
+                            Swal.close();
                             Swal.fire({
                                 title: 'Hapus!',
                                 text: 'User berhasil Dihapus',
@@ -398,6 +386,7 @@
                             reload_table();
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
+                            Swal.close();
                             Swal.fire({
                                 title: 'Upss..!',
                                 text: 'Terjadi kesalahan jaringan error message: ' +
