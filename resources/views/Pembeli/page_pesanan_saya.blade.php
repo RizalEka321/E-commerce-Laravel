@@ -305,6 +305,17 @@ aria-hidden="true">
     }
 
     function detail(id) {
+        Swal.fire({
+            title: "Memproses Data",
+            html: "Mohon tunggu sebentar...",
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+            willOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
         $.ajax({
             url: "{{ url('/detail-pesanan') }}",
             type: "GET",
@@ -313,6 +324,8 @@ aria-hidden="true">
             },
             dataType: "JSON",
             success: function(response) {
+                Swal.close();
+
                 var pesanan = response.pesanan;
                 var detail = response.detail;
                 var admin = response.admin;
@@ -389,7 +402,16 @@ aria-hidden="true">
                 $('#kanan').html(kananHtmlContent);
             },
             error: function(xhr, status, error) {
-                console.error(xhr.responseText);
+                Swal.close();
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Terjadi kesalahan jaringan: ' + error,
+                    icon: 'error',
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    toast: true
+                });
             }
         });
     }

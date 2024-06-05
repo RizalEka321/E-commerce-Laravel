@@ -17,17 +17,26 @@
 
         .tabel-header .btn-hapus {
             font-weight: 600;
-            font-size: 12px;
+            font-size: 15px;
             display: inline-block;
             text-decoration: none;
-            -webkit-transition: all 0.5s ease-in-out;
-            color: var(--black);
+            transition: all 0.5s ease-in-out;
+            color: var(--red);
         }
 
         .tabel-header .btn-hapus:hover {
-            border-color: var(--red);
-            color: var(--white);
-            background: var(--red);
+            color: var(--black);
+        }
+
+        .keranjang .btn-hapus-keranjang {
+            font-weight: 600;
+            font-size: 25px;
+            text-decoration: none;
+            color: var(--red);
+        }
+
+        .keranjang .btn-hapus-keranjang:hover {
+            color: var(--black);
         }
     </style>
     <section class="keranjang mb-4">
@@ -37,15 +46,9 @@
                 <thead>
                     <tr>
                         <div class="tabel-header">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <input type="checkbox" id="checkbox_semua" onclick="selectAll()">
-                                    <a class="btn-hapus" id="pilih_semua" onclick="selectAll()">Pilih Semua</a>
-                                </div>
-                                <div id="hapus" class="col-lg-6 hidden text-end">
-                                    <a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus"
-                                        onClick="delete_all_data({{ Auth::user()->id }})">Hapus Semua</a>
-                                </div>
+                            <div class="text-end me-2">
+                                <a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus"
+                                    onClick="delete_all_data({{ Auth::user()->id }})">Hapus Semua</a>
                             </div>
                         </div>
                     </tr>
@@ -56,7 +59,7 @@
                     <tr>
                         <td colspan="5" class="text-end">
                             <div class="keranjang-bawah">
-                                <h3><strong>Total <span id="total_keranjang"></span></strong></h3>
+                                <h5><strong>Total Belanja : <span id="total_keranjang"></span></strong></h5>
                             </div>
                         </td>
                     </tr>
@@ -84,14 +87,33 @@
         });
 
         function reload_data() {
+            // Tampilkan SweetAlert dengan indikator loading
+            Swal.fire({
+                title: "Memuat Ulang Data",
+                html: "Mohon tunggu sebentar...",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
             $.ajax({
                 url: "{{ url('/keranjang/list') }}",
                 type: "GET",
                 dataType: "json",
                 success: function(response) {
+                    Swal.close();
                     isi_tabel(response);
                 },
                 error: function(xhr, status, error) {
+                    Swal.close();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Terjadi kesalahan: ' + error
+                    });
                     console.error(xhr.responseText);
                 }
             });
@@ -100,9 +122,8 @@
         function isi_tabel(data) {
             var tableBody = $('#tabel_keranjang tbody');
             var totalHarga = 0;
-            tableBody.empty(); // Bersihkan tabel sebelum menambahkan data baru
+            tableBody.empty();
 
-            // Periksa apakah data adalah array
             if (Array.isArray(data)) {
                 data.forEach(function(item) {
                     var row = $('<tr>');
@@ -131,7 +152,6 @@
         }
 
         $(document).ready(function() {
-            // Event listener untuk tombol plus
             $(document).on('click', '.qty-btn-plus', function() {
                 var $qtyInput = $(this).parent(".qty-container").find(".input-qty");
                 var currentQty = parseInt($qtyInput.val());
@@ -139,7 +159,6 @@
                 updateKeranjang($qtyInput);
             });
 
-            // Event listener untuk tombol minus
             $(document).on('click', '.qty-btn-minus', function() {
                 var $qtyInput = $(this).parent(".qty-container").find(".input-qty");
                 var currentQty = parseInt($qtyInput.val());
@@ -149,10 +168,20 @@
                 }
             });
 
-            // Fungsi untuk mengirim data perubahan jumlah ke server
             function updateKeranjang($qtyInput) {
                 var jumlah = $qtyInput.val();
                 var id_keranjang = $qtyInput.data('id');
+
+                Swal.fire({
+                    title: "Memperbarui Keranjang",
+                    html: "Mohon tunggu sebentar...",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    willOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
 
                 $.ajax({
                     url: '/keranjang/update',
@@ -162,26 +191,25 @@
                         jumlah: jumlah
                     },
                     success: function(response) {
+                        Swal.close();
                         reload_data();
-                        console.log(response);
                     },
                     error: function(xhr) {
-                        console.log(xhr.responseText);
+                        Swal.close();
+                        if (xhr.status === 422) {
+                            var errorMessage = xhr.responseJSON.error;
+                            if (errorMessage) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: errorMessage
+                                });
+                            }
+                        }
                     }
                 });
             }
         });
-
-        function selectAll() {
-            // Mengambil semua elemen checkbox di dalam tabel
-            var checkboxes = document.querySelectorAll('.tabel-isi input[type="checkbox"]');
-            checkboxes.forEach(function(checkbox) {
-                checkbox.checked = true;
-            });
-
-
-            $('#hapus').removeClass('hidden');
-        }
 
         function delete_data(id) {
             Swal.fire({
@@ -194,6 +222,17 @@
                 confirmButtonText: 'Ya, hapus!'
             }).then((result) => {
                 if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Sedang Menghapus",
+                        html: "Mohon tunggu sebentar...",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: false,
+                        willOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
                     $.ajax({
                         url: "{{ url('/keranjang/delete') }}",
                         type: "POST",
@@ -201,16 +240,27 @@
                             q: id
                         },
                         dataType: "JSON",
+                        success: function(response) {
+                            Swal.close();
+                            Swal.fire(
+                                'Hapus!',
+                                'Produk berhasil dihapus',
+                                'success'
+                            );
+                            reload_data();
+                        },
+                        error: function(xhr, status, error) {
+                            Swal.close();
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Terjadi kesalahan: ' + error
+                            });
+                        }
                     });
-                    Swal.fire(
-                        'Hapus!',
-                        'Produk berhasil Dihapus',
-                        'success'
-                    )
-                    reload_data();
                 }
-            })
-        };
+            });
+        }
 
         function delete_all_data(id) {
             Swal.fire({
@@ -223,6 +273,17 @@
                 confirmButtonText: 'Ya, hapus!'
             }).then((result) => {
                 if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Sedang Menghapus",
+                        html: "Mohon tunggu sebentar...",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: false,
+                        willOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
                     $.ajax({
                         url: "{{ url('/keranjang/delete-all') }}",
                         type: "POST",
@@ -230,16 +291,27 @@
                             q: id
                         },
                         dataType: "JSON",
+                        success: function(response) {
+                            Swal.close();
+                            Swal.fire(
+                                'Hapus!',
+                                'Semua produk berhasil dihapus',
+                                'success'
+                            );
+                            reload_data();
+                        },
+                        error: function(xhr, status, error) {
+                            Swal.close();
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Terjadi kesalahan: ' + error
+                            });
+                        }
                     });
-                    Swal.fire(
-                        'Hapus!',
-                        'Produk berhasil Dihapus',
-                        'success'
-                    )
-                    reload_data();
                 }
-            })
-        };
+            });
+        }
 
         function checkout(id) {
             Swal.fire({
@@ -253,7 +325,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ url('/keranjang/checkout') }}",
+                        url: "{{ url('/checkout-keranjang') }}",
                         type: "POST",
                         data: {
                             q: id

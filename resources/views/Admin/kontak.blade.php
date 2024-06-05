@@ -131,11 +131,15 @@
                                 $('#' + key).next('.error-message').text('*' + value);
                             });
                         } else {
-                            Swal.fire(
-                                'Sukses',
-                                'Data berhasil disimpan',
-                                'success'
-                            );
+                            Swal.fire({
+                                title: 'Sukses',
+                                text: 'Data berhasil disimpan',
+                                icon: 'success',
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: true
+                            });
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {

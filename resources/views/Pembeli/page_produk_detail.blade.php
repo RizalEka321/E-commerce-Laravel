@@ -70,10 +70,6 @@
             $('#form_tambah')[0].reset();
         }
 
-        function reset_errors() {
-            $('.error-message').empty();
-        }
-
         $(document).ready(function() {
             $(document).on('click', '.qty-btn-plus', function() {
                 var $n = $(this).parent(".qty-container").find(".input-qty");
@@ -139,15 +135,18 @@
                             });
                         } else {
                             reset_form();
-                            Swal.fire(
-                                'Sukses',
-                                'Produk Berhasil Dimasukkan Keranjang',
-                                'success'
-                            );
+                            Swal.fire({
+                                title: 'Sukses',
+                                text: 'Produk Berhasil Dimasukkan Keranjang',
+                                icon: 'success',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: false
+                            });
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(jqXHR);
+                        Swal.close();
                         Swal.fire({
                             title: 'Error',
                             text: 'Terjadi kesalahan saat memproses memasukkan keranjang.',
@@ -155,9 +154,6 @@
                             confirmButtonText: 'Oke',
                             confirmButtonColor: '#000000'
                         });
-                    },
-                    complete: function() {
-                        // Lakukan sesuatu setelah request selesai (jika diperlukan)
                     }
                 });
             }
@@ -199,9 +195,7 @@
                     processData: false,
                     contentType: false,
                     success: function(data) {
-                        // Tutup SweetAlert setelah request selesai
                         Swal.close();
-
                         if (data.errors) {
                             let errorMessages = '';
                             $.each(data.errors, function(key, value) {
@@ -230,7 +224,7 @@
                                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                                     // Ajax request untuk membatalkan checkout
                                     $.ajax({
-                                        url: "{{ url('/checkout-langsung/batalkan') }}",
+                                        url: "{{ url('/checkout-batalkan') }}",
                                         type: "POST",
                                         dataType: "JSON",
                                         processData: false,
@@ -248,7 +242,7 @@
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(jqXHR);
+                        Swal.close();
                         Swal.fire({
                             title: 'Error',
                             text: 'Terjadi kesalahan saat memproses checkout.',
@@ -257,9 +251,6 @@
                             confirmButtonColor: '#000000'
                         });
                     },
-                    complete: function() {
-                        // Lakukan sesuatu setelah request selesai (jika diperlukan)
-                    }
                 });
             }
         });

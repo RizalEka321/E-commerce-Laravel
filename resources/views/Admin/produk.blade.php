@@ -188,7 +188,7 @@
 
         // Reset Form
         function reset_form() {
-            $('#form-add').attr('action', "{{ url('/admin/produk/create') }}");
+            $('#form_tambah').attr('action', "{{ url('/admin/produk/create') }}");
             $('#form_tambah')[0].reset();
             $('[id^=stok-container-]').each(function() {
                 $(this).css('display', 'none').html('');

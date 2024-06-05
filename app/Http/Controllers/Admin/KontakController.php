@@ -66,7 +66,7 @@ class KontakController extends Controller
 
             $kontak->instagram = Str::title($request->instagram);
             $kontak->whatsapp = Str::title($request->whatsapp);
-            $kontak->email = Str::title($request->email);
+            $kontak->email = $request->email;
             $kontak->facebook = Str::title($request->facebook);
 
 

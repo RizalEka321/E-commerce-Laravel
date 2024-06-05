@@ -82,46 +82,6 @@
                                     <span class="form-text text-danger error-message"></span>
                                 </div>
                             </form>
-                            <!-- Modal -->
-                            <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="ModalLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="ModalLabel">
-                                                Ubah Password</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form id="form_password" action="{{ url('/profile/update-password') }}"
-                                                method="POST">
-                                                <div class="mb-3">
-                                                    <div class="form-group inputan">
-                                                        <label for="password">Password Baru</label>
-                                                        <input type="password" name="password" id="password"
-                                                            class="input-kecil" placeholder="Masukkan Password">
-                                                        <span class="form-text text-danger error-message"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <div class="form-group inputan">
-                                                        <label for="password_confirmation">Konfirmasi
-                                                            Password :</label>
-                                                        <input type="password" id="password_confirmation"
-                                                            name="password_confirmation" class="input-kecil"
-                                                            placeholder="Masukkan Password">
-                                                        <span class="form-text text-danger error-message"></span>
-                                                    </div>
-                                                </div>
-                                                <button type="submit" id="btn-simpan" class="btn-profile"><i
-                                                        class="nav-icon fas fa-save"></i>&nbsp;&nbsp;
-                                                    Simpan</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -133,6 +93,41 @@
                 </button>
             </div>
         </div>
+        <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="ModalLabel">
+                            Ubah Password</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form_password" action="{{ url('/profile/update-password') }}" method="POST">
+                            <div class="mb-3">
+                                <div class="form-group inputan">
+                                    <label for="password">Password Baru</label>
+                                    <input type="password" name="password" id="password" class="input-kecil"
+                                        placeholder="Masukkan Password">
+                                    <span class="form-text text-danger error-message"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-group inputan">
+                                    <label for="password_confirmation">Konfirmasi
+                                        Password :</label>
+                                    <input type="password" id="password_confirmation" name="password_confirmation"
+                                        class="input-kecil" placeholder="Masukkan Password">
+                                    <span class="form-text text-danger error-message"></span>
+                                </div>
+                            </div>
+                            <button type="submit" id="btn-simpan" class="btn-profile"><i
+                                    class="nav-icon fas fa-save"></i>&nbsp;&nbsp;
+                                Simpan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 @endsection
 @section('script')
@@ -142,11 +137,6 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
-        // Reset validasi
-        function reset_errors() {
-            $('.error-message').empty();
-        }
 
         $('#btn-update').click(function(e) {
             e.preventDefault();
@@ -181,25 +171,27 @@
                             $('#' + key).next('.error-message').text('*' + value);
                         });
                     } else {
-                        Swal.fire(
-                            'Sukses',
-                            'Profile berhasil diperbarui',
-                            'success'
-                        );
+                        Swal.fire({
+                            title: 'Sukses',
+                            text: 'Profile berhasil diperbarui',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            toast: false
+                        });
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR);
+                    Swal.close();
                     Swal.fire({
-                        title: 'Error',
-                        text: 'Terjadi kesalahan saat memperbarui profile.',
+                        title: 'Upss..!',
+                        text: 'Terjadi kesalahan saat memperbarui profil.',
                         icon: 'error',
-                        confirmButtonText: 'Oke',
-                        confirmButtonColor: '#000000'
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        toast: true
                     });
-                },
-                complete: function() {
-                    // Lakukan sesuatu setelah request selesai (jika diperlukan)
                 }
             });
         });
@@ -232,9 +224,7 @@
                     processData: false,
                     contentType: false,
                     success: function(data) {
-                        // Tutup SweetAlert setelah request selesai
                         Swal.close();
-
                         $('.error-message').empty();
                         if (data.errors) {
                             $.each(data.errors, function(key, value) {
@@ -242,27 +232,30 @@
                                 $('#' + key).next('.error-message').text('*' + value);
                             });
                         } else {
-                            Swal.fire(
-                                'Sukses',
-                                'Password berhasil diubah',
-                                'success'
-                            );
+                            Swal.fire({
+                                title: 'Sukses',
+                                text: 'Password berhasil diubah',
+                                icon: 'success',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: false
+                            });
                             $('#form_password')[0].reset();
                             $('#passwordModal').modal('hide');
+                            $('.modal-backdrop').remove();
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(jqXHR);
+                        Swal.close();
                         Swal.fire({
-                            title: 'Error',
-                            text: 'Terjadi kesalahan saat mengubah password.',
+                            title: 'Upss..!',
+                            text: 'Terjadi kesalahan saat memperbarui password.',
                             icon: 'error',
-                            confirmButtonText: 'Oke',
-                            confirmButtonColor: '#000000'
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            toast: true
                         });
-                    },
-                    complete: function() {
-                        // Lakukan sesuatu setelah request selesai (jika diperlukan)
                     }
                 });
             });
@@ -300,32 +293,27 @@
                     processData: false,
                     contentType: false,
                     success: function(data) {
-                        // Tutup SweetAlert setelah request selesai
                         Swal.close();
-
                         $('.error-message').empty();
                         if (data.errors) {
                             $.each(data.errors, function(key, value) {
-                                // Show error message below each input
                                 $('#' + key).next('.error-message').text('*' + value);
                             });
                         } else {
-                            // SweetAlert sukses tidak digunakan, akan me-refresh halaman secara otomatis
                             location.reload();
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(jqXHR);
+                        Swal.close();
                         Swal.fire({
-                            title: 'Error',
-                            text: 'Terjadi kesalahan saat mengubah foto profil.',
+                            title: 'Upss..!',
+                            text: 'Terjadi kesalahan saat memperbarui foto profil.',
                             icon: 'error',
-                            confirmButtonText: 'Oke',
-                            confirmButtonColor: '#000000'
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            toast: true
                         });
-                    },
-                    complete: function() {
-                        // Lakukan sesuatu setelah request selesai (jika diperlukan)
                     }
                 });
             });

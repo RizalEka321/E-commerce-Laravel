@@ -169,18 +169,20 @@
                 <p>Isi form berikut untuk menghubungi kami lebih lanjut melalui email. Deskripsikan pertanyaaan anda dengan
                     sebaik mungkin </p>
             </div>
-            <form action="" method="post">
+            <form id="form_pesan" action="{{ url('/saran') }}" method="post">
                 <div class="row mb-3">
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label for="nama">NAMA</label>
                             <input type="text" id="nama" name="nama" class="input-kecil">
+                            <span class="form-text text-danger error-message"></span>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label for="email">EMAIL</label>
                             <input type="email" id="email" name="email" class="input-kecil">
+                            <span class="form-text text-danger error-message"></span>
                         </div>
                     </div>
                 </div>
@@ -188,6 +190,7 @@
                     <div class="form-group">
                         <label for="pesan">PESAN</label>
                         <textarea id="pesan" name="pesan" class="input-besar">{{ old('pesan') }}</textarea>
+                        <span class="form-text text-danger error-message"></span>
                     </div>
                 </div>
                 <div class="text-center">
@@ -200,6 +203,12 @@
 @endsection
 @section('script')
     <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
         function togglePanel(panelId) {
             var panel = $('#' + panelId);
             var btn = $('#btn-' + panelId);
@@ -216,6 +225,68 @@
             $(".long-text").addClass("show-long-text");
         }, function() {
             $(".long-text").removeClass("show-long-text");
+        });
+
+        $(function() {
+            $('#form_pesan').submit(function(event) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                var url = $(this).attr('action');
+                var formData = new FormData($(this)[0]);
+
+                // Tampilkan SweetAlert dengan indikator loading
+                Swal.fire({
+                    title: "Sedang memproses",
+                    html: "Mohon tunggu sebentar...",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    willOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // Lakukan AJAX request
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    dataType: "JSON",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        Swal.close();
+                        $('.error-message').empty();
+                        if (data.errors) {
+                            $.each(data.errors, function(key, value) {
+                                $('#' + key).next('.error-message').text('*' + value);
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Sukses',
+                                text: 'Pesan berhasil dikirim',
+                                icon: 'success',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: false
+                            });
+                            $('#form_pesan')[0].reset();
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        Swal.close();
+                        Swal.fire({
+                            title: 'Upss..!',
+                            text: 'Terjadi kesalahan jaringan error message: ' +
+                                errorThrown,
+                            icon: 'error',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            toast: false
+                        });
+                    }
+                });
+            });
         });
     </script>
 @endsection

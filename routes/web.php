@@ -122,12 +122,12 @@ Route::middleware(['auth:web', 'pembeli', 'verified'])->group(function () {
     Route::post('/keranjang/delete-all', [KeranjangController::class, "delete_all_keranjang"])->name('keranjang.delete_all');
     Route::post('/keranjang/create', [KeranjangController::class, "add_keranjang"])->name('keranjang.add');
     // checkout
-    Route::post('/keranjang/checkout', [CheckoutController::class, "checkout_keranjang"])->name('checkout.keranjang');
+    Route::post('/checkout-keranjang', [CheckoutController::class, "checkout_keranjang"])->name('checkout.keranjang');
     Route::post('/checkout-langsung', [CheckoutController::class, "checkout_langsung"])->name('checkout.langsung');
     Route::get('/checkout', [CheckoutController::class, "checkout"])->name('checkout');
-    Route::post('/checkout-langsung/batalkan', [CheckoutController::class, "checkout_langsung_batalkan"])->name('checkout_langsung.batalkan');
+    Route::post('/checkout-store', [CheckoutController::class, "checkout_store"])->name('checkout.store');
+    Route::post('/checkout-batalkan', [CheckoutController::class, "checkout_batalkan"])->name('checkout.batalkan');
     // pemesanan
-    Route::post('/pembayaran-store', [PembayaranController::class, "pembayaran_store"])->name('pembayaran.store');
     Route::get('/pembayaran-cash/{id}', [PembayaranController::class, "pembayaran_cash"])->name('pembayaran.cash');
     Route::get('/pembayaran-online/{id}', [PembayaranController::class, "pembayaran_online"])->name('pembayaran.online');
 });
@@ -135,3 +135,4 @@ Route::middleware(['auth:web', 'pembeli', 'verified'])->group(function () {
 // Guest
 Route::get('/', [PageController::class, "page_home"])->name('home');
 Route::get('/produk/{slug}', [PageController::class, "page_detail_produk"])->name('detail_produk');
+Route::post('/saran', [PageController::class, "saran"])->name('saran');

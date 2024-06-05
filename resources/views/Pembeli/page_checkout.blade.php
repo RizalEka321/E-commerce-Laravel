@@ -99,7 +99,7 @@
                                 </div>
                             </div>
                         @endforeach
-                        <form id="form_tambah" action="{{ url('/pembayaran-store') }}" method="POST"
+                        <form id="form_tambah" action="{{ url('/checkout-store') }}" method="POST"
                             enctype="multipart/form-data" role="form">
                             <div class="card metode">
                                 <button type="button" class="btn-metode" data-bs-toggle="modal"
@@ -269,7 +269,7 @@
 
         function handleLeavePage() {
             $.ajax({
-                url: "{{ url('/checkout-langsung/batalkan') }}",
+                url: "{{ url('/checkout-batalkan') }}",
                 type: "POST",
                 dataType: "JSON",
                 processData: false,

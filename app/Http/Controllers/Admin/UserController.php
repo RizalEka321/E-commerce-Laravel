@@ -9,6 +9,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -107,12 +108,24 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
+        $id = $request->query('q');
+        $user = User::find($id);
+
         $validator = Validator::make($request->all(), [
             'nama_lengkap' => 'required|min:8|max:25',
-            'username' => 'required|min:8|max:16|unique:users',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8|max:16|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
-            'password_confirmation' => 'required|same:password',
+            'username' => [
+                'required',
+                'min:8',
+                'max:16',
+                Rule::unique('users')->ignore($user->id),
+            ],
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users')->ignore($user->id),
+            ],
+            'password' => 'nullable|min:8|max:16|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
+            'password_confirmation' => 'nullable|same:password',
             'role' => 'required|in:Pegawai,Pembeli',
             'alamat' => 'nullable',
             'no_hp' => 'nullable',
@@ -130,28 +143,23 @@ class UserController extends Controller
             'email.email' => 'Email yang anda masukan tidak valid',
             'role' => 'Role wajib diisi.',
             'role.in' => 'Role yang anda masukan tidak valid',
-            'password.required' => 'Password wajib diisi.',
+            // 'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password harus memiliki panjang minimal 8 karakter.',
             'password.max' => 'Password harus memiliki panjang maksimal 16 karakter.',
             'password.regex' => 'Password harus mengandung setidaknya satu huruf kapital, satu huruf kecil, dan satu angka',
-            'password_confirmation.required' => 'Konfirmasi Password wajib diisi.',
+            // 'password_confirmation.required' => 'Konfirmasi Password wajib diisi.',
             'password_confirmation.same' => 'Konfirmasi Password tidak sesuai dengan Password.',
             'foto.image' => 'File harus berupa gambar.',
             'foto.mimes' => 'Format file harus jpeg, png, atau jpg.',
             'foto.max' => 'Ukuran file tidak boleh lebih dari 2 MB.',
         ]);
 
-        $role = $request->input('role', 'Pegawai'); // Set default role to Pegawai
-
         if ($validator->fails()) {
             return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
         } else {
-            $id = $request->query('q');
-            $user = User::find($id);
-
             $user->nama_lengkap = $request->nama_lengkap;
             $user->username = $request->username;
-            $user->role = $role;
+            $user->role = $request->role;
             $user->email = $request->email;
             $user->alamat = $request->alamat;
             $user->no_hp = $request->no_hp;

@@ -2,24 +2,20 @@
 
 namespace App\Http\Controllers\Pembeli;
 
-use App\Models\Produk;
 use App\Models\Ukuran;
 use App\Models\Keranjang;
 use Illuminate\Http\Request;
 use App\Models\Profil_Perusahaan;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
-
 
 class KeranjangController extends Controller
 {
     public function page_keranjang()
     {
-        $produk = Produk::select('slug', 'judul', 'foto', 'harga')->get();
         $profile = Profil_Perusahaan::where('id_profil_perusahaan', 'satu')->first();
-        return view('Pembeli.page_keranjang', compact('produk', 'profile'));
+        return view('Pembeli.page_keranjang', compact('profile'));
     }
 
     public function add_keranjang(Request $request)
@@ -91,13 +87,12 @@ class KeranjangController extends Controller
                             <div class="row">
                                 <div class="col-lg-4 foto">
                                     <div class="d-flex justify-content-between">
-                                        <input type="checkbox" class="me-2">
                                         <img src="' . asset($item->produk->foto) . '"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-8 foto-detail"> <!-- Corrected typo here -->
                                     <h5>' . $item->produk->judul . '</h5>
-                                    <h6>' . $item->ukuran . '</h6>
+                                    <h6>Size, ' . $item->ukuran . '</h6>
                                     <h6>Rp. ' . number_format($item->produk->harga, 0, ',', '.') . '</h6>
                                 </div>
                             </div>
@@ -105,12 +100,15 @@ class KeranjangController extends Controller
                         <div class="col-lg-6">
                             <div class="d-flex justify-content-end align-items-center">
                                 <div>
-                                    <h5>Rp. ' . number_format($item->produk->harga * $item->jumlah, 0, ',', '.') . '</h5>
-                                    <div class="qty-container">
-                                        <button class="qty-btn-minus" type="button"><i class="fa fa-minus"></i></button>
-                                        <input type="text" name="jumlah" value="' . $item->jumlah . '" class="update-keranjang input-qty" data-id="' . $item->id_keranjang . '" />
-                                        <button class="qty-btn-plus" type="button"><i class="fa fa-plus"></i></button>
-                                    </div>
+                                <div class="qty-container">
+                                    <button class="qty-btn-minus" type="button"><i class="fa fa-minus"></i></button>
+                                    <input type="text" name="jumlah" value="' . $item->jumlah . '" class="update-keranjang input-qty" data-id="' . $item->id_keranjang . '" readonly/>
+                                    <button class="qty-btn-plus" type="button"><i class="fa fa-plus"></i></button>
+                                </div>
+                                <div class="text-end">
+                                <h5>Rp. ' . number_format($item->produk->harga * $item->jumlah, 0, ',', '.') . '</h5>
+                                <a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus-keranjang" onClick="delete_data(' . "'" . $item->id_keranjang . "'" . ')"><i class="fa-regular fa-trash-can"></i></a>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -119,7 +117,6 @@ class KeranjangController extends Controller
                 'sub_total' => $item->produk->harga * $item->jumlah
             ];
         }
-
 
         return response()->json($formattedKeranjang);
     }
@@ -135,6 +132,16 @@ class KeranjangController extends Controller
 
         // Perbarui jumlah produk di keranjang
         $keranjang->jumlah = $request->jumlah;
+
+        if ($keranjang->jumlah > 100) {
+            return response()->json(['status' => FALSE, 'message' => 'Jumlah yang anda masukan lebih dari ketentuan maksimal.']);
+        }
+
+        // Check if the quantity exceeds the available stock
+        $ukuran = Ukuran::find($keranjang->ukuran_id);
+        if ($keranjang->jumlah > $ukuran->stok) {
+            return response()->json(['error' => 'Jumlah yang anda masukkan lebih dari stok yang tersedia.'], 422);
+        }
 
         // Jika jumlah barang menjadi 0, hapus barang dari keranjang
         if ($keranjang->jumlah == 0) {

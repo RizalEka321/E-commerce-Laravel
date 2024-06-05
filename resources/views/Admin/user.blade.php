@@ -140,13 +140,16 @@
             $('#datane').addClass('hidden');
             $('.judul').html(
                 '<h4 class="judul"><i class="fa-solid fa-shirt"></i>TAMBAH DATA USER</h4>');
-
+            $('.error-message').empty();
+            reset_form();
         });
+
         $('#btn-close').click(function() {
             $('#datane').removeClass('hidden');
             $('#tambah_data').addClass('hidden');
             $('.judul').html(
                 '<h4 class="judul"><i class="fa-solid fa-shirt"></i> DATA USER</h4>');
+            $('.error-message').empty();
             reset_form();
         });
 
