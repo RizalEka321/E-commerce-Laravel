@@ -207,14 +207,12 @@
             var stokContainer = document.getElementById(stokContainerId);
 
             if (checkbox.checked) {
-                // Tampilkan input jumlah stok
                 stokContainer.style.display = 'block';
                 stokContainer.innerHTML = `
             <label for="ukuran${size}_stok">Stok untuk Ukuran ${size}</label>
             <input type="number" class="form-control" id="ukuran${size}_stok" name="stok[]" placeholder="Stok" min="0">
         `;
             } else {
-                // Sembunyikan input jumlah stok dan hapus elemen input
                 stokContainer.style.display = 'none';
                 stokContainer.innerHTML = '';
             }
@@ -259,7 +257,6 @@
             });
         });
 
-        // Fungsi Tambah
         $(function() {
             $('#form_tambah').submit(function(event) {
                 event.preventDefault();
@@ -267,9 +264,8 @@
                 var url = $(this).attr('action');
                 var formData = new FormData($(this)[0]);
 
-                // Tampilkan SweetAlert dengan indikator loading
                 Swal.fire({
-                    title: "Sedang Memproses",
+                    title: "Sedang memproses",
                     html: "Mohon tunggu sebentar...",
                     allowOutsideClick: false,
                     allowEscapeKey: false,
@@ -286,11 +282,11 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(data) {
+                    success: function(response) {
                         Swal.close();
                         $('.error-message').empty();
-                        if (data.errors) {
-                            $.each(data.errors, function(key, value) {
+                        if (response.errors) {
+                            $.each(response.errors, function(key, value) {
                                 $('#' + key).next('.error-message').text('*' + value);
                             });
                             Swal.fire({
@@ -334,14 +330,12 @@
             });
         });
 
-        // Fungsi Edit dan Update
         function edit_data(id) {
             $('#form_tambah')[0].reset();
             $('#form_tambah').attr('action', '/admin/produk/update?q=' + id);
 
-            // Tampilkan SweetAlert dengan indikator loading
             Swal.fire({
-                title: "Mengambil Data",
+                title: "Sedang memproses",
                 html: "Mohon tunggu sebentar...",
                 allowOutsideClick: false,
                 allowEscapeKey: false,
@@ -359,12 +353,11 @@
                 },
                 dataType: "JSON",
                 success: function(response) {
-                    Swal.close(); // Menutup loading saat sukses
+                    Swal.close();
                     var isi = response.produk;
                     $('#judul').val(isi.judul);
                     $('#harga').val(isi.harga);
 
-                    // Untuk setiap nilai ukuran, tandai centang pada checkbox yang sesuai
                     isi.ukuran.forEach(function(u) {
                         $('#ukuran' + u.jenis_ukuran).prop('checked', true);
                         $('#stok-container-' + u.jenis_ukuran).css('display', 'block');
@@ -401,10 +394,9 @@
             });
         }
 
-        // Fungsi Hapus
         function delete_data(id) {
             Swal.fire({
-                title: 'Hapus Katalog',
+                title: 'Hapus Produk',
                 text: "Apakah anda yakin!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -414,7 +406,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.fire({
-                        title: "Menghapus Data",
+                        title: "Sedang memproses",
                         html: "Mohon tunggu sebentar...",
                         allowOutsideClick: false,
                         allowEscapeKey: false,
@@ -432,7 +424,7 @@
                         },
                         dataType: "JSON",
                         success: function(response) {
-                            Swal.close(); // Menutup loading saat sukses
+                            Swal.close();
                             Swal.fire({
                                 title: 'Hapus!',
                                 text: 'Produk berhasil Dihapus',
@@ -463,9 +455,8 @@
         }
 
         function detail_data(id) {
-            // Tampilkan SweetAlert dengan indikator loading
             Swal.fire({
-                title: "Memuat Data",
+                title: "Sedang memproses",
                 html: "Mohon tunggu sebentar...",
                 allowOutsideClick: false,
                 allowEscapeKey: false,
@@ -493,7 +484,6 @@
                     $('#detail-harga').html(`<h6>${harga}</h6>`);
                     $('#detail-foto').html(
                         `<img src="${fotoUrl}" alt="Foto Detail" width="100%" height="400">`);
-                    // Untuk setiap nilai ukuran, tandai centang pada checkbox yang sesuai
                     $('#detail-ukuran').html('');
                     isi.ukuran.forEach(function(u) {
                         $('#detail-ukuran').append(

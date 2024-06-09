@@ -199,7 +199,7 @@
         }
 
         function reset_form() {
-            $('#form-add').attr('action', "{{ url('/admin/proyek/create') }}");
+            $('#form_tambah').attr('action', "{{ url('/admin/proyek/create') }}");
             $('#form_tambah')[0].reset();
         }
 
@@ -260,9 +260,8 @@
                 var url = $(this).attr('action');
                 var formData = new FormData($(this)[0]);
 
-                // Tampilkan SweetAlert dengan indikator loading
                 Swal.fire({
-                    title: "Memproses Data",
+                    title: "Sedang memproses",
                     html: "Mohon tunggu sebentar...",
                     allowOutsideClick: false,
                     allowEscapeKey: false,
@@ -279,11 +278,11 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(data) {
-                        Swal.close(); // Menutup loading saat sukses
+                    success: function(response) {
+                        Swal.close();
                         $('.error-message').empty();
-                        if (data.errors) {
-                            $.each(data.errors, function(key, value) {
+                        if (response.errors) {
+                            $.each(response.errors, function(key, value) {
                                 $('#' + key).next('.error-message').text('*' + value);
                             });
                             Swal.fire({
@@ -312,7 +311,7 @@
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        Swal.close(); // Menutup loading saat terjadi error
+                        Swal.close();
                         Swal.fire({
                             title: 'Upss..!',
                             text: 'Terjadi kesalahan jaringan error message: ' +
@@ -333,9 +332,8 @@
             $('#form_tambah')[0].reset();
             $('#form_tambah').attr('action', '/admin/proyek/update?q=' + id);
 
-            // Tampilkan SweetAlert dengan indikator loading
             Swal.fire({
-                title: "Mengambil Data",
+                title: "Sedang memproses",
                 html: "Mohon tunggu sebentar...",
                 allowOutsideClick: false,
                 allowEscapeKey: false,
@@ -407,9 +405,8 @@
                 confirmButtonText: 'Ya, hapus!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Tampilkan SweetAlert dengan indikator loading
                     Swal.fire({
-                        title: "Menghapus Data",
+                        title: "Sedang memproses",
                         html: "Mohon tunggu sebentar...",
                         allowOutsideClick: false,
                         allowEscapeKey: false,
@@ -461,7 +458,7 @@
             var id = $(this).data('id');
 
             Swal.fire({
-                title: "Mengubah Status Pengerjaan",
+                title: "Sedang memproses",
                 html: "Mohon tunggu sebentar...",
                 allowOutsideClick: false,
                 allowEscapeKey: false,
@@ -512,7 +509,7 @@
             var id = $(this).data('id');
 
             Swal.fire({
-                title: "Mengubah Status Pembayaran",
+                title: "Sedang memproses",
                 html: "Mohon tunggu sebentar...",
                 allowOutsideClick: false,
                 allowEscapeKey: false,

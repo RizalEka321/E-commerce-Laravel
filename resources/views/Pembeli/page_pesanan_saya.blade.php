@@ -309,7 +309,7 @@ aria-hidden="true">
 
     function detail(id) {
         Swal.fire({
-            title: "Memproses Data",
+            title: "Sedang memproses",
             html: "Mohon tunggu sebentar...",
             allowOutsideClick: false,
             allowEscapeKey: false,
@@ -427,7 +427,7 @@ aria-hidden="true">
             year: 'numeric'
         });
     }
-    // Helper function to format numbers as currency
+
     function number_format(number) {
         return new Intl.NumberFormat('id-ID', {
             style: 'currency',

@@ -2,6 +2,11 @@
 @section('title', 'Laporan')
 @section('content')
     {{-- Data Tabel Katalog --}}
+    <style>
+        input[type="month"]:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
     <div id="tambah_data" class="details">
         <div class="content">
             <div class="card border-0">
@@ -45,12 +50,4 @@
             </div>
         </div>
     </div>
-@endsection
-@section('script')
-    <style>
-        /* Contoh gaya hover */
-        input[type="month"]:hover {
-            background-color: #f0f0f0;
-        }
-    </style>
 @endsection

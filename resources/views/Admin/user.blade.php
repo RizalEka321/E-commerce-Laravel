@@ -216,7 +216,6 @@
                 var url = $(this).attr('action');
                 var formData = new FormData($(this)[0]);
 
-                // Tampilkan SweetAlert dengan indikator loading
                 Swal.fire({
                     title: "Sedang memproses",
                     html: "Mohon tunggu sebentar...",
@@ -228,7 +227,6 @@
                     }
                 });
 
-                // Lakukan AJAX request
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -236,11 +234,11 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(data) {
+                    success: function(response) {
                         Swal.close();
                         $('.error-message').empty();
-                        if (data.errors) {
-                            $.each(data.errors, function(key, value) {
+                        if (response.errors) {
+                            $.each(response.errors, function(key, value) {
                                 $('#' + key).next('.error-message').text('*' + value);
                             });
                             Swal.fire({
@@ -308,9 +306,9 @@
                     q: id
                 },
                 dataType: "JSON",
-                success: function(data) {
+                success: function(response) {
                     Swal.close();
-                    var isi = data.isi;
+                    var isi = response.isi;
                     $('#nama_lengkap').val(isi.nama_lengkap);
                     $('#username').val(isi.username);
                     $('#role').val(isi.role);
@@ -356,9 +354,8 @@
                 confirmButtonText: 'Ya, hapus!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Tampilkan SweetAlert dengan indikator loading
                     Swal.fire({
-                        title: "Menghapus",
+                        title: "Sedang memproses",
                         html: "Mohon tunggu sebentar...",
                         allowOutsideClick: false,
                         allowEscapeKey: false,
@@ -375,7 +372,7 @@
                             q: id
                         },
                         dataType: "JSON",
-                        success: function(data) {
+                        success: function(response) {
                             Swal.close();
                             Swal.fire({
                                 title: 'Hapus!',

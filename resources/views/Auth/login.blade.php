@@ -79,6 +79,18 @@
                 event.stopImmediatePropagation();
                 var url = $(this).attr('action');
                 var formData = new FormData($(this)[0]);
+
+                Swal.fire({
+                    title: "Sedang memproses login",
+                    html: "Mohon tunggu sebentar...",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    willOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -86,20 +98,38 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(data) {
-                        $('.error-message').empty();
-                        if (data.errors) {
-                            $.each(data.errors, function(key, value) {
+                    success: function(response) {
+                        if (response.errors) {
+                            Swal.close();
+                            $.each(response.errors, function(key, value) {
                                 $('#' + key).next('.error-message').text('*' + value);
                             });
-                        } else if (data.error) {
-                            Swal.fire("Error", data.error, "error");
+                        } else if (response.error) {
+                            Swal.close();
+                            $('.error-message').empty();
+                            Swal.fire({
+                                title: 'Upss..!',
+                                text: response.error,
+                                icon: 'error',
+                                position: 'center',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: false
+                            });
                         } else {
-                            window.location.href = data.redirect;
+                            window.location.href = response.redirect;
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(jqXHR);
+                        Swal.fire({
+                            title: 'Upss..!',
+                            text: 'Terjadi kesalahan saat Login.',
+                            icon: 'error',
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            toast: true
+                        });
                     }
                 });
             });

@@ -43,7 +43,7 @@
                                 <a class="nav-link" href="{{ route('keranjang') }}"><i class="fas fa-shopping-cart"></i>
                                 </a>
                             </li>
-                        @elseif (Auth::user()->role == 'Pemilik')
+                        @elseif (Auth::user()->role == 'Pemilik' || Auth::user()->role == 'Pegawai')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fa fa-wrench"></i>
                                     Admin

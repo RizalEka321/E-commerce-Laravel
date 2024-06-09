@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pembeli;
 
 use Midtrans\Snap;
+use App\Models\User;
 use Midtrans\Config;
 use App\Models\Ukuran;
 use App\Models\Pesanan;
@@ -53,13 +54,22 @@ class CheckoutController extends Controller
     public function checkout_keranjang(Request $request)
     {
         $id = $request->input('q');
-
         $keranjang = Keranjang::where('users_id', $id)->where('status', 'Tidak')->get();
-        foreach ($keranjang as $item) {
-            $item->status = 'Ya';
-            $item->save();
+
+        if ($keranjang->isEmpty()) {
+            return response()->json(['status' => 'FALSE', 'error' => 'Keranjang kosong atau tidak ditemukan']);
+        } else {
+            foreach ($keranjang as $item) {
+                $ukuran = Ukuran::find($item->ukuran_id);
+                if ($item->jumlah > $ukuran->stok) {
+                    return response()->json(['status' => 'FALSE', 'error' => 'Stok tidak cukup untuk produk ' . $item->produk->judul]);
+                } else {
+                    $item->status = 'Ya';
+                    $item->save();
+                }
+            }
+            return response()->json(['status' => 'TRUE']);
         }
-        return response()->json(['status' => 'TRUE']);
     }
 
     public function checkout_langsung(Request $request)
@@ -95,8 +105,8 @@ class CheckoutController extends Controller
                     'status' => 'Ya'
                 ]);
             }
+            return response()->json(['status' => 'TRUE']);
         }
-        return response()->json(['status' => 'TRUE']);
     }
 
     public function checkout_batalkan()
@@ -244,6 +254,46 @@ class CheckoutController extends Controller
                 Mail::to($perusahaan->email)->send(new Adminpesananmail($id_pesanan));
                 return response()->json(['status' => TRUE, 'redirect' => '/pembayaran-cash/' . $id]);
             }
+        }
+    }
+    public function update_alamat(Request $request)
+    {
+        $id = $request->query('q');
+        $user = User::find($id);
+
+        $validator = Validator::make($request->all(), [
+            'alamat' => 'required',
+        ], [
+            'alamat.required' => 'Alamat wajib diisi.',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
+        } else {
+            $user->alamat = $request->alamat;
+            $user->save();
+
+            return response()->json(['status' => 'TRUE', 'alamat' => $user->alamat]);
+        }
+    }
+    public function update_nohp(Request $request)
+    {
+        $id = $request->query('q');
+        $user = User::find($id);
+
+        $validator = Validator::make($request->all(), [
+            'no_hp' => 'required',
+        ], [
+            'no_hp.required' => 'Nomor HP wajib diisi.',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
+        } else {
+            $user->no_hp = $request->no_hp;
+            $user->save();
+
+            return response()->json(['status' => 'TRUE', 'nohp' => $user->no_hp]);
         }
     }
 }

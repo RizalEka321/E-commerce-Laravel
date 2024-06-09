@@ -87,10 +87,6 @@
             $('#tabel_log').DataTable().ajax.reload();
         }
 
-        function reset_form() {
-            $('#form_tambah')[0].reset();
-        }
-
         // Fungsi index
         $(function() {
             var table = $('#tabel_log').DataTable({
@@ -146,7 +142,19 @@
 
         // Fungsi detail
         function detail_data(id) {
-            reset_form();
+            $('#form_tambah')[0].reset();
+
+            Swal.fire({
+                title: "Sedang memproses",
+                html: "Mohon tunggu sebentar...",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
             $.ajax({
                 url: "/admin/log/detail",
                 type: "POST",
@@ -155,26 +163,29 @@
                 },
                 dataType: "JSON",
                 success: function(response) {
-                    if (response.status) {
-                        var isi = response.log;
-                        $('#nama_lengkap').val(isi.user.nama_lengkap);
-                        $('#username').val(isi.user.username);
-                        $('#aktivitas').val(isi.aktivitas);
+                    Swal.close();
+                    var isi = response.log;
+                    $('#nama_lengkap').val(isi.user.nama_lengkap);
+                    $('#username').val(isi.user.username);
+                    $('#aktivitas').val(isi.aktivitas);
 
-                        $('#tambah_data').removeClass('hidden');
-                        $('#datane').addClass('hidden');
-                        $('.judul').html(
-                            '<h4 class="judul"><i class="fa-solid fa-user-gear"></i> DETAIL DATA AKTIVITAS</h4>'
-                        );
-                        $('#btn-simpan').html(
-                            '<i class="nav-icon fas fa-save"></i>&nbsp;&nbsp; SIMPAN');
-                    } else {
-                        Swal.fire("SALAH BOS", "Tulisen kang bener", "error");
-                    }
+                    $('#tambah_data').removeClass('hidden');
+                    $('#datane').addClass('hidden');
+                    $('.judul').html(
+                        '<h4 class="judul"><i class="fa-solid fa-user-gear"></i> DETAIL DATA AKTIVITAS</h4>'
+                    );
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    Swal.fire('Upss..!', 'Terjadi kesalahan jaringan error message: ' + errorThrown,
-                        'error');
+                    Swal.close();
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Terjadi kesalahan jaringan: ' + errorThrown,
+                        icon: 'error',
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        toast: true
+                    });
                 }
             });
         };

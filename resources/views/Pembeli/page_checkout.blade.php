@@ -11,60 +11,42 @@
                             <div class="card-body">
                                 <div>
                                     <h6>Alamat Pengiriman:</h6>
-                                    <p>{{ Auth::user()->alamat }}<button type="button" class="btn-tulis"
-                                            data-bs-toggle="modal" data-bs-target="#modal_alamat">
+                                    <p id="alamatku">{{ Auth::user()->alamat }}<button type="button" class="btn-tulis"
+                                            onclick="update_alamat()">
                                             <i class="fa-regular fa-pen-to-square"></i>
                                         </button></p>
+                                    <div id="isi-alamat" class="hidden">
+                                        <form id="form_alamat"
+                                            action="{{ url('/checkout/update-alamat') }}?q={{ Auth::user()->id }}"
+                                            method="post">
+                                            <div class="mb-3">
+                                                <label for="alamat" class="form-label">Alamat Baru</label>
+                                                <input type="text" class="form-control" id="alamat" name="alamat">
+                                                <span class="form-text text-danger error-message"></span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                                 <div>
                                     <h6>No. Telepon:</h6>
-                                    <p>{{ Auth::user()->no_hp }} <button type="button" class="btn-tulis"
-                                            data-bs-toggle="modal" data-bs-target="#modal_no_hp">
+                                    <p id="nohpku">{{ Auth::user()->no_hp }} <button type="button" class="btn-tulis"
+                                            onclick="update_nohp()">
                                             <i class="fa-regular fa-pen-to-square"></i></button></p>
-                                </div>
-                                <!-- Button trigger modal -->
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="modal_alamat" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
+                                    <div id="isi-nohp" class="hidden">
+                                        <form id="form_nohp"
+                                            action="{{ url('/checkout/update-nohp') }}?q={{ Auth::user()->id }}"
+                                            method="post">
+                                            <div class="mb-3">
+                                                <label for="no_hp" class="form-label">Nomer Hp Baru</label>
+                                                <input type="text" class="form-control" id="no_hp" name="no_hp">
                                             </div>
-                                            <div class="modal-body">
-                                                <h1>Alamat</h1>
+                                            <div class="mb-3">
+                                                <button type="submit" class="btn btn-primary">Simpan</button>
                                             </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn-">Save changes</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="modal_no_hp" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <h1>No HP</h1>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Save changes</button>
-                                            </div>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -99,7 +81,7 @@
                                 </div>
                             </div>
                         @endforeach
-                        <form id="form_tambah" action="{{ url('/checkout-store') }}" method="POST"
+                        <form id="form_checkout" action="{{ url('/checkout-store') }}" method="POST"
                             enctype="multipart/form-data" role="form">
                             <div class="card metode">
                                 <button type="button" class="btn-metode" data-bs-toggle="modal"
@@ -262,12 +244,6 @@
                 dataType: "JSON",
                 processData: false,
                 contentType: false,
-                success: function(response) {
-                    console.log(response);
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR);
-                }
             });
         }
 
@@ -301,14 +277,6 @@
             });
         });
 
-        function reset_form() {
-            $('#form_tambah')[0].reset();
-        }
-
-        function reset_errors() {
-            $('.error-message').empty();
-        }
-
         $('.btn-bayar').click(function(e) {
             Swal.fire({
                 title: "Sedang memproses",
@@ -322,8 +290,8 @@
             });
 
             e.preventDefault();
-            var url = $('#form_tambah').attr('action');
-            var formData = new FormData($('#form_tambah')[0]);
+            var url = $('#form_checkout').attr('action');
+            var formData = new FormData($('#form_checkout')[0]);
 
             $.ajax({
                 url: url,
@@ -332,11 +300,11 @@
                 data: formData,
                 processData: false,
                 contentType: false,
-                success: function(data) {
-                    $('.error-message').empty();
-                    if (data.errors) {
+                success: function(response) {
+                    if (response.errors) {
+                        Swal.close();
                         let errorMessages = '';
-                        $.each(data.errors, function(key, value) {
+                        $.each(response.errors, function(key, value) {
                             errorMessages += value + '<br>';
                         });
                         Swal.fire({
@@ -347,22 +315,158 @@
                             confirmButtonColor: '#000000'
                         });
                     } else {
-                        window.location.href = data.redirect;
+                        window.location.href = response.redirect;
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR);
                     Swal.fire({
                         title: 'Error',
                         text: 'Terjadi kesalahan saat memproses pembayaran.',
                         icon: 'error',
-                        confirmButtonText: 'Oke',
-                        confirmButtonColor: '#000000'
+                        position: 'center',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        toast: false
                     });
-                },
-                complete: function() {
-                    Swal.close();
                 }
+            });
+        });
+
+        function update_alamat() {
+            $('#isi-alamat').toggleClass('hidden');
+        }
+
+        $(function() {
+            $('#form_alamat').submit(function(event) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                var url = $(this).attr('action');
+                var formData = new FormData($(this)[0]);
+
+                Swal.fire({
+                    title: "Sedang memproses",
+                    html: "Mohon tunggu sebentar...",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    willOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    dataType: "JSON",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        Swal.close();
+                        if (response.errors) {
+                            $.each(response.errors, function(key, value) {
+                                $('#' + key).next('.error-message').text('*' + value);
+                            });
+                        } else {
+                            $('.error-message').empty();
+                            $('#form_alamat')[0].reset();
+                            $('#isi-alamat').addClass('hidden');
+                            $('#alamatku').html(response.alamat +
+                                `<button type="button" class="btn-tulis" onclick="update_alamat()"><i class="fa-regular fa-pen-to-square"></i></button>`
+                            );
+                            Swal.fire({
+                                title: 'Sukses',
+                                text: 'Alamat berhasil diperbarui',
+                                icon: 'success',
+                                position: 'center',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: false
+                            });
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        Swal.close();
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Terjadi kesalahan saat memperbarui alamat',
+                            icon: 'error',
+                            position: 'center',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            toast: false
+                        });
+                    }
+                });
+            });
+        });
+
+        function update_nohp() {
+            $('#isi-nohp').toggleClass('hidden');
+        }
+
+        $(function() {
+            $('#form_nohp').submit(function(event) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                var url = $(this).attr('action');
+                var formData = new FormData($(this)[0]);
+
+                Swal.fire({
+                    title: "Sedang memproses",
+                    html: "Mohon tunggu sebentar...",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    willOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    dataType: "JSON",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        Swal.close();
+                        if (response.errors) {
+                            $.each(response.errors, function(key, value) {
+                                $('#' + key).next('.error-message').text('*' + value);
+                            });
+                        } else {
+                            $('.error-message').empty();
+                            $('#form_nohp')[0].reset();
+                            $('#isi-nohp').addClass('hidden');
+                            $('#nohpku').html(response.nohp +
+                                `<button type="button" class="btn-tulis" onclick="update_nohp()"><i class="fa-regular fa-pen-to-square"></i></button>`
+                            );
+                            Swal.fire({
+                                title: 'Sukses',
+                                text: 'Nomor HP berhasil diperbarui',
+                                icon: 'success',
+                                position: 'center',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: false
+                            });
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        Swal.close();
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Terjadi kesalahan saat memperbarui nomor HP',
+                            icon: 'error',
+                            position: 'center',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            toast: false
+                        });
+                    }
+                });
             });
         });
     </script>

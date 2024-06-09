@@ -116,18 +116,21 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(data) {
+                    success: function(response) {
                         Swal.close();
-
-                        if (data.errors) {
+                        if (response.errors) {
                             let errorMessages = '';
-                            $.each(data.errors, function(key, value) {
+                            $.each(response.errors, function(key, value) {
                                 errorMessages += value + '<br>';
                             });
                             Swal.fire({
                                 title: 'Error',
                                 html: errorMessages,
-                                icon: 'error'
+                                icon: 'error',
+                                position: 'center',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: false
                             });
                         } else {
                             reset_form();
@@ -147,8 +150,10 @@
                             title: 'Error',
                             text: 'Terjadi kesalahan saat memproses memasukkan keranjang.',
                             icon: 'error',
-                            confirmButtonText: 'Oke',
-                            confirmButtonColor: '#000000'
+                            position: 'center',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            toast: false
                         });
                     }
                 });
@@ -186,20 +191,32 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(data) {
+                    success: function(response) {
                         Swal.close();
-                        if (data.errors) {
+                        if (response.errors) {
                             let errorMessages = '';
-                            $.each(data.errors, function(key, value) {
+                            $.each(response.errors, function(key, value) {
                                 errorMessages += value + '<br>';
                             });
                             Swal.fire({
                                 title: 'Error',
                                 html: errorMessages,
-                                icon: 'error'
+                                icon: 'error',
+                                position: 'center',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: false
                             });
-                        } else if (data.error) {
-                            Swal.fire("Error", data.error, "error");
+                        } else if (response.error) {
+                            Swal.fire({
+                                title: 'Error',
+                                text: response.error,
+                                icon: 'error',
+                                position: 'center',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: false
+                            });
                         } else {
                             Swal.fire({
                                 title: 'Checkout Sekarang?',
@@ -220,13 +237,6 @@
                                         dataType: "JSON",
                                         processData: false,
                                         contentType: false,
-                                        success: function(response) {
-                                            console.log(response);
-                                        },
-                                        error: function(jqXHR, textStatus,
-                                            errorThrown) {
-                                            console.log(jqXHR);
-                                        }
                                     });
                                 }
                             });
@@ -238,8 +248,10 @@
                             title: 'Error',
                             text: 'Terjadi kesalahan saat memproses checkout.',
                             icon: 'error',
-                            confirmButtonText: 'Oke',
-                            confirmButtonColor: '#000000'
+                            position: 'center',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            toast: false
                         });
                     },
                 });

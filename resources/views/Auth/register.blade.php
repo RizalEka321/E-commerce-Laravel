@@ -73,13 +73,6 @@
             }
         });
 
-        function reset_form() {
-            $('#form_register').attr('action', "{{ url('/doregister') }}");
-            $('#form_register')[0].reset();
-            $('.error-message').empty();
-        }
-
-        // Fungsi login
         $(function() {
             $('#form_register').submit(function(event) {
                 event.preventDefault();
@@ -87,7 +80,17 @@
                 var url = $(this).attr('action');
                 var formData = new FormData($(this)[0]);
 
-                // showLoading();
+                Swal.fire({
+                    title: "Sedang memproses",
+                    html: "Mohon tunggu sebentar...",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    willOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -95,24 +98,27 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(data) {
-                        $('.error-message').empty();
-                        if (data.errors) {
-                            $.each(data.errors, function(key, value) {
-                                // Show error message below each input
+                    success: function(response) {
+                        if (response.errors) {
+                            Swal.close();
+                            $.each(response.errors, function(key, value) {
                                 $('#' + key).next('.error-message').text('*' + value);
                             });
-                        } else if (data.error) {
-                            Swal.fire("Error", data.error, "error");
                         } else {
-                            window.location.href = data.redirect;
+                            $('.error-message').empty();
+                            window.location.href = response.redirect;
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(jqXHR);
-                    },
-                    complete: function() {
-                        // hideLoading();
+                        Swal.fire({
+                            title: 'Upss..!',
+                            text: 'Terjadi kesalahan saat registrasi.',
+                            icon: 'error',
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            toast: true
+                        });
                     }
                 });
             });

@@ -125,6 +125,8 @@ Route::middleware(['auth:web', 'pembeli', 'verified'])->group(function () {
     Route::post('/checkout-keranjang', [CheckoutController::class, "checkout_keranjang"])->name('checkout.keranjang');
     Route::post('/checkout-langsung', [CheckoutController::class, "checkout_langsung"])->name('checkout.langsung');
     Route::get('/checkout', [CheckoutController::class, "checkout"])->name('checkout');
+    Route::post('/checkout/update-alamat', [CheckoutController::class, "update_alamat"])->name('update_alamat');
+    Route::post('/checkout/update-nohp', [CheckoutController::class, "update_nohp"])->name('update_nohp');
     Route::post('/checkout-store', [CheckoutController::class, "checkout_store"])->name('checkout.store');
     Route::post('/checkout-batalkan', [CheckoutController::class, "checkout_batalkan"])->name('checkout.batalkan');
     // pemesanan

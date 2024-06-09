@@ -105,7 +105,7 @@
                 var formData = new FormData($(this)[0]);
 
                 Swal.fire({
-                    title: "Menyimpan Data",
+                    title: "Sedang memproses",
                     html: "Mohon tunggu sebentar...",
                     allowOutsideClick: false,
                     allowEscapeKey: false,
@@ -122,15 +122,14 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(data) {
+                    success: function(response) {
                         Swal.close();
-                        $('.error-message').empty();
-                        if (data.errors) {
-                            console.log(data);
-                            $.each(data.errors, function(key, value) {
+                        if (response.errors) {
+                            $.each(response.errors, function(key, value) {
                                 $('#' + key).next('.error-message').text('*' + value);
                             });
                         } else {
+                            $('.error-message').empty();
                             Swal.fire({
                                 title: 'Sukses',
                                 text: 'Data berhasil disimpan',

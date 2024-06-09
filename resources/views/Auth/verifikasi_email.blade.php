@@ -36,12 +36,6 @@
             }
         });
 
-        function reset_form() {
-            $('#form_login').attr('action', "{{ url('/dologin') }}");
-            $('#form_login')[0].reset();
-            $('.error-message').empty();
-        }
-
         // Fungsi login
         $(function() {
             $('#form_login').submit(function(event) {
@@ -50,7 +44,6 @@
                 var url = $(this).attr('action');
                 var formData = new FormData($(this)[0]);
 
-                // showLoading();
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -62,7 +55,6 @@
                         $('.error-message').empty();
                         if (data.errors) {
                             $.each(data.errors, function(key, value) {
-                                // Show error message below each input
                                 $('#' + key).next('.error-message').text('*' + value);
                             });
                         } else if (data.error) {
@@ -74,9 +66,6 @@
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.log(jqXHR);
                     },
-                    complete: function() {
-                        // hideLoading();
-                    }
                 });
             });
         });

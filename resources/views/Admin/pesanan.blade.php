@@ -130,7 +130,6 @@
         }
 
         function reset_form() {
-            $('#form-add').attr('action', "{{ url('/admin/pesanan/create') }}");
             $('#form_tambah')[0].reset();
         }
 
@@ -185,9 +184,8 @@
                 var url = $(this).attr('action');
                 var formData = new FormData($(this)[0]);
 
-                // Tampilkan SweetAlert dengan indikator loading
                 Swal.fire({
-                    title: "Memproses Data",
+                    title: "Sedang memproses",
                     html: "Mohon tunggu sebentar...",
                     allowOutsideClick: false,
                     allowEscapeKey: false,
@@ -204,11 +202,11 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(data) {
-                        Swal.close(); // Menutup loading saat sukses
+                    success: function(response) {
+                        Swal.close();
                         $('.error-message').empty();
-                        if (data.errors) {
-                            $.each(data.errors, function(key, value) {
+                        if (response.errors) {
+                            $.each(response.errors, function(key, value) {
                                 Swal.fire('Upss..!', value, 'error');
                             });
                             Swal.fire({
@@ -257,9 +255,8 @@
             $('#form_tambah')[0].reset();
             $('#form_tambah').attr('action', '/admin/pesanan/update?q=' + id);
 
-            // Tampilkan SweetAlert dengan indikator loading
             Swal.fire({
-                title: "Memproses Data",
+                title: "Sedang memproses",
                 html: "Mohon tunggu sebentar...",
                 allowOutsideClick: false,
                 allowEscapeKey: false,
@@ -276,17 +273,15 @@
                     q: id
                 },
                 dataType: "JSON",
-                success: function(data) {
-                    Swal.close(); // Menutup loading saat sukses
-
-                    var isi = data.isi;
+                success: function(response) {
+                    Swal.close();
+                    var isi = response.isi;
                     $('#judul').val(isi.judul);
                     $('#stok').val(isi.stok);
                     $('#harga').val(isi.harga);
                     // $('#foto').val(isi.foto);
                     var editor = document.getElementById('trix_deskripsi');
                     editor.editor.loadHTML(isi.deskripsi);
-
                     // $('#input_foto').addClass('hidden');
                     $('#tambah_data').removeClass('hidden');
                     $('#datane').addClass('hidden');
@@ -317,9 +312,8 @@
             var status = $(this).val();
             var id = $(this).data('id');
 
-            // Tampilkan SweetAlert dengan indikator loading
             Swal.fire({
-                title: "Memproses Data",
+                title: "Sedang memproses",
                 html: "Mohon tunggu sebentar...",
                 allowOutsideClick: false,
                 allowEscapeKey: false,
@@ -337,13 +331,16 @@
                     id: id
                 },
                 success: function(response) {
-                    Swal.close(); // Menutup loading saat sukses
-                    console.log('Status berhasil diubah');
-                    Swal.fire(
-                        'Sukses',
-                        'Status berhasil diubah',
-                        'success'
-                    );
+                    Swal.close();
+                    Swal.fire({
+                        title: 'Sukses',
+                        text: 'Status berhasil diubah',
+                        icon: 'success',
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        toast: true
+                    });
                     reload_table();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {

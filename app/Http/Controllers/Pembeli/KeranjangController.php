@@ -73,48 +73,67 @@ class KeranjangController extends Controller
             ->with('produk')
             ->get();
 
-        $formattedKeranjang = [];
+        if ($keranjang->isEmpty()) {
+            $kosong = '
+            <div class="keranjang-kosong">
+                <img src="' . asset('assets/pembeli/img/keranjang_kosong.png') . '" alt="keranjang kosong">
+                <div class="keterangan">
+                    <h5>Wahh, Keranjang belanjamu masih kosong!</h5>
+                    <h6>Segera isi dengan baju impianmu</h6>
+                    <a type="button" class="btn-keranjang" href="' . route('home') . '#produk">Lihat Produk</a>
+                </div>
+            </div>';
+            return response()->json(['status' => 'FALSE', 'data' => $kosong]);
+        } else {
+            foreach ($keranjang as $item) {
+                $ukuran = Ukuran::find($item->ukuran_id);
+                if ($item->jumlah > $ukuran->stok) {
+                    $item->jumlah = $ukuran->stok;
+                    $item->save();
+                }
+            }
+            $formattedKeranjang = [];
 
-        foreach ($keranjang as $item) {
-            $formattedKeranjang[] = [
-                'produk' => '<div class="tabel-isi">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="row">
-                                <div class="col-lg-4 foto">
-                                    <div class="d-flex justify-content-between">
-                                        <img src="' . asset($item->produk->foto) . '"/>
+            foreach ($keranjang as $item) {
+                $formattedKeranjang[] = [
+                    'produk' => '<div class="tabel-isi">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-4 foto">
+                                        <div class="d-flex justify-content-between">
+                                            <img src="' . asset($item->produk->foto) . '"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8 foto-detail"> <!-- Corrected typo here -->
+                                        <h5>' . $item->produk->judul . '</h5>
+                                        <h6>Size, ' . $item->ukuran . '</h6>
+                                        <h6>Rp. ' . number_format($item->produk->harga, 0, ',', '.') . '</h6>
                                     </div>
                                 </div>
-                                <div class="col-lg-8 foto-detail"> <!-- Corrected typo here -->
-                                    <h5>' . $item->produk->judul . '</h5>
-                                    <h6>Size, ' . $item->ukuran . '</h6>
-                                    <h6>Rp. ' . number_format($item->produk->harga, 0, ',', '.') . '</h6>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="d-flex justify-content-end align-items-center">
+                                    <div>
+                                    <div class="qty-container-keranjang">
+                                        <button class="qty-btn-minus" type="button"><i class="fa fa-minus"></i></button>
+                                        <input type="text" name="jumlah" value="' . $item->jumlah . '" class="update-keranjang input-qty" data-id="' . $item->id_keranjang . '" readonly/>
+                                        <button class="qty-btn-plus" type="button"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                    <div class="text-end">
+                                    <h5>Rp. ' . number_format($item->produk->harga * $item->jumlah, 0, ',', '.') . '</h5>
+                                    <a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus-keranjang" onClick="delete_data(' . "'" . $item->id_keranjang . "'" . ')"><i class="fa-regular fa-trash-can"></i></a>
+                                    </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="d-flex justify-content-end align-items-center">
-                                <div>
-                                <div class="qty-container-keranjang">
-                                    <button class="qty-btn-minus" type="button"><i class="fa fa-minus"></i></button>
-                                    <input type="text" name="jumlah" value="' . $item->jumlah . '" class="update-keranjang input-qty" data-id="' . $item->id_keranjang . '" readonly/>
-                                    <button class="qty-btn-plus" type="button"><i class="fa fa-plus"></i></button>
-                                </div>
-                                <div class="text-end">
-                                <h5>Rp. ' . number_format($item->produk->harga * $item->jumlah, 0, ',', '.') . '</h5>
-                                <a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus-keranjang" onClick="delete_data(' . "'" . $item->id_keranjang . "'" . ')"><i class="fa-regular fa-trash-can"></i></a>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>',
-                'sub_total' => $item->produk->harga * $item->jumlah
-            ];
+                    </div>',
+                    'sub_total' => $item->produk->harga * $item->jumlah
+                ];
+            }
+            return response()->json(['data' => $formattedKeranjang]);
         }
-
-        return response()->json(['data' => $formattedKeranjang]);
     }
 
     public function update_keranjang(Request $request)
@@ -123,26 +142,26 @@ class KeranjangController extends Controller
 
         if (!$keranjang) {
             return response()->json(['status' => true, 'error' => 'Keranjang tidak ditemukan']);
+        } else {
+            $keranjang->jumlah = $request->jumlah;
+
+            if ($keranjang->jumlah > 100) {
+                return response()->json(['status' => true, 'error' => 'Jumlah yang anda masukan lebih dari ketentuan maksimal.']);
+            }
+
+            $ukuran = Ukuran::find($keranjang->ukuran_id);
+            if ($keranjang->jumlah > $ukuran->stok) {
+                return response()->json(['status' => true, 'error' => 'Jumlah yang anda masukkan lebih dari stok yang tersedia.']);
+            }
+
+            if ($keranjang->jumlah == 0) {
+                return response()->json(['status' => true, 'hapus' => 'Barang dihapus dari keranjang']);
+            }
+
+            $keranjang->save();
+
+            return response()->json(['status' => true, 'message' => 'Jumlah barang diperbarui']);
         }
-
-        $keranjang->jumlah = $request->jumlah;
-
-        if ($keranjang->jumlah > 100) {
-            return response()->json(['status' => true, 'error' => 'Jumlah yang anda masukan lebih dari ketentuan maksimal.']);
-        }
-
-        $ukuran = Ukuran::find($keranjang->ukuran_id);
-        if ($keranjang->jumlah > $ukuran->stok) {
-            return response()->json(['status' => true, 'error' => 'Jumlah yang anda masukkan lebih dari stok yang tersedia.']);
-        }
-
-        if ($keranjang->jumlah == 0) {
-            return response()->json(['status' => true, 'hapus' => 'Barang dihapus dari keranjang']);
-        }
-
-        $keranjang->save();
-
-        return response()->json(['status' => true, 'message' => 'Jumlah barang diperbarui']);
     }
 
     public function delete_keranjang(Request $request)
