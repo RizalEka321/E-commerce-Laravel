@@ -69,7 +69,7 @@
                                         </div>
                                         <div class="col-lg-5 kanan text-end">
                                             @if ($item->metode_pembayaran == 'Transfer')
-                                                <a href="{{ route('pembayaran.online', Crypt::encrypt($item->id_pesanan)) }}"
+                                                <a href="{{ route('pembayaran.transfer', Crypt::encrypt($item->id_pesanan)) }}"
                                                     type="button" class="btn-bayar">Bayar</a>
                                             @else
                                                 <a href="{{ route('pembayaran.cash', Crypt::encrypt($item->id_pesanan)) }}"

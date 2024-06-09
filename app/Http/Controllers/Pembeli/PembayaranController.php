@@ -20,12 +20,12 @@ class PembayaranController extends Controller
         return view('Pembeli.page_pembayaran_cash', compact('pesanan', 'detail', 'profile'));
     }
 
-    public function pembayaran_online($id)
+    public function pembayaran_transfer($id)
     {
         $id_pesanan = Crypt::decrypt($id);
         $profile = Profil_Perusahaan::where('id_profil_perusahaan', 'satu')->first();
         $pesanan = Pesanan::where('id_pesanan', $id_pesanan)->first();
-        return view('Pembeli.page_pembayaran_online', compact('pesanan', 'profile'));
+        return view('Pembeli.page_pembayaran_transfer', compact('pesanan', 'profile'));
     }
 
 

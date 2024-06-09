@@ -170,20 +170,16 @@ class ProyekController extends Controller
         } else {
             $id_proyek = Proyek::generateID();
 
-            // Folder
             $path = 'data/Proyek';
 
-            // Foto Logo
             $foto_logo = $request->foto_logo;
             $file_logo = $id_proyek . '_logo' . '.' . $foto_logo->extension();
             $foto_logo->move(public_path($path), $file_logo);
 
-            // Foto Desain
             $foto_desain = $request->foto_desain;
             $file_desain = $id_proyek . 'desain' . '.' . $foto_desain->extension();
             $foto_desain->move(public_path($path), $file_desain);
 
-            // Perhitungan total pembayaran
             $total = $request->harga_satuan * $request->jumlah;
             $dp = ($total * 50) / 100;
             if ($request->nominal_dp < $dp) {
@@ -296,7 +292,6 @@ class ProyekController extends Controller
             $proyek->harga_satuan = $request->harga_satuan;
             $proyek->deadline = $request->deadline;
 
-            // Folder
             $path = 'data/Proyek';
 
             if ($request->hasFile('foto_logo')) {
@@ -312,7 +307,6 @@ class ProyekController extends Controller
                 $proyek->foto_logo = "$path/$file_logo";
             }
 
-            // Foto Desain
             if ($request->hasFile('foto_desain')) {
                 if ($proyek->foto_desain) {
                     if (file_exists(public_path($proyek->foto_desain))) {

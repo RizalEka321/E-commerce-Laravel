@@ -85,13 +85,11 @@ class ProdukController extends Controller
 
         $id_produk = Produk::generateID();
 
-        // Simpan foto
         $foto = $request->file('foto');
         $file_name = $id_produk . '.' . $foto->getClientOriginalExtension();
         $path = 'data/Produk';
         $foto->move($path, $file_name);
 
-        // Simpan produk
         Produk::create([
             'id_produk' => $id_produk,
             'judul' => Str::title($request->judul),
@@ -101,14 +99,12 @@ class ProdukController extends Controller
             'foto' => "$path/$file_name"
         ]);
 
-        // Tambahkan ukuran-ukuran yang dimasukkan oleh pengguna
         foreach ($request->jenis_ukuran as $key => $jenisUkuran) {
             $ukuran = Ukuran::create([
                 'jenis_ukuran' => $jenisUkuran,
                 'stok' => $request->stok[$key],
             ]);
 
-            // Menyimpan relasi antara produk dan ukuran di tabel pivot
             Ukuran_Produk::create([
                 'produk_id' => $id_produk,
                 'ukuran_id' => $ukuran->id_ukuran,
@@ -197,7 +193,6 @@ class ProdukController extends Controller
 
         $produk->save();
 
-        // Process ukuran data
         $existingUkuranIds = [];
         foreach ($request->jenis_ukuran as $key => $jenisUkuran) {
             $stok = $request->stok[$key] ?? null;
@@ -258,7 +253,6 @@ class ProdukController extends Controller
             unlink($fotoPath);
         }
 
-        // Hapus entri produk dari database
         $produk->delete();
 
         return response()->json(['status' => 'TRUE']);

@@ -18,7 +18,7 @@ class UserController extends Controller
         return view('Admin.user');
     }
 
-    public function get_user(Request $request)
+    public function get_user()
     {
         $data = User::select('id', 'username', 'email', 'role')->get();
         return Datatables::of($data)
@@ -74,19 +74,17 @@ class UserController extends Controller
             if ($request->hasFile('foto')) {
                 $foto = $request->file('foto');
                 $file_name = $request->username . '.' . $foto->getClientOriginalExtension();
-                $path = 'data/User/';
+                $path = 'data/User';
                 $foto->move($path, $file_name);
             } else {
                 $file_name = null;
                 $path = null;
             }
 
-            $role = $request->input('role', 'Pegawai'); // Set default role to Pegawai
-
             User::create([
-                'nama_lengkap' => $request->nama_lengkap,
+                'nama_lengkap' => Str::title($request->nama_lengkap),
                 'username' => $request->username,
-                'role' => $role,
+                'role' => $request->role,
                 'email' => $request->email,
                 'alamat' => $request->alamat,
                 'no_hp' => $request->no_hp,
@@ -157,7 +155,7 @@ class UserController extends Controller
         if ($validator->fails()) {
             return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
         } else {
-            $user->nama_lengkap = $request->nama_lengkap;
+            $user->nama_lengkap = Str::title($request->nama_lengkap);
             $user->username = $request->username;
             $user->role = $request->role;
             $user->email = $request->email;

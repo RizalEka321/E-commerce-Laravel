@@ -51,10 +51,8 @@ class AuthController extends Controller
                     'password' => $request->password
                 ])) {
                     if ($slug_produk) {
-                        // Jika ada slug produk yang disimpan dalam session, arahkan kembali ke halaman produk yang dipilih
                         return response()->json(['status' => 'TRUE', 'redirect' => '/produk/' . $slug_produk]);
                     } else {
-                        // Jika tidak ada, arahkan sesuai peran pengguna
                         $role = Auth::user()->role;
                         aktivitas('Melakukan Login');
                         if ($role === 'Pembeli') {
@@ -64,15 +62,12 @@ class AuthController extends Controller
                         }
                     }
                 } else {
-                    // Jika autentikasi gagal (kombinasi username dan password tidak cocok)
                     return response()->json(['status' => 'FALSE', 'error' => 'Password yang anda masukkan salah.']);
                 }
             } else {
-                // Jika username tidak ditemukan dalam basis data
                 return response()->json(['status' => 'FALSE', 'error' => 'Username atau password yang anda masukkan tidak terdaftar. Silahkan registrasi jika belum memiliki akun.']);
             }
         }
-        // Notifikasi jika username dan password salah secara bersamaan
         return response()->json(['status' => 'FALSE', 'error' => 'Username dan password salah.']);
     }
 

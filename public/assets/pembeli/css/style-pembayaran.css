@@ -61,13 +61,13 @@ Pembayaran page styles
 }
 
 /* Pembayaran online */
-.pembayaran-online {
+.pembayaran-transfer {
     color: var(--black);
     margin-top: 100px;
     margin-bottom: 50px;
 }
 
-.pembayaran-online .card {
+.pembayaran-transfer .card {
     width: 100%;
     border: none;
     border-radius: 10px;

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Pesanan;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\Detail_Pesanan;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;

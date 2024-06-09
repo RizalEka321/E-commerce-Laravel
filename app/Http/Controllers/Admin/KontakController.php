@@ -64,10 +64,10 @@ class KontakController extends Controller
             $kontak = Kontak_Perusahaan::where('id_kontak_perusahaan', $id)->first();
             $profil = Profil_Perusahaan::where('id_profil_perusahaan', $id)->first();
 
-            $kontak->instagram = Str::title($request->instagram);
-            $kontak->whatsapp = Str::title($request->whatsapp);
+            $kontak->instagram = $request->instagram;
+            $kontak->whatsapp = $request->whatsapp;
             $kontak->email = $request->email;
-            $kontak->facebook = Str::title($request->facebook);
+            $kontak->facebook = $request->facebook;
 
 
             $profil->deskripsi = Str::title($request->deskripsi);

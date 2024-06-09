@@ -207,7 +207,7 @@ class CheckoutController extends Controller
                 }
 
                 Keranjang::where('users_id', Auth::user()->id)->where('status', 'Ya')->delete();
-                return response()->json(['status' => TRUE, 'redirect' => '/pembayaran-online/' . $id]);
+                return response()->json(['status' => TRUE, 'redirect' => '/pembayaran-transfer/' . $id]);
             } else {
                 $pesanan['metode_pengiriman'] = 'Pickup';
                 $pesanan['total'] = $total_harga;

@@ -20,14 +20,12 @@ class LaporanController extends Controller
 
     public function cetak(Request $request)
     {
-        // Validasi bulan dan tahun
         $validator = Validator::make($request->all(), [
             'bulan_tahun' => 'required|date_format:Y-m'
         ], [
             'bulan_tahun.required' => 'Pilih periode waktu yang Anda inginkan'
         ]);
 
-        // Jika validasi gagal, kembalikan dengan pesan kesalahan
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         } else {
