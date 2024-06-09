@@ -66,8 +66,7 @@
                 </tfoot>
             </table>
             <div class="text-end">
-                <a href="javascript:void(0)" class="btn-keranjang px-5"
-                    onclick="checkout({{ Auth::user()->id }})">Checkout</a>
+                <a href="javascript:void(0)" class="btn-keranjang px-5" onclick="checkout({{ Auth::user()->id }})">Beli</a>
             </div>
         </div>
     </section>
@@ -83,11 +82,6 @@
         });
 
         $(document).ready(function() {
-            reload_data();
-        });
-
-        function reload_data() {
-            // Tampilkan SweetAlert dengan indikator loading
             Swal.fire({
                 title: "Memuat Ulang Data",
                 html: "Mohon tunggu sebentar...",
@@ -98,23 +92,26 @@
                     Swal.showLoading();
                 }
             });
+            reload_data(true);
+        });
 
+        function reload_data(reloadPage = false) {
             $.ajax({
                 url: "{{ url('/keranjang/list') }}",
                 type: "GET",
                 dataType: "json",
                 success: function(response) {
-                    Swal.close();
-                    isi_tabel(response);
+                    isi_tabel(response.data);
+                    if (reloadPage) {
+                        Swal.close();
+                    }
                 },
                 error: function(xhr, status, error) {
-                    Swal.close();
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: 'Terjadi kesalahan: ' + error
                     });
-                    console.error(xhr.responseText);
                 }
             });
         }
@@ -135,11 +132,6 @@
 
                 var formattedTotalHarga = totalHarga.toLocaleString("id-ID", {
                     style: "currency",
-                    currency: "IDR"
-                });
-
-                var formattedTotalHarga = totalHarga.toLocaleString("id-ID", {
-                    style: "currency",
                     currency: "IDR",
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 0
@@ -153,14 +145,14 @@
 
         $(document).ready(function() {
             $(document).on('click', '.qty-btn-plus', function() {
-                var $qtyInput = $(this).parent(".qty-container").find(".input-qty");
+                var $qtyInput = $(this).parent(".qty-container-keranjang").find(".input-qty");
                 var currentQty = parseInt($qtyInput.val());
                 $qtyInput.val(currentQty + 1);
                 updateKeranjang($qtyInput);
             });
 
             $(document).on('click', '.qty-btn-minus', function() {
-                var $qtyInput = $(this).parent(".qty-container").find(".input-qty");
+                var $qtyInput = $(this).parent(".qty-container-keranjang").find(".input-qty");
                 var currentQty = parseInt($qtyInput.val());
                 if (currentQty > 0) {
                     $qtyInput.val(currentQty - 1);
@@ -191,11 +183,26 @@
                         jumlah: jumlah
                     },
                     success: function(response) {
-                        Swal.close();
-                        reload_data();
+                        if (response.error) {
+                            Swal.close();
+                            reload_data(false);
+                            Swal.fire({
+                                title: 'Upss..!',
+                                text: response.error,
+                                icon: 'error',
+                                position: 'center',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: false
+                            });
+                        } else if (response.hapus) {
+                            delete_data(id_keranjang);
+                        } else {
+                            Swal.close();
+                            reload_data(false);
+                        }
                     },
                     error: function(xhr) {
-                        Swal.close();
                         if (xhr.status === 422) {
                             var errorMessage = xhr.responseJSON.error;
                             if (errorMessage) {
@@ -217,7 +224,7 @@
                 text: "Apakah anda yakin!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#000000',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Ya, hapus!'
             }).then((result) => {
@@ -242,20 +249,19 @@
                         dataType: "JSON",
                         success: function(response) {
                             Swal.close();
-                            Swal.fire(
-                                'Hapus!',
-                                'Produk berhasil dihapus',
-                                'success'
-                            );
-                            reload_data();
+                            Swal.fire({
+                                title: 'Hapus!',
+                                text: 'Produk berhasil dihapus',
+                                icon: 'success',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: false
+                            });
+                            reload_data(false);
                         },
                         error: function(xhr, status, error) {
                             Swal.close();
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: 'Terjadi kesalahan: ' + error
-                            });
+                            console.log(error);
                         }
                     });
                 }
@@ -268,7 +274,7 @@
                 text: "Apakah anda yakin!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#000000',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Ya, hapus!'
             }).then((result) => {
@@ -283,7 +289,6 @@
                             Swal.showLoading();
                         }
                     });
-
                     $.ajax({
                         url: "{{ url('/keranjang/delete-all') }}",
                         type: "POST",
@@ -293,20 +298,19 @@
                         dataType: "JSON",
                         success: function(response) {
                             Swal.close();
-                            Swal.fire(
-                                'Hapus!',
-                                'Semua produk berhasil dihapus',
-                                'success'
-                            );
-                            reload_data();
+                            Swal.fire({
+                                title: 'Hapus!',
+                                text: 'Semua produk berhasil dihapus',
+                                icon: 'success',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: false
+                            });
+                            reload_data(false);
                         },
                         error: function(xhr, status, error) {
-                            Swal.close();
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: 'Terjadi kesalahan: ' + error
-                            });
+                            swal.close();
+                            console.log(error);
                         }
                     });
                 }
@@ -319,9 +323,10 @@
                 text: "Apakah anda yakin!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#000000',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, checkout!'
+                confirmButtonText: 'Ya, checkout!',
+                cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
@@ -334,7 +339,8 @@
                     });
                     window.location.href = "{{ url('/checkout') }}";
                 }
-            })
+            });
         }
     </script>
+
 @endsection

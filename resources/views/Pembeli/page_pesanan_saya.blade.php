@@ -112,6 +112,7 @@
                                             </div>
                                             <div class="col-lg-8 foto-detail">
                                                 <h5>{{ $d->produk->judul }}. Size, {{ $d->ukuran }}</h5>
+                                                <h6>{{ $item->total_barang }} Barang</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -167,6 +168,7 @@
                                         </div>
                                         <div class="col-lg-8 foto-detail">
                                             <h5>{{ $d->produk->judul }}. Size, {{ $d->ukuran }}</h5>
+                                            <h6>{{ $item->total_barang }} Barang</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -222,6 +224,7 @@
                                     </div>
                                     <div class="col-lg-8 foto-detail">
                                         <h5>{{ $d->produk->judul }}. Size, {{ $d->ukuran }}</h5>
+                                        <h6>{{ $item->total_barang }} Barang</h6>
                                     </div>
                                 </div>
                             </div>

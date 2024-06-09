@@ -41,20 +41,16 @@ class KeranjangController extends Controller
             } elseif ($request->jumlah > $ukuran->stok) {
                 return response()->json(['status' => 'FALSE', 'error' => 'Jumlah yang anda masukkan melebihi stok tersedia untuk ukuran ' . $ukuran->jenis_ukuran]);
             } else {
-                // Cek apakah produk sudah ada di keranjang pengguna
                 $keranjang = Keranjang::where('users_id', Auth::user()->id)
                     ->where('produk_id', $request->produk_id)
                     ->where('ukuran', $request->ukuran)
                     ->where('status', 'Tidak')
                     ->first();
 
-                // tambah keranjang
                 if ($keranjang) {
-                    // Jika produk sudah ada, tingkatkan jumlahnya
                     $keranjang->jumlah += $request->jumlah;
                     $keranjang->save();
                 } else {
-                    // Jika produk belum ada, tambahkan ke keranjang
                     $keranjang = Keranjang::create([
                         'users_id' => Auth::user()->id,
                         'produk_id' => $request->produk_id,
@@ -100,7 +96,7 @@ class KeranjangController extends Controller
                         <div class="col-lg-6">
                             <div class="d-flex justify-content-end align-items-center">
                                 <div>
-                                <div class="qty-container">
+                                <div class="qty-container-keranjang">
                                     <button class="qty-btn-minus" type="button"><i class="fa fa-minus"></i></button>
                                     <input type="text" name="jumlah" value="' . $item->jumlah . '" class="update-keranjang input-qty" data-id="' . $item->id_keranjang . '" readonly/>
                                     <button class="qty-btn-plus" type="button"><i class="fa fa-plus"></i></button>
@@ -118,43 +114,36 @@ class KeranjangController extends Controller
             ];
         }
 
-        return response()->json($formattedKeranjang);
+        return response()->json(['data' => $formattedKeranjang]);
     }
-
 
     public function update_keranjang(Request $request)
     {
         $keranjang = Keranjang::find($request->id_keranjang);
 
         if (!$keranjang) {
-            return response()->json(['error' => 'Keranjang tidak ditemukan'], 404);
+            return response()->json(['status' => true, 'error' => 'Keranjang tidak ditemukan']);
         }
 
-        // Perbarui jumlah produk di keranjang
         $keranjang->jumlah = $request->jumlah;
 
         if ($keranjang->jumlah > 100) {
-            return response()->json(['status' => FALSE, 'message' => 'Jumlah yang anda masukan lebih dari ketentuan maksimal.']);
+            return response()->json(['status' => true, 'error' => 'Jumlah yang anda masukan lebih dari ketentuan maksimal.']);
         }
 
-        // Check if the quantity exceeds the available stock
         $ukuran = Ukuran::find($keranjang->ukuran_id);
         if ($keranjang->jumlah > $ukuran->stok) {
-            return response()->json(['error' => 'Jumlah yang anda masukkan lebih dari stok yang tersedia.'], 422);
+            return response()->json(['status' => true, 'error' => 'Jumlah yang anda masukkan lebih dari stok yang tersedia.']);
         }
 
-        // Jika jumlah barang menjadi 0, hapus barang dari keranjang
         if ($keranjang->jumlah == 0) {
-            $keranjang->delete();
-            return response()->json(['status' => true, 'message' => 'Barang dihapus dari keranjang']);
+            return response()->json(['status' => true, 'hapus' => 'Barang dihapus dari keranjang']);
         }
 
         $keranjang->save();
 
-        // Kembalikan respons AJAX
         return response()->json(['status' => true, 'message' => 'Jumlah barang diperbarui']);
     }
-
 
     public function delete_keranjang(Request $request)
     {

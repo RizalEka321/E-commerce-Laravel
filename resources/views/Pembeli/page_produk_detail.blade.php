@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-5 col-lg-5">
-                    <img src="{{ asset($produk_detail->foto) }}" class="card-img-top" alt="Produk Lokal Industri">
+                    <img src="{{ asset($produk_detail->foto) }}" alt="Produk Lokal Industri">
                 </div>
                 <div class="col-md-7 col-lg-7">
                     <h2 class="title">{{ $produk_detail->judul }}</h2>
@@ -17,7 +17,7 @@
                         <form id="form_tambah" action="#" method="POST" role="form">
                             <input type="hidden" name="produk_id" value="{{ $produk_detail->id_produk }}">
                             <div class="mb-3">
-                                <label for="ukuran">Ukuran</label>
+                                <label for="ukuran"><b>Ukuran</b></label>
                                 <div class="radio-toolbar">
                                     @foreach ($produk_detail->ukuran as $u)
                                         @if ($u->stok != null)
@@ -29,7 +29,7 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="ukuran">Kuantitas</label>
+                                <label for="ukuran"><b>Kuantitas</b></label>
                                 <div class="qty-container">
                                     <button class="qty-btn-minus btn-light" type="button"><i
                                             class="fa fa-minus"></i></button>
@@ -48,7 +48,8 @@
                 </div>
             </div>
             <div class="row description">
-                <h4 class="title">Deskripsi Produk</h4>
+                <h5 class="judul_description">{{ $produk_detail->judul }}</h5>
+                <h5 class="title_description">Detail Produk:</h5>
                 <div class="mx-2">
                     {!! $produk_detail->deskripsi !!}
                 </div>
@@ -59,7 +60,6 @@
 @endsection
 @section('script')
     <script>
-        // Global Setup
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -87,14 +87,11 @@
 
         $('#btn_masukkan_keranjang').click(function(event) {
             event.preventDefault();
-
-            // Check if user is logged in
             var isLoggedIn = "{{ Auth::check() }}";
             if (!isLoggedIn) {
                 window.location.href = "{{ route('login') }}";
                 return;
             } else {
-                // Ubah action form ke URL endpoint checkout
                 var checkoutUrl = "{{ url('/keranjang/create') }}";
                 $('#form_tambah').attr('action', checkoutUrl);
 
@@ -112,7 +109,6 @@
                     }
                 });
 
-                // Lakukan AJAX request
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -158,11 +154,9 @@
                 });
             }
         });
-        // Event handler untuk tombol "Beli Sekarang"
+
         $('#btn_beli_sekarang').click(function(event) {
             event.preventDefault();
-
-            // Check if user is logged in
             var isLoggedIn = "{{ Auth::check() }}";
             if (!isLoggedIn) {
                 window.location.href = "{{ route('login') }}";
@@ -174,7 +168,6 @@
                 var url = $('#form_tambah').attr('action');
                 var formData = new FormData($('#form_tambah')[0]);
 
-                // Tampilkan SweetAlert dengan indikator loading
                 Swal.fire({
                     title: "Sedang memproses",
                     html: "Mohon tunggu sebentar...",
@@ -186,7 +179,6 @@
                     }
                 });
 
-                // Lakukan AJAX request
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -222,7 +214,6 @@
                                 if (result.isConfirmed) {
                                     window.location.href = "{{ url('/checkout') }}";
                                 } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                    // Ajax request untuk membatalkan checkout
                                     $.ajax({
                                         url: "{{ url('/checkout-batalkan') }}",
                                         type: "POST",

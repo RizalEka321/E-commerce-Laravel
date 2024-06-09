@@ -67,24 +67,24 @@ Detail page styles
     background: var(--white);
 }
 
-.qty-container {
+.qty-container-keranjang {
     display: flex;
     align-items: left;
     justify-content: flex-start;
 }
 
-.qty-container .input-qty {
+.qty-container-keranjang .input-qty {
     text-align: center;
     padding: 6px 8px;
     border-top: 2px solid #a8a8a8;
     border-bottom: 2px solid #a8a8a8;
     border-right: none;
     border-left: none;
-    max-width: 60px;
+    max-width: 40px;
     max-height: 30px;
 }
 
-.qty-container .qty-btn-minus {
+.qty-container-keranjang .qty-btn-minus {
     border-top: 2px solid #a8a8a8;
     border-bottom: 2px solid #a8a8a8;
     border-left: 2px solid #a8a8a8;
@@ -97,7 +97,7 @@ Detail page styles
     transition: 0.3s;
 }
 
-.qty-container .qty-btn-plus {
+.qty-container-keranjang .qty-btn-plus {
     border-top: 2px solid #a8a8a8;
     border-bottom: 2px solid #a8a8a8;
     border-right: 2px solid #a8a8a8;
@@ -110,12 +110,16 @@ Detail page styles
     transition: 0.3s;
 }
 
-.qty-container .qty-btn-plus {
+.qty-container-keranjang .qty-btn-plus {
     margin-left: -1px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
-.qty-container .qty-btn-minus {
+.qty-container-keranjang .qty-btn-minus {
     margin-right: -1px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 .qty-btn-minus:hover {

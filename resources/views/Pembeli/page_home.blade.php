@@ -24,7 +24,7 @@
                     <img class="d-block w-100 img-fluid" src="{{ asset('assets/pembeli/img/bg_carousel2.png') }}"
                         alt="slide 1">
                     <div class="carousel-caption">
-                        <h1>Ayo Majukan Dan Kembangkan UMKM Indonesia</h1>
+                        <h1>Wujudkan pakaian impianmu bersama Lokal Industri</h1>
                         <a href="#profil" class="btn-lihat">Lihat Profil Kami</a>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                     <img class="d-block w-100 img-fluid" src="{{ asset('assets/pembeli/img/bg_carousel3.png') }}"
                         alt="slide 2">
                     <div class="carousel-caption">
-                        <h1>Ayo Majukan Dan Kembangkan UMKM Indonesia</h1>
+                        <h1>Dibuat dengan cermat, untuk mewujudkan pakaian impian anda</h1>
                         <a href="#kontak" class="btn-lihat">Hubungi Kami</a>
                     </div>
                 </div>
@@ -101,59 +101,77 @@
                 <span>Pertanyaan Umum (FAQ)</span>
             </div>
             <div class="tab">
-                <button class="btn-panel" id="btn-faq-answer1" onclick="togglePanel('faq-answer1')"><i
-                        class="fa-solid fa-chevron-down"></i> Custom produksi di Lokal apakah free design? </button>
+                <button class="btn-panel" id="btn-faq-answer1" onclick="togglePanel('faq-answer1')">
+                    <i class="fa-solid fa-chevron-down"></i> Custom produksi di Lokal apakah free design?
+                </button>
                 <div class="panel hilang" id="faq-answer1">
                     <div class="paragraf" id="myDiv_id1"></div>
-                    <p id="paragraph_id1">Frequently Asked Questions (FAQ) pages contain a list of commonly asked
-                        questions and answers on a website about topics such as hours, shipping and handling,
-                        product information, and return policies.
-
-                        Sure there are chatbots, support lines, and customer reviews to help shoppers on their
-                        path to purchase, but there’s one forgotten customer service tactic that is
-                        cost-effective and streamlined. That tactic is an FAQ page.
+                    <p id="paragraph_id1">
+                        Ya, kami menyediakan layanan free design untuk setiap custom produksi di Lokal Industri. Tim
+                        desainer kami siap membantu mewujudkan ide dan konsep Anda menjadi pakaian dengan kualitas terbaik.
+                        Kami bekerja sama dengan Anda dari tahap awal desain hingga produk akhir, memastikan setiap detail
+                        sesuai dengan keinginan Anda. Silakan hubungi kami untuk konsultasi lebih lanjut dan memulai proses
+                        desain custom Anda tanpa biaya tambahan!
                     </p>
                 </div>
-                <button class="btn-panel" id="btn-faq-answer2" onclick="togglePanel('faq-answer2')"><i
-                        class="fa-solid fa-chevron-down"></i> Apa saja bahan yang tersedia di Lokal Industri? </button>
+                <button class="btn-panel" id="btn-faq-answer2" onclick="togglePanel('faq-answer2')">
+                    <i class="fa-solid fa-chevron-down"></i> Apa saja bahan yang tersedia di Lokal Industri?
+                </button>
                 <div class="panel hilang" id="faq-answer2">
                     <div class="paragraf" id="myDiv_id2"></div>
-                    <p id="paragraph_id2">An FAQ page is a time-saving customer service tactic that provides the
-                        most commonly asked questions and answers for current or potential customers.
-
-                        Before diving into how to make an FAQ page, you need to know why having one is so
-                        important. There are so many reasons beyond improving the customer experience for
-                        perfecting your FAQ page. Keep in mind the importance of an FAQ page when developing
-                        your own e-commerce website so you can make sure it increases sales and not the other
-                        way around.
+                    <p id="paragraph_id2">
+                        Lokal Industri menyediakan beragam bahan berkualitas tinggi untuk memenuhi berbagai kebutuhan
+                        pakaian Anda. Berikut adalah beberapa bahan yang tersedia:
+                    <ul>
+                        <li>Katun: Nyaman dan breathable, ideal untuk pakaian sehari-hari.</li>
+                        <li>Polyester: Tahan lama dan mudah dirawat, cocok untuk pakaian olahraga dan seragam.</li>
+                        <li>Denim: Kuat dan stylish, sempurna untuk celana jeans dan jaket.</li>
+                        <li>Linen: Ringan dan sejuk, pilihan terbaik untuk pakaian musim panas.</li>
+                        <li>Rayon: Lembut dan halus, memberikan tampilan mewah pada pakaian kasual dan formal.</li>
+                        <li>Spandex: Elastis dan nyaman, sering digunakan untuk pakaian olahraga dan aktif.</li>
+                    </ul>
+                    Kami terus menambah variasi bahan untuk memenuhi kebutuhan pelanggan kami. Jika Anda memiliki bahan
+                    khusus yang diinginkan, silakan hubungi kami untuk informasi lebih lanjut!
                     </p>
                 </div>
-                <button class="btn-panel" id="btn-faq-answer3" onclick="togglePanel('faq-answer3')"><i
-                        class="fa-solid fa-chevron-down"></i> Metode printing apa yang Lokal pakai? </button>
+                <button class="btn-panel" id="btn-faq-answer3" onclick="togglePanel('faq-answer3')">
+                    <i class="fa-solid fa-chevron-down"></i> Metode printing apa yang Lokal pakai?
+                </button>
                 <div class="panel hilang" id="faq-answer3">
                     <div class="paragraf" id="myDiv_id3"></div>
-                    <p id="paragraph_id3">An FAQ page is a time-saving customer service tactic that provides the
-                        most commonly asked questions and answers for current or potential customers.
-
-                        Before diving into how to make an FAQ page, you need to know why having one is so
-                        important. There are so many reasons beyond improving the customer experience for
-                        perfecting your FAQ page. Keep in mind the importance of an FAQ page when developing
-                        your own e-commerce website so you can make sure it increases sales and not the other
-                        way around.
+                    <p id="paragraph_id3">
+                        Lokal Industri menggunakan berbagai metode printing untuk memastikan kualitas terbaik sesuai dengan
+                        kebutuhan dan preferensi Anda:
+                    <ul>
+                        <li>Screen Printing: Ideal untuk desain dengan warna solid dan volume tinggi. Metode ini
+                            menghasilkan cetakan yang tahan lama dan berkualitas tinggi.</li>
+                        <li>Digital Printing: Cocok untuk desain yang kompleks dan penuh warna. Metode ini memungkinkan
+                            cetakan detail dengan gradasi warna yang halus.</li>
+                        <li>Sublimation Printing: Digunakan untuk bahan polyester, metode ini memberikan cetakan yang tahan
+                            lama dan tidak pudar, sangat cocok untuk pakaian olahraga dan aktif.</li>
+                    </ul>
+                    Kami memastikan setiap metode printing dipilih berdasarkan jenis bahan dan desain Anda untuk mencapai
+                    hasil terbaik. Jika Anda memiliki kebutuhan khusus atau ingin mengetahui lebih lanjut tentang metode
+                    printing kami, jangan ragu untuk menghubungi kami!
                     </p>
                 </div>
-                <button class="btn-panel" id="btn-faq-answer4" onclick="togglePanel('faq-answer4')"><i
-                        class="fa-solid fa-chevron-down"></i> Berapa lama estimasi pengerjaannya? </button>
+                <button class="btn-panel" id="btn-faq-answer4" onclick="togglePanel('faq-answer4')">
+                    <i class="fa-solid fa-chevron-down"></i> Berapa lama estimasi pengerjaannya?
+                </button>
                 <div class="panel hilang" id="faq-answer4">
                     <div class="paragraf" id="myDiv_id4"></div>
-                    <p id="paragraph_id4">An FAQ page is a time-saving customer service tactic that provides the
-                        most commonly asked questions and answers for current or potential customers.
-
-                        Before diving into how to make an FAQ page, you need to know why having one is so
-                        important. There are so many reasons beyond improving the customer experience for
-                        perfecting your FAQ page. Keep in mind the importance of an FAQ page when developing
-                        your own e-commerce website so you can make sure it increases sales and not the other
-                        way around.
+                    <p id="paragraph_id4">
+                        Estimasi waktu pengerjaan di Lokal Industri bervariasi tergantung pada kompleksitas desain, jenis
+                        bahan, dan jumlah pesanan. Secara umum, berikut adalah estimasi waktu pengerjaan kami:
+                    <ul>
+                        <li>Pakaian Custom: 2-4 minggu</li>
+                        <li>Printing dan Embroidery: 1-2 minggu</li>
+                        <li>Proyek Skala Besar (seperti seragam perusahaan): 4-6 minggu</li>
+                        <li>Pesanan Khusus dengan Desain yang Rumit: 3-5 minggu</li>
+                    </ul>
+                    Kami selalu berusaha untuk menyelesaikan pesanan secepat mungkin tanpa mengorbankan kualitas. Untuk
+                    estimasi waktu yang lebih akurat, silakan hubungi tim kami dengan memberikan detail pesanan Anda. Kami
+                    juga menyediakan layanan ekspres dengan biaya tambahan untuk kebutuhan yang mendesak.
                     </p>
                 </div>
             </div>

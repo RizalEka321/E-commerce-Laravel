@@ -39,7 +39,6 @@ class PageController extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string',
             'email' => 'required|email|regex:/^[A-Za-z0-9._%+-]{8,16}@gmail\.com$/',
-            'email' => 'required|email|regex:/^[A-Za-z0-9._%+-]{8,16}@gmail\.com$/',
             'pesan' => 'required'
         ], [
             'nama.required' => 'Input Nama tidak boleh kosong',

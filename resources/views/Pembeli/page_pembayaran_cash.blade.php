@@ -21,7 +21,88 @@
                         </div>
                     </div>
                     <div class="produk">
-                        <table class="table">
+                        <style>
+                            #tabelku {
+                                width: 100%;
+                                border-collapse: collapse;
+                                margin: 20px 0;
+                                font-size: 16px;
+                                /* Base font size */
+                                font-family: 'Arial', sans-serif;
+                                text-align: left;
+                                box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+                            }
+
+                            #tabelku thead tr {
+                                background-color: #AAAAAA;
+                                color: var(--black);
+                                text-align: left;
+                                font-weight: bold;
+                            }
+
+                            #tabelku th,
+                            #tabelku td {
+                                padding: 12px 15px;
+                                font-size: 16px;
+                            }
+
+                            #tabelku tbody tr {
+                                border-bottom: 1px solid #dddddd;
+                            }
+
+                            #tabelku tbody tr:nth-of-type(even) {
+                                background-color: #f3f3f3;
+                            }
+
+                            #tabelku tbody tr:last-of-type {
+                                border-bottom: 2px solid #AAAAAA;
+                            }
+
+                            #tabelku tfoot tr {
+                                background-color: #f3f3f3;
+                                font-weight: bold;
+                            }
+
+                            @media (max-width: 600px) {
+                                #tabelku thead {
+                                    display: none;
+                                }
+
+                                #tabelku,
+                                #tabelku tbody,
+                                #tabelku tr,
+                                #tabelku td {
+                                    display: block;
+                                    width: 100%;
+                                }
+
+                                #tabelku tr {
+                                    margin-bottom: 15px;
+                                }
+
+                                #tabelku td {
+                                    text-align: right;
+                                    padding-left: 50%;
+                                    position: relative;
+                                }
+
+                                #tabelku td::before {
+                                    content: attr(data-label);
+                                    position: absolute;
+                                    left: 0;
+                                    width: 50%;
+                                    padding-left: 15px;
+                                    font-weight: bold;
+                                    text-align: left;
+                                }
+
+                                #tabelku td:nth-child(5)::before,
+                                #tabelku tfoot td::before {
+                                    text-align: right;
+                                }
+                            }
+                        </style>
+                        <table id="tabelku" class="tabel">
                             <thead>
                                 <tr>
                                     <th scope="col">Produk</th>
@@ -42,19 +123,9 @@
                                     </tr>
                                 @endforeach
                             </tbody>
+                            <tfoot>
+                            </tfoot>
                         </table>
-                        <div class="jumlah">
-                            <div class="col-lg-4">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <h6>Total Belanja</h6>
-                                    </div>
-                                    <div class="col-lg-6text-end">
-                                        <h6>Rp. {{ number_format($pesanan->total, 0, ',', '.') }}</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

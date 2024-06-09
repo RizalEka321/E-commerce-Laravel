@@ -182,21 +182,15 @@
                             </div>
                             <div class="modal-body">
                                 <h6>1. Cash</h6>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum reprehenderit a voluptatum
-                                    ab esse
-                                    ipsum natus obcaecati exercitationem minima! Amet, commodi. Reiciendis voluptatem vero,
-                                    aliquam
-                                    itaque magni possimus rem error ut at odit consectetur cupiditate incidunt nulla quis
-                                    ipsam
-                                    ullam blanditiis iste similique obcaecati veniam optio a maxime neque ratione?</p>
+                                <p>Anda dapat melakukan pembayaran secara tunai dengan datang langsung ke kantor CV. Lokal
+                                    Industri dengan menunjukkan nota pembelian Anda. Silakan pastikan untuk membawa jumlah
+                                    yang sesuai dengan total pesanan Anda.</p>
                                 <h6>2. Transfer</h6>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum reprehenderit a voluptatum
-                                    ab esse
-                                    ipsum natus obcaecati exercitationem minima! Amet, commodi. Reiciendis voluptatem vero,
-                                    aliquam
-                                    itaque magni possimus rem error ut at odit consectetur cupiditate incidunt nulla quis
-                                    ipsam
-                                    ullam blanditiis iste similique obcaecati veniam optio a maxime neque ratione?</p>
+                                <p>Anda dapat melakukan pemabayaran secara transfer dengan memilih antara transfer antar
+                                    bank atau dari e-wallet. Setelah memilih metode, anda akan diberikan Virtual
+                                    Account (VA) atau QR Code yang harus dibayar dalam waktu maksimal 24 jam setelah
+                                    checkout. Hal ini memastikan bahwa pesanan dapat segera diproses. Metode ini memberikan
+                                    kemudahan dan keamanan dalam bertransaksi online bagi pelanggan Lokal Industri.</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn-batal" data-bs-dismiss="modal">Close</button>
@@ -218,21 +212,15 @@
                             </div>
                             <div class="modal-body">
                                 <h6>1. Pickup</h6>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum reprehenderit a voluptatum
-                                    ab esse
-                                    ipsum natus obcaecati exercitationem minima! Amet, commodi. Reiciendis voluptatem vero,
-                                    aliquam
-                                    itaque magni possimus rem error ut at odit consectetur cupiditate incidunt nulla quis
-                                    ipsam
-                                    ullam blanditiis iste similique obcaecati veniam optio a maxime neque ratione?</p>
+                                <p>Jika Anda memilih opsi pickup, Anda dapat mengambil pesanan Anda langsung dari lokasi
+                                    kami setelah pesanan Anda selesai diproses. Kami akan memberikan informasi lengkap
+                                    mengenai lokasi dan jam operasional kami sehingga Anda dapat melakukan pengambilan
+                                    dengan mudah.
+                                </p>
                                 <h6>2. Delivery</h6>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum reprehenderit a voluptatum
-                                    ab esse
-                                    ipsum natus obcaecati exercitationem minima! Amet, commodi. Reiciendis voluptatem vero,
-                                    aliquam
-                                    itaque magni possimus rem error ut at odit consectetur cupiditate incidunt nulla quis
-                                    ipsam
-                                    ullam blanditiis iste similique obcaecati veniam optio a maxime neque ratione?</p>
+                                <p>Jika Anda memilih opsi delivery, pesanan Anda akan dikirim langsung ke alamat yang Anda
+                                    tentukan. Kami bekerja sama dengan layanan pengiriman terpercaya untuk memastikan
+                                    pesanan Anda tiba dengan aman dan tepat waktu.</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn-batal" data-bs-dismiss="modal">Close</button>

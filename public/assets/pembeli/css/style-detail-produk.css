@@ -24,6 +24,17 @@ Detail Produk page styles
 
 .detail-produk .title {
     color: var(--red);
+    font-weight: 400;
+}
+
+.judul_description {
+    color: var(--red);
+    font-style: italic;
+}
+
+.title_description {
+    color: var(--black);
+    font-weight: 600;
 }
 
 .detail-produk .price {
@@ -36,7 +47,7 @@ Detail Produk page styles
     font-size: 16px;
     display: inline-block;
     padding: 8px 18px;
-    border: 1px solid var(--red);
+    border: 2px solid var(--red);
     border-radius: 5px;
     text-decoration: none;
     transition: all 0.5s ease-in-out;
@@ -90,7 +101,7 @@ Detail Produk page styles
 
 .radio-toolbar label {
     display: inline-block;
-    border: 1px solid #ddd;
+    border: 2px solid #a8a8a8;
     padding: 5px 15px;
     margin-right: 10px;
     cursor: pointer;
@@ -111,49 +122,52 @@ Detail Produk page styles
 /*--------------------------*/
 .qty-container {
     display: flex;
-    align-items: left;
+    align-items: center;
     justify-content: flex-start;
 }
 
 .qty-container .input-qty {
+    border-top: 2px solid #a8a8a8;
+    border-bottom: 2px solid #a8a8a8;
+    border-right: none;
+    border-left: none;
     text-align: center;
     padding: 6px 10px;
-    border: 1px solid #d4d4d4;
-    max-width: 80px;
+    max-width: 40px;
+    height: 35px;
 }
 
 .qty-container .qty-btn-minus,
 .qty-container .qty-btn-plus {
-    border: 1px solid #d4d4d4;
     padding: 10px 13px;
     font-size: 10px;
-    height: 38px;
-    width: 38px;
-    transition: 0.3s;
-}
-
-.qty-container .qty-btn-plus {
-    margin-left: -1px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    background-color: var(--white);
+    height: 35px;
+    width: 35px;
+    transition: transform 0.3s, color 0.3s;
 }
 
 .qty-container .qty-btn-minus {
-    margin-right: -1px;
+    border-top: 2px solid #a8a8a8;
+    border-bottom: 2px solid #a8a8a8;
+    border-left: 2px solid #a8a8a8;
+    border-right: none;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
 
-.qty-btn-minus:hover {
-    transition: transform 0.2s;
-    color: var(--white);
-    background: var(--red);
+.qty-container .qty-btn-plus {
+    border-top: 2px solid #a8a8a8;
+    border-bottom: 2px solid #a8a8a8;
+    border-right: 2px solid #a8a8a8;
+    border-left: none;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
+.qty-btn-minus:hover,
 .qty-btn-plus:hover {
-    transition: transform 0.2s;
-    color: var(--white);
-    background: var(--red);
+    color: var(--red);
 }
 
 .button-container {
