@@ -245,13 +245,16 @@ Home page styles
 .home_kontak .btn-kirim {
     font-size: 16px;
     padding: 5px 40px;
+    border: 1px solid var(--red);
     border-radius: 20px;
     color: var(--white);
     background-color: var(--red);
 }
 
 .home_kontak .btn-kirim:hover {
-    border-color: var(--white);
+    border: 1px solid var(--red);
+    background-color: var(--white);
+    color: var(--red);
 }
 
 /* Button Whatsapp */

@@ -24,18 +24,19 @@ class Produk extends Model
 
     public static function generateId()
     {
-        $latestOrder = self::latest()->first();
-        if (!$latestOrder) {
-            $lastId = 'PRD-0000000001';
+        $lastProduk = Produk::orderBy('id_produk', 'desc')->first();
+
+        if (!$lastProduk) {
+            $lastId = 'PRD-0000000001';;
         } else {
-            $lastId = $latestOrder->id_pesanan;
+            $lastId = (int) substr($lastProduk->id_produk, 4) + 1;
         }
 
-        $lastIdNumber = (int) substr($lastId, -10) + 1;
-        $newId = 'PRD-' . str_pad($lastIdNumber, 10, '0', STR_PAD_LEFT);
+        $newId = 'PRD-' . str_pad($lastId, 10, '0', STR_PAD_LEFT);
 
         return $newId;
     }
+
     public function detail_pesanan()
     {
         return $this->hasMany(Detail_Pesanan::class);

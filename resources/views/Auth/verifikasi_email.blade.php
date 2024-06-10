@@ -1,32 +1,33 @@
 @extends('Auth.layout.app')
 @section('title', 'Verifikasi email')
 @section('content')
-    <div class="container mt-3">
-        <a href="{{ route('home') }}">
-            <img src="{{ asset('assets/pembeli/img/logonavbar_hitam.png') }}" alt="" width="300px" height="70px">
-        </a>
-        <div class="container">
-            <div class="konten_verifikasi">
-                <div class="card border-0">
-                    <div class="card-body">
-                        <div class="mb-1">
-                            <h4>Verifikasi Email Anda</h4>
+    <section class="auth">
+        <div class="konten_auth">
+            <a class="text-center" href="{{ route('home') }}">
+                <img src="{{ asset('assets/pembeli/img/logo_auth.png') }}" alt="" width="300px" height="70px">
+            </a>
+            <div class="card verifikasi">
+                <div class="card-body">
+                    <div class="atas mb-4">
+                        <div class="logo-verifikasi mb-2">
+                            <i class="fa-solid fa-check"></i>
                         </div>
-                        <p>Sebelum melanjutkan, kami mohon Anda memeriksa kotak masuk email Anda untuk menemukan tautan
-                            verifikasi
-                            yang telah kami kirimkan. Jika Anda tidak menemukan email tersebut,</p>
+                        <h5>Registrasi Anda Sudah Berhasil!</h5>
+                        <h6>Silahkan periksa email untuk verifikasi akun</h6>
+                    </div>
+                    <p class="tengah-1">Jika belum ada pesan masuk, silahkan klik tombol dibawah ini untuk mengirimkan pesan
+                        verifikasi</p>
+                    <div class="tengah-2 mb-4">
                         <form method="POST" action="{{ route('verification.resend') }}">
                             @csrf
-                            <p>Anda dapat meminta kami mengirimkan email verifikasi kembali dengan</p>
-                            <button type="submit" class="btn btn-link p-0 m-0 align-baseline">klik di sini</button>.
+                            <button type="submit" class="btn-verifikasi">Kirim</button>.
                         </form>
-                        <br>
-                        <p>Jika Anda masih mengalami masalah dengan verifikasi, silakan hubungi tim dukungan kami.</p>
                     </div>
+                    <p class="bawah">Jika masih mengalami kendala pada proses verifikasi silahkan hubungi admin</p>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 @endsection
 @section('script')
     <script>

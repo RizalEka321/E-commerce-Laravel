@@ -5,20 +5,20 @@
     <section class="detail-produk">
         <div class="container">
             <div class="row">
-                <div class="col-md-5 col-lg-5">
+                <div class="col-md-6 col-lg-6 foto">
                     <img src="{{ asset($produk_detail->foto) }}" alt="Produk Lokal Industri">
                 </div>
-                <div class="col-md-7 col-lg-7">
-                    <h2 class="title">{{ $produk_detail->judul }}</h2>
-                    <div class="price">
-                        <h4>Rp. {{ number_format($produk_detail->harga, 0, '.', '.') }}</h4>
-                    </div>
-                    <div>
-                        <form id="form_tambah" action="#" method="POST" role="form">
+                <div class="col-md-6 col-lg-6 form-produk">
+                    <div class="detail-atas">
+                        <h2 class="title">{{ $produk_detail->judul }}</h2>
+                        <div class="price">
+                            <h4>Rp. {{ number_format($produk_detail->harga, 0, '.', '.') }}</h4>
+                        </div>
+                        <form id="form_produk_detail" action="#" method="POST" role="form">
                             <input type="hidden" name="produk_id" value="{{ $produk_detail->id_produk }}">
                             <div class="mb-3">
-                                <label for="ukuran"><b>Ukuran</b></label>
-                                <div class="radio-toolbar">
+                                <label for="ukuran" class="luar">Ukuran</label>
+                                <div class="radio-produk">
                                     @foreach ($produk_detail->ukuran as $u)
                                         @if ($u->stok != null)
                                             <input type="radio" id="radio{{ $u->id_ukuran }}" name="id_ukuran"
@@ -29,7 +29,7 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="ukuran"><b>Kuantitas</b></label>
+                                <label for="ukuran" class="luar">Kuantitas</label>
                                 <div class="qty-container">
                                     <button class="qty-btn-minus btn-light" type="button"><i
                                             class="fa fa-minus"></i></button>
@@ -38,12 +38,14 @@
                                             class="fa fa-plus"></i></button>
                                 </div>
                             </div>
-                            <div class="button-container">
-                                <button type="submit" id="btn_masukkan_keranjang" class="btn-keranjang"><i
-                                        class="fa-solid fa-plus"></i> Keranjang</button>
-                                <button class="btn-beli" id="btn_beli_sekarang">Beli Sekarang</button>
-                            </div>
                         </form>
+                    </div>
+                    <div class="detail-bawah">
+                        <div class="button-container">
+                            <button class="btn-keranjang" id="btn_masukkan_keranjang"><i class="fa-solid fa-plus"></i>
+                                Keranjang</button>
+                            <button class="btn-beli" id="btn_beli_sekarang">Beli Sekarang</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -67,7 +69,7 @@
         });
 
         function reset_form() {
-            $('#form_tambah')[0].reset();
+            $('#form_produk_detail')[0].reset();
         }
 
         $(document).ready(function() {
@@ -93,10 +95,10 @@
                 return;
             } else {
                 var checkoutUrl = "{{ url('/keranjang/create') }}";
-                $('#form_tambah').attr('action', checkoutUrl);
+                $('#form_produk_detail').attr('action', checkoutUrl);
 
-                var url = $('#form_tambah').attr('action');
-                var formData = new FormData($('#form_tambah')[0]);
+                var url = $('#form_produk_detail').attr('action');
+                var formData = new FormData($('#form_produk_detail')[0]);
 
                 Swal.fire({
                     title: "Sedang memproses",
@@ -168,10 +170,10 @@
                 return;
             } else {
                 var checkoutUrl = "{{ url('/checkout-langsung') }}";
-                $('#form_tambah').attr('action', checkoutUrl);
+                $('#form_produk_detail').attr('action', checkoutUrl);
 
-                var url = $('#form_tambah').attr('action');
-                var formData = new FormData($('#form_tambah')[0]);
+                var url = $('#form_produk_detail').attr('action');
+                var formData = new FormData($('#form_produk_detail')[0]);
 
                 Swal.fire({
                     title: "Sedang memproses",

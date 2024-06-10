@@ -81,7 +81,7 @@
                 var formData = new FormData($(this)[0]);
 
                 Swal.fire({
-                    title: "Sedang memproses login",
+                    title: "Sedang memproses",
                     html: "Mohon tunggu sebentar...",
                     allowOutsideClick: false,
                     allowEscapeKey: false,
@@ -108,7 +108,7 @@
                             Swal.close();
                             $('.error-message').empty();
                             Swal.fire({
-                                title: 'Upss..!',
+                                title: 'Error',
                                 text: response.error,
                                 icon: 'error',
                                 position: 'center',
@@ -122,7 +122,7 @@
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         Swal.fire({
-                            title: 'Upss..!',
+                            title: 'Error',
                             text: 'Terjadi kesalahan saat Login.',
                             icon: 'error',
                             position: 'top-end',

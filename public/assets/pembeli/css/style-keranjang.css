@@ -118,66 +118,49 @@ Detail page styles
 
 .qty-container-keranjang {
     display: flex;
-    align-items: left;
+    align-items: center;
     justify-content: flex-start;
 }
 
 .qty-container-keranjang .input-qty {
+    border: 2px solid #8a8a8a;
+    border-left: none;
+    border-right: none;
     text-align: center;
-    padding: 6px 8px;
-    border-top: 2px solid #a8a8a8;
-    border-bottom: 2px solid #a8a8a8;
-    border-right: none;
-    border-left: none;
-    max-width: 40px;
-    max-height: 30px;
+    padding: 6px 10px;
+    width: 40px;
+    height: 30px;
+}
+
+.qty-container-keranjang .qty-btn-minus,
+.qty-container-keranjang .qty-btn-plus {
+    font-size: 12px;
+    color: #8a8a8a;
+    background-color: var(--white);
+    height: 30px;
+    width: 35px;
+    border: 2px solid #8a8a8a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s, color 0.3s;
 }
 
 .qty-container-keranjang .qty-btn-minus {
-    border-top: 2px solid #a8a8a8;
-    border-bottom: 2px solid #a8a8a8;
-    border-left: 2px solid #a8a8a8;
     border-right: none;
-    padding: 6px 8px;
-    font-size: 10px;
-    background-color: var(--white);
-    height: 30px;
-    width: 30px;
-    transition: 0.3s;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 .qty-container-keranjang .qty-btn-plus {
-    border-top: 2px solid #a8a8a8;
-    border-bottom: 2px solid #a8a8a8;
-    border-right: 2px solid #a8a8a8;
     border-left: none;
-    padding: 6px 8px;
-    font-size: 10px;
-    background-color: var(--white);
-    height: 30px;
-    width: 30px;
-    transition: 0.3s;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
-.qty-container-keranjang .qty-btn-plus {
-    margin-left: -1px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
-
-.qty-container-keranjang .qty-btn-minus {
-    margin-right: -1px;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-}
-
-.qty-btn-minus:hover {
-    transition: transform 0.2s;
-    color: var(--red);
-}
-
+.qty-btn-minus:hover,
 .qty-btn-plus:hover {
-    transition: transform 0.2s;
     color: var(--red);
 }
 

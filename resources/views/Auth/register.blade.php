@@ -111,7 +111,7 @@
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         Swal.fire({
-                            title: 'Upss..!',
+                            title: 'Error',
                             text: 'Terjadi kesalahan saat registrasi.',
                             icon: 'error',
                             position: 'top-end',

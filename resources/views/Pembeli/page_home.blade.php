@@ -98,7 +98,7 @@
     <section class="home_faq" id="FAQ">
         <div class="container">
             <div class="text-center mb-4">
-                <span>Pertanyaan Umum (FAQ)</span>
+                <span>FAQS</span>
             </div>
             <div class="tab">
                 <button class="btn-panel" id="btn-faq-answer1" onclick="togglePanel('faq-answer1')">
@@ -212,7 +212,7 @@
                     </div>
                 </div>
                 <div class="text-center">
-                    <button type="sumbit" class="btn-kirim">Kirim</button>
+                    <button type="sumbit" class="btn-kirim">KIRIM</button>
                 </div>
             </form>
         </div>

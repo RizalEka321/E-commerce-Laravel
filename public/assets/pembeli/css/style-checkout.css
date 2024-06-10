@@ -1,5 +1,5 @@
 /*===============================================================
-Detail Produk page styles
+Checkout page styles
 =================================================================*/
 
 .checkout {
@@ -93,19 +93,19 @@ Detail Produk page styles
 .konten_produk .metode label {
     font-weight: 700;
 }
-.konten_produk .metode .radio-toolbar label {
+.konten_produk .metode .radio-checkout label {
     font-weight: 400;
 }
 
-.radio-toolbar {
+.radio-checkout {
     display: flex;
 }
 
-.radio-toolbar input[type="radio"] {
+.radio-checkout input[type="radio"] {
     display: none;
 }
 
-.radio-toolbar label {
+.radio-checkout label {
     display: inline-block;
     border: 1px solid #ddd;
     padding: 5px 15px;
@@ -114,12 +114,12 @@ Detail Produk page styles
     border-radius: 5px;
 }
 
-.radio-toolbar input[type="radio"]:checked + label {
+.radio-checkout input[type="radio"]:checked + label {
     background-color: var(--red);
     color: #fff;
 }
 
-.radio-toolbar input[type="radio"] + label:hover {
+.radio-checkout input[type="radio"] + label:hover {
     transition: transform 0.2s;
     color: var(--red);
     border: 1px solid var(--red);
@@ -144,7 +144,22 @@ Detail Produk page styles
     display: none;
 }
 
-.konten_produk .btn-bayar {
+.checkout .input-kecil,
+.input-besar {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.checkout .input-besar {
+    height: 150px;
+    resize: vertical;
+}
+
+.checkout .btn-bayar {
     font-weight: 600;
     font-size: 16px;
     display: inline-block;
@@ -153,14 +168,14 @@ Detail Produk page styles
     border-radius: 5px;
     text-decoration: none;
     transition: all 0.5s ease-in-out;
-    color: var(--red);
-    background-color: var(--white);
+    color: var(--white);
+    background-color: var(--red);
 }
 
 .checkout .btn-bayar:hover {
     border-color: var(--red);
-    color: var(--white);
-    background: var(--red);
+    color: var(--red);
+    background: var(--white);
 }
 
 .checkout .btn-batal {

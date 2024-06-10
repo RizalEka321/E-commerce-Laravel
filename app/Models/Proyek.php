@@ -30,15 +30,15 @@ class Proyek extends Model
 
     public static function generateId()
     {
-        $latestOrder = self::latest()->first();
-        if (!$latestOrder) {
-            $lastId = 'PRY-0000000001';
+        $lastProyek = Proyek::orderBy('id_proyek', 'desc')->first();
+
+        if (!$lastProyek) {
+            $lastId = 'PRY-0000000001';;
         } else {
-            $lastId = $latestOrder->id_pesanan;
+            $lastId = (int) substr($lastProyek->id_proyek, 4) + 1;
         }
 
-        $lastIdNumber = (int) substr($lastId, -10) + 1;
-        $newId = 'PRY-' . str_pad($lastIdNumber, 10, '0', STR_PAD_LEFT);
+        $newId = 'PRY-' . str_pad($lastId, 10, '0', STR_PAD_LEFT);
 
         return $newId;
     }

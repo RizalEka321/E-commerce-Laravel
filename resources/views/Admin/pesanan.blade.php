@@ -235,7 +235,7 @@
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        Swal.close(); // Menutup loading saat terjadi error
+                        Swal.close();
                         Swal.fire({
                             title: 'Error',
                             text: 'Terjadi kesalahan jaringan: ' + errorThrown,

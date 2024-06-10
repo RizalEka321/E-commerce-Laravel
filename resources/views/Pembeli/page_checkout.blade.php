@@ -21,11 +21,11 @@
                                             method="post">
                                             <div class="mb-3">
                                                 <label for="alamat" class="form-label">Alamat Baru</label>
-                                                <input type="text" class="form-control" id="alamat" name="alamat">
+                                                <textarea id="alamat" name="alamat" class="input-besar"></textarea>
                                                 <span class="form-text text-danger error-message"></span>
                                             </div>
                                             <div class="mb-3">
-                                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                                <button type="submit" class="btn-bayar">Simpan</button>
                                             </div>
                                         </form>
                                     </div>
@@ -40,11 +40,11 @@
                                             action="{{ url('/checkout/update-nohp') }}?q={{ Auth::user()->id }}"
                                             method="post">
                                             <div class="mb-3">
-                                                <label for="no_hp" class="form-label">Nomer Hp Baru</label>
-                                                <input type="text" class="form-control" id="no_hp" name="no_hp">
+                                                <label for="no_hp" class="form-label">No. Telepon Baru</label>
+                                                <input type="text" id="no_hp" name="no_hp" class="input-kecil">
                                             </div>
                                             <div class="mb-3">
-                                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                                <button type="submit" class="btn-bayar">Simpan</button>
                                             </div>
                                         </form>
                                     </div>
@@ -146,7 +146,7 @@
                                 <h6 class="text-left" id="total-belanja">Rp.
                                     {{ number_format($total_harga, 0, ',', '.') }}</h6>
                             </div>
-                            <button class="btn-bayar"><i class="fa-solid fa-shield"></i> Bayar</button>
+                            <button class="btn-bayar" id="btn-bayar"><i class="fa-solid fa-shield"></i> Bayar</button>
                         </div>
                     </div>
                 </div>
@@ -277,7 +277,7 @@
             });
         });
 
-        $('.btn-bayar').click(function(e) {
+        $('#btn-bayar').click(function(e) {
             Swal.fire({
                 title: "Sedang memproses",
                 html: "Mohon tunggu sebentar...",

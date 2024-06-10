@@ -269,7 +269,7 @@
                     error: function(jqXHR, textStatus, errorThrown) {
                         Swal.close();
                         Swal.fire({
-                            title: 'Upss..!',
+                            title: 'Error',
                             text: 'Terjadi kesalahan jaringan error message: ' +
                                 errorThrown,
                             icon: 'error',
@@ -330,7 +330,7 @@
                 error: function(jqXHR, textStatus, errorThrown) {
                     Swal.close();
                     Swal.fire({
-                        title: 'Upss..!',
+                        title: 'Error',
                         text: 'Terjadi kesalahan jaringan error message: ' + errorThrown,
                         icon: 'error',
                         position: 'top-end',
@@ -388,7 +388,7 @@
                         error: function(jqXHR, textStatus, errorThrown) {
                             Swal.close();
                             Swal.fire({
-                                title: 'Upss..!',
+                                title: 'Error',
                                 text: 'Terjadi kesalahan jaringan error message: ' +
                                     errorThrown,
                                 icon: 'error',
