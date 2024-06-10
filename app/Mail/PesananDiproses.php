@@ -11,12 +11,11 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class PesananDipesan extends Mailable
+class PesananDiproses extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $id_pesanan;
-
     /**
      * Create a new message instance.
      */
@@ -31,7 +30,7 @@ class PesananDipesan extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Pesanan Baru',
+            subject: 'Pesanan Diproses',
         );
     }
 
@@ -42,7 +41,7 @@ class PesananDipesan extends Mailable
     {
         $pesanan = Pesanan::where('id_pesanan', $this->id_pesanan)->with('detail')->first();
         return new Content(
-            view: 'Email.pesanan.emaildipesan',
+            view: 'Email.pesanan.emaildiproses',
             with: [
                 'pesanan' => $pesanan,
             ],

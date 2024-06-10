@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Pesanan;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Mail\PesananDiproses;
 use App\Http\Controllers\Controller;
+use App\Mail\PesananDibatalkan;
+use App\Mail\PesananSelesai;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -143,6 +147,15 @@ class PesananController extends Controller
         $data = Pesanan::findOrFail($id);
         $data->status = $status;
         $data->save();
+
+        $pesanan = Pesanan::find($id);
+        if ($status == 'Diproses') {
+            Mail::to($pesanan->user->email)->send(new PesananDiproses($pesanan->id_pesanan));
+        } else if ($status == 'Selesai') {
+            Mail::to($pesanan->user->email)->send(new PesananSelesai($pesanan->id_pesanan));
+        } else if ($status == 'Dibatalkan') {
+            Mail::to($pesanan->user->email)->send(new PesananDibatalkan($pesanan->id_pesanan));
+        }
 
         return response()->json(['success' => true]);
     }

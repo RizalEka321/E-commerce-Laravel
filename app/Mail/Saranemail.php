@@ -33,7 +33,7 @@ class Saranemail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Saranemail',
+            subject: 'Pesan Dari Pengguna Website',
         );
     }
 

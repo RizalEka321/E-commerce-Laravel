@@ -103,7 +103,7 @@
         <div class="header">
             <img src="https://lokalindustri.com{{ asset('assets/pembeli/img/logonavbar_hitam.png') }}" alt="logo">
             <hr>
-            <h1>Status Pesanan Diubah Jadi Dibatalkan</h1>
+            <h1>Pesanan Dibatalkan</h1>
         </div>
         <h2>Detail Pesanan Anda</h2>
         <table>

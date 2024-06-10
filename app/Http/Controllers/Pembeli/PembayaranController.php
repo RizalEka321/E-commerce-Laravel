@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Pembeli;
 
 use App\Models\Pesanan;
+use App\Mail\PesananDipesan;
 use Illuminate\Http\Request;
 use App\Models\Detail_Pesanan;
+use App\Mail\PesananDibatalkan;
 use App\Models\Profil_Perusahaan;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
 
 class PembayaranController extends Controller
@@ -42,10 +45,12 @@ class PembayaranController extends Controller
                 $pesanan->update([
                     'status' => 'Diproses',
                 ]);
+                Mail::to($pesanan->user->email)->send(new PesananDipesan($pesanan->id_pesanan));
             } else if ($transaction_status === 'cancel' || $transaction_status == 'deny' || $transaction_status === 'expire') {
                 $pesanan->update([
                     'status' => 'Dibatalkan',
                 ]);
+                Mail::to($pesanan->user->email)->send(new PesananDibatalkan($pesanan->id_pesanan));
             }
             return response()->json(['status' => 'TRUE']);
         } else {
