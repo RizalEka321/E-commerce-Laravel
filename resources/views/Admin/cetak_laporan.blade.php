@@ -114,7 +114,7 @@
                     <br>
                     <br>
                     <hr style="margin: 0%">
-                    <p style="margin: 0%">(Rizal Eka Budi Pratama)</p>
+                    <p style="margin: 0%">(Thorik Kurnia Rahman)</p>
                     <p>Pemlik CV. Lokal Industri</p>
                 </div>
             </td>

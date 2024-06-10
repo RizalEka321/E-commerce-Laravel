@@ -146,7 +146,7 @@
                         </div>
                         <div id="input_dp" class="mb-5">
                             <div class="form-group">
-                                <label for="nominal_dp">DP Proyek(opsional) :</label>
+                                <label for="nominal_dp">DP Proyek:</label>
                                 <input id="nominal_dp" type="text" name="nominal_dp" value="{{ old('nominal_dp') }}"
                                     class="form-control" placeholder="Masukkan DP Proyek">
                                 <span class="form-text text-danger error-message"></span>
@@ -248,7 +248,15 @@
                         data: 'pengerjaan',
                         name: 'pengerjaan',
                     }
-                ]
+                ],
+                language: {
+                    paginate: {
+                        first: '<i class="fas fa-angle-double-left"></i>',
+                        last: '<i class="fas fa-angle-double-right"></i>',
+                        next: '<i class="fas fa-angle-right"></i>',
+                        previous: '<i class="fas fa-angle-left"></i>'
+                    }
+                }
             });
         });
 
@@ -351,6 +359,7 @@
                 },
                 dataType: "JSON",
                 success: function(response) {
+                    console.log(response);
                     Swal.close();
                     var isi = response.proyek;
                     $('#nama_pemesan').val(isi.nama_pemesan);

@@ -44,14 +44,6 @@
                                     </div>
                                 </div>
                                 <div class="mb-2">
-                                    <div class="form-group">
-                                        <label for="nama" style="font-weight: 700">Tanggal Lahir</label>
-                                        <input type="date" class="input-kecil" name="tanggal_lahir" id="tanggal_lahir"
-                                            value="{{ Auth::user()->nama_lengkap }}">
-                                        <span class="form-text text-danger error-message"></span>
-                                    </div>
-                                </div>
-                                <div class="mb-2">
                                     <label for="username" style="font-weight: 700">Username</label>
                                     <input type="text" class="input-kecil" name="username" id="username"
                                         value="{{ Auth::user()->username }}" disabled>

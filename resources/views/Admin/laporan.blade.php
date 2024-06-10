@@ -40,7 +40,7 @@
                             </div>
                         </div>
                         <!-- /.card-body -->
-                        <div class="card-footer">
+                        <div>
                             <button type="submit" id="btn-simpan" class="btn-tambah">
                                 <i class="fa-solid fa-print"></i>&nbsp;&nbsp; CETAK LAPORAN
                             </button>

@@ -28,6 +28,8 @@ class Proyek extends Model
         'status_pembayaran'
     ];
 
+    protected $keyType = 'string';
+
     public static function generateId()
     {
         $lastProyek = Proyek::orderBy('id_proyek', 'desc')->first();

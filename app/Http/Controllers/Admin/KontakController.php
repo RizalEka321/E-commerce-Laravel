@@ -44,13 +44,10 @@ class KontakController extends Controller
             'instagram.string' => 'Instagram harus berupa teks.',
             'instagram.min' => 'Instagram minimal harus terdiri dari 2 karakter.',
             'instagram.max' => 'Instagram maksimal hanya boleh 100 karakter.',
-
             'whatsapp.required' => 'Nomor WhatsApp wajib diisi.',
             'whatsapp.numeric' => 'Nomor WhatsApp harus berupa angka.',
-
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Email harus dalam format yang benar.',
-
             'facebook.required' => 'Facebook wajib diisi.',
             'facebook.string' => 'Facebook harus berupa teks.',
             'facebook.min' => 'Facebook minimal harus terdiri dari 2 karakter.',

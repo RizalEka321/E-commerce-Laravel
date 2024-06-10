@@ -5,30 +5,6 @@
     <section class="keranjang mb-4">
         <h1 class="title">Keranjang</h1>
         <div class="container">
-            <style>
-                .keranjang-kosong {
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    justify-content: center;
-                    width: 100%;
-                    height: 100%;
-                    gap: 20px;
-                    padding-top: 80px;
-                    padding-bottom: 80px;
-                    background-color: var(--white);
-                }
-
-                .keranjang-kosong img {
-                    width: 150px;
-                }
-
-                .keterangan {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: flex-start;
-                }
-            </style>
             <table id="tabel_keranjang" class="tabel">
                 <thead>
                     <tr>
@@ -46,7 +22,7 @@
                     <tr>
                         <td colspan="5" class="text-end">
                             <div class="keranjang-bawah">
-                                <h5><strong>Total Belanja : <span id="total_keranjang"></span></strong></h5>
+                                <h5 class="total-keranjang">Total Belanja : <span id="total_keranjang"></span></h5>
                             </div>
                         </td>
                     </tr>
@@ -87,7 +63,7 @@
                 type: "GET",
                 dataType: "json",
                 success: function(response) {
-                    isi_tabel(response.data);
+                    isi_tabel(response.data, response.total_barang);
                     if (reloadPage) {
                         Swal.close();
                     }
@@ -105,7 +81,7 @@
             });
         }
 
-        function isi_tabel(data) {
+        function isi_tabel(data, totalBarang) {
             var tableBody = $('#tabel_keranjang tbody');
             var totalHarga = 0;
             tableBody.empty();
@@ -128,7 +104,7 @@
 
                 $('#total_keranjang').text(formattedTotalHarga);
                 $('#btn-bawah').html(
-                    `<a href="javascript:void(0)" class="btn-keranjang px-5" onclick="checkout({{ Auth::user()->id }})">Beli</a>`
+                    `<a href="javascript:void(0)" class="btn-keranjang px-5" onclick="checkout({{ Auth::user()->id }})">Beli (${totalBarang})</a>`
                 )
             } else {
                 tableBody.html(`<tr><td>${data}</td></tr>`);

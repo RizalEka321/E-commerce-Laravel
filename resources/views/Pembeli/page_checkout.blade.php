@@ -90,7 +90,7 @@
                                 </button>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <label for="ukuran">Metode Pembayaran :</label>
-                                    <div class="radio-toolbar">
+                                    <div class="radio-checkout">
                                         <div class="mr-2">
                                             <input type="radio" id="radio_cash" name="metode_pembayaran" value="Cash">
                                             <label for="radio_cash">CASH</label>
@@ -110,7 +110,7 @@
                                 </button>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <label for="ukuran">Metode Pengiriman :</label>
-                                    <div class="radio-toolbar d-flex">
+                                    <div class="radio-checkout d-flex">
                                         <input type="radio" id="radio_pickup" name="metode_pengiriman" value="Pickup">
                                         <label for="radio_pickup">PICKUP</label>
                                         <input type="radio" id="radio_delivery" name="metode_pengiriman"

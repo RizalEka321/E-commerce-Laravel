@@ -42,16 +42,18 @@ class ProyekController extends Controller
             })
             ->addColumn('pembayaran', function ($row) {
                 if (Auth::user()->role == 'Pegawai') {
-                    $pembayaranOptions = ['Belum', 'DP', 'Lunas'];
                     $dropdown = '<select class="form-control pembayaran-dropdown" data-id="' . $row->id_proyek . '"';
                     switch ($row->status_pembayaran) {
                         case 'Belum':
+                            $pembayaranOptions = ['Belum', 'DP', 'Lunas'];
                             $dropdown .= ' style="background-color: #C51605; color: white;"';
                             break;
                         case 'DP':
+                            $pembayaranOptions = ['DP', 'Lunas'];
                             $dropdown .= ' style="background-color: #0D1282; color: white;"';
                             break;
                         case 'Lunas':
+                            $pembayaranOptions = ['Lunas'];
                             $dropdown .= ' style="background-color: #009100; color: white;"';
                             break;
                         default:
@@ -73,17 +75,19 @@ class ProyekController extends Controller
 
             ->addColumn('pengerjaan', function ($row) {
                 if (Auth::user()->role == 'Pegawai') {
-                    $pengerjaanOptions = ['Diproses', 'Selesai', 'Dibatalkan'];
                     $dropdown = '<select class="form-control pengerjaan-dropdown" data-id="' . $row->id_proyek . '"';
 
                     switch ($row->status_pengerjaan) {
                         case 'Diproses':
+                            $pengerjaanOptions = ['Diproses', 'Selesai', 'Dibatalkan'];
                             $dropdown .= ' style="background-color: #0D1282; color: white;"';
                             break;
                         case 'Selesai':
+                            $pengerjaanOptions = ['Selesai', 'Dibatalkan'];
                             $dropdown .= ' style="background-color: #009100; color: white;"';
                             break;
                         case 'Dibatalkan':
+                            $pengerjaanOptions = ['Dibatalkan'];
                             $dropdown .= ' style="background-color: #C51605; color: white;"';
                             break;
                         default:

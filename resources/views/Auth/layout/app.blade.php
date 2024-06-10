@@ -24,9 +24,9 @@
     <link href="{{ asset('assets/plugins/OwlCarousel2-2.3.4/css/owl.carousel.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/plugins/OwlCarousel2-2.3.4/css/owl.carousel.min.css') }}" rel="stylesheet" />
     {{-- Style Sendiri --}}
-    <link href="{{ asset('assets/pembeli/css/variable.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/pembeli/css/style-auth.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/admin/css/loading.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/pembeli/css/variable.css') }}?ts={{ time() }}" rel="stylesheet" />
+    <link href="{{ asset('assets/pembeli/css/style-auth.css') }}?ts={{ time() }}" rel="stylesheet" />
+    <link href="{{ asset('assets/admin/css/loading.css') }}?ts={{ time() }}" rel="stylesheet">
 </head>
 
 <body>

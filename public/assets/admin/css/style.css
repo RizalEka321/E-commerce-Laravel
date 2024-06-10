@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 
 :root {
-    --dark-blue: #11101D;
+    --dark-blue: #11101d;
     --black: #000000;
     --white: #fff;
     --gray: #8390a2;
@@ -24,7 +24,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 .sidebar {
@@ -154,13 +154,12 @@
     text-align: right;
 }
 
-.sidebar.open~.home_section {
+.sidebar.open ~ .home_section {
     width: calc(100% - 78px);
     left: 78px;
 }
 
 /* End Sidebar */
-
 
 .home_section {
     position: relative;
@@ -168,7 +167,7 @@
     min-height: 100vh;
     left: 250px;
     top: 0;
-    background: #E4E9E7;
+    background: #e4e9e7;
     transition: all 0.5s ease;
 }
 
@@ -314,7 +313,6 @@
 
 .card_header {
     border-radius: 20px 20px 0 0;
-
 }
 
 .details .card_header h4 {
@@ -328,16 +326,16 @@
     font-size: 16px;
     display: inline-block;
     padding: 5px 15px;
-    border: 1px solid #FF0000;
+    border: 1px solid #ff0000;
     text-decoration: none;
     color: white;
-    background: linear-gradient(to bottom left, #C51605, #FF0000);
+    background: linear-gradient(to bottom left, #c51605, #ff0000);
 }
 
 .btn-hapus:hover {
-    border-color: #FF0000;
+    border-color: #ff0000;
     color: white;
-    background: linear-gradient(to bottom left, #ff4949, #C51605);
+    background: linear-gradient(to bottom left, #ff4949, #c51605);
 }
 
 .btn-edit {
@@ -348,13 +346,13 @@
     border: 1px solid #c5a805;
     text-decoration: none;
     color: white;
-    background: linear-gradient(to bottom left, #c5a805, #F0DE36);
+    background: linear-gradient(to bottom left, #c5a805, #f0de36);
 }
 
 .btn-edit:hover {
     border-color: #c5a805;
     color: white;
-    background: linear-gradient(to bottom left, #F0DE36, #c5a805);
+    background: linear-gradient(to bottom left, #f0de36, #c5a805);
 }
 
 .btn-ubah {
@@ -413,16 +411,21 @@
     font-size: 16px;
     display: inline-block;
     padding: 5px 15px;
-    border: 1px solid #0D1282;
+    border: 1px solid #0d1282;
     text-decoration: none;
     color: white;
-    background: linear-gradient(to bottom left, #0D1282, #474b94);
+    background: linear-gradient(to bottom left, #0d1282, #474b94);
 }
 
 .btn-tambah:hover {
-    border-color: #0D1282;
+    border-color: #0d1282;
     color: white;
-    background: linear-gradient(to bottom left, #585caa, #0D1282);
+    background: linear-gradient(to bottom left, #585caa, #0d1282);
+}
+
+.paginate_button.page-item.active a {
+    background-color: black;
+    border: 1px solid black;
 }
 
 /* Slider */
@@ -446,9 +449,9 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(to bottom left, #ff4949, #C51605);
-    -webkit-transition: .4s;
-    transition: .4s;
+    background: linear-gradient(to bottom left, #ff4949, #c51605);
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
 }
 
 .slider:before {
@@ -459,19 +462,19 @@
     left: 4px;
     bottom: 4px;
     background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
 }
 
-.input_slider:checked+.slider {
+.input_slider:checked + .slider {
     background: linear-gradient(to bottom left, #009100, #00e700);
 }
 
-.input_slider:focus+.slider {
+.input_slider:focus + .slider {
     box-shadow: 0 0 1px linear-gradient(to bottom left, #009100, #00e700);
 }
 
-.input_slider:checked+.slider:before {
+.input_slider:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
@@ -590,7 +593,6 @@
 /* responsive */
 
 @media screen and (max-width: 991px) {
-
     .sidebar,
     .sidebar li.login {
         left: -250px;
@@ -607,7 +609,7 @@
         left: 0;
     }
 
-    .sidebar.open~.home_section {
+    .sidebar.open ~ .home_section {
         left: 250px;
     }
 
@@ -651,11 +653,11 @@
         left: 0;
     }
 
-    .sidebar.open~.home_section {
+    .sidebar.open ~ .home_section {
         left: 0;
     }
 
-    .sidebar.open~.home_section .topbar .toggle {
+    .sidebar.open ~ .home_section .topbar .toggle {
         z-index: 1001;
         color: var(--white);
         position: absolute;

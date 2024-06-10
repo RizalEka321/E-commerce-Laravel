@@ -77,7 +77,7 @@
                             </div>
                         </div>
                         <!-- /.card-body -->
-                        <div class="card-footer">
+                        <div>
                             <button type="submit" id="btn-simpan" class="btn-tambah"><i
                                     class="nav-icon fas fa-save"></i>&nbsp;&nbsp; SIMPAN</button>
                         </div>

@@ -80,7 +80,7 @@ class KeranjangController extends Controller
                 <div class="keterangan">
                     <h5>Wahh, Keranjang belanjamu masih kosong!</h5>
                     <h6>Segera isi dengan baju impianmu</h6>
-                    <a type="button" class="btn-keranjang" href="' . route('home') . '#produk">Lihat Produk</a>
+                    <a type="button" class="btn-keterangan" href="' . route('home') . '#produk">Lihat Produk</a>
                 </div>
             </div>';
             return response()->json(['status' => 'FALSE', 'data' => $kosong]);
@@ -92,10 +92,15 @@ class KeranjangController extends Controller
                     $item->save();
                 }
             }
-            $formattedKeranjang = [];
+
+            $total_barang = Keranjang::where('users_id', Auth::user()->id)
+                ->where('status', 'Tidak')
+                ->count();
+
+            $isiKeranjang = [];
 
             foreach ($keranjang as $item) {
-                $formattedKeranjang[] = [
+                $isiKeranjang[] = [
                     'produk' => '<div class="tabel-isi">
                         <div class="row">
                             <div class="col-lg-6">
@@ -106,9 +111,9 @@ class KeranjangController extends Controller
                                         </div>
                                     </div>
                                     <div class="col-lg-8 foto-detail"> <!-- Corrected typo here -->
-                                        <h5>' . $item->produk->judul . '</h5>
-                                        <h6>Size, ' . $item->ukuran . '</h6>
-                                        <h6>Rp. ' . number_format($item->produk->harga, 0, ',', '.') . '</h6>
+                                        <h5 class="produk-keranjang">' . $item->produk->judul . '</h5>
+                                        <h6 class="size-keranjang">Size, ' . $item->ukuran . '</h6>
+                                        <h5 class="harga-keranjang">Rp. ' . number_format($item->produk->harga, 0, ',', '.') . '</h5>
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +126,7 @@ class KeranjangController extends Controller
                                         <button class="qty-btn-plus" type="button"><i class="fa fa-plus"></i></button>
                                     </div>
                                     <div class="text-end">
-                                    <h5>Rp. ' . number_format($item->produk->harga * $item->jumlah, 0, ',', '.') . '</h5>
+                                    <h5 class="sub-keranjang">Rp. ' . number_format($item->produk->harga * $item->jumlah, 0, ',', '.') . '</h5>
                                     <a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus-keranjang" onClick="delete_data(' . "'" . $item->id_keranjang . "'" . ')"><i class="fa-regular fa-trash-can"></i></a>
                                     </div>
                                     </div>
@@ -132,7 +137,7 @@ class KeranjangController extends Controller
                     'sub_total' => $item->produk->harga * $item->jumlah
                 ];
             }
-            return response()->json(['data' => $formattedKeranjang]);
+            return response()->json(['data' => $isiKeranjang, 'total_barang' => $total_barang]);
         }
     }
 

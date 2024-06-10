@@ -55,7 +55,7 @@
                             </div>
                         </div>
                         <!-- /.card-body -->
-                        <div class="card-footer">
+                        <div>
                             <a type="button" id="btn-close" class="btn-hapus"><i
                                     class='nav-icon fas fa-arrow-left'></i>&nbsp;&nbsp; KEMBALI</a>
                         </div>
@@ -136,7 +136,15 @@
                         data: 'action',
                         name: 'action'
                     }
-                ]
+                ],
+                language: {
+                    paginate: {
+                        first: '<i class="fas fa-angle-double-left"></i>',
+                        last: '<i class="fas fa-angle-double-right"></i>',
+                        next: '<i class="fas fa-angle-right"></i>',
+                        previous: '<i class="fas fa-angle-left"></i>'
+                    }
+                }
             });
         });
 

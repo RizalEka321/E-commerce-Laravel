@@ -141,11 +141,9 @@ class UserController extends Controller
             'email.email' => 'Email yang anda masukan tidak valid',
             'role' => 'Role wajib diisi.',
             'role.in' => 'Role yang anda masukan tidak valid',
-            // 'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password harus memiliki panjang minimal 8 karakter.',
             'password.max' => 'Password harus memiliki panjang maksimal 16 karakter.',
             'password.regex' => 'Password harus mengandung setidaknya satu huruf kapital, satu huruf kecil, dan satu angka',
-            // 'password_confirmation.required' => 'Konfirmasi Password wajib diisi.',
             'password_confirmation.same' => 'Konfirmasi Password tidak sesuai dengan Password.',
             'foto.image' => 'File harus berupa gambar.',
             'foto.mimes' => 'Format file harus jpeg, png, atau jpg.',
@@ -189,6 +187,11 @@ class UserController extends Controller
     {
         $id = $request->input('q');
         $user = User::find($id);
+        $fotoPath = public_path($user->foto);
+        if (file_exists($fotoPath)) {
+            unlink($fotoPath);
+        }
+
         $user->delete();
 
         return response()->json(['status' => 'TRUE']);

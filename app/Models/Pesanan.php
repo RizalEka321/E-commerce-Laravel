@@ -30,7 +30,7 @@ class Pesanan extends Model
         if (!$lastPesanan) {
             $lastId = 'PSN-000000000001';
         } else {
-            $lastId = (int) substr($lastPesanan->id_produk, 4) + 1;
+            $lastId = (int) substr($lastPesanan->id_pesanan, 4) + 1;
         }
 
         $lastId = (int) substr($lastId, -12) + 1;

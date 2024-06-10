@@ -35,6 +35,22 @@ Detail page styles
     margin: 0;
 }
 
+.keranjang .foto-detail .size-keranjang {
+    color: #8a8a8a;
+}
+
+.keranjang .foto-detail .harga-keranjang {
+    font-weight: 600;
+}
+
+.keranjang .sub-keranjang {
+    font-weight: 600;
+}
+
+.keranjang .total-keranjang {
+    font-weight: 600;
+}
+
 .keranjang .tabel-isi .foto img {
     width: 100%;
     height: 100%;
@@ -49,12 +65,62 @@ Detail page styles
     border-top-right-radius: 10px;
 }
 
+.keranjang-kosong {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    gap: 20px;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    background-color: var(--white);
+}
+
+.keranjang-kosong img {
+    width: 150px;
+}
+
+.keterangan {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.keterangan h5 {
+    font-weight: 700;
+}
+
+.keterangan h6 {
+    color: #aaaaaa;
+}
+
+.keterangan .btn-keterangan {
+    font-weight: 600;
+    font-size: 16px;
+    display: inline-block;
+    padding: 5px 15px;
+    border: 1px solid var(--red);
+    border-radius: 5px;
+    text-decoration: none;
+    transition: all 0.5s ease-in-out;
+    color: var(--white);
+    background-color: var(--red);
+}
+
+.keterangan .btn-keterangan:hover {
+    border-color: var(--red);
+    color: var(--red);
+    background: var(--white);
+}
+
 .tabel-header .btn-hapus {
     text-decoration: none;
 }
 
 .tabel-header .btn-hapus {
-    font-weight: 600;
+    font-weight: 700;
     font-size: 15px;
     display: inline-block;
     text-decoration: none;
