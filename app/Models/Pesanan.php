@@ -32,8 +32,6 @@ class Pesanan extends Model
         } else {
             $lastId = (int) substr($lastPesanan->id_pesanan, 4) + 1;
         }
-
-        $lastId = (int) substr($lastId, -12) + 1;
         $newId = 'PSN-' . str_pad($lastId, 12, '0', STR_PAD_LEFT);
 
         return $newId;
