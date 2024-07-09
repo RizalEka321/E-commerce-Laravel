@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Ukuran_Produk;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -23,15 +22,11 @@ class ProdukController extends Controller
     {
         $data = Produk::select('id_produk', 'judul', 'harga')->with('ukuran')->get();
         return Datatables::of($data)
-            ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 $actionBtn = '<div class="btn-group">';
-                if (Auth::user()->role == 'Pegawai') {
-                    $actionBtn .= '<a href="javascript:void(0)" type="button" id="btn-edit" class="btn-edit" onClick="edit_data(' . "'" . $row->id_produk . "'" . ')"><i class="fa-solid fa-pen-to-square"></i></a>';
-                    $actionBtn .= '<a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' . "'" . $row->id_produk . "'" . ')"><i class="fa-solid fa-trash-can"></i></a>';
-                } elseif (Auth::user()->role == 'Pemilik') {
-                    $actionBtn .= '<a href="javascript:void(0)" type="button" id="btn-detail" class="btn-ubah" onClick="detail_data(' . "'" . $row->id_produk . "'" . ')" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-eye"></i> Detail</a>';
-                }
+                $actionBtn .= '<a href="javascript:void(0)" type="button" id="btn-edit" class="btn-edit" onClick="edit_data(' . "'" . $row->id_produk . "'" . ')"><i class="fa-solid fa-pen-to-square"></i></a>';
+                $actionBtn .= '<a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' . "'" . $row->id_produk . "'" . ')"><i class="fa-solid fa-trash-can"></i></a>';
+                $actionBtn .= '<a href="javascript:void(0)" type="button" id="btn-detail" class="btn-ubah" onClick="detail_data(' . "'" . $row->id_produk . "'" . ')" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-eye"></i></a>';
                 $actionBtn .= '</div>';
                 return $actionBtn;
             })
@@ -80,15 +75,17 @@ class ProdukController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
         }
 
         $id_produk = Produk::generateID();
 
-        $foto = $request->file('foto');
-        $file_name = $id_produk . '.' . $foto->getClientOriginalExtension();
-        $path = 'data/Produk';
-        $foto->move($path, $file_name);
+        if ($request->hasFile('foto')) {
+            $foto = $request->file('foto');
+            $file_name = $id_produk . '.' . $foto->getClientOriginalExtension();
+            $path = 'data/Produk';
+            $foto->move($path, $file_name);
+        }
 
         Produk::create([
             'id_produk' => $id_produk,
@@ -110,7 +107,8 @@ class ProdukController extends Controller
                 'ukuran_id' => $ukuran->id_ukuran,
             ]);
         }
-        return response()->json(['status' => 'TRUE']);
+        aktivitas('Menambah Produk Baru');
+        return response()->json(['status' => true]);
     }
 
     public function edit(Request $request)
@@ -118,7 +116,7 @@ class ProdukController extends Controller
         $id = $request->input('q');
         $produk = Produk::with('ukuran')->find($id);
 
-        return response()->json(['status' => 'TRUE', 'produk' => $produk]);
+        return response()->json(['status' => true, 'produk' => $produk]);
     }
 
     public function detail(Request $request)
@@ -126,7 +124,7 @@ class ProdukController extends Controller
         $id = $request->input('q');
         $produk = Produk::with('ukuran')->find($id);
 
-        return response()->json(['status' => 'TRUE', 'produk' => $produk]);
+        return response()->json(['status' => true, 'produk' => $produk]);
     }
 
     public function update(Request $request)
@@ -164,14 +162,14 @@ class ProdukController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
         }
 
         $id = $request->query('q');
         $produk = Produk::find($id);
 
         if (!$produk) {
-            return response()->json(['status' => 'FALSE', 'errors' => ['Produk tidak ditemukan.']]);
+            return response()->json(['status' => false, 'errors' => ['Produk tidak ditemukan.']]);
         }
 
         $produk->judul = Str::title($request->judul);
@@ -180,14 +178,14 @@ class ProdukController extends Controller
         $produk->harga = $request->harga;
 
         if ($request->hasFile('foto')) {
-            if ($produk->foto && file_exists(public_path($produk->foto))) {
-                unlink(public_path($produk->foto));
+            if ($produk->foto && file_exists($produk->foto)) {
+                unlink($produk->foto);
             }
 
             $foto = $request->file('foto');
             $file_name = $produk->id_produk . '.' . $foto->extension();
             $path = 'data/Produk';
-            $foto->move(public_path($path), $file_name);
+            $foto->move($path, $file_name);
             $produk->foto = "$path/$file_name";
         }
 
@@ -240,21 +238,22 @@ class ProdukController extends Controller
 
         $unusedUkuranIds = Ukuran::whereNotIn('id_ukuran', Ukuran_Produk::pluck('ukuran_id')->toArray())->pluck('id_ukuran')->toArray();
         Ukuran::whereIn('id_ukuran', $unusedUkuranIds)->delete();
-
-        return response()->json(['status' => 'TRUE']);
+        aktivitas('Mengupdate data produk' . $request->judul);
+        return response()->json(['status' => true]);
     }
 
     public function destroy(Request $request)
     {
         $id = $request->input('q');
         $produk = Produk::find($id);
-        $fotoPath = public_path($produk->foto);
+        $fotoPath = $produk->foto;
         if (file_exists($fotoPath)) {
             unlink($fotoPath);
         }
 
+        aktivitas('Menghapus data produk' . $produk->judul);
         $produk->delete();
 
-        return response()->json(['status' => 'TRUE']);
+        return response()->json(['status' => true]);
     }
 }

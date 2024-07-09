@@ -49,13 +49,13 @@ class PageController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
             $nama = $request->nama;
             $email = $request->email;
             $pesan = $request->pesan;
             Mail::to('hahaharizal6@gmail.com')->send(new Saranemail($nama, $email, $pesan));
-            return response()->json(['status' => TRUE]);
+            return response()->json(['status' => true]);
         }
     }
 }

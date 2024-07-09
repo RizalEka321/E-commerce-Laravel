@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('jumlah');
             $table->bigInteger('harga_satuan');
             $table->bigInteger('nominal_dp')->nullable();
+            $table->bigInteger('total');
             $table->date('deadline');
             $table->enum('status_pengerjaan', ['Diproses', 'Selesai', 'Dibatalkan']);
             $table->enum('status_pembayaran', ['Belum', 'DP', 'Lunas']);

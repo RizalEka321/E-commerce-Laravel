@@ -55,7 +55,7 @@ class KontakController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()]);
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
             $id = 'satu';
             $kontak = Kontak_Perusahaan::where('id_kontak_perusahaan', $id)->first();
@@ -72,15 +72,15 @@ class KontakController extends Controller
 
             if ($request->hasFile('foto')) {
                 if ($profil->foto) {
-                    if (file_exists(public_path($profil->foto))) {
-                        unlink(public_path($profil->foto));
+                    if (file_exists($profil->foto)) {
+                        unlink($profil->foto);
                     }
                 }
 
                 $foto = $request->file('foto');
                 $file_name = 'perusahaan' . '.' . $foto->extension();
-                $path = 'data/Profil_Perusahaan/';
-                $foto->move(public_path($path), $file_name);
+                $path = 'data/Profil_Perusahaan';
+                $foto->move($path, $file_name);
                 $profil->foto = "$path/$file_name";
             }
             $profil->save();

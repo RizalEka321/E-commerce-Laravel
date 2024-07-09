@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 col-lg-6 foto">
-                    <img src="{{ asset($produk_detail->foto) }}" alt="Produk Lokal Industri">
+                    <img src="{{ asset($produk_detail->foto) }}?ts={{ time() }}" alt="Produk Lokal Industri">
                 </div>
                 <div class="col-md-6 col-lg-6 form-produk">
                     <div class="detail-atas">

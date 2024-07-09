@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class IsPegawai
+class IsAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class IsPegawai
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->role != 'Pegawai') {
+        if (Auth::user()->role != 'Admin') {
             return back();
         }
         return $next($request);

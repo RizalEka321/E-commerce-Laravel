@@ -46,11 +46,8 @@
                         name: 'DT_RowIndex'
                     },
                     {
-                        data: 'produk_id',
-                        name: 'produk_id',
-                        render: function(data, type, full, meta) {
-                            return full.produk.judul;
-                        }
+                        data: 'produk',
+                        name: 'produk',
                     },
                     {
                         data: 'jumlah',
@@ -61,10 +58,10 @@
                         name: 'ukuran'
                     },
                     {
-                        data: 'produk_id',
-                        name: 'produk_id',
+                        data: 'harga',
+                        name: 'harga',
                         render: function(data, type, full, meta) {
-                            return 'Rp ' + new Intl.NumberFormat('id-ID').format(full.produk.harga);
+                            return 'Rp ' + new Intl.NumberFormat('id-ID').format(full.harga);
                         }
                     },
                     {

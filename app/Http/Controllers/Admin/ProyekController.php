@@ -18,96 +18,76 @@ class ProyekController extends Controller
     }
     public function get_proyek()
     {
-        $data = Proyek::select('id_proyek', 'instansi', 'jumlah', 'harga_satuan', 'nominal_dp', 'status_pembayaran', 'status_pengerjaan')->get();
+        $data = Proyek::select('id_proyek', 'instansi', 'jumlah', 'harga_satuan', 'nominal_dp', 'total', 'status_pembayaran', 'status_pengerjaan')->get();
         return Datatables::of($data)
-            ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 $actionBtn = '<div class="btn-group">';
-                if (Auth::user()->role == 'Pegawai') {
-                    $actionBtn .= '<a href="javascript:void(0)" type="button" id="btn-edit" class="btn-edit" onClick="edit_data(' . "'" . $row->id_proyek . "'" . ')"><i class="fa-solid fa-pen-to-square"></i></a>';
-                    $actionBtn .= '<a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' . "'" . $row->id_proyek . "'" . ')"><i class="fa-solid fa-trash-can"></i></a>';
-                } elseif (Auth::user()->role == 'Pemilik') {
-                    $actionBtn .= '<a href="javascript:void(0)" type="button" id="btn-edit" class="btn-ubah" onClick="edit_data(' . "'" . $row->id_proyek . "'" . ')"><i class="fa-solid fa-eye"></i> Detail</a>';
-                }
+                $actionBtn .= '<a href="javascript:void(0)" type="button" id="btn-edit" class="btn-edit" onClick="edit_data(' . "'" . $row->id_proyek . "'" . ')"><i class="fa-solid fa-pen-to-square"></i></a>';
+                $actionBtn .= '<a href="javascript:void(0)" type="button" id="btn-del" class="btn-hapus" onClick="delete_data(' . "'" . $row->id_proyek . "'" . ')"><i class="fa-solid fa-trash-can"></i></a>';
+                $actionBtn .= '<a href="javascript:void(0)" type="button" id="btn-detail" class="btn-ubah" onClick="detail_data(' . "'" . $row->id_proyek . "'" . ')" data-bs-toggle="modal" data-bs-target="#proyekModal"><i class="fa-solid fa-eye"></i> Detail</a>';
                 $actionBtn .= '</div>';
                 return $actionBtn;
             })
-            ->addColumn('total', function ($row) {
-                if ($row->nominal_dp == null) {
-                    $total = $row->jumlah * $row->harga_satuan;
-                } else {
-                    $total = ($row->jumlah * $row->harga_satuan) - $row->nominal_dp;
-                }
-                return $total;
-            })
             ->addColumn('pembayaran', function ($row) {
-                if (Auth::user()->role == 'Pegawai') {
-                    $dropdown = '<select class="form-control pembayaran-dropdown" data-id="' . $row->id_proyek . '"';
-                    switch ($row->status_pembayaran) {
-                        case 'Belum':
-                            $pembayaranOptions = ['Belum', 'DP', 'Lunas'];
-                            $dropdown .= ' style="background-color: #C51605; color: white;"';
-                            break;
-                        case 'DP':
-                            $pembayaranOptions = ['DP', 'Lunas'];
-                            $dropdown .= ' style="background-color: #0D1282; color: white;"';
-                            break;
-                        case 'Lunas':
-                            $pembayaranOptions = ['Lunas'];
-                            $dropdown .= ' style="background-color: #009100; color: white;"';
-                            break;
-                        default:
-                            break;
-                    }
-
-                    $dropdown .= '>';
-
-                    foreach ($pembayaranOptions as $option) {
-                        $selected = ($row->status_pembayaran == $option) ? 'selected' : '';
-                        $dropdown .= '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
-                    }
-                    $dropdown .= '</select>';
-                } elseif (Auth::user()->role == 'Pemilik') {
-                    $dropdown = $row->status_pembayaran;
+                $dropdown = '<select class="form-control pembayaran-dropdown" data-id="' . $row->id_proyek . '"';
+                switch ($row->status_pembayaran) {
+                    case 'Belum':
+                        $pembayaranOptions = ['Belum', 'DP', 'Lunas'];
+                        $dropdown .= ' style="background-color: #C51605; color: white;"';
+                        break;
+                    case 'DP':
+                        $pembayaranOptions = ['DP', 'Lunas'];
+                        $dropdown .= ' style="background-color: #0D1282; color: white;"';
+                        break;
+                    case 'Lunas':
+                        $pembayaranOptions = ['Lunas'];
+                        $dropdown .= ' style="background-color: #009100; color: white;"';
+                        break;
+                    default:
+                        break;
                 }
+
+                $dropdown .= '>';
+
+                foreach ($pembayaranOptions as $option) {
+                    $selected = ($row->status_pembayaran == $option) ? 'selected' : '';
+                    $dropdown .= '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
+                }
+                $dropdown .= '</select>';
                 return $dropdown;
             })
 
             ->addColumn('pengerjaan', function ($row) {
-                if (Auth::user()->role == 'Pegawai') {
-                    $dropdown = '<select class="form-control pengerjaan-dropdown" data-id="' . $row->id_proyek . '"';
+                $dropdown = '<select class="form-control pengerjaan-dropdown" data-id="' . $row->id_proyek . '"';
 
-                    switch ($row->status_pengerjaan) {
-                        case 'Diproses':
-                            $pengerjaanOptions = ['Diproses', 'Selesai', 'Dibatalkan'];
-                            $dropdown .= ' style="background-color: #0D1282; color: white;"';
-                            break;
-                        case 'Selesai':
-                            $pengerjaanOptions = ['Selesai', 'Dibatalkan'];
-                            $dropdown .= ' style="background-color: #009100; color: white;"';
-                            break;
-                        case 'Dibatalkan':
-                            $pengerjaanOptions = ['Dibatalkan'];
-                            $dropdown .= ' style="background-color: #C51605; color: white;"';
-                            break;
-                        default:
-                            break;
-                    }
-
-                    $dropdown .= '>';
-
-                    foreach ($pengerjaanOptions as $option) {
-                        $selected = ($row->status_pengerjaan == $option) ? 'selected' : '';
-                        $dropdown .= '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
-                    }
-                    $dropdown .= '</select>';
-                } elseif (Auth::user()->role == 'Pemilik') {
-                    $dropdown = $row->status_pengerjaan;
+                switch ($row->status_pengerjaan) {
+                    case 'Diproses':
+                        $pengerjaanOptions = ['Diproses', 'Selesai', 'Dibatalkan'];
+                        $dropdown .= ' style="background-color: #0D1282; color: white;"';
+                        break;
+                    case 'Selesai':
+                        $pengerjaanOptions = ['Selesai', 'Dibatalkan'];
+                        $dropdown .= ' style="background-color: #009100; color: white;"';
+                        break;
+                    case 'Dibatalkan':
+                        $pengerjaanOptions = ['Dibatalkan'];
+                        $dropdown .= ' style="background-color: #C51605; color: white;"';
+                        break;
+                    default:
+                        break;
                 }
+
+                $dropdown .= '>';
+
+                foreach ($pengerjaanOptions as $option) {
+                    $selected = ($row->status_pengerjaan == $option) ? 'selected' : '';
+                    $dropdown .= '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
+                }
+                $dropdown .= '</select>';
                 return $dropdown;
             })
 
-            ->rawColumns(['action', 'total', 'pengerjaan', 'pembayaran'])
+            ->rawColumns(['action', 'pengerjaan', 'pembayaran'])
             ->make(true);
     }
 
@@ -170,19 +150,22 @@ class ProyekController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()]);
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
             $id_proyek = Proyek::generateID();
 
             $path = 'data/Proyek';
+            if ($request->hasFile('foto_logo')) {
+                $foto_logo = $request->file('foto_logo');
+                $file_logo = $id_proyek . '_logo' . '.' . $foto_logo->extension();
+                $foto_logo->move($path, $file_logo);
+            }
 
-            $foto_logo = $request->foto_logo;
-            $file_logo = $id_proyek . '_logo' . '.' . $foto_logo->extension();
-            $foto_logo->move(public_path($path), $file_logo);
-
-            $foto_desain = $request->foto_desain;
-            $file_desain = $id_proyek . 'desain' . '.' . $foto_desain->extension();
-            $foto_desain->move(public_path($path), $file_desain);
+            if ($request->hasFile('foto_desain')) {
+                $foto_desain = $request->file('foto_desain');
+                $file_desain = $id_proyek . '_desain' . '.' . $foto_desain->extension();
+                $foto_desain->move($path, $file_desain);
+            }
 
             $total = $request->harga_satuan * $request->jumlah;
             $dp = ($total * 50) / 100;
@@ -204,17 +187,27 @@ class ProyekController extends Controller
                 'harga_satuan' => $request->harga_satuan,
                 'deadline' => $request->deadline,
                 'nominal_dp' => $request->nominal_dp,
+                'total' => $request->jumlah * $request->harga_satuan,
                 'status_pembayaran' => 'dp',
                 'status_pengerjaan' => 'diproses',
             ];
 
             Proyek::create($proyekData);
+            aktivitas('Menambahkan Proyek Baru');
 
             return response()->json(['status' => true]);
         }
     }
 
     public function edit(Request $request)
+    {
+        $id = $request->input('q');
+        $proyek = Proyek::find($id);
+
+        return response()->json(['status' => true, 'proyek' => $proyek]);
+    }
+
+    public function detail(Request $request)
     {
         $id = $request->input('q');
         $proyek = Proyek::find($id);
@@ -230,8 +223,8 @@ class ProyekController extends Controller
             'no_hp' => 'required|min:12|max:15',
             'alamat' => 'required|string|min:25|max:75',
             'item' => 'required|string|min:12|max:25',
-            'foto_logo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'foto_desain' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_logo' => 'nullable|mimes:jpeg,png,jpg|max:2048',
+            'foto_desain' => 'nullable|mimes:jpeg,png,jpg|max:2048',
             'deskripsi_proyek' => 'required|string|min:75',
             'jumlah' => 'required|integer',
             'harga_satuan' => 'required|integer',
@@ -281,7 +274,7 @@ class ProyekController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()]);
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
             $id = $request->query('q');
             $proyek = Proyek::find($id);
@@ -295,36 +288,38 @@ class ProyekController extends Controller
             $proyek->jumlah = $request->jumlah;
             $proyek->harga_satuan = $request->harga_satuan;
             $proyek->deadline = $request->deadline;
+            $proyek->total = $request->jumlah * $request->harga_satuan;
 
             $path = 'data/Proyek';
 
             if ($request->hasFile('foto_logo')) {
                 if ($proyek->foto_logo) {
-                    if (file_exists(public_path($proyek->foto_logo))) {
-                        unlink(public_path($proyek->foto_logo));
+                    if (file_exists($proyek->foto_logo)) {
+                        unlink($proyek->foto_logo);
                     }
                 }
 
                 $foto_logo = $request->file('foto_logo');
-                $file_logo = $id . 'logo' . '.' . $foto_logo->extension();
-                $foto_logo->move(public_path($path), $file_logo);
+                $file_logo = $id . '_logo' . '.' . $foto_logo->extension();
+                $foto_logo->move($path, $file_logo);
                 $proyek->foto_logo = "$path/$file_logo";
             }
 
             if ($request->hasFile('foto_desain')) {
                 if ($proyek->foto_desain) {
-                    if (file_exists(public_path($proyek->foto_desain))) {
-                        unlink(public_path($proyek->foto_desain));
+                    if (file_exists($proyek->foto_desain)) {
+                        unlink($proyek->foto_desain);
                     }
                 }
 
                 $foto_desain = $request->file('foto_desain');
-                $file_desain = $id . 'desain' . '.' . $foto_desain->extension();
-                $foto_desain->move(public_path($path), $file_desain);
+                $file_desain = $id . '_desain' . '.' . $foto_desain->extension();
+                $foto_desain->move($path, $file_desain);
                 $proyek->foto_desain = "$path/$file_desain";
             }
 
             $proyek->save();
+            aktivitas('Mengupdate Data Proyek Dengan ID ' . $request->id_proyek);
 
             return response()->json(['status' => true]);
         }
@@ -340,7 +335,9 @@ class ProyekController extends Controller
         $data->status_pengerjaan = $status_pengerjaan;
         $data->save();
 
-        return response()->json(['success' => true]);
+        aktivitas('Mengudate Status Pengerjaan Proyek Dengan ID ' . $data->id_proyek);
+
+        return response()->json(['status' => true]);
     }
 
     public function update_pembayaran(Request $request)
@@ -352,15 +349,29 @@ class ProyekController extends Controller
         $data->status_pembayaran = $status_pembayaran;
         $data->save();
 
-        return response()->json(['success' => true]);
+        aktivitas('Mengudate Status Pembayaran Proyek Dengan ID ' . $data->id_proyek);
+
+        return response()->json(['status' => true]);
     }
 
     public function destroy(Request $request)
     {
         $id = $request->input('q');
         $proyek = Proyek::find($id);
+
+        $fotoPath_logo = $proyek->foto_logo;
+        if (file_exists($fotoPath_logo)) {
+            unlink($fotoPath_logo);
+        }
+
+        $fotoPath_desain = $proyek->foto_desain;
+        if (file_exists($fotoPath_desain)) {
+            unlink($fotoPath_desain);
+        }
+
+        aktivitas('Menghapus Data Proyek Dengan ID ' . $proyek->id_proyek);
         $proyek->delete();
 
-        echo json_encode(['status' => TRUE]);
+        echo json_encode(['status' => true]);
     }
 }

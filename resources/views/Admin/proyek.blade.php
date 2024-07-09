@@ -9,21 +9,18 @@
                     <h4 class="judul"><i class="fa-solid fa-cube"></i> DATA PROYEK</h4>
                     <hr>
                 </div>
-                @if (Auth::user()->role == 'Pegawai')
-                    <a type="button" class="btn-tambah mb-2" id="btn-add"><i
-                            class="fa-solid fa-square-plus"></i>&nbsp;&nbsp;
-                        TAMBAH DATA PROYEK</a>
-                @endif
+                <a type="button" class="btn-tambah mb-2" id="btn-add"><i class="fa-solid fa-square-plus"></i>&nbsp;&nbsp;
+                    TAMBAH DATA PROYEK</a>
                 <table id="tabel_proyek" class="table table-bordered" style="width:100%">
                     <thead>
                         <tr>
                             <th width="15%">Aksi</th>
-                            <th width="5%">No</th>
+                            <th width="15%">ID</th>
                             <th width="20%">Instansi</th>
-                            <th width="10%">Jumlah</th>
+                            <th width="5%">Qty</th>
                             <th width="15%">Total</th>
                             <th width="15%">Pembayaran</th>
-                            <th width="20%">Status</th>
+                            <th width="15%">Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -164,6 +161,78 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="proyekModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Proyek</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <div id="detail-foto" data-foto-url="{{ asset('') }}">
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <form>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <div class="form-group">
+                                            <label for="nama_pemesan">Nama Pemesan:</label>
+                                            <div id="detail-nama_pemesan"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-group">
+                                            <label for="instansi">Instansi:</label>
+                                            <div id="detail-instansi"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-group">
+                                            <label for="item">Item:</label>
+                                            <div id="detail-item"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-group">
+                                            <label for="jumlah">Jumlah:</label>
+                                            <div id="detail-jumlah"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-group">
+                                            <label for="harga_satuan">Harga Satuan:</label>
+                                            <div id="detail-harga_satuan"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-group">
+                                            <label for="nominal_dp">Nominal DP:</label>
+                                            <div id="detail-nominal_dp"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-group">
+                                            <label for="belum_bayar">Total Yang Belum Dibayar:</label>
+                                            <div id="detail-belum_bayar"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-group">
+                                            <label for="total">Total:</label>
+                                            <div id="detail-total"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('script')
     <script type="text/javascript">
@@ -175,6 +244,7 @@
                 '<h4 class="judul"><i class="fa-solid fa-cube"></i> TAMBAH DATA PROYEK</h4>');
             $('#input_dp').removeClass('hidden');
             $('#input_foto').removeClass('hidden');
+            reset_form();
 
         });
         $('#btn-close').click(function() {
@@ -201,6 +271,7 @@
         function reset_form() {
             $('#form_tambah').attr('action', "{{ url('/admin/proyek/create') }}");
             $('#form_tambah')[0].reset();
+            $('.error-message').empty();
         }
 
         // Fungsi index
@@ -220,8 +291,8 @@
                         className: 'text-center'
                     },
                     {
-                        data: 'DT_RowIndex',
-                        name: 'DT_RowIndex',
+                        data: 'id_proyek',
+                        name: 'id_proyek',
                         className: 'text-center'
                     },
                     {
@@ -564,7 +635,6 @@
             });
         });
 
-
         $(document).ready(function() {
             function calculateDP() {
                 var jumlah = parseInt($('#jumlah').val()) || 0;
@@ -580,5 +650,69 @@
                 calculateDP();
             });
         });
+
+        function detail_data(id) {
+            Swal.fire({
+                title: "Sedang memproses",
+                html: "Mohon tunggu sebentar...",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            $.ajax({
+                url: "{{ url('/admin/proyek/detail') }}",
+                type: "POST",
+                data: {
+                    q: id
+                },
+                dataType: "JSON",
+                success: function(response) {
+                    Swal.close();
+                    var isi = response.proyek;
+                    var harga_satuan = number_format(isi.harga_satuan);
+                    var nominal_dp = number_format(isi.nominal_dp);
+                    var belum_bayar = number_format(isi.total - isi.nominal_dp);
+                    var total_keseluruhan = number_format(isi.total);
+                    const fotoPath = isi.foto_desain;
+                    const baseUrl = $('#detail-foto').data('foto-url');
+                    const fotoUrl = `${baseUrl}${fotoPath}`;
+                    $('#detail-nama_pemesan').html(`<h6>${isi.nama_pemesan}</h6>`);
+                    $('#detail-instansi').html(`<h6>${isi.instansi}</h6>`);
+                    $('#detail-item').html(`<h6>${isi.item}</h6>`);
+                    $('#detail-jumlah').html(`<h6>${isi.jumlah} Pcs</h6>`);
+                    $('#detail-harga_satuan').html(`<h6>${harga_satuan}</h6>`);
+                    $('#detail-nominal_dp').html(`<h6>${nominal_dp}</h6>`);
+                    $('#detail-belum_bayar').html(`<h6>${belum_bayar}</h6>`);
+                    $('#detail-total').html(`<h6>${total_keseluruhan}</h6>`);
+                    $('#detail-foto').html(
+                        `<img src="${fotoUrl}" alt="Foto Detail" width="100%" height="400">`);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    Swal.close();
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Terjadi kesalahan jaringan error message: ' +
+                            errorThrown,
+                        icon: 'error',
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        toast: true
+                    });
+                }
+            });
+        }
+
+        function number_format(number) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(number).replace('IDR', 'Rp.').trim();
+        }
     </script>
 @endsection

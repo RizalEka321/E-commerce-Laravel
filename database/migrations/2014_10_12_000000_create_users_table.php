@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_lengkap');
             $table->string('username')->unique();
-            $table->enum('role', ['Pembeli', 'Pegawai', 'Pemilik']);
+            $table->enum('role', ['Pembeli', 'Admin']);
             $table->string('email')->unique();
             $table->string('alamat')->nullable();
             $table->string('no_hp')->nullable();

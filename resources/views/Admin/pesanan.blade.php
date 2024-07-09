@@ -12,12 +12,12 @@
                 <table id="tabel_pesanan" class="table table-bordered" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Aksi</th>
-                            <th>No</th>
-                            <th>Nama</th>
-                            <th>Pengiriman</th>
-                            <th>Pembayaran</th>
-                            <th>Status</th>
+                            <th width="10%">Aksi</th>
+                            <th width="10%">ID</th>
+                            <th width="30%">Nama</th>
+                            <th width="10%">Pengiriman</th>
+                            <th width="10%">Pembayaran</th>
+                            <th width="30%">Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,64 +31,55 @@
         <div class="content">
             <div class="card border-0">
                 <div class="card_header mx-3 pt-1">
-                    <h4 class="judul"><i class="fa-solid fa-truck-fast"></i> TAMBAH DATA PESANAN</h4>
+                    <h4 class="judul"><i class="fa-solid fa-truck-fast"></i>EDIT DATA PESANAN</h4>
                     <hr>
                 </div>
-                <form id="form_tambah" action="{{ url('/admin/pesanan/create') }}" method="POST"
-                    enctype="multipart/form-data" class="was-validated" role="form">
+                <form id="form_tambah" action="#" method="POST" enctype="multipart/form-data" role="form">
                     <div class="card-body">
                         <div class="row gx-5 mb-3">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="judul">Nama :</label>
-                                    <input id="judul" type="text" name="judul" value="{{ old('judul') }}"
-                                        class="form-control" placeholder="Nama" required autofocus>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                    <label for="no_hp">No Telepon :</label>
+                                    <input id="no_hp" type="text" name="no_hp" value="{{ old('no_hp') }}"
+                                        class="form-control" placeholder="No Telepon" autofocus>
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="stok">Stok :</label>
-                                    <input id="stok" type="text" name="stok" value="{{ old('stok') }}"
-                                        class="form-control" placeholder="Stok" required autofocus>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                    <label for="alamat_pengiriman">Alamat :</label>
+                                    <textarea id="alamat_pengiriman" name="alamat_pengiriman" class="form-control" placeholder="Alamat"
+                                        id="alamat_pengiriman">{{ old('alamat_pengiriman') }}</textarea>
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row gx-5 mb-3">
                             <div class="col">
-                                <div id="input_foto" class="form-group">
-                                    <label for="foto">Gambar :</label>
-                                    <input id="foto" type="file" name="foto" class="form-control" required
-                                        autofocus>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                <div class="form-group">
+                                    <label for="metode_pembayaran">Metode Pembayaran :</label>
+                                    <select id="metode_pembayaran" name="metode_pembayaran" class="form-control">
+                                        <option value="">-- Pilih Metode --</option>
+                                        <option value="Transfer">Transfer</option>
+                                        <option value="Cash">Cash</option>
+                                    </select>
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="harga">Harga:</label>
-                                    <input id="harga" type="number" name="harga" value="{{ old('harga') }}"
-                                        class="form-control" placeholder="Harga" required autofocus>
-                                    <div class="valid-feedback"><i>*valid</i> </div>
-                                    <div class="invalid-feedback"><i>*required</i> </div>
+                                    <label for="metode_pengiriman">Metode Pengiriman :</label>
+                                    <select id="metode_pengiriman" name="metode_pengiriman" class="form-control">
+                                        <option value="">-- Pilih Metode --</option>
+                                        <option value="Pickup">Pickup</option>
+                                        <option value="Delivery">Delivery</option>
+                                    </select>
+                                    <span class="form-text text-danger error-message"></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <div class="form-group">
-                                <label for="deskripsi">Deskripsi :</label>
-                                <input id="deskripsi" type="hidden" name="deskripsi" value="{{ old('deskripsi') }}">
-                                <trix-editor input="deskripsi" id="trix_deskripsi" class="form-control"
-                                    placeholder="Deskripsi" required autofocus></trix-editor>
-                                <div class="valid-feedback"><i>*valid</i> </div>
-                                <div class="invalid-feedback"><i>*required</i> </div>
-                            </div>
-                        </div>
                         <!-- /.card-body -->
-                        <div class="card-footer">
+                        <div>
                             <a type="button" id="btn-close" class="btn-hapus"><i
                                     class='nav-icon fas fa-arrow-left'></i>&nbsp;&nbsp; KEMBALI</a>
                             <button type="submit" id="btn-simpan" class="btn-tambah"><i
@@ -102,14 +93,7 @@
 @endsection
 @section('script')
     <script type="text/javascript">
-        // Button
-        $('#btn-add').click(function() {
-            $('#tambah_data').removeClass('hidden');
-            $('#datane').addClass('hidden');
-            $('.judul').html(
-                '<h4 class="judul"><iTAMB<i class="fa-solid fa-truck-fast"></i>TAMBAH DATA PESANAN</h4>');
-
-        });
+        // ButtoN
         $('#btn-close').click(function() {
             $('#datane').removeClass('hidden');
             $('#tambah_data').addClass('hidden');
@@ -150,8 +134,9 @@
                         className: 'text-center'
                     },
                     {
-                        data: 'DT_RowIndex',
-                        name: 'DT_RowIndex'
+                        data: 'id_pesanan',
+                        name: 'id_pesanan',
+                        className: 'text-center'
                     },
                     {
                         data: 'users_id',
@@ -215,7 +200,7 @@
                         $('.error-message').empty();
                         if (response.errors) {
                             $.each(response.errors, function(key, value) {
-                                Swal.fire('Upss..!', value, 'error');
+                                $('#' + key).next('.error-message').text('*' + value);
                             });
                             Swal.fire({
                                 title: 'Error',
@@ -283,14 +268,11 @@
                 dataType: "JSON",
                 success: function(response) {
                     Swal.close();
-                    var isi = response.isi;
-                    $('#judul').val(isi.judul);
-                    $('#stok').val(isi.stok);
-                    $('#harga').val(isi.harga);
-                    // $('#foto').val(isi.foto);
-                    var editor = document.getElementById('trix_deskripsi');
-                    editor.editor.loadHTML(isi.deskripsi);
-                    // $('#input_foto').addClass('hidden');
+                    var isi = response.pesanan;
+                    $('#alamat_pengiriman').val(isi.alamat_pengiriman);
+                    $('#no_hp').val(isi.no_hp);
+                    $('#metode_pembayaran').val(isi.metode_pembayaran);
+                    $('#metode_pengiriman').val(isi.metode_pengiriman);
                     $('#tambah_data').removeClass('hidden');
                     $('#datane').addClass('hidden');
                     $('.judul').html(

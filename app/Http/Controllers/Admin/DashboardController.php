@@ -13,7 +13,7 @@ class DashboardController extends Controller
     {
         $produk = Produk::count();
         $pesanan = Pesanan::whereNotIn('status', ['Dibatalkan', 'Selesai'])->count();
-        $proyek = Proyek::where('status_pengerjaan', 'Selesai')->count();
+        $proyek = Proyek::whereNotIn('status_pengerjaan', ['Selesai'])->count();
         return view('Admin.dashboard', compact('produk', 'pesanan', 'proyek'));
     }
 }

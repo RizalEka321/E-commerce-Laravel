@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id_log');
             $table->foreignId('users_id');
             $table->string('aktivitas');
-            $table->foreign('users_id')->references('id')->on('users');
+            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

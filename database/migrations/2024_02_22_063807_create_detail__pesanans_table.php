@@ -17,7 +17,9 @@ return new class extends Migration
             $table->string('pesanan_id');
             $table->integer('jumlah');
             $table->string('ukuran');
-            $table->foreign('produk_id')->references('id_produk')->on('produk')->onDelete('cascade');
+            $table->string('produk');
+            $table->string('foto');
+            $table->bigInteger('harga');
             $table->foreign('pesanan_id')->references('id_pesanan')->on('pesanan')->onDelete('cascade');
             $table->timestamps();
         });

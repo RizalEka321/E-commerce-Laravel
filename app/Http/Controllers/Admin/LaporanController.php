@@ -57,22 +57,25 @@ class LaporanController extends Controller
             $total_omset_proyek = Proyek::where('status_pembayaran', 'Lunas')
                 ->whereMonth('created_at', $bulan)
                 ->whereYear('created_at', $tahun)
-                ->sum(DB::raw('jumlah * harga_satuan'));
+                ->sum(DB::raw('total'));
 
-            $total_omset_pesanan = Pesanan::where('status', 'Selesai')->sum('total');
+            $total_omset_pesanan = Pesanan::where('status', 'Selesai')
+                ->whereMonth('created_at', $bulan)
+                ->whereYear('created_at', $tahun)
+                ->sum('total');
 
             $total_keseluruhan = $total_omset_proyek + $total_omset_pesanan;
 
             if ($proyek->isEmpty() && $pesanan->isEmpty()) {
                 if ($request->expectsJson()) {
-                    return response()->json(['status' => 'FALSE', 'error' => 'Periode waktu yang Anda pilih belum memiliki data penjualan untuk dilaporkan.']);
+                    return response()->json(['status' => false, 'error' => 'Periode waktu yang Anda pilih belum memiliki data penjualan untuk dilaporkan.']);
                 } else {
                     return redirect()->back()->withErrors('Periode waktu yang Anda pilih belum memiliki data penjualan untuk dilaporkan.')->withInput();
                 }
             } else {
                 if ($request->expectsJson()) {
                     return response()->json([
-                        'status' => 'TRUE',
+                        'status' => true,
                         'bulan_huruf' => $bulan_huruf,
                         'tahun' => $tahun,
                         'proyek' => $proyek,

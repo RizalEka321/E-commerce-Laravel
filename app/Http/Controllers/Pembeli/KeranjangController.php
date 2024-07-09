@@ -33,13 +33,13 @@ class KeranjangController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
             $ukuran = Ukuran::where('id_ukuran', $request->id_ukuran)->select('jenis_ukuran', 'stok')->first();
             if ($ukuran->stok == 0) {
-                return response()->json(['status' => 'FALSE', 'error' => 'Stok Ukuran' + $ukuran->stok + 'Habis']);
+                return response()->json(['status' => false, 'error' => 'Stok Ukuran' + $ukuran->stok + 'Habis']);
             } elseif ($request->jumlah > $ukuran->stok) {
-                return response()->json(['status' => 'FALSE', 'error' => 'Jumlah yang anda masukkan melebihi stok tersedia untuk ukuran ' . $ukuran->jenis_ukuran]);
+                return response()->json(['status' => false, 'error' => 'Jumlah yang anda masukkan melebihi stok tersedia untuk ukuran ' . $ukuran->jenis_ukuran]);
             } else {
                 $keranjang = Keranjang::where('users_id', Auth::user()->id)
                     ->where('produk_id', $request->produk_id)
@@ -61,7 +61,7 @@ class KeranjangController extends Controller
                     ]);
                 }
 
-                return response()->json(['status' => 'TRUE']);
+                return response()->json(['status' => true]);
             }
         }
     }
@@ -83,7 +83,7 @@ class KeranjangController extends Controller
                     <a type="button" class="btn-keterangan" href="' . route('home') . '#produk">Lihat Produk</a>
                 </div>
             </div>';
-            return response()->json(['status' => 'FALSE', 'data' => $kosong]);
+            return response()->json(['status' => false, 'data' => $kosong]);
         } else {
             foreach ($keranjang as $item) {
                 $ukuran = Ukuran::find($item->ukuran_id);

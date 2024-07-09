@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Pembeli;
 use App\Models\Pesanan;
 use App\Mail\PesananDipesan;
 use Illuminate\Http\Request;
+use App\Mail\Adminpesananmail;
 use App\Models\Detail_Pesanan;
 use App\Mail\PesananDibatalkan;
+use App\Models\Kontak_Perusahaan;
 use App\Models\Profil_Perusahaan;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
@@ -18,9 +20,10 @@ class PembayaranController extends Controller
     {
         $id_pesanan = Crypt::decrypt($id);
         $pesanan = Pesanan::where('id_pesanan', $id_pesanan)->with('detail')->first();
-        $detail = Detail_Pesanan::where('pesanan_id', $id_pesanan)->with('produk')->get();
+        $detail = Detail_Pesanan::where('pesanan_id', $id_pesanan)->get();
+        $jml_barang = Detail_Pesanan::where('pesanan_id', $id_pesanan)->count();
         $profile = Profil_Perusahaan::where('id_profil_perusahaan', 'satu')->first();
-        return view('Pembeli.page_pembayaran_cash', compact('pesanan', 'detail', 'profile'));
+        return view('Pembeli.page_pembayaran_cash', compact('pesanan', 'detail', 'jml_barang', 'profile'));
     }
 
     public function pembayaran_transfer($id)
@@ -41,10 +44,12 @@ class PembayaranController extends Controller
 
         if ($hashed === $signature_key) {
             $pesanan = Pesanan::where('id_pesanan', $request->order_id)->first();
+            $perusahaan = Kontak_Perusahaan::where('id_kontak_perusahaan', 'satu')->select('email')->first();
             if ($transaction_status == 'capture' || $transaction_status == 'settlement') {
                 $pesanan->update([
                     'status' => 'Diproses',
                 ]);
+                Mail::to($perusahaan->email)->send(new Adminpesananmail($pesanan->id_pesanan));
                 Mail::to($pesanan->user->email)->send(new PesananDipesan($pesanan->id_pesanan));
             } else if ($transaction_status === 'cancel' || $transaction_status == 'deny' || $transaction_status === 'expire') {
                 $pesanan->update([
@@ -52,9 +57,9 @@ class PembayaranController extends Controller
                 ]);
                 Mail::to($pesanan->user->email)->send(new PesananDibatalkan($pesanan->id_pesanan));
             }
-            return response()->json(['status' => 'TRUE']);
+            return response()->json(['status' => true]);
         } else {
-            return response()->json(['status' => 'FALSE']);
+            return response()->json(['status' => false]);
         }
     }
 }

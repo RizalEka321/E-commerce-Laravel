@@ -76,7 +76,7 @@
                     <td>
                         <ul>
                             @foreach ($pe->detail as $detail)
-                                <li>{{ $detail->produk->judul }}</li>
+                                <li>{{ $detail->produk }}</li>
                             @endforeach
                         </ul>
                     </td>

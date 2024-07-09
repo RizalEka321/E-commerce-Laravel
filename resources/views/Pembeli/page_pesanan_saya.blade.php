@@ -16,7 +16,7 @@
                     <div class="card kosong">
                         <div class="card-body">
                             <div class="konten">
-                                <i class="fa-regular fa-hourglass"></i>
+                                <i class="fa-solid fa-receipt"></i>
                                 <h6>Belum Terdapat Pesanan</h6>
                             </div>
                         </div>
@@ -38,11 +38,11 @@
                                             <div class="row">
                                                 <div class="col-lg-4 foto">
                                                     <div class="d-flex justify-content-between">
-                                                        <img src="{{ asset($d->produk->foto) }}" />
+                                                        <img src="{{ asset($d->foto) }}" />
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-8 foto-detail">
-                                                    <h5>{{ $d->produk->judul }}. Size, {{ $d->ukuran }}</h5>
+                                                    <h5>{{ $d->produk }}. Size, {{ $d->ukuran }}</h5>
                                                     <h6>{{ $item->total_barang }} Barang</h6>
                                                 </div>
                                             </div>
@@ -89,7 +89,7 @@
                 <div class="card kosong">
                     <div class="card-body">
                         <div class="konten">
-                            <i class="fa-regular fa-hourglass"></i>
+                            <i class="fa-solid fa-receipt"></i>
                             <h6>Belum Terdapat Pesanan</h6>
                         </div>
                     </div>
@@ -101,17 +101,21 @@
                             @foreach ($item->detail as $d)
                                 <div class="atas">
                                     <h5 class="id-pesanan">ID Pesanan : {{ $item->id_pesanan }}</h5>
+                                    <h5 class="metode">
+                                        {{ $d->pesanan->metode_pembayaran }} /
+                                        {{ $d->pesanan->metode_pengiriman }}
+                                    </h5>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="row">
                                             <div class="col-lg-4 foto">
                                                 <div class="d-flex justify-content-between">
-                                                    <img src="{{ asset($d->produk->foto) }}" />
+                                                    <img src="{{ asset($d->foto) }}" />
                                                 </div>
                                             </div>
                                             <div class="col-lg-8 foto-detail">
-                                                <h5>{{ $d->produk->judul }}. Size, {{ $d->ukuran }}</h5>
+                                                <h5>{{ $d->produk }}. Size, {{ $d->ukuran }}</h5>
                                                 <h6>{{ $item->total_barang }} Barang</h6>
                                             </div>
                                         </div>
@@ -145,7 +149,7 @@
             <div class="card kosong">
                 <div class="card-body">
                     <div class="konten">
-                        <i class="fa-regular fa-hourglass"></i>
+                        <i class="fa-solid fa-receipt"></i>
                         <h6>Belum Terdapat Pesanan</h6>
                     </div>
                 </div>
@@ -163,11 +167,11 @@
                                     <div class="row">
                                         <div class="col-lg-4 foto">
                                             <div class="d-flex justify-content-between">
-                                                <img src="{{ asset($d->produk->foto) }}" />
+                                                <img src="{{ asset($d->foto) }}" />
                                             </div>
                                         </div>
                                         <div class="col-lg-8 foto-detail">
-                                            <h5>{{ $d->produk->judul }}. Size, {{ $d->ukuran }}</h5>
+                                            <h5>{{ $d->produk }}. Size, {{ $d->ukuran }}</h5>
                                             <h6>{{ $item->total_barang }} Barang</h6>
                                         </div>
                                     </div>
@@ -201,7 +205,7 @@
         <div class="card kosong">
             <div class="card-body">
                 <div class="konten">
-                    <i class="fa-regular fa-hourglass"></i>
+                    <i class="fa-solid fa-receipt"></i>
                     <h6>Belum Terdapat Pesanan</h6>
                 </div>
             </div>
@@ -219,11 +223,11 @@
                                 <div class="row">
                                     <div class="col-lg-4 foto">
                                         <div class="d-flex justify-content-between">
-                                            <img src="{{ asset($d->produk->foto) }}" />
+                                            <img src="{{ asset($d->foto) }}" />
                                         </div>
                                     </div>
                                     <div class="col-lg-8 foto-detail">
-                                        <h5>{{ $d->produk->judul }}. Size, {{ $d->ukuran }}</h5>
+                                        <h5>{{ $d->produk }}. Size, {{ $d->ukuran }}</h5>
                                         <h6>{{ $item->total_barang }} Barang</h6>
                                     </div>
                                 </div>
@@ -339,9 +343,7 @@ aria-hidden="true">
                     <h5 class="id-pesanan">ID Pesanan: ${pesanan.id_pesanan}</h5>
                     <h5 class="text-start">Tanggal: ${formatDate(pesanan.created_at)}</h5>
                 </div>
-                <h5 class="metode">
-                    ${pesanan.metode_pembayaran} / ${pesanan.metode_pengiriman}
-                </h5>
+                <h5 class="metode">${pesanan.metode_pembayaran} / ${pesanan.metode_pengiriman}</h5>
             `);
 
                 var detailHtmlContent = '';
@@ -352,19 +354,19 @@ aria-hidden="true">
                             <div class="row gx-0">
                                 <div class="col-lg-4 foto">
                                     <div class="d-flex justify-content-between">
-                                        <img src="${item.produk.foto}" />
+                                        <img src="${item.foto}" alt="${item.produk}" />
                                     </div>
                                 </div>
                                 <div class="col-lg-8 foto-detail text-start">
-                                    <h5>${item.produk.judul}</h5>
+                                    <h5>${item.produk}</h5>
                                     <h6>Ukuran ${item.ukuran}</h6>
-                                    <h6>${item.jumlah} X ${number_format(item.produk.harga)}</h6>
+                                    <h6>${item.jumlah} X ${number_format(item.harga)}</h6>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="sub-harga">
-                                <h6>${number_format(item.produk.harga * item.jumlah)}</h6>
+                                <h6>${number_format(item.harga * item.jumlah)}</h6>
                             </div>
                         </div>
                     </div>
@@ -379,7 +381,7 @@ aria-hidden="true">
                     if (pesanan.metode_pengiriman === 'Delivery') {
                         kiriHtmlContent += '<h6>Biaya Ongkir</h6>';
                     }
-                    kiriHtmlContent += '<h6>Biaya Admin</h6><br>';
+                    kiriHtmlContent += '<h6>Biaya Admin</h6>';
                 }
                 kiriHtmlContent += '<h6>Total Belanja</h6>';
                 $('#kiri').html(kiriHtmlContent);
@@ -391,16 +393,36 @@ aria-hidden="true">
                         kananHtmlContent += `
                         <h6>${number_format(admin)}</h6>
                         <h6>${number_format(pesanan.total)}</h6>
+                        <form action="{{ url('pesanan-saya/cetak') }}" method="post">
+                            @method('post')
+                            @csrf
+                            <input type="text" value="${pesanan.id_pesanan}" name="id_pesanan" hidden>
+                            <button type="submit" class="btn-cetak">Bukti</button>
+                        </form>
                     `;
                     } else if (pesanan.metode_pengiriman === 'Delivery') {
                         kananHtmlContent += `
                         <h6>${number_format(ongkir)}</h6>
                         <h6>${number_format(admin)}</h6>
                         <h6>${number_format(pesanan.total)}</h6>
+                        <form action="{{ url('pesanan-saya/cetak') }}" method="post">
+                            @method('post')
+                            @csrf
+                            <input type="text" value="${pesanan.id_pesanan}" name="id_pesanan" hidden>
+                            <button type="submit" class="btn-cetak">Bukti</button>
+                        </form>
                     `;
                     }
                 } else {
-                    kananHtmlContent += `<h6>${number_format(pesanan.total)}</h6>`;
+                    kananHtmlContent += `
+                    <h6>${number_format(pesanan.total)}</h6>
+                    <form action="{{ url('pesanan-saya/cetak') }}" method="post">
+                        @method('post')
+                        @csrf
+                        <input type="text" value="${pesanan.id_pesanan}" name="id_pesanan" hidden>
+                        <button type="submit" class="btn-cetak">Bukti</button>
+                    </form>
+                `;
                 }
                 $('#kanan').html(kananHtmlContent);
             },

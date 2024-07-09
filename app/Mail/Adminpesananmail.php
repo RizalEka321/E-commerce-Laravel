@@ -39,7 +39,7 @@ class Adminpesananmail extends Mailable
      */
     public function content(): Content
     {
-        $pesanan = Pesanan::where('users_id', Auth::user()->id)->where('id_pesanan', $this->id_pesanan)->with('detail')->first();
+        $pesanan = Pesanan::where('id_pesanan', $this->id_pesanan)->with('detail')->first();
         return new Content(
             view: 'Email.admin.pesananbaruemail',
             with: [

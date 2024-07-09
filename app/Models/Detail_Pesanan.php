@@ -16,6 +16,9 @@ class Detail_Pesanan extends Model
         'produk_id',
         'jumlah',
         'ukuran',
+        'produk',
+        'foto',
+        'harga'
     ];
 
     public function produk()

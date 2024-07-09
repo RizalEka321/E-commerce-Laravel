@@ -27,11 +27,10 @@ class Produk extends Model
         $lastProduk = Produk::orderBy('id_produk', 'desc')->first();
 
         if (!$lastProduk) {
-            $lastId = 'PRD-0000000001';;
+            $lastId = 1;
         } else {
             $lastId = (int) substr($lastProduk->id_produk, 4) + 1;
         }
-
         $newId = 'PRD-' . str_pad($lastId, 10, '0', STR_PAD_LEFT);
 
         return $newId;

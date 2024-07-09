@@ -9,16 +9,13 @@
                     <h4 class="judul"><i class="fa-solid fa-shirt"></i> DATA PRODUK</h4>
                     <hr>
                 </div>
-                @if (Auth::user()->role == 'Pegawai')
-                    <a type="button" class="btn-tambah mb-2" id="btn-add"><i
-                            class="fa-solid fa-square-plus"></i>&nbsp;&nbsp;
-                        TAMBAH DATA PRODUK</a>
-                @endif
+                <a type="button" class="btn-tambah mb-2" id="btn-add"><i class="fa-solid fa-square-plus"></i>&nbsp;&nbsp;
+                    TAMBAH DATA PRODUK</a>
                 <table id="tabel_produk" class="table table-bordered" style="width:100%">
                     <thead>
                         <tr>
                             <th width="15%">Aksi</th>
-                            <th width="5%">No</th>
+                            <th width="5%">ID</th>
                             <th width="32%">Nama</th>
                             <th width="25%">Stok</th>
                             <th width="25%">Harga</th>
@@ -193,6 +190,7 @@
             $('[id^=stok-container-]').each(function() {
                 $(this).css('display', 'none').html('');
             });
+            $('.error-message').empty();
         }
 
         // Reset validasi
@@ -235,8 +233,9 @@
                         className: 'text-center'
                     },
                     {
-                        data: 'DT_RowIndex',
-                        name: 'DT_RowIndex'
+                        data: 'id_produk',
+                        name: 'id_produk',
+                        className: 'text-center'
                     },
                     {
                         data: 'judul',
@@ -292,7 +291,6 @@
                     contentType: false,
                     success: function(response) {
                         Swal.close();
-                        $('.error-message').empty();
                         if (response.errors) {
                             $.each(response.errors, function(key, value) {
                                 $('#' + key).next('.error-message').text('*' + value);

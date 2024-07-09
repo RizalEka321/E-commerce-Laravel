@@ -49,7 +49,7 @@
                     @if ($profile->foto == null)
                         <img src="{{ asset('assets/pembeli/img/default.png') }}" alt="Lokal Industri">
                     @else
-                        <img src="{{ asset($profile->foto) }}" alt="Lokal Industri">
+                        <img src="{{ asset($profile->foto) }}?ts={{ time() }}" alt="Lokal Industri">
                     @endif
                 </div>
                 <div class="col-md-6 col-lg-6 order-md-1 order-2 info-perusahaan">
@@ -79,7 +79,8 @@
                         <div class="single-box">
                             <a href="{{ route('detail_produk', $k->slug) }}" class="btn-beli">
                                 <div class="img-produk">
-                                    <img alt="produk" class="img-fluid move-animation" src="{{ asset($k->foto) }}" />
+                                    <img alt="produk" class="img-fluid move-animation"
+                                        src="{{ asset($k->foto) }}?ts={{ time() }}" />
                                 </div>
                                 <div class="info-produk">
                                     <h4 class="produk">{{ Str::limit($k->judul, 25) }}</h4>

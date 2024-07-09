@@ -69,7 +69,7 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
             if ($request->hasFile('foto')) {
                 $foto = $request->file('foto');
@@ -92,7 +92,7 @@ class UserController extends Controller
                 'foto' => "$path/$file_name",
                 'email_verified_at' => now()
             ]);
-            return response()->json(['status' => 'TRUE']);
+            return response()->json(['status' => true]);
         }
     }
 
@@ -101,7 +101,7 @@ class UserController extends Controller
         $id = $request->input('q');
         $user = User::find($id);
 
-        return response()->json(['status' => 'TRUE', 'isi' => $user]);
+        return response()->json(['status' => true, 'isi' => $user]);
     }
 
     public function update(Request $request)
@@ -151,7 +151,7 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
             $user->nama_lengkap = Str::title($request->nama_lengkap);
             $user->username = $request->username;
@@ -165,8 +165,8 @@ class UserController extends Controller
 
             if ($request->hasFile('foto')) {
                 if ($user->foto) {
-                    if (file_exists(public_path($user->foto))) {
-                        unlink(public_path($user->foto));
+                    if (file_exists($user->foto)) {
+                        unlink($user->foto);
                     }
                 }
 
@@ -179,7 +179,7 @@ class UserController extends Controller
 
             $user->save();
 
-            return response()->json(['status' => 'TRUE']);
+            return response()->json(['status' => true]);
         }
     }
 
@@ -187,13 +187,13 @@ class UserController extends Controller
     {
         $id = $request->input('q');
         $user = User::find($id);
-        $fotoPath = public_path($user->foto);
+        $fotoPath = $user->foto;
         if (file_exists($fotoPath)) {
             unlink($fotoPath);
         }
 
         $user->delete();
 
-        return response()->json(['status' => 'TRUE']);
+        return response()->json(['status' => true]);
     }
 }

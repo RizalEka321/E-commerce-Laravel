@@ -7,7 +7,7 @@
                 <div class="card-image">
                     <img src="{{ asset('assets/pembeli/img/logo_auth.png') }}" alt="logo lokal industri">
                 </div>
-                <div class="card-body">
+                <div class="card-body mb-4">
                     <div class="row">
                         <div class="col-lg-6 header-kiri">
                             <h5>Nota Untuk:</h5>
@@ -22,110 +22,104 @@
                     </div>
                     <div class="produk">
                         <style>
-                            #tabelku {
+                            .invoice-table {
                                 width: 100%;
                                 border-collapse: collapse;
-                                margin: 20px 0;
-                                font-size: 16px;
-                                /* Base font size */
-                                font-family: 'Arial', sans-serif;
-                                text-align: left;
-                                box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
                             }
 
-                            #tabelku thead tr {
+                            .invoice-table th {
+                                padding: 8px;
                                 background-color: #AAAAAA;
-                                color: var(--black);
+                            }
+
+                            .invoice-table td {
+                                border-bottom: 1px solid #000000;
+                                padding: 8px;
                                 text-align: left;
+                            }
+
+                            .invoice-table tr {
+                                font-weight: 600;
+                            }
+
+                            .invoice-summary {
+                                margin-top: 5px;
+                                display: flex;
+                                justify-content: flex-end;
+                            }
+
+                            .summary-table {
+                                width: 380px;
+                                border-collapse: collapse;
+                            }
+
+                            .summary-table td {
+                                padding: 2px;
+                            }
+
+                            .summary-table .description {
+                                text-align: left;
+                                width: 65%;
+                            }
+
+                            .summary-table .amount {
+                                text-align: left;
+                                width: 35%;
+                                font-weight: 700;
+                            }
+
+                            .summary-table .total {
                                 font-weight: bold;
-                            }
-
-                            #tabelku th,
-                            #tabelku td {
-                                padding: 12px 15px;
-                                font-size: 16px;
-                            }
-
-                            #tabelku tbody tr {
-                                border-bottom: 1px solid #dddddd;
-                            }
-
-                            #tabelku tbody tr:nth-of-type(even) {
-                                background-color: #f3f3f3;
-                            }
-
-                            #tabelku tbody tr:last-of-type {
-                                border-bottom: 2px solid #AAAAAA;
-                            }
-
-                            #tabelku tfoot tr {
-                                background-color: #f3f3f3;
-                                font-weight: bold;
-                            }
-
-                            @media (max-width: 600px) {
-                                #tabelku thead {
-                                    display: none;
-                                }
-
-                                #tabelku,
-                                #tabelku tbody,
-                                #tabelku tr,
-                                #tabelku td {
-                                    display: block;
-                                    width: 100%;
-                                }
-
-                                #tabelku tr {
-                                    margin-bottom: 15px;
-                                }
-
-                                #tabelku td {
-                                    text-align: right;
-                                    padding-left: 50%;
-                                    position: relative;
-                                }
-
-                                #tabelku td::before {
-                                    content: attr(data-label);
-                                    position: absolute;
-                                    left: 0;
-                                    width: 50%;
-                                    padding-left: 15px;
-                                    font-weight: bold;
-                                    text-align: left;
-                                }
-
-                                #tabelku td:nth-child(5)::before,
-                                #tabelku tfoot td::before {
-                                    text-align: right;
-                                }
+                                background-color: #D9D9D9;
+                                padding: 2px;
                             }
                         </style>
-                        <table id="tabelku" class="tabel">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Produk</th>
-                                    <th scope="col">Size</th>
-                                    <th scope="col">Jumlah</th>
-                                    <th scope="col">Harga</th>
-                                    <th scope="col">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($detail as $d)
+                        <div class="invoice-details">
+                            <table class="invoice-table">
+                                <thead>
                                     <tr>
-                                        <td>{{ $d->produk->judul }}</td>
-                                        <td>{{ $d->ukuran }}</td>
-                                        <td>{{ $d->jumlah }}</td>
-                                        <td>Rp. {{ number_format($d->produk->harga, 0, ',', '.') }}</td>
-                                        <td>Rp. {{ number_format($d->produk->harga * $d->jumlah, 0, ',', '.') }}</td>
+                                        <th width="28%">Produk</th>
+                                        <th width="24%">Size</th>
+                                        <th width="14%">Jumlah</th>
+                                        <th width="11%">Harga</th>
+                                        <th width="13%">Total</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                            <tfoot>
-                            </tfoot>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($detail as $d)
+                                        <tr>
+                                            <td>{{ $d->produk }}</td>
+                                            <td>{{ $d->ukuran }}</td>
+                                            <td>{{ $d->jumlah }}</td>
+                                            <td>Rp. {{ number_format($d->harga, 0, '.', '.') }}</td>
+                                            <td>Rp. {{ number_format($d->jumlah * $d->harga, 0, '.', '.') }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="invoice-summary">
+                            <table class="summary-table">
+                                <tbody>
+                                    <tr>
+                                        <td class="description">Total Harga ({{ $jml_barang }} Barang)</td>
+                                        <td class="amount">Rp. {{ number_format($pesanan->total, 0, '.', '.') }}</td>
+                                    </tr>
+                                    {{-- <tr>
+                                        <td class="description">Biaya Admin</td>
+                                        <td class="amount">Rp. 4.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="description">Ongkos Kirim</td>
+                                        <td class="amount">Rp. 4.000</td>
+                                    </tr> --}}
+                                    <tr>
+                                        <td class="description total">Total Belanja:</td>
+                                        <td class="amount total">Rp. {{ number_format($pesanan->total, 0, '.', '.') }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

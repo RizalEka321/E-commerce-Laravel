@@ -19,8 +19,8 @@ return new class extends Migration
             $table->integer('jumlah');
             $table->string('ukuran');
             $table->enum('status', ['Ya', 'Tidak']);
-            $table->foreign('users_id')->references('id')->on('users');
-            $table->foreign('produk_id')->references('id_produk')->on('produk');
+            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('produk_id')->references('id_produk')->on('produk')->onDelete('cascade');
             $table->timestamps();
         });
     }

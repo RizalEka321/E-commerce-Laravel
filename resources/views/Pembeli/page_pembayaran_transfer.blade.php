@@ -21,14 +21,17 @@
                 },
                 onPending: function(result) {
                     alert("waiting your payment!");
+                    window.location.href = '/pesanan-saya';
                     console.log(result);
                 },
                 onError: function(result) {
                     alert("payment failed!");
+                    window.location.href = '/pesanan-saya';
                     console.log(result);
                 },
                 onClose: function() {
                     alert('you closed the popup without finishing the payment');
+                    window.location.href = '/pesanan-saya';
                 }
             });
         });

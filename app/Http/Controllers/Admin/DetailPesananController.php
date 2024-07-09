@@ -15,11 +15,11 @@ class DetailPesananController extends Controller
     }
     public function get_detailpesanan($id)
     {
-        $data = Detail_Pesanan::where('pesanan_id', $id)->select('id_detail', 'produk_id', 'pesanan_id', 'jumlah', 'ukuran')->with(['produk', 'pesanan'])->get();
+        $data = Detail_Pesanan::where('pesanan_id', $id)->select('id_detail', 'produk_id', 'pesanan_id', 'produk', 'harga', 'jumlah', 'ukuran')->with('pesanan')->get();
         return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('total', function ($row) {
-                $total = $row->jumlah * $row->produk->harga;
+                $total = $row->jumlah * $row->harga;
                 return $total;
             })
 

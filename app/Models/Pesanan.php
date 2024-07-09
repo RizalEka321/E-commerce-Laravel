@@ -28,11 +28,11 @@ class Pesanan extends Model
         $lastPesanan = Pesanan::orderBy('id_pesanan', 'desc')->first();
 
         if (!$lastPesanan) {
-            $lastId = 'PSN-000000000001';
+            $lastId = 1;
         } else {
             $lastId = (int) substr($lastPesanan->id_pesanan, 4) + 1;
         }
-        $newId = 'PSN-' . str_pad($lastId, 12, '0', STR_PAD_LEFT);
+        $newId = 'PSN-' . str_pad($lastId, 11, '0', STR_PAD_LEFT);
 
         return $newId;
     }

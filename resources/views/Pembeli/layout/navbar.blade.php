@@ -56,8 +56,8 @@
                                 @if (Auth::user()->foto == null)
                                     <i class="fa-solid fa-user"></i>
                                 @else
-                                    <img src="{{ asset(Auth::user()->foto) }}" class="rounded img-fluid preview"
-                                        style="width: 20px; height: 20px;" />
+                                    <img src="{{ asset(Auth::user()->foto) }}?ts={{ time() }}"
+                                        class="rounded img-fluid preview" style="width: 20px; height: 20px;" />
                                 @endif
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">

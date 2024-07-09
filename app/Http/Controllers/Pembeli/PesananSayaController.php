@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Detail_Pesanan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PesananSayaController extends Controller
 {
@@ -65,10 +66,22 @@ class PesananSayaController extends Controller
     {
         $id = $request->input('q');
         $pesanan = Pesanan::where('id_pesanan', $id)->first();
-        $detail = Detail_Pesanan::where('pesanan_id', $id)->with('produk')->get();
+        $detail = Detail_Pesanan::where('pesanan_id', $id)->get();
         $ongkir = 10000;
         $admin = 4000;
 
         return response()->json(['pesanan' => $pesanan, 'detail' => $detail, 'ongkir' => $ongkir, 'admin' => $admin]);
+    }
+
+    public function cetak(Request $request)
+    {
+        $id_pesanan = $request->input('id_pesanan');
+        $pesanan = Pesanan::where('id_pesanan', $id_pesanan)->with('user')->first();
+        $detail = Detail_Pesanan::where('pesanan_id', $id_pesanan)->get();
+        $jml_barang = Detail_Pesanan::where('pesanan_id', $id_pesanan)->count();
+        $ongkir = 10000;
+        $admin = 4000;
+        $pdf = Pdf::loadView('Pembeli.cetak_invoice', compact('pesanan', 'detail', 'jml_barang', 'ongkir', 'admin'));
+        return $pdf->stream('invoice.pdf');
     }
 }

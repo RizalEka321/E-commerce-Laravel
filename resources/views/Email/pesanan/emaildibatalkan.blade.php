@@ -132,12 +132,12 @@
         <div class="details">
             @foreach ($pesanan->detail as $detail)
                 <div class="detail-item">
-                    <img src="https://lokalindustri.com/{{ $detail->produk->foto }}" alt="{{ $detail->produk->judul }}">
+                    <img src="https://lokalindustri.com/{{ $detail->foto }}" alt="{{ $detail->produk }}">
                     <div class="item-info">
-                        <p><strong>Produk:</strong> {{ $detail->produk->judul }}</p>
+                        <p><strong>Produk:</strong> {{ $detail->produk }}</p>
                         <p><strong>Jumlah:</strong> {{ $detail->jumlah }}</p>
                         <p><strong>Ukuran:</strong> {{ $detail->ukuran }}</p>
-                        <p><strong>Harga:</strong> Rp. {{ number_format($detail->produk->harga, 0, ',', '.') }}</p>
+                        <p><strong>Harga:</strong> Rp. {{ number_format($detail->harga, 0, ',', '.') }}</p>
                     </div>
                 </div>
             @endforeach

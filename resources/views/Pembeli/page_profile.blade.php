@@ -12,7 +12,7 @@
                                     @if (Auth::user()->foto == null)
                                         <img src="{{ asset('assets/pembeli/img/default.png') }}" class="preview" />
                                     @else
-                                        <img src="{{ asset(Auth::user()->foto) }}" class="preview" />
+                                        <img src="{{ asset(Auth::user()->foto) }}?ts={{ time() }}" class="preview" />
                                     @endif
                                     <form id="form_foto" action="{{ url('/profile/update-foto') }}" method="post"
                                         enctype="multipart/form-data">

@@ -23,6 +23,7 @@ class Proyek extends Model
         'jumlah',
         'harga_satuan',
         'nominal_dp',
+        'total',
         'deadline',
         'status_pengerjaan',
         'status_pembayaran'
@@ -35,7 +36,7 @@ class Proyek extends Model
         $lastProyek = Proyek::orderBy('id_proyek', 'desc')->first();
 
         if (!$lastProyek) {
-            $lastId = 'PRY-0000000001';;
+            $lastId = 1;
         } else {
             $lastId = (int) substr($lastProyek->id_proyek, 4) + 1;
         }

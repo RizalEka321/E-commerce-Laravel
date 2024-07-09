@@ -57,12 +57,12 @@ class CheckoutController extends Controller
         $keranjang = Keranjang::where('users_id', $id)->where('status', 'Tidak')->get();
 
         if ($keranjang->isEmpty()) {
-            return response()->json(['status' => 'FALSE', 'error' => 'Keranjang kosong atau tidak ditemukan']);
+            return response()->json(['status' => false, 'error' => 'Keranjang kosong atau tidak ditemukan']);
         } else {
             foreach ($keranjang as $item) {
                 $ukuran = Ukuran::find($item->ukuran_id);
                 if ($item->jumlah > $ukuran->stok) {
-                    return response()->json(['status' => 'FALSE', 'error' => 'Stok tidak cukup untuk produk ' . $item->produk->judul]);
+                    return response()->json(['status' => false, 'error' => 'Stok tidak cukup untuk produk ' . $item->produk->judul]);
                 } else {
                     $item->status = 'Ya';
                     $item->save();
@@ -88,13 +88,13 @@ class CheckoutController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
             $ukuran = Ukuran::where('id_ukuran', $request->id_ukuran)->select('jenis_ukuran', 'stok')->first();
             if ($ukuran->stok == 0) {
-                return response()->json(['status' => 'FALSE', 'error' => 'Stok Ukuran' + $ukuran->stok + 'Habis']);
+                return response()->json(['status' => false, 'error' => 'Stok Ukuran' + $ukuran->stok + 'Habis']);
             } elseif ($request->jumlah > $ukuran->stok) {
-                return response()->json(['status' => 'FALSE', 'error' => 'Jumlah yang anda masukkan melebihi stok tersedia untuk ukuran ' . $ukuran->jenis_ukuran]);
+                return response()->json(['status' => false, 'error' => 'Jumlah yang anda masukkan melebihi stok tersedia untuk ukuran ' . $ukuran->jenis_ukuran]);
             } else {
                 Keranjang::create([
                     'users_id' => Auth::user()->id,
@@ -105,7 +105,7 @@ class CheckoutController extends Controller
                     'status' => 'Ya'
                 ]);
             }
-            return response()->json(['status' => 'TRUE']);
+            return response()->json(['status' => true]);
         }
     }
 
@@ -137,7 +137,7 @@ class CheckoutController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()]);
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
             $keranjang = Keranjang::where('users_id', Auth::user()->id)
                 ->where('status', 'Ya')
@@ -198,6 +198,9 @@ class CheckoutController extends Controller
                     Detail_Pesanan::create([
                         'pesanan_id' => $id_pesanan,
                         'produk_id' => $item->produk->id_produk,
+                        'foto' => $item->produk->foto,
+                        'produk' => $item->produk->judul,
+                        'harga' => $item->produk->harga,
                         'jumlah' => $item->jumlah,
                         'ukuran' => $item->ukuran,
                     ]);
@@ -217,7 +220,7 @@ class CheckoutController extends Controller
                 }
 
                 Keranjang::where('users_id', Auth::user()->id)->where('status', 'Ya')->delete();
-                return response()->json(['status' => TRUE, 'redirect' => '/pembayaran-transfer/' . $id]);
+                return response()->json(['status' => true, 'redirect' => '/pembayaran-transfer/' . $id]);
             } else {
                 $pesanan['metode_pengiriman'] = 'Pickup';
                 $pesanan['total'] = $total_harga;
@@ -228,6 +231,9 @@ class CheckoutController extends Controller
                     Detail_Pesanan::create([
                         'pesanan_id' => $id_pesanan,
                         'produk_id' => $item->produk->id_produk,
+                        'foto' => $item->produk->foto,
+                        'produk' => $item->produk->judul,
+                        'harga' => $item->produk->harga,
                         'jumlah' => $item->jumlah,
                         'ukuran' => $item->ukuran,
                     ]);
@@ -252,7 +258,7 @@ class CheckoutController extends Controller
                 $perusahaan = Kontak_Perusahaan::where('id_kontak_perusahaan', 'satu')->select('email')->first();
                 Mail::to(Auth::user()->email)->send(new PesananDipesan($id_pesanan));
                 Mail::to($perusahaan->email)->send(new Adminpesananmail($id_pesanan));
-                return response()->json(['status' => TRUE, 'redirect' => '/pembayaran-cash/' . $id]);
+                return response()->json(['status' => true, 'redirect' => '/pembayaran-cash/' . $id]);
             }
         }
     }
@@ -268,12 +274,12 @@ class CheckoutController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
             $user->alamat = $request->alamat;
             $user->save();
 
-            return response()->json(['status' => 'TRUE', 'alamat' => $user->alamat]);
+            return response()->json(['status' => true, 'alamat' => $user->alamat]);
         }
     }
     public function update_nohp(Request $request)
@@ -288,12 +294,12 @@ class CheckoutController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['status' => 'FALSE', 'errors' => $validator->errors()]);
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
             $user->no_hp = $request->no_hp;
             $user->save();
 
-            return response()->json(['status' => 'TRUE', 'nohp' => $user->no_hp]);
+            return response()->json(['status' => true, 'nohp' => $user->no_hp]);
         }
     }
 }

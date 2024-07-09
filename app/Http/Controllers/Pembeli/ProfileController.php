@@ -30,7 +30,7 @@ class ProfileController extends Controller
             'alamat.min' => 'Alamat harus memiliki panjang minimal 25 karakter.',
             'alamat.max' => 'Alamat harus memiliki panjang maksimal 75 karakter.',
             'no_hp.required' => 'No Handphone wajib diisi.',
-            'no_hp.regex' => 'No Handphone hanya boleh berisikan angka.',
+            'no_hp.regex' => 'No Handphone wajib diawali +62',
             'no_hp.min' => 'No Handphone harus memiliki panjang minimal 10 karakter.',
             'no_hp.max' => 'No Handphone harus memiliki panjang maksimal 12 karakter.',
         ]);
@@ -66,7 +66,7 @@ class ProfileController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()]);
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
             $id = Auth::user()->id;
             $user = User::find($id);
@@ -75,7 +75,7 @@ class ProfileController extends Controller
 
             $user->save();
 
-            echo json_encode(['status' => TRUE]);
+            echo json_encode(['status' => true]);
         }
     }
 
@@ -90,15 +90,15 @@ class ProfileController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()]);
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
             $id = Auth::user()->id;
             $user = User::find($id);
 
             if ($request->hasFile('foto')) {
                 if ($user->foto) {
-                    if (file_exists(public_path($user->foto))) {
-                        unlink(public_path($user->foto));
+                    if (public_path($user->foto)) {
+                        unlink($user->foto);
                     }
                 }
 
@@ -113,7 +113,7 @@ class ProfileController extends Controller
 
             $foto_baru = $user->foto;
 
-            echo json_encode(['status' => TRUE, 'foto' => $foto_baru]);
+            echo json_encode(['status' => true, 'foto' => $foto_baru]);
         }
     }
 }
