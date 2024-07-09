@@ -319,7 +319,7 @@ class ProyekController extends Controller
             }
 
             $proyek->save();
-            aktivitas('Mengupdate Data Proyek Dengan ID ' . $request->id_proyek);
+            aktivitas('Mengupdate Data Proyek Dengan ID ' . $proyek->id_proyek);
 
             return response()->json(['status' => true]);
         }

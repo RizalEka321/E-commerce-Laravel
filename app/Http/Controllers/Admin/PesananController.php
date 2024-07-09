@@ -108,6 +108,8 @@ class PesananController extends Controller
 
             $pesanan->save();
 
+            aktivitas('Mengupdate Data Pesanan Dengan ID ' . $pesanan->id_pesanan);
+
             return response()->json(['status' => true]);
         }
     }
@@ -133,10 +135,13 @@ class PesananController extends Controller
         $pesanan = Pesanan::find($id);
         if ($status == 'Diproses') {
             Mail::to($pesanan->user->email)->send(new PesananDiproses($pesanan->id_pesanan));
+            aktivitas('Mengupdate Status Pesanan Dengan ID ' . $pesanan->id_pesanan . 'Menjadi Diproses');
         } else if ($status == 'Selesai') {
             Mail::to($pesanan->user->email)->send(new PesananSelesai($pesanan->id_pesanan));
+            aktivitas('Mengupdate Status Pesanan Dengan ID ' . $pesanan->id_pesanan . 'Menjadi Selesai');
         } else if ($status == 'Dibatalkan') {
             Mail::to($pesanan->user->email)->send(new PesananDibatalkan($pesanan->id_pesanan));
+            aktivitas('Mengupdate Status Pesanan Dengan ID ' . $pesanan->id_pesanan . 'Menjadi Dibatalkan');
         }
 
         return response()->json(['status' => true]);
